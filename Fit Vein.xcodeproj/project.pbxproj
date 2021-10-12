@@ -11,6 +11,8 @@
 		0AC4DD872715A9E4003D5FED /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC4DD862715A9E4003D5FED /* ContentView.swift */; };
 		0AC4DD892715A9E5003D5FED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AC4DD882715A9E5003D5FED /* Assets.xcassets */; };
 		0AC4DD8C2715A9E5003D5FED /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AC4DD8B2715A9E5003D5FED /* Preview Assets.xcassets */; };
+		0ADC2DF02715AE43003ED144 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0ADC2DEF2715AE43003ED144 /* GoogleService-Info.plist */; };
+		6A4AD7636321007C788C53F4 /* Pods_Fit_Vein.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CED23260406289D2ED2107A /* Pods_Fit_Vein.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +21,10 @@
 		0AC4DD862715A9E4003D5FED /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		0AC4DD882715A9E5003D5FED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0AC4DD8B2715A9E5003D5FED /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		0ADC2DEF2715AE43003ED144 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		26DAD44A330F476E6C2B2504 /* Pods-Fit Vein.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fit Vein.release.xcconfig"; path = "Target Support Files/Pods-Fit Vein/Pods-Fit Vein.release.xcconfig"; sourceTree = "<group>"; };
+		5CED23260406289D2ED2107A /* Pods_Fit_Vein.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fit_Vein.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E0C1C30ACF5CE93B585EC3AC /* Pods-Fit Vein.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fit Vein.debug.xcconfig"; path = "Target Support Files/Pods-Fit Vein/Pods-Fit Vein.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,17 +32,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A4AD7636321007C788C53F4 /* Pods_Fit_Vein.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0671C51B37580929C4CFF801 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E0C1C30ACF5CE93B585EC3AC /* Pods-Fit Vein.debug.xcconfig */,
+				26DAD44A330F476E6C2B2504 /* Pods-Fit Vein.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		0AC4DD782715A9E4003D5FED = {
 			isa = PBXGroup;
 			children = (
 				0AC4DD832715A9E4003D5FED /* Fit Vein */,
 				0AC4DD822715A9E4003D5FED /* Products */,
+				0671C51B37580929C4CFF801 /* Pods */,
+				8B960227CB1EDB8F07568FC1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -51,6 +70,7 @@
 		0AC4DD832715A9E4003D5FED /* Fit Vein */ = {
 			isa = PBXGroup;
 			children = (
+				0ADC2DEF2715AE43003ED144 /* GoogleService-Info.plist */,
 				0AC4DD842715A9E4003D5FED /* Fit_VeinApp.swift */,
 				0AC4DD862715A9E4003D5FED /* ContentView.swift */,
 				0AC4DD882715A9E5003D5FED /* Assets.xcassets */,
@@ -67,6 +87,14 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		8B960227CB1EDB8F07568FC1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5CED23260406289D2ED2107A /* Pods_Fit_Vein.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -74,9 +102,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0AC4DD8F2715A9E5003D5FED /* Build configuration list for PBXNativeTarget "Fit Vein" */;
 			buildPhases = (
+				C3068487EAF7238DA3CEC7F2 /* [CP] Check Pods Manifest.lock */,
 				0AC4DD7D2715A9E4003D5FED /* Sources */,
 				0AC4DD7E2715A9E4003D5FED /* Frameworks */,
 				0AC4DD7F2715A9E4003D5FED /* Resources */,
+				242D46432FDFB90EF0BCCD60 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -127,10 +157,53 @@
 			files = (
 				0AC4DD8C2715A9E5003D5FED /* Preview Assets.xcassets in Resources */,
 				0AC4DD892715A9E5003D5FED /* Assets.xcassets in Resources */,
+				0ADC2DF02715AE43003ED144 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		242D46432FDFB90EF0BCCD60 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Fit Vein/Pods-Fit Vein-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Fit Vein/Pods-Fit Vein-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Fit Vein/Pods-Fit Vein-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C3068487EAF7238DA3CEC7F2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Fit Vein-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0AC4DD7D2715A9E4003D5FED /* Sources */ = {
@@ -263,6 +336,7 @@
 		};
 		0AC4DD902715A9E5003D5FED /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E0C1C30ACF5CE93B585EC3AC /* Pods-Fit Vein.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -293,6 +367,7 @@
 		};
 		0AC4DD912715A9E5003D5FED /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 26DAD44A330F476E6C2B2504 /* Pods-Fit Vein.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
