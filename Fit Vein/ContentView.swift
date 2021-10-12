@@ -8,15 +8,32 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var sessionStore: SessionStore
     
     var body: some View {
-        Text("Hello, fitness world!")
-            .padding()
+        NavigationView {
+            if sessionStore.isSignedIn {
+                Text("You are signed in!")
+            } else {
+                SignInView()
+                    .environmentObject(sessionStore)
+            }
+        }
+        .onAppear {
+            sessionStore.signedIn = sessionStore.isSignedIn
+        }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
+            ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
+                ContentView()
+                    .preferredColorScheme(colorScheme)
+                    .previewDevice(PreviewDevice(rawValue: deviceName))
+                    .previewDisplayName(deviceName)
+            }
+        }
     }
 }
