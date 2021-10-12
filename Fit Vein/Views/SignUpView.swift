@@ -10,7 +10,6 @@ import SwiftUI
 struct SignUpView: View {
     @EnvironmentObject var sessionStore: SessionStore
     
-    
     @State private var firstName = ""
     @State private var username = ""
     
@@ -45,6 +44,13 @@ struct SignUpView: View {
             
             ScrollView(.vertical) {
                 Group {
+                    HStack {
+                        Text("Personal Information").font(.title)
+                        Spacer()
+                    }
+                    .padding()
+                    
+                    
                     VStack {
                         HStack {
                             Text("First Name")
@@ -71,89 +77,184 @@ struct SignUpView: View {
                     }
                     .padding()
                     
-                    Picker("Gender", selection: $gender) {
-                        ForEach(genderValues, id: \.self) {
-                            Text($0)
+                    VStack {
+                        HStack {
+                            Text("Gender")
+                            Spacer()
                         }
+                        
+                        Picker("Gender", selection: $gender) {
+                            ForEach(genderValues, id: \.self) {
+                                Text($0)
+                            }
+                        }
+                        .pickerStyle(SegmentedPickerStyle())
                     }
-                    .pickerStyle(SegmentedPickerStyle())
-                    
+                    .padding()
+                }
+                
+                Group {
                     VStack {
                         HStack {
                             Text("Birth Date")
                             Spacer()
                         }
                         
-                        DatePicker("Birth Date", selection: $birthDate, in: dateRange, displayedComponents: [.date])
-                            .datePickerStyle(WheelDatePickerStyle())
-                            .background(RoundedRectangle(cornerRadius: 30).stroke(Color.white, lineWidth: 1))
-                            .labelsHidden()
-                    }
-                    .padding()
-                }
-                
-                
-                Spacer()
-                
-                
-                Group {
-                    Picker("Country", selection: $country) {
-                        ForEach(Country.allCases) { country in
-                            Text(country.rawValue.capitalized).tag(country)
-                        }
-                    }
-                    
-                    Picker("City", selection: $city) {
-                        ForEach(City.allCases) { city in
-                            Text(city.rawValue.capitalized).tag(city)
-                        }
-                    }
-                    
-                    Picker("Language", selection: $language) {
-                        ForEach(Language.allCases) { language in
-                            Text(language.rawValue.capitalized).tag(language)
-                        }
-                    }
-                    
-                    VStack {
                         HStack {
-                            Text("E-mail")
+                            DatePicker("Birth Date", selection: $birthDate, in: dateRange, displayedComponents: [.date])
+                                .labelsHidden()
                             Spacer()
                         }
                         
-                        TextField("", text: $email)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .disableAutocorrection(true)
-                            .autocapitalization(.none)
+                        
                     }
                     .padding()
                     
                     VStack {
-                        HStack {
-                            Text("Password")
-                            Spacer()
+                        HStack(spacing: screenWidth * 0.2) {
+                            Text("Country")
+                            Text("City")
+                            Text("Language")
                         }
                         
-                        TextField("", text: $password)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .disableAutocorrection(true)
-                            .autocapitalization(.none)
+                        HStack(spacing: screenWidth * 0.26) {
+                            Picker("Country", selection: $country) {
+                                ForEach(Country.allCases) { country in
+                                    Text(country.rawValue.capitalized).tag(country)
+                                }
+                            }
+                            
+                            Picker("City", selection: $city) {
+                                ForEach(City.allCases) { city in
+                                    Text(city.rawValue.capitalized).tag(city)
+                                }
+                            }
+                            
+                            Picker("Language", selection: $language) {
+                                ForEach(Language.allCases) { language in
+                                    Text(language.rawValue.capitalized).tag(language)
+                                }
+                            }
+                        }
                     }
                     .padding()
                     
                     Spacer()
                     
-                    Button(action: {
-                        if !email.isEmpty && !password.isEmpty {
-                            sessionStore.signIn(email: email, password: password)
-                        }
-                    }, label: {
-                        Text("Sign Up")
-                            .fontWeight(.bold)
-                    })
-                    .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(.green))
-                    .padding()
+                    NavigationLink("Next", destination: SecondSignUpView().environmentObject(sessionStore))
+                        .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(checkFieldsNotEmpty() ? .green : .gray))
+                        .padding()
+                        .disabled(!checkFieldsNotEmpty())
+                        .padding(.top, screenHeight * 0.07)
                 }
+                
+                
+            }
+            .navigationTitle("Sign Up")
+            .foregroundColor(.white)
+            .background(Image("SignUpBackgroundImage")
+                            .resizable()
+                            .ignoresSafeArea()
+                            .scaledToFill())
+            
+        }
+    }
+    
+    private func checkFieldsNotEmpty() -> Bool {
+        if firstName.isEmpty || username.isEmpty || gender.isEmpty {
+            return false
+        } else {
+            return true
+        }
+    }
+}
+
+struct SecondSignUpView: View {
+    @EnvironmentObject var sessionStore: SessionStore
+    
+    @State private var email: String = ""
+    @State private var password: String = ""
+    @State private var repeatedPassword: String = ""
+    
+    @State private var correctData = false
+    
+    var body: some View {
+        GeometryReader { geometry in
+            let screenWidth = geometry.size.width
+            let screenHeight = geometry.size.height
+            
+            ScrollView(.vertical) {
+                VStack {
+                    HStack {
+                        Text("E-mail")
+                        Spacer()
+                    }
+                    
+                    TextField("", text: $email)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .disableAutocorrection(true)
+                        .autocapitalization(.none)
+                    
+                    HStack {
+                        Image(systemName: "envelope")
+                        Text("Please make sure you provide valid e-mail address").font(.system(size: screenWidth * 0.04))
+                        Spacer()
+                    }
+                }
+                .padding()
+                
+                VStack {
+                    HStack {
+                        Text("Password")
+                        Spacer()
+                    }
+                    
+                    SecureField("", text: $password)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .disableAutocorrection(true)
+                        .autocapitalization(.none)
+                    
+                    HStack {
+                        Image(systemName: "lock.open")
+                        Text("Password should be at least 8 characters long and should contain a number.\n").font(.system(size: screenWidth * 0.04))
+                        Spacer()
+                    }
+                }
+                .padding()
+                
+                VStack {
+                    HStack {
+                        Text("Confirm Password")
+                        Spacer()
+                    }
+                    
+                    SecureField("", text: $repeatedPassword)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .disableAutocorrection(true)
+                        .autocapitalization(.none)
+                    
+                    HStack {
+                        Image(systemName: "arrow.up.square")
+                        Text("Both password should be identical.\n").font(.system(size: screenWidth * 0.04))
+                        Spacer()
+                    }
+                }
+                .padding()
+                
+                Spacer()
+                
+                Button(action: {
+                    if !email.isEmpty && !password.isEmpty {
+                        sessionStore.signIn(email: email, password: password)
+                    }
+                }, label: {
+                    Text("Sign Up")
+                        .fontWeight(.bold)
+                })
+                .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(checkDataIsCorrect() ? .green : .gray))
+                .padding()
+                .padding(.top, screenHeight * 0.05)
+                .disabled(!checkDataIsCorrect())
             }
             .navigationTitle("Sign Up")
             .foregroundColor(.white)
@@ -168,6 +269,7 @@ struct SignUpView: View {
     private func displayCredentialsErrors() -> Text {
         let emailError = String("Please make sure the email is correct.\n")
         let passwordError = String("Please make sure your password is at least 8 characters long and contains a number.\n")
+        let passwordsMatchError = String("Please make sure both passwords are identical.\n")
         
         if !checkEmail() && !checkPassword() {
             return Text(emailError + passwordError).foregroundColor(.red)
@@ -175,16 +277,10 @@ struct SignUpView: View {
             return Text(emailError).foregroundColor(.red)
         } else if !checkPassword() {
             return Text(passwordError).foregroundColor(.red)
+        } else if !checkBothPasswords() {
+            return Text(passwordsMatchError).foregroundColor(.red)
         } else {
             return Text("")
-        }
-    }
-    
-    private func checkFieldsNotEmpty() -> Bool {
-        if firstName.isEmpty || gender.isEmpty {
-            return false
-        } else {
-            return true
         }
     }
     
@@ -198,12 +294,12 @@ struct SignUpView: View {
         return NSPredicate(format: "SELF MATCHES %@", passwordRegex).evaluate(with: password)
     }
     
+    private func checkBothPasswords() -> Bool {
+        return password == repeatedPassword
+    }
+    
     private func checkDataIsCorrect() -> Bool {
-        if checkFieldsNotEmpty() && checkEmail() && checkPassword() {
-            return true
-        } else {
-            return false
-        }
+        return checkEmail() && checkPassword() && checkBothPasswords()
     }
 }
 
@@ -215,6 +311,12 @@ struct SignUpView_Previews: PreviewProvider {
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)
+                    .environmentObject(SessionStore())
+                SecondSignUpView()
+                    .preferredColorScheme(colorScheme)
+                    .previewDevice(PreviewDevice(rawValue: deviceName))
+                    .previewDisplayName(deviceName)
+                    .environmentObject(SessionStore())
             }
         }
     }
