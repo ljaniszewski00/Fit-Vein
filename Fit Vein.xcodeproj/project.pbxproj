@@ -10,6 +10,8 @@
 		0AB808CF2715B9D700337924 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB808CE2715B9D700337924 /* SessionStore.swift */; };
 		0AB808D42715C1AB00337924 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB808D32715C1AB00337924 /* SignInView.swift */; };
 		0AB808D62715C1B500337924 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB808D52715C1B500337924 /* SignUpView.swift */; };
+		0AB808D82715D77800337924 /* gym.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0AB808D72715D77800337924 /* gym.jpg */; };
+		0AB808DB2715DE8F00337924 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB808DA2715DE8F00337924 /* Enums.swift */; };
 		0AC4DD852715A9E4003D5FED /* Fit_VeinApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC4DD842715A9E4003D5FED /* Fit_VeinApp.swift */; };
 		0AC4DD872715A9E4003D5FED /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC4DD862715A9E4003D5FED /* ContentView.swift */; };
 		0AC4DD892715A9E5003D5FED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AC4DD882715A9E5003D5FED /* Assets.xcassets */; };
@@ -22,6 +24,8 @@
 		0AB808CE2715B9D700337924 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
 		0AB808D32715C1AB00337924 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		0AB808D52715C1B500337924 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		0AB808D72715D77800337924 /* gym.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = gym.jpg; path = Assets.xcassets/gym.jpg; sourceTree = "<group>"; };
+		0AB808DA2715DE8F00337924 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		0AC4DD812715A9E4003D5FED /* Fit Vein.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Fit Vein.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AC4DD842715A9E4003D5FED /* Fit_VeinApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fit_VeinApp.swift; sourceTree = "<group>"; };
 		0AC4DD862715A9E4003D5FED /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -71,6 +75,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		0AB808D92715DE7B00337924 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				0AB808DA2715DE8F00337924 /* Enums.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
 		0AC4DD782715A9E4003D5FED = {
 			isa = PBXGroup;
 			children = (
@@ -92,12 +104,14 @@
 		0AC4DD832715A9E4003D5FED /* Fit Vein */ = {
 			isa = PBXGroup;
 			children = (
+				0AB808D92715DE7B00337924 /* Constants */,
 				0AB808D02715C18300337924 /* Views */,
 				0AB808CD2715B9C300337924 /* FIrebase Utils */,
 				0ADC2DEF2715AE43003ED144 /* GoogleService-Info.plist */,
 				0AC4DD842715A9E4003D5FED /* Fit_VeinApp.swift */,
 				0AC4DD862715A9E4003D5FED /* ContentView.swift */,
 				0AC4DD882715A9E5003D5FED /* Assets.xcassets */,
+				0AB808D72715D77800337924 /* gym.jpg */,
 				0AC4DD8A2715A9E5003D5FED /* Preview Content */,
 			);
 			path = "Fit Vein";
@@ -181,6 +195,7 @@
 			files = (
 				0AC4DD8C2715A9E5003D5FED /* Preview Assets.xcassets in Resources */,
 				0AC4DD892715A9E5003D5FED /* Assets.xcassets in Resources */,
+				0AB808D82715D77800337924 /* gym.jpg in Resources */,
 				0ADC2DF02715AE43003ED144 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -238,6 +253,7 @@
 				0AC4DD852715A9E4003D5FED /* Fit_VeinApp.swift in Sources */,
 				0AB808CF2715B9D700337924 /* SessionStore.swift in Sources */,
 				0AB808D62715C1B500337924 /* SignUpView.swift in Sources */,
+				0AB808DB2715DE8F00337924 /* Enums.swift in Sources */,
 				0AB808D42715C1AB00337924 /* SignInView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

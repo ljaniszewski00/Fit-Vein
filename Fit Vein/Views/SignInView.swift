@@ -17,14 +17,31 @@ struct SignInView: View {
         VStack {
             Spacer()
             
-            TextField("E-mail", text: $email)
-                .disableAutocorrection(true)
-                .autocapitalization(.none)
-                .padding()
-            SecureField("Password", text: $password)
-                .disableAutocorrection(true)
-                .autocapitalization(.none)
-                .padding()
+            VStack {
+                HStack {
+                    Text("E-mail")
+                    Spacer()
+                }
+                
+                TextField("", text: $email)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .disableAutocorrection(true)
+                    .autocapitalization(.none)
+            }
+            .padding()
+            
+            VStack {
+                HStack {
+                    Text("Password")
+                    Spacer()
+                }
+                
+                TextField("", text: $password)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .disableAutocorrection(true)
+                    .autocapitalization(.none)
+            }
+            .padding()
             
             Spacer()
             
@@ -39,6 +56,7 @@ struct SignInView: View {
             NavigationLink("Create Account", destination: SignUpView().environmentObject(sessionStore))
                 .padding()
         }
+        .navigationTitle("Sign In")
     }
 }
 
