@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SignInView: View {
     @EnvironmentObject var sessionStore: SessionStore
+    @ObservedObject private var signInViewModel = SignInViewModel()
     
     @State var email: String = ""
     @State var password: String = ""
@@ -33,7 +34,7 @@ struct SignInView: View {
                         Spacer()
                     }
                     
-                    TextField("", text: $email)
+                    TextField("E-Mail", text: $email)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .disableAutocorrection(true)
                         .autocapitalization(.none)
@@ -46,7 +47,7 @@ struct SignInView: View {
                         Spacer()
                     }
                     
-                    SecureField("", text: $password)
+                    SecureField("Password", text: $password)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .disableAutocorrection(true)
                         .autocapitalization(.none)
@@ -66,7 +67,7 @@ struct SignInView: View {
 
                 Button(action: {
                     if !email.isEmpty && !password.isEmpty {
-                        sessionStore.signIn(email: email, password: password)
+                        signInViewModel.signIn(email: email, password: password)
                     }
                 }, label: {
                     Text("Sign In")
@@ -79,11 +80,14 @@ struct SignInView: View {
                 
                 HStack {
                     Text("Don't have an account?")
-                    NavigationLink("Create One", destination: SignUpView().environmentObject(sessionStore))
+                    NavigationLink("Create One", destination: SignUpView().environmentObject(sessionStore).ignoresSafeArea(.keyboard))
                         .foregroundColor(.green)
                 }
                 
                     
+            }
+            .onAppear {
+                self.signInViewModel.setup(sessionStore: sessionStore)
             }
             .navigationTitle("Sign In")
             .foregroundColor(.white)

@@ -11,16 +11,34 @@ struct ContentView: View {
     @EnvironmentObject var sessionStore: SessionStore
     
     var body: some View {
-        NavigationView {
-            if sessionStore.isSignedIn {
-                Text("You are signed in!")
-            } else {
-                SignInView()
-                    .environmentObject(sessionStore)
+        GeometryReader { geometry in
+            let screenWidth = geometry.size.width
+            let screenHeight = geometry.size.height
+            
+            NavigationView {
+                if sessionStore.isSignedIn {
+                    VStack {
+                        Text("You are signed in!")
+                        Button(action: {
+                            withAnimation {
+                                sessionStore.signOut()
+                            }
+                        }, label: {
+                            Text("Sign Out")
+                        })
+                        .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(.green))
+                        .padding()
+                        .padding(.top, screenHeight * 0.05)
+                    }
+                } else {
+                    SignInView()
+                        .environmentObject(sessionStore)
+                        .ignoresSafeArea(.keyboard)
+                }
             }
-        }
-        .onAppear {
-            sessionStore.signedIn = sessionStore.isSignedIn
+            .onAppear {
+                sessionStore.signedIn = sessionStore.isSignedIn
+            }
         }
     }
 }

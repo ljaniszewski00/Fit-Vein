@@ -10,6 +10,8 @@ import Firebase
 
 class SessionStore: ObservableObject {
     let auth = Auth.auth()
+    private var firestoreManager = FirestoreManager()
+    private var firebaseStorageManager = FirebaseStorageManager()
     
     @Published var signedIn = false
     
@@ -17,27 +19,39 @@ class SessionStore: ObservableObject {
         return auth.currentUser != nil
     }
     
-    func signIn(email: String, password: String) {
-        auth.signIn(withEmail: email, password: password) { [weak self] result, error in
-            if let error = error {
-                print(error.localizedDescription)
+    func signIn(email: String, password: String) async {
+        do {
+            let authResult = try await auth.signIn(withEmail: email, password: password)
+            self.signedIn = true
+            guard authResult != nil else {
+                throw AuthError.authFailed
             }
-            
-            DispatchQueue.main.async {
-                self?.signedIn = true
-            }
+        } catch {
+            print(error.localizedDescription)
         }
     }
     
-    func signUp(email: String, password: String) {
-        auth.createUser(withEmail: email, password: password) { [weak self] result, error in
-            if let error = error {
-                print(error.localizedDescription)
+    func signUp(email: String, password: String) async -> String {
+        do {
+            let authResult = try await auth.createUser(withEmail: email, password: password)
+            self.signedIn = true
+            guard authResult != nil else {
+                throw AuthError.authFailed
             }
-            
-            DispatchQueue.main.async {
-                self?.signedIn = true
-            }
+            return authResult.user.uid
+        } catch {
+            print(error.localizedDescription)
+        }
+        return ""
+    }
+    
+    @MainActor
+    func signOut() {
+        do {
+            try auth.signOut()
+            self.signedIn = false
+        } catch {
+            print(error.localizedDescription)
         }
     }
     
@@ -70,20 +84,6 @@ class SessionStore: ObservableObject {
 //        }
 //    }
 //    
-//    func signUp(firstName: String, lastName: String, birthDate: Date, country: String, city: String, language: String, email: String, password: String, preference: String, gender: String, completion: @escaping (() -> ())) {
-//        authRef.createUser(withEmail: email, password: password) { (result, error) in
-//            if let error = error {
-//                print("Error signing up: \(error.localizedDescription)")
-//            } else {
-////                self.firestoreManager.signUpDataCreation(id: result!.user.uid, firstName: firstName, lastName: lastName, birthDate: birthDate, country: country, city: city, language: language, email: email, preference: preference, gender: gender) {
-//                    print("Successfully created user's data in database")
-////                    self.firestoreManager.conversationDataCreation(usersUIDs: [String](), messages: [String]()) {
-////                        completion()
-////                    }
-//                }
-//            }
-//        }
-//    }
 //    
 //    func signOut() {
 //        do {

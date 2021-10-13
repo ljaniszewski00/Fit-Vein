@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SignUpView: View {
-    @EnvironmentObject var sessionStore: SessionStore
+    @EnvironmentObject private var sessionStore: SessionStore
     
     @State private var firstName = ""
     @State private var username = ""
@@ -17,14 +17,10 @@ struct SignUpView: View {
     
     @State private var gender = ""
     @State private var birthDate = Date()
-    @State private var age = 0
     
-    @State var country: Country = .poland
-    @State var city: City = .łódź
-    @State var language: Language = .polish
-    
-    @State private var email: String = ""
-    @State private var password: String = ""
+    @State private var country: Country = .poland
+    @State private var city: City = .łódź
+    @State private var language: Language = .polish
     
     @State private var correctData = false
     
@@ -42,7 +38,7 @@ struct SignUpView: View {
             let screenWidth = geometry.size.width
             let screenHeight = geometry.size.height
             
-            ScrollView(.vertical) {
+            VStack {
                 Group {
                     HStack {
                         Text("Personal Information").font(.title)
@@ -57,7 +53,7 @@ struct SignUpView: View {
                             Spacer()
                         }
                         
-                        TextField("", text: $firstName)
+                        TextField("First Name", text: $firstName)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .disableAutocorrection(true)
                             .autocapitalization(.none)
@@ -70,7 +66,7 @@ struct SignUpView: View {
                             Spacer()
                         }
                         
-                        TextField("", text: $username)
+                        TextField("Username", text: $username)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .disableAutocorrection(true)
                             .autocapitalization(.none)
@@ -141,11 +137,10 @@ struct SignUpView: View {
                     
                     Spacer()
                     
-                    NavigationLink("Next", destination: SecondSignUpView().environmentObject(sessionStore))
+                    NavigationLink("Next", destination: SecondSignUpView(firstName: firstName, username: username, gender: gender, birthDate: birthDate, country: country, city: city, language: language).environmentObject(sessionStore).ignoresSafeArea(.keyboard))
                         .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(checkFieldsNotEmpty() ? .green : .gray))
                         .padding()
                         .disabled(!checkFieldsNotEmpty())
-                        .padding(.top, screenHeight * 0.07)
                 }
                 
                 
@@ -156,8 +151,8 @@ struct SignUpView: View {
                             .resizable()
                             .ignoresSafeArea()
                             .scaledToFill())
-            
         }
+        
     }
     
     private func checkFieldsNotEmpty() -> Bool {
@@ -171,6 +166,16 @@ struct SignUpView: View {
 
 struct SecondSignUpView: View {
     @EnvironmentObject var sessionStore: SessionStore
+    @ObservedObject private var signUpViewModel = SignUpViewModel()
+    
+    private var firstName: String
+    private var username: String
+    private var gender: String
+    private var birthDate: Date
+    
+    private var country: Country
+    private var city: City
+    private var language: Language
     
     @State private var email: String = ""
     @State private var password: String = ""
@@ -178,19 +183,35 @@ struct SecondSignUpView: View {
     
     @State private var correctData = false
     
+    init(firstName: String, username: String, gender: String, birthDate: Date, country: Country, city: City, language: Language) {
+        self.firstName = firstName
+        self.username = username
+        self.gender = gender
+        self.birthDate = birthDate
+        self.country = country
+        self.city = city
+        self.language = language
+    }
+    
     var body: some View {
         GeometryReader { geometry in
             let screenWidth = geometry.size.width
             let screenHeight = geometry.size.height
             
-            ScrollView(.vertical) {
+            VStack {
+                HStack {
+                    Text("Account Credentials").font(.title)
+                    Spacer()
+                }
+                .padding()
+                
                 VStack {
                     HStack {
                         Text("E-mail")
                         Spacer()
                     }
                     
-                    TextField("", text: $email)
+                    TextField("E-mail", text: $email)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .disableAutocorrection(true)
                         .autocapitalization(.none)
@@ -209,7 +230,7 @@ struct SecondSignUpView: View {
                         Spacer()
                     }
                     
-                    SecureField("", text: $password)
+                    SecureField("Password", text: $password)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .disableAutocorrection(true)
                         .autocapitalization(.none)
@@ -228,14 +249,14 @@ struct SecondSignUpView: View {
                         Spacer()
                     }
                     
-                    SecureField("", text: $repeatedPassword)
+                    SecureField("Confirm Password", text: $repeatedPassword)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .disableAutocorrection(true)
                         .autocapitalization(.none)
                     
                     HStack {
                         Image(systemName: "arrow.up.square")
-                        Text("Both password should be identical.\n").font(.system(size: screenWidth * 0.04))
+                        Text("Both passwords should be identical.\n").font(.system(size: screenWidth * 0.04))
                         Spacer()
                     }
                 }
@@ -245,7 +266,7 @@ struct SecondSignUpView: View {
                 
                 Button(action: {
                     if !email.isEmpty && !password.isEmpty {
-                        sessionStore.signIn(email: email, password: password)
+                        signUpViewModel.signUp(firstName: firstName, userName: username, birthDate: birthDate, country: country.rawValue, city: city.rawValue, language: language.rawValue, email: email, password: password, gender: gender)
                     }
                 }, label: {
                     Text("Sign Up")
@@ -253,8 +274,10 @@ struct SecondSignUpView: View {
                 })
                 .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(checkDataIsCorrect() ? .green : .gray))
                 .padding()
-                .padding(.top, screenHeight * 0.05)
                 .disabled(!checkDataIsCorrect())
+            }
+            .onAppear {
+                self.signUpViewModel.setup(sessionStore: sessionStore)
             }
             .navigationTitle("Sign Up")
             .foregroundColor(.white)
@@ -307,16 +330,21 @@ struct SignUpView_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
+                let country: Country = .poland
+                let city: City = .łódź
+                let language: Language = .polish
+                let sessionStore = SessionStore()
+                
                 SignUpView()
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)
-                    .environmentObject(SessionStore())
-                SecondSignUpView()
+                    .environmentObject(sessionStore)
+                SecondSignUpView(firstName: "firstName", username: "userName", gender: "gender", birthDate: Date(), country: country, city: city, language: language)
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)
-                    .environmentObject(SessionStore())
+                    .environmentObject(sessionStore)
             }
         }
     }
