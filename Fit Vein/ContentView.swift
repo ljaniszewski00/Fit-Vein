@@ -16,7 +16,7 @@ struct ContentView: View {
             let screenHeight = geometry.size.height
             
             NavigationView {
-                if sessionStore.isSignedIn {
+                if sessionStore.session != nil {
                     VStack {
                         Text("You are signed in!")
                         Button(action: {
@@ -37,7 +37,7 @@ struct ContentView: View {
                 }
             }
             .onAppear {
-                sessionStore.signedIn = sessionStore.isSignedIn
+                sessionStore.listen()
             }
         }
     }

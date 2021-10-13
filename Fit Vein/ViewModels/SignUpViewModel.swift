@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 class SignUpViewModel: ObservableObject {
     @Published private var sessionStore: SessionStore?
     private let firestoreManager = FirestoreManager()

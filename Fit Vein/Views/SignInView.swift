@@ -88,6 +88,7 @@ struct SignInView: View {
             }
             .onAppear {
                 self.signInViewModel.setup(sessionStore: sessionStore)
+                print("TUTAJ2 \(signInViewModel.sessionStore == nil)")
             }
             .navigationTitle("Sign In")
             .foregroundColor(.white)

@@ -8,21 +8,34 @@
 import Foundation
 import Firebase
 
+struct User {
+    var uid: String
+    var email: String
+}
+
+@MainActor
 class SessionStore: ObservableObject {
-    let auth = Auth.auth()
+    @Published var session: User?
     private var firestoreManager = FirestoreManager()
     private var firebaseStorageManager = FirebaseStorageManager()
     
-    @Published var signedIn = false
+    var handle: AuthStateDidChangeListenerHandle?
+    private let authRef = Auth.auth()
+    public let currentUser = Auth.auth().currentUser
     
-    var isSignedIn: Bool {
-        return auth.currentUser != nil
+    func listen() {
+        handle = authRef.addStateDidChangeListener({ (auth, user) in
+            if let user = user {
+                self.session = User(uid: user.uid, email: user.email!)
+            } else {
+                self.session = nil
+            }
+        })
     }
     
     func signIn(email: String, password: String) async {
         do {
-            let authResult = try await auth.signIn(withEmail: email, password: password)
-            self.signedIn = true
+            let authResult = try await authRef.signIn(withEmail: email, password: password)
             guard authResult != nil else {
                 throw AuthError.authFailed
             }
@@ -33,8 +46,7 @@ class SessionStore: ObservableObject {
     
     func signUp(email: String, password: String) async -> String {
         do {
-            let authResult = try await auth.createUser(withEmail: email, password: password)
-            self.signedIn = true
+            let authResult = try await authRef.createUser(withEmail: email, password: password)
             guard authResult != nil else {
                 throw AuthError.authFailed
             }
@@ -45,15 +57,20 @@ class SessionStore: ObservableObject {
         return ""
     }
     
-    @MainActor
     func signOut() {
         do {
-            try auth.signOut()
-            self.signedIn = false
+            self.session = nil
+            try authRef.signOut()
         } catch {
-            print(error.localizedDescription)
         }
     }
+    
+    func unbind () {
+        if let handle = handle {
+            Auth.auth().removeStateDidChangeListener(handle)
+        }
+    }
+}
     
 //    @Published var session: User?
 //    @Published var isAnonymous = true
@@ -162,10 +179,3 @@ class SessionStore: ObservableObject {
 //            }
 //        }
 //    }
-//    
-//    func unbind() {
-//        if let handle = handle {
-//            authRef.removeStateDidChangeListener(handle)
-//        }
-//    }
-}
