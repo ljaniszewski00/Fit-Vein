@@ -9,7 +9,7 @@ import Foundation
 
 @MainActor
 class SignInViewModel: ObservableObject {
-    @Published private(set) var sessionStore: SessionStore?
+    @Published private var sessionStore: SessionStore?
     private let firestoreManager = FirestoreManager()
     private let firebaseStorageManager = FirebaseStorageManager()
     
@@ -18,9 +18,14 @@ class SignInViewModel: ObservableObject {
     }
     
     func signIn(email: String, password: String) {
-        print("TUTAJ3 \(sessionStore == nil)")
         Task {
             await self.sessionStore!.signIn(email: email, password: password)
+        }
+    }
+    
+    func sendRecoveryEmail(email: String) {
+        Task {
+            await self.sessionStore!.sendRecoveryEmail(email: email)
         }
     }
 }

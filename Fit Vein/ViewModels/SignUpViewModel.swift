@@ -17,7 +17,6 @@ class SignUpViewModel: ObservableObject {
         self.sessionStore = sessionStore
     }
     
-    @MainActor
     func signUp(firstName: String, userName: String, birthDate: Date, country: String, city: String, language: String, email: String, password: String, gender: String) {
         Task {
             let userID = await self.sessionStore!.signUp(email: email, password: password)

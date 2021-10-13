@@ -70,56 +70,17 @@ class SessionStore: ObservableObject {
             Auth.auth().removeStateDidChangeListener(handle)
         }
     }
-}
     
-//    @Published var session: User?
-//    @Published var isAnonymous = true
+    func sendRecoveryEmail(email: String) async {
+        do {
+            try await authRef.sendPasswordReset(withEmail: email)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+}
 //    
-//    var handle: AuthStateDidChangeListenerHandle?
-//    private let authRef = Auth.auth()
-//    public let currentUser = Auth.auth().currentUser
-//    
-//    func listen() async throws {
-//        handle = authRef.addStateDidChangeListener({ (auth, user) in
-//            if let user = user {
-//                self.isAnonymous = false
-//                self.session = User(uid: user.uid, email: user.email!)
-//            } else {
-//                self.isAnonymous = true
-//                self.session = nil
-//            }
-//        })
-//    }
-//    
-//    func signIn(email: String, password: String, completion: @escaping (() -> ())) {
-//        authRef.signIn(withEmail: email, password: password) { (result, error) in
-//            if let error = error {
-//                print("Error signing in: \(error.localizedDescription)")
-//            } else {
-//                completion()
-//            }
-//        }
-//    }
-//    
-//    
-//    func signOut() {
-//        do {
-//            self.session = nil
-//            self.isAnonymous = true
-//            try authRef.signOut()
-//        } catch {
-//        }
-//    }
-//    
-//    func sendRecoveryEmail(_ email: String, completion: @escaping (() -> ())) {
-//        authRef.sendPasswordReset(withEmail: email) { (error) in
-//            if let error = error {
-//                print("Error sending recovery e-mail: \(error.localizedDescription)")
-//            } else {
-//                completion()
-//            }
-//        }
-//    }
+
 //    
 //    func changeEmailAddress(oldEmailAddress: String, password: String, newEmailAddress: String, completion: @escaping (() -> ())) {
 //        let credential = EmailAuthProvider.credential(withEmail: oldEmailAddress, password: password)

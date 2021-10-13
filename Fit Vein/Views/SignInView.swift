@@ -88,7 +88,6 @@ struct SignInView: View {
             }
             .onAppear {
                 self.signInViewModel.setup(sessionStore: sessionStore)
-                print("TUTAJ2 \(signInViewModel.sessionStore == nil)")
             }
             .navigationTitle("Sign In")
             .foregroundColor(.white)
@@ -111,9 +110,7 @@ struct SignInView: View {
                                 withAnimation {
                                     sendRecoveryEmailButtonPressed = true
                                     if checkEmail() {
-//                                        sessionStore.sendRecoveryEmail(forgotPasswordEmail) {
-//                                            print("Successfully sent recovery e-mail.")
-//                                        }
+                                        signInViewModel.sendRecoveryEmail(email: forgotPasswordEmail)
                                         recoveryEmailSent = true
                                     }
                                 }
