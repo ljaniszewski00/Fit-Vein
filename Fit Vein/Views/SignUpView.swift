@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SignUpView: View {
     @EnvironmentObject private var sessionStore: SessionStore
+    @StateObject private var signUpViewModel = SignUpViewModel()
     
     @State private var firstName = ""
     @State private var username = ""
@@ -23,6 +24,8 @@ struct SignUpView: View {
     @State private var language: Language = .polish
     
     @State private var correctData = false
+    
+    @State private var usernameTaken = false
     
     private let dateRange: ClosedRange<Date> = {
         let calendar = Calendar.current
@@ -70,6 +73,14 @@ struct SignUpView: View {
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .disableAutocorrection(true)
                             .autocapitalization(.none)
+                        
+                        HStack {
+                            Text("This username has already been taken")
+                                .foregroundColor(.red)
+                                .font(.system(size: screenHeight * 0.02))
+                            Spacer()
+                        }
+                        .opacity(usernameTaken ? 100 : 0)
                     }
                     .padding()
                     
@@ -144,6 +155,9 @@ struct SignUpView: View {
                 }
                 
                 
+            }
+            .onAppear {
+                self.signUpViewModel.setup(sessionStore: sessionStore)
             }
             .navigationTitle("Sign Up")
             .foregroundColor(.white)
@@ -265,9 +279,7 @@ struct SecondSignUpView: View {
                 Spacer()
                 
                 Button(action: {
-                    if !email.isEmpty && !password.isEmpty {
-                        signUpViewModel.signUp(firstName: firstName, userName: username, birthDate: birthDate, country: country.rawValue, city: city.rawValue, language: language.rawValue, email: email, password: password, gender: gender)
-                    }
+                    signUpViewModel.signUp(firstName: firstName, userName: username, birthDate: birthDate, country: country.rawValue, city: city.rawValue, language: language.rawValue, email: email, password: password, gender: gender)
                 }, label: {
                     Text("Sign Up")
                         .fontWeight(.bold)
@@ -289,24 +301,6 @@ struct SecondSignUpView: View {
         }
     }
     
-    private func displayCredentialsErrors() -> Text {
-        let emailError = String("Please make sure the email is correct.\n")
-        let passwordError = String("Please make sure your password is at least 8 characters long and contains a number.\n")
-        let passwordsMatchError = String("Please make sure both passwords are identical.\n")
-        
-        if !checkEmail() && !checkPassword() {
-            return Text(emailError + passwordError).foregroundColor(.red)
-        } else if !checkEmail() {
-            return Text(emailError).foregroundColor(.red)
-        } else if !checkPassword() {
-            return Text(passwordError).foregroundColor(.red)
-        } else if !checkBothPasswords() {
-            return Text(passwordsMatchError).foregroundColor(.red)
-        } else {
-            return Text("")
-        }
-    }
-    
     private func checkEmail() -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         return NSPredicate(format:"SELF MATCHES %@", emailRegEx).evaluate(with: email)
@@ -322,7 +316,7 @@ struct SecondSignUpView: View {
     }
     
     private func checkDataIsCorrect() -> Bool {
-        return checkEmail() && checkPassword() && checkBothPasswords()
+        return !email.isEmpty && !password.isEmpty && checkEmail() && checkPassword() && checkBothPasswords()
     }
 }
 

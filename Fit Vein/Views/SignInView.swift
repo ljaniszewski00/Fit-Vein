@@ -66,7 +66,7 @@ struct SignInView: View {
                 .padding()
 
                 Button(action: {
-                    if !email.isEmpty && !password.isEmpty {
+                    if checkDataIsCorrect() {
                         signInViewModel.signIn(email: email, password: password)
                     }
                 }, label: {
@@ -82,9 +82,7 @@ struct SignInView: View {
                     Text("Don't have an account?")
                     NavigationLink("Create One", destination: SignUpView().environmentObject(sessionStore).ignoresSafeArea(.keyboard))
                         .foregroundColor(.green)
-                }
-                
-                    
+                } 
             }
             .onAppear {
                 self.signInViewModel.setup(sessionStore: sessionStore)
@@ -109,7 +107,7 @@ struct SignInView: View {
                             Button(action: {
                                 withAnimation {
                                     sendRecoveryEmailButtonPressed = true
-                                    if checkEmail() {
+                                    if checkEmail(email: forgotPasswordEmail) {
                                         signInViewModel.sendRecoveryEmail(email: forgotPasswordEmail)
                                         recoveryEmailSent = true
                                     }
@@ -130,9 +128,21 @@ struct SignInView: View {
         }
     }
     
-    private func checkEmail() -> Bool {
+    private func checkEmail(email: String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-        return NSPredicate(format:"SELF MATCHES %@", emailRegEx).evaluate(with: forgotPasswordEmail)
+        return NSPredicate(format:"SELF MATCHES %@", emailRegEx).evaluate(with: email)
+    }
+    
+    private func checkFieldsNotEmpty() -> Bool {
+        if email.isEmpty || password.isEmpty {
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    private func checkDataIsCorrect() -> Bool {
+        return checkEmail(email: email) && checkFieldsNotEmpty()
     }
 }
 

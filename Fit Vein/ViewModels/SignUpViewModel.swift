@@ -23,4 +23,8 @@ class SignUpViewModel: ObservableObject {
             await firestoreManager.signUpDataCreation(id: userID, firstName: firstName, username: userName, birthDate: birthDate, country: country, city: city, language: language, email: email, gender: gender)
         }
     }
+    
+    func checkUsernameDuplicate(username: String) async throws -> Bool {
+        try await firestoreManager.checkUsernameDuplicate(username: username)
+    }
 }
