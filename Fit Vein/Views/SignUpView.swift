@@ -166,7 +166,7 @@ struct SignUpView: View {
 
 struct SecondSignUpView: View {
     @EnvironmentObject var sessionStore: SessionStore
-    @ObservedObject private var signUpViewModel = SignUpViewModel()
+    @StateObject private var signUpViewModel = SignUpViewModel()
     
     private var firstName: String
     private var username: String
