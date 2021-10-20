@@ -18,7 +18,7 @@ struct LoggedUserView: View {
             let screenWidth = geometry.size.width
             let screenHeight = geometry.size.height
             
-            if !profileViewModel.fetchingData {
+//            if !profileViewModel.fetchingData {
                 TabView {
                     HomeView()
                         .environmentObject(sessionStore)
@@ -50,18 +50,18 @@ struct LoggedUserView: View {
                         }
                         .tag(2)
                 }
-            } else {
-                VStack {
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        ProgressView("Loading user's data")
-                            .progressViewStyle(RingProgressViewStyle())
-                        Spacer()
-                    }
-                    Spacer()
-                }
-            }
+//            } else {
+//                VStack {
+//                    Spacer()
+//                    HStack {
+//                        Spacer()
+//                        ProgressView("Loading user's data")
+//                            .progressViewStyle(RingProgressViewStyle())
+//                        Spacer()
+//                    }
+//                    Spacer()
+//                }
+//            }
         }
         .onAppear {
             self.profileViewModel.setup(sessionStore: sessionStore)
