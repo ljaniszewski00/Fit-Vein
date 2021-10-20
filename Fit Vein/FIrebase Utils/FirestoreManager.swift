@@ -92,10 +92,31 @@ class FirestoreManager: ObservableObject {
         }
     }
     
+    func editUserEmailInDatabase(email: String, completion: @escaping (() -> ())) {
+        let documentData: [String: Any] = [
+            "email": email
+        ]
+        
+        updateUserData(documentData: documentData) {
+            print("Successfully updated user's email in database.")
+            completion()
+        }
+    }
+    
     private func updateUserData(documentData: [String: Any], completion: @escaping (() -> ())) {
         self.db.collection("users").document(user!.uid).updateData(documentData) { (error) in
             if let error = error {
                 print("Error updating user's data: \(error.localizedDescription)")
+            } else {
+                completion()
+            }
+        }
+    }
+    
+    func deleteUserData(userUID: String, completion: @escaping (() -> ())) {
+        self.db.collection("users").document(userUID).delete() { (error) in
+            if let error = error {
+                print("Could not delete user data: \(error)")
             } else {
                 completion()
             }

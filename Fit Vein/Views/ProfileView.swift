@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProfileView: View {
     @ObservedObject private var profileViewModel: ProfileViewModel
+    @EnvironmentObject private var sessionStore: SessionStore
     @Environment(\.colorScheme) var colorScheme
     
     @State private var image = UIImage()
@@ -16,6 +17,8 @@ struct ProfileView: View {
     @State private var shouldPresentAddActionSheet = false
     @State private var shouldPresentImagePicker = false
     @State private var shouldPresentCamera = false
+    
+    @State private var shouldPresentSettings = false
     
     init(profileViewModel: ProfileViewModel) {
         self.profileViewModel = profileViewModel
@@ -70,15 +73,17 @@ struct ProfileView: View {
                             
                             Spacer()
                             
-                            Button(action: {
-                                
-                            }, label: {
-                                Image(systemName: "slider.vertical.3")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                            })
-                            .frame(width: screenWidth * 0.12, height: screenHeight * 0.04)
-                            .foregroundColor(colorScheme == .dark ? .white : .black)
+                            NavigationLink(destination: SettingsView(profile: profileViewModel).environmentObject(sessionStore), isActive: $shouldPresentSettings) {
+                                Button(action: {
+                                    shouldPresentSettings = true
+                                }, label: {
+                                    Image(systemName: "slider.vertical.3")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                })
+                                .frame(width: screenWidth * 0.12, height: screenHeight * 0.04)
+                                .foregroundColor(colorScheme == .dark ? .white : .black)
+                            }
                         }
                         .padding(.top, screenHeight * 0.02)
                         
