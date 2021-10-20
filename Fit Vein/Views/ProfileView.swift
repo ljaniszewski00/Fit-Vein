@@ -34,6 +34,7 @@ struct ProfileView: View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .clipShape(RoundedRectangle(cornerRadius: 50))
+                                .shadow(color: .gray, radius: 7)
                                 .frame(width: screenWidth * 0.4, height: screenHeight * 0.2)
                                 .onTapGesture {
                                     self.shouldPresentAddActionSheet = true
@@ -43,6 +44,7 @@ struct ProfileView: View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .clipShape(RoundedRectangle(cornerRadius: 50))
+                                .shadow(color: .gray, radius: 7)
                                 .frame(width: screenWidth * 0.4, height: screenHeight * 0.2)
                         }
                     } else {
@@ -50,6 +52,7 @@ struct ProfileView: View {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .clipShape(RoundedRectangle(cornerRadius: 50))
+                            .shadow(color: .gray, radius: 7)
                             .frame(width: screenWidth * 0.4, height: screenHeight * 0.2)
                             .onTapGesture {
                                 self.shouldPresentAddActionSheet = true
@@ -96,7 +99,20 @@ struct ProfileView: View {
                         .fontWeight(.bold)
                     
                     RoundedRectangle(cornerRadius: 25)
+                        .frame(width: screenWidth * 0.9)
                         .padding()
+                        .overlay(
+                            HStack {
+                                RoundedRectangle(cornerRadius: 25)
+                                    .foregroundColor(.green)
+                                    .padding()
+                                    .frame(width: screenWidth * 0.7)
+                                
+                                Spacer()
+                            }
+                        )
+                    
+                    Text("7 / 10 Workouts")
                 }
                 
                 Spacer()
