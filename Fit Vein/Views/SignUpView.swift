@@ -69,7 +69,11 @@ struct SignUpView: View {
                             Spacer()
                         }
                         
-                        TextField("Username", text: $username)
+                        TextField("Username", text: $username, onCommit: {
+                            Task {
+                                self.usernameTaken = try await signUpViewModel.checkUsernameDuplicate(username: username)
+                            }
+                        })
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .disableAutocorrection(true)
                             .autocapitalization(.none)
@@ -148,10 +152,11 @@ struct SignUpView: View {
                     
                     Spacer()
                     
+                    
                     NavigationLink("Next", destination: SecondSignUpView(firstName: firstName, username: username, gender: gender, birthDate: birthDate, country: country, city: city, language: language).environmentObject(sessionStore).ignoresSafeArea(.keyboard))
-                        .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(checkFieldsNotEmpty() ? .green : .gray))
+                        .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor((!checkFieldsNotEmpty() || usernameTaken) ? .gray : .green))
                         .padding()
-                        .disabled(!checkFieldsNotEmpty())
+                        .disabled(!checkFieldsNotEmpty() || usernameTaken)
                 }
                 
                 

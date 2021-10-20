@@ -43,7 +43,8 @@ class FirestoreManager: ObservableObject {
     }
     
     func checkUsernameDuplicate(username: String) async throws -> Bool {
-        let querySnapshot = try await self.db.collection("profiles").whereField("username", isEqualTo: username).getDocuments()
+        let querySnapshot = try await self.db.collection("users").whereField("username", isEqualTo: username).getDocuments()
+        
         if querySnapshot.documents.count != 0 {
             return true
         } else {
