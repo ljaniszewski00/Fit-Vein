@@ -68,7 +68,7 @@ class FirestoreManager: ObservableObject {
         let document = try await self.db.collection("users").document(userID).getDocument()
         
         let firstName = document.get("firstName") as? String ?? ""
-        let username = document.get("lastName") as? String ?? ""
+        let username = document.get("username") as? String ?? ""
         let birthDate = document.get("birthDate") as? Date ?? Date()
         let age = document.get("age") as? Int ?? 0
         let country = document.get("country") as? String ?? ""

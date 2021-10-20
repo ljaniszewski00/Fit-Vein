@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProfileView: View {
     @ObservedObject private var profileViewModel: ProfileViewModel
+    @Environment(\.colorScheme) var colorScheme
     
     @State private var image = UIImage()
     
@@ -25,43 +26,81 @@ struct ProfileView: View {
             let screenWidth = geometry.size.width
             let screenHeight = geometry.size.height
             
-            VStack {
+            ScrollView(.vertical) {
                 HStack {
-                    Text("Witaj, \(profileViewModel.profile!.firstName)")
-                    Spacer()
-                }
-                .padding()
-                .font(.largeTitle)
-                
-                if profileViewModel.profilePicturePhotoURL != nil {
-                    AsyncImage(url: profileViewModel.profilePicturePhotoURL!) { image in
-                        image
+                    if profileViewModel.profilePicturePhotoURL != nil {
+                        AsyncImage(url: profileViewModel.profilePicturePhotoURL!) { image in
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .clipShape(RoundedRectangle(cornerRadius: 50))
+                                .frame(width: screenWidth * 0.4, height: screenHeight * 0.2)
+                                .onTapGesture {
+                                    self.shouldPresentAddActionSheet = true
+                                }
+                        } placeholder: {
+                            Image(uiImage: UIImage(named: "blank-profile-hi")!)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .clipShape(RoundedRectangle(cornerRadius: 50))
+                                .frame(width: screenWidth * 0.4, height: screenHeight * 0.2)
+                        }
+                    } else {
+                        Image(uiImage: UIImage(named: "blank-profile-hi")!)
                             .resizable()
-                            .frame(width: screenWidth * 0.6, height: screenHeight * 0.3)
-                            .clipShape(Circle())
+                            .aspectRatio(contentMode: .fit)
+                            .clipShape(RoundedRectangle(cornerRadius: 50))
+                            .frame(width: screenWidth * 0.4, height: screenHeight * 0.2)
                             .onTapGesture {
                                 self.shouldPresentAddActionSheet = true
                             }
-                    } placeholder: {
-                        Image(uiImage: UIImage(named: "blank-profile-hi")!)
-                            .resizable()
-                            .frame(width: screenWidth * 0.6, height: screenHeight * 0.3)
-                            .clipShape(Circle())
                     }
-                } else {
-                    Image(uiImage: UIImage(named: "blank-profile-hi")!)
-                        .resizable()
-                        .frame(width: screenWidth * 0.6, height: screenHeight * 0.3)
-                        .clipShape(Circle())
-                        .onTapGesture {
-                            self.shouldPresentAddActionSheet = true
+                    
+                    Spacer(minLength: screenWidth * 0.05)
+                    
+                    VStack {
+                        HStack {
+                            Text(profileViewModel.profile!.firstName)
+                                .foregroundColor(.green)
+                                .font(.system(size: screenHeight * 0.03))
+                                .fontWeight(.bold)
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                
+                            }, label: {
+                                Image(systemName: "slider.vertical.3")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                            })
+                            .frame(width: screenWidth * 0.12, height: screenHeight * 0.04)
+                            .foregroundColor(colorScheme == .dark ? .white : .black)
                         }
+                        .padding(.top, screenHeight * 0.02)
+                        
+                        HStack {
+                            Text(profileViewModel.profile!.username)
+                                .foregroundColor(Color(uiColor: UIColor.lightGray))
+                            Spacer()
+                        }
+                        
+                        Spacer()
+                    }
+                }
+                .padding()
+                
+                VStack {
+                    Text("Level 1")
+                        .font(.system(size: screenHeight * 0.03))
+                        .fontWeight(.bold)
+                    
+                    RoundedRectangle(cornerRadius: 25)
+                        .padding()
                 }
                 
                 Spacer()
             }
-            .navigationTitle("")
-            .navigationBarHidden(true)
             .sheet(isPresented: $shouldPresentImagePicker) {
                 ImagePicker(sourceType: self.shouldPresentCamera ? .camera : .photoLibrary, selectedImage: self.$image)
                     .onDisappear {

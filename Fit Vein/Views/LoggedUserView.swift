@@ -16,38 +16,36 @@ struct LoggedUserView: View {
             let screenWidth = geometry.size.width
             let screenHeight = geometry.size.height
             
-            NavigationView {
-                TabView {
-                    HomeView()
-                        .environmentObject(sessionStore)
-                        .navigationTitle("")
-                        .navigationBarHidden(true)
-                        .ignoresSafeArea(.keyboard)
-                        .tabItem {
-                            Image(systemName: "house.fill")
-                        }
-                        .tag(0)
-                    
-                    WorkoutView()
-                        .environmentObject(sessionStore)
-                        .navigationTitle("")
-                        .navigationBarHidden(true)
-                        .ignoresSafeArea(.keyboard)
-                        .tabItem {
-                            Image(systemName: "figure.walk")
-                        }
-                        .tag(1)
-                    
-                    ProfileView(profileViewModel: profileViewModel)
-                        .environmentObject(sessionStore)
-                        .navigationTitle("")
-                        .navigationBarHidden(true)
-                        .ignoresSafeArea(.keyboard)
-                        .tabItem {
-                            Image(systemName: "person.fill")
-                        }
-                        .tag(2)
-                }
+            TabView {
+                HomeView()
+                    .environmentObject(sessionStore)
+                    .navigationTitle("")
+                    .navigationBarHidden(true)
+                    .ignoresSafeArea(.keyboard)
+                    .tabItem {
+                        Image(systemName: "house.fill")
+                    }
+                    .tag(0)
+                
+                WorkoutView()
+                    .environmentObject(sessionStore)
+                    .navigationTitle("")
+                    .navigationBarHidden(true)
+                    .ignoresSafeArea(.keyboard)
+                    .tabItem {
+                        Image(systemName: "figure.walk")
+                    }
+                    .tag(1)
+                
+                ProfileView(profileViewModel: profileViewModel)
+                    .environmentObject(sessionStore)
+                    .navigationTitle("")
+                    .navigationBarHidden(true)
+                    .ignoresSafeArea(.keyboard)
+                    .tabItem {
+                        Image(systemName: "person.fill")
+                    }
+                    .tag(2)
             }
             .onAppear {
                 self.profileViewModel.setup(sessionStore: sessionStore)
