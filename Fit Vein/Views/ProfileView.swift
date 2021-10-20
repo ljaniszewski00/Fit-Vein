@@ -33,15 +33,20 @@ struct ProfileView: View {
                 .padding()
                 .font(.largeTitle)
                 
-                if profileViewModel.profile!.profilePictureURL != nil {
-                    AsyncImage(url: profileViewModel.profile!.profilePictureURL!) { image in
-                        image.image!
+                if profileViewModel.profilePicturePhotoURL != nil {
+                    AsyncImage(url: profileViewModel.profilePicturePhotoURL!) { image in
+                        image
                             .resizable()
                             .frame(width: screenWidth * 0.6, height: screenHeight * 0.3)
                             .clipShape(Circle())
                             .onTapGesture {
                                 self.shouldPresentAddActionSheet = true
                             }
+                    } placeholder: {
+                        Image(uiImage: UIImage(named: "blank-profile-hi")!)
+                            .resizable()
+                            .frame(width: screenWidth * 0.6, height: screenHeight * 0.3)
+                            .clipShape(Circle())
                     }
                 } else {
                     Image(uiImage: UIImage(named: "blank-profile-hi")!)
@@ -55,13 +60,8 @@ struct ProfileView: View {
                 
                 Spacer()
             }
-            .refreshable {
-                do {
-                    try await self.profileViewModel.fetchData()
-                } catch {
-                    print(error.localizedDescription)
-                }
-            }
+            .navigationTitle("")
+            .navigationBarHidden(true)
             .sheet(isPresented: $shouldPresentImagePicker) {
                 ImagePicker(sourceType: self.shouldPresentCamera ? .camera : .photoLibrary, selectedImage: self.$image)
                     .onDisappear {

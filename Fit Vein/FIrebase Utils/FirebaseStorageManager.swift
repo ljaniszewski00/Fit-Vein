@@ -12,9 +12,8 @@ import Firebase
 class FirebaseStorageManager: ObservableObject {
     private let storageRef = Storage.storage().reference()
     
-    func uploadImageToStorage(image: UIImage, userID: String) async throws -> URL? {
+    func uploadImageToStorage(image: UIImage, userID: String, completion: @escaping ((String) -> ())) {
         let imageUUID = UUID().uuidString
-        let imageURL: URL?
         let userImagesStorageRef = storageRef.child("images/\(userID)/\(imageUUID)")
         
         let data = image.jpegData(compressionQuality: 1)
@@ -24,18 +23,19 @@ class FirebaseStorageManager: ObservableObject {
         metadata.customMetadata = ["username": userID]
         
         if let data = data {
-            let metadata = userImagesStorageRef.putData(data, metadata: metadata)
-            print(metadata)
-            imageURL = try await getDownloadURLForImage(userPhotoURL: imageUUID, userID: userID)
-            print("Co zwracam: \(imageURL!)")
-            return imageURL!
+            userImagesStorageRef.putData(data, metadata: metadata) { _, error in
+                guard error == nil else {
+                    print("Error uploading photo: \(error!.localizedDescription)")
+                    return
+                }
+                completion(imageUUID)
+            }
         }
-        return nil
     }
     
     func deleteImageFromStorage(userPhotoURL: String, userID: String) async throws {
         let userImagesStorageRef = storageRef.child("images/\(userID)/\(userPhotoURL)")
-        
+
         do {
             try await userImagesStorageRef.delete()
         } catch {
@@ -43,10 +43,15 @@ class FirebaseStorageManager: ObservableObject {
         }
     }
     
-    func getDownloadURLForImage(userPhotoURL: String, userID: String) async throws -> URL {
-        print("Probuje pobrac pelna ze skroconej: \(userPhotoURL)")
-        let userImagesStorageRef = storageRef.child("images/\(userID)/\(userPhotoURL)")
-        
-        return try await userImagesStorageRef.downloadURL()
+    func getDownloadURLForImage(stringURL: String, userID: String, completion: @escaping ((URL) -> ())) {
+        let userImagesStorageRef = storageRef.child("images/\(userID)/\(stringURL)")
+        userImagesStorageRef.downloadURL() { url, error in
+            guard let url = url, error == nil else {
+                print("Error getting download URL: \(error!.localizedDescription)")
+                return
+            }
+            
+            completion(url)
+        }
     }
 }

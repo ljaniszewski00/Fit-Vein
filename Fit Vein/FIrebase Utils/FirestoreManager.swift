@@ -64,7 +64,7 @@ class FirestoreManager: ObservableObject {
         }
     }
     
-    func fetchDataForProfileViewModel(userID: String) async throws -> (String, String, Date, Int, String, String, String, String, String, URL?) {
+    func fetchDataForProfileViewModel(userID: String) async throws -> (String, String, Date, Int, String, String, String, String, String, String?) {
         let document = try await self.db.collection("users").document(userID).getDocument()
         
         let firstName = document.get("firstName") as? String ?? ""
@@ -76,24 +76,29 @@ class FirestoreManager: ObservableObject {
         let language = document.get("language") as? String ?? ""
         let gender = document.get("gender") as? String ?? ""
         let email = document.get("email") as? String ?? ""
-        let profilePictureURL = document.get("profilePictureURL") as? URL ?? nil
+        let profilePictureURL = document.get("profilePictureURL") as? String ?? nil
         
         return (firstName, username, birthDate, age, country, city, language, gender, email, profilePictureURL)
     }
     
-    func addProfilePictureToUsersData(photoURL: URL) async throws {
+    func addProfilePictureURLToUsersData(photoURL: String, completion: @escaping (() -> ())) {
         let documentData: [String: Any] = [
-            "profilePicture": photoURL
+            "profilePictureURL": photoURL
         ]
         
-        try await updateUserData(documentData: documentData)
+        updateUserData(documentData: documentData) {
+            print("Successfully added new profile picture URL to database.")
+            completion()
+        }
     }
     
-    private func updateUserData(documentData: [String: Any]) async throws {
-        do {
-            try await self.db.collection("users").document(user!.uid).updateData(documentData)
-        } catch {
-            print(error.localizedDescription)
+    private func updateUserData(documentData: [String: Any], completion: @escaping (() -> ())) {
+        self.db.collection("users").document(user!.uid).updateData(documentData) { (error) in
+            if let error = error {
+                print("Error updating user's data: \(error.localizedDescription)")
+            } else {
+                completion()
+            }
         }
     }
 }

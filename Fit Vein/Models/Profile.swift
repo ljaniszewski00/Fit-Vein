@@ -19,7 +19,7 @@ struct Profile: Codable, Identifiable {
     var language: String
     var gender: String
     var email: String
-    var profilePictureURL: URL?
+    var profilePictureURL: String?
 }
 
 
