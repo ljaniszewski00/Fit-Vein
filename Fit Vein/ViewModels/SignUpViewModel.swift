@@ -27,4 +27,8 @@ class SignUpViewModel: ObservableObject {
     func checkUsernameDuplicate(username: String) async throws -> Bool {
         try await firestoreManager.checkUsernameDuplicate(username: username)
     }
+    
+    func checkEmailDuplicate(email: String) async throws -> Bool {
+        try await firestoreManager.checkEmailDuplicate(email: email)
+    }
 }

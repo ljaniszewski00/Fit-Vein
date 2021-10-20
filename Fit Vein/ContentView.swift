@@ -17,19 +17,9 @@ struct ContentView: View {
             
             NavigationView {
                 if sessionStore.session != nil {
-                    VStack {
-                        Text("You are signed in!")
-                        Button(action: {
-                            withAnimation {
-                                sessionStore.signOut()
-                            }
-                        }, label: {
-                            Text("Sign Out")
-                        })
-                        .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(.green))
-                        .padding()
-                        .padding(.top, screenHeight * 0.05)
-                    }
+                    LoggedUserView()
+                        .environmentObject(sessionStore)
+                        .ignoresSafeArea(.keyboard)
                 } else {
                     SignInView()
                         .environmentObject(sessionStore)

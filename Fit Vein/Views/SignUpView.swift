@@ -200,6 +200,8 @@ struct SecondSignUpView: View {
     @State private var password: String = ""
     @State private var repeatedPassword: String = ""
     
+    @State private var emailTaken = false
+    
     @State private var correctData = false
     
     init(firstName: String, username: String, gender: String, birthDate: Date, country: Country, city: City, language: Language) {
@@ -230,16 +232,28 @@ struct SecondSignUpView: View {
                         Spacer()
                     }
                     
-                    TextField("E-mail", text: $email)
+                    TextField("E-mail", text: $email, onCommit: {
+                        Task {
+                            self.emailTaken = try await signUpViewModel.checkEmailDuplicate(email: email)
+                        }
+                    })
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .disableAutocorrection(true)
                         .autocapitalization(.none)
                     
                     HStack {
                         Image(systemName: "envelope")
-                        Text("Please make sure you provide valid e-mail address").font(.system(size: screenWidth * 0.04))
+                        Text("Please make sure you provide valid e-mail address.\n").font(.system(size: screenWidth * 0.04))
                         Spacer()
                     }
+                    
+                    HStack {
+                        Text("The account associated with this e-mail address has already been created.\n")
+                            .foregroundColor(.red)
+                            .font(.system(size: screenHeight * 0.02))
+                        Spacer()
+                    }
+                    .opacity(emailTaken ? 100 : 0)
                 }
                 .padding()
                 
@@ -275,7 +289,7 @@ struct SecondSignUpView: View {
                     
                     HStack {
                         Image(systemName: "arrow.up.square")
-                        Text("Both passwords should be identical.\n").font(.system(size: screenWidth * 0.04))
+                        Text("Both passwords must be identical.\n").font(.system(size: screenWidth * 0.04))
                         Spacer()
                     }
                 }
@@ -289,7 +303,7 @@ struct SecondSignUpView: View {
                     Text("Sign Up")
                         .fontWeight(.bold)
                 })
-                .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(checkDataIsCorrect() ? .green : .gray))
+                .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor((!checkDataIsCorrect()) ? .gray : .green))
                 .padding()
                 .disabled(!checkDataIsCorrect())
             }
@@ -321,7 +335,7 @@ struct SecondSignUpView: View {
     }
     
     private func checkDataIsCorrect() -> Bool {
-        return !email.isEmpty && !password.isEmpty && checkEmail() && checkPassword() && checkBothPasswords()
+        return !email.isEmpty && !password.isEmpty && checkEmail() && checkPassword() && checkBothPasswords() && !emailTaken
     }
 }
 
