@@ -17,6 +17,8 @@ class ProfileViewModel: ObservableObject {
     @Published var profile: Profile?
     @Published var profilePicturePhotoURL: URL?
     
+    @Published var fetchingData = true
+    
     init(forPreviews: Bool) {
         self.profile = Profile(id: "sessionStore!.currentUser!.uid", firstName: "firstname", username: "username", birthDate: Date(), age: 18, country: "country", city: "city", language: "language", gender: "gender", email: "email", profilePictureURL: nil)
     }
@@ -33,6 +35,7 @@ class ProfileViewModel: ObservableObject {
     
     func fetchData() async throws {
         print("Fetching Data")
+        fetchingData = true
         
         let (firstname, username, birthDate, age, country, city, language, gender, email, profilePictureURL) = try await self.firestoreManager.fetchDataForProfileViewModel(userID: sessionStore!.currentUser!.uid)
         
@@ -42,6 +45,10 @@ class ProfileViewModel: ObservableObject {
             self.firebaseStorageManager.getDownloadURLForImage(stringURL: profilePictureURL!, userID: sessionStore!.currentUser!.uid) { photoURL in
                  self.profilePicturePhotoURL = photoURL
             }
+        }
+        
+        Task {
+            fetchingData = false
         }
     }
     

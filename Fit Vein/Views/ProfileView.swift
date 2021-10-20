@@ -111,6 +111,7 @@ struct ProfileView: View {
                                 Spacer()
                             }
                         )
+                        .shadow(color: .gray, radius: 7)
                     
                     Text("7 / 10 Workouts")
                 }
