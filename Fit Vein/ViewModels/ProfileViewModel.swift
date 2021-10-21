@@ -10,7 +10,7 @@ import SwiftUI
 
 @MainActor
 class ProfileViewModel: ObservableObject {
-    @Published private var sessionStore: SessionStore?
+    @Published var sessionStore: SessionStore?
     private let firestoreManager = FirestoreManager()
     private let firebaseStorageManager = FirebaseStorageManager()
     

@@ -9,12 +9,12 @@ import SwiftUI
 
 struct SettingsView: View {
     @ObservedObject private var profileViewModel: ProfileViewModel
-    @EnvironmentObject private var sessionStore: SessionStore
+    
     @StateObject private var sheetManager = SheetManager()
     @State private var shouldPresentActionSheet = false
     
-    @Environment(\.presentationMode) var presentationMode
-
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
     private class SheetManager: ObservableObject {
         enum Sheet {
             case email
@@ -90,13 +90,10 @@ struct SettingsView: View {
                     switch sheetManager.whichSheet {
                     case .email:
                         ChangeEmailAddressSheetView(profile: profileViewModel)
-                            .environmentObject(sessionStore)
                     case .password:
                         ChangePasswordSheetView(profile: profileViewModel)
-                            .environmentObject(sessionStore)
                     case .signout:
                         DeleteAccountSheetView(profile: profileViewModel)
-                            .environmentObject(sessionStore)
                     default:
                         Text("No view")
                     }
@@ -105,7 +102,7 @@ struct SettingsView: View {
                     if sheetManager.whichSheet == .logout {
                         return ActionSheet(title: Text("Logout"), message: Text("Are you sure you want to logout?"), buttons: [
                             .destructive(Text("Logout"), action: {
-                                sessionStore.signOut()
+                                profileViewModel.sessionStore!.signOut()
                                 presentationMode.wrappedValue.dismiss()
                              }),
                             .cancel()
@@ -125,7 +122,6 @@ struct SettingsView: View {
 
 struct DeleteAccountSheetView: View {
     @ObservedObject private var profileViewModel: ProfileViewModel
-    @EnvironmentObject private var sessionStore: SessionStore
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     @State private var email = ""
@@ -151,10 +147,10 @@ struct DeleteAccountSheetView: View {
                     
                     Button(action: {
                         withAnimation {
+                            presentationMode.wrappedValue.dismiss()
                             profileViewModel.deleteUserData() {
-                                sessionStore.deleteUser(email: email, password: password) {
+                                profileViewModel.sessionStore!.deleteUser(email: email, password: password) {
                                     print("Successfully deleted user.")
-                                    presentationMode.wrappedValue.dismiss()
                                 }
                             }
                         }
@@ -178,7 +174,6 @@ struct DeleteAccountSheetView: View {
 
 struct ChangeEmailAddressSheetView: View {
     @ObservedObject private var profileViewModel: ProfileViewModel
-    @EnvironmentObject private var sessionStore: SessionStore
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     @State private var oldEmail = ""
@@ -229,7 +224,6 @@ struct ChangeEmailAddressSheetView: View {
 
 struct ChangePasswordSheetView: View {
     @ObservedObject private var profileViewModel: ProfileViewModel
-    @EnvironmentObject private var sessionStore: SessionStore
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     @State private var email = ""
@@ -277,18 +271,17 @@ struct ChangePasswordSheetView: View {
     }
 }
 
+
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         let profileViewModel = ProfileViewModel(forPreviews: true)
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
-                let sessionStore = SessionStore()
-                
                 SettingsView(profile: profileViewModel)
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)
-                    .environmentObject(sessionStore)
+                    .environmentObject(SessionStore())
             }
         }
     }
