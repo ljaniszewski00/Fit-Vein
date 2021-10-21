@@ -20,6 +20,8 @@ struct ProfileView: View {
     
     @State private var shouldPresentSettings = false
     
+    @State private var tabSelection = 0
+    
     init(profileViewModel: ProfileViewModel) {
         self.profileViewModel = profileViewModel
     }
@@ -119,10 +121,26 @@ struct ProfileView: View {
                         .shadow(color: .gray, radius: 7)
                     
                     Text("7 / 10 Workouts")
+                    
+                    Spacer(minLength: screenHeight * 0.05)
+                    
+                    Picker("", selection: $tabSelection) {
+                        Image(systemName: "heart.fill").tag(0)
+                        Image(systemName: "figure.walk").tag(1)
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    
+                    if tabSelection == 0 {
+                        HealtTabView()
+                            .frame(height: screenHeight)
+                    } else {
+                        WorkoutTabView()
+                            .frame(height: screenHeight)
+                    }
                 }
-                
-                Spacer()
             }
+            .navigationTitle("")
+            .navigationBarHidden(true)
             .sheet(isPresented: $shouldPresentImagePicker) {
                 ImagePicker(sourceType: self.shouldPresentCamera ? .camera : .photoLibrary, selectedImage: self.$image)
                     .onDisappear {
@@ -144,6 +162,50 @@ struct ProfileView: View {
             }
         }
     }
+    
+    struct HealtTabView: View {
+        var body: some View {
+            GeometryReader { geometry in
+                let screenWidth = geometry.size.width
+                let screenHeight = geometry.size.height
+            
+                NavigationView {
+                    ScrollView(.vertical) {
+                        ForEach(1..<10) { number in
+                            RoundedRectangle(cornerRadius: 50)
+                                .padding()
+                                .frame(height: screenHeight * 0.2)
+                        }
+                    }
+                    .navigationTitle("Health Data")
+                    .navigationBarHidden(false)
+                }
+            }
+        }
+    }
+    
+    struct WorkoutTabView: View {
+        var body: some View {
+            GeometryReader { geometry in
+                let screenWidth = geometry.size.width
+                let screenHeight = geometry.size.height
+                
+                NavigationView {
+                    ScrollView(.vertical) {
+                        ForEach(1..<10) { number in
+                            RoundedRectangle(cornerRadius: 50)
+                                .padding()
+                                .frame(height: screenHeight * 0.2)
+                        }
+                    }
+                    .navigationTitle("Workouts Data")
+                    .navigationBarHidden(false)
+                }
+            }
+        }
+    }
+    
+    
 }
 
 struct ProfileView_Previews: PreviewProvider {

@@ -11,8 +11,6 @@ struct LoggedUserView: View {
     @EnvironmentObject private var sessionStore: SessionStore
     @ObservedObject private var profileViewModel = ProfileViewModel()
     
-    @State private var progress: Double = 1.0
-    
     var body: some View {
         GeometryReader { geometry in
             let screenWidth = geometry.size.width
