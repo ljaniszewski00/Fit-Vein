@@ -164,6 +164,11 @@ struct ProfileView: View {
     }
     
     struct HealtTabView: View {
+        private var dataImagesNames: [String] = ["flame.fill", "flame.fill", "flame.fill", "flame.fill", "heart.fill"]
+        private var dataNames: [String] = ["Steps", "Calories", "Distance", "Workout time", "Pulse"]
+        private var dataValues: [String] = ["3069", "234", "8.8", "1.5", "98"]
+        private var dataValuesUnits: [String] = ["", "", "km", "hours", ""]
+        
         var body: some View {
             GeometryReader { geometry in
                 let screenWidth = geometry.size.width
@@ -171,10 +176,38 @@ struct ProfileView: View {
             
                 NavigationView {
                     ScrollView(.vertical) {
-                        ForEach(1..<10) { number in
-                            RoundedRectangle(cornerRadius: 50)
+                        LazyVGrid(columns: [GridItem(.flexible()),
+                                            GridItem(.flexible())], spacing: 0) {
+                            ForEach(0..<dataNames.count) { number in
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 25)
+                                        .frame(height: screenHeight * 0.2)
+                                        .foregroundColor([0, 3, 4, 7, 8].contains(number) ? .green : .none)
+                                    
+                                    VStack {
+                                        HStack {
+                                            Image(systemName: dataImagesNames[number])
+                                            Text(dataNames[number])
+                                                .fontWeight(.bold)
+                                            Spacer()
+                                        }
+                                        
+                                        Spacer()
+                                        
+                                        HStack {
+                                            Text(dataValues[number])
+                                                .font(.title)
+                                                .fontWeight(.bold)
+                                            Text(dataValuesUnits[number])
+                                        }
+                                        
+                                        Spacer()
+                                    }
+                                    .foregroundColor([0, 3, 4, 7, 8].contains(number) ? .none : .green)
+                                    .padding()
+                                }
                                 .padding()
-                                .frame(height: screenHeight * 0.2)
+                            }
                         }
                     }
                     .navigationTitle("Health Data")
@@ -191,14 +224,13 @@ struct ProfileView: View {
                 let screenHeight = geometry.size.height
                 
                 NavigationView {
-                    ScrollView(.vertical) {
-                        ForEach(1..<10) { number in
-                            RoundedRectangle(cornerRadius: 50)
-                                .padding()
-                                .frame(height: screenHeight * 0.2)
+                    TabView {
+                        ForEach(0..<5) { workoutNumber in
+                            Text("\(workoutNumber)")
                         }
                     }
-                    .navigationTitle("Workouts Data")
+                    .tabViewStyle(.page)
+                    .navigationTitle("Workouts")
                     .navigationBarHidden(false)
                 }
             }
