@@ -39,7 +39,6 @@ struct ProfileView: View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .clipShape(RoundedRectangle(cornerRadius: 50))
-                                .shadow(color: .gray, radius: 7)
                                 .frame(width: screenWidth * 0.4, height: screenHeight * 0.2)
                                 .onTapGesture {
                                     self.shouldPresentAddActionSheet = true
@@ -165,7 +164,7 @@ struct ProfileView: View {
     
     struct HealtTabView: View {
         private var dataImagesNames: [String] = ["flame.fill", "flame.fill", "flame.fill", "flame.fill", "heart.fill"]
-        private var dataNames: [String] = ["Steps", "Calories", "Distance", "Workout time", "Pulse"]
+        private var dataNames: [String] = ["Steps", "Calories", "Distance", "Workout Time", "Pulse"]
         private var dataValues: [String] = ["3069", "234", "8.8", "1.5", "98"]
         private var dataValuesUnits: [String] = ["", "", "km", "hours", ""]
         
@@ -182,7 +181,7 @@ struct ProfileView: View {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 25)
                                         .frame(height: screenHeight * 0.2)
-                                        .foregroundColor([0, 3, 4, 7, 8].contains(number) ? .green : .none)
+                                        .foregroundColor([0, 3, 4].contains(number) ? .green : .none)
                                     
                                     VStack {
                                         HStack {
@@ -218,6 +217,11 @@ struct ProfileView: View {
     }
     
     struct WorkoutTabView: View {
+        private var dataImagesNames: [String] = ["bicycle.circle", "figure.walk.circle", "bicycle.circle", "figure.walk.circle", "bicycle.circle", "figure.walk.circle", "bicycle.circle"]
+        private var dataNames: [String] = ["Bike Ride", "Calories", "Distance", "Workout time", "Pulse"]
+        private var dataValues: [String] = ["3069", "234", "8.8", "1.5", "98"]
+        private var dataValuesUnits: [String] = ["", "", "km", "hours", ""]
+        
         var body: some View {
             GeometryReader { geometry in
                 let screenWidth = geometry.size.width
@@ -226,7 +230,34 @@ struct ProfileView: View {
                 NavigationView {
                     TabView {
                         ForEach(0..<5) { workoutNumber in
-                            Text("\(workoutNumber)")
+                            VStack {
+                                HStack {
+                                    Image(uiImage: UIImage(named: "sprint")!)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: screenWidth * 0.25, height: screenHeight * 0.3)
+                                        
+                                    Spacer()
+                                    
+                                    VStack {
+                                        Text("INTERVAL NO.\(workoutNumber)")
+                                            .font(.title)
+                                            .fontWeight(.bold)
+                                            .foregroundColor(.green)
+                                        
+                                        Text("\(Date())")
+                                            .font(.caption)
+                                            .foregroundColor(Color(uiColor: UIColor.lightGray))
+                                    }
+                                    
+                                    
+                                    Spacer()
+                                }
+                                .padding()
+                                
+                                Spacer()
+                            }
+                            
                         }
                     }
                     .tabViewStyle(.page)

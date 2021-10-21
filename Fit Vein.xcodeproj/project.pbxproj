@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A3EF0932722138100FBE952 /* sprint.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A3EF0922722138100FBE952 /* sprint.png */; };
 		0A8F574C2720B70E00183F47 /* RingProgressViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F574B2720B70E00183F47 /* RingProgressViewStyle.swift */; };
 		0A8F574E2720B8A400183F47 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F574D2720B8A400183F47 /* SettingsView.swift */; };
 		0AB808CF2715B9D700337924 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB808CE2715B9D700337924 /* SessionStore.swift */; };
@@ -39,6 +40,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A3EF0922722138100FBE952 /* sprint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sprint.png; path = Assets.xcassets/sprint.png; sourceTree = "<group>"; };
 		0A8F574B2720B70E00183F47 /* RingProgressViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingProgressViewStyle.swift; sourceTree = "<group>"; };
 		0A8F574D2720B8A400183F47 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		0AB808CE2715B9D700337924 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 				0AC4DD842715A9E4003D5FED /* Fit_VeinApp.swift */,
 				0AC4DD862715A9E4003D5FED /* ContentView.swift */,
 				0AC4DD882715A9E5003D5FED /* Assets.xcassets */,
+				0A3EF0922722138100FBE952 /* sprint.png */,
 				0AB808D72715D77800337924 /* gym.jpg */,
 				0AC4DD8A2715A9E5003D5FED /* Preview Content */,
 			);
@@ -276,6 +279,7 @@
 				0AB808D82715D77800337924 /* gym.jpg in Resources */,
 				0ABE145527204ABC009CD67A /* blank-profile-hi.png in Resources */,
 				0ADC2DF02715AE43003ED144 /* GoogleService-Info.plist in Resources */,
+				0A3EF0932722138100FBE952 /* sprint.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
