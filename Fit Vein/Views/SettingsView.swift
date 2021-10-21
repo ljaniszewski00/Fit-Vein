@@ -13,7 +13,7 @@ struct SettingsView: View {
     @StateObject private var sheetManager = SheetManager()
     @State private var shouldPresentActionSheet = false
     
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Environment(\.dismiss) var dismiss
     
     private class SheetManager: ObservableObject {
         enum Sheet {
@@ -103,7 +103,7 @@ struct SettingsView: View {
                 if sheetManager.whichSheet == .logout {
                     Button("Logout", role: .destructive) {
                         profileViewModel.sessionStore!.signOut()
-                        presentationMode.wrappedValue.dismiss()
+                        dismiss()
                     }
                     Button("Cancel", role: .cancel) {}
                 } else {
@@ -119,7 +119,7 @@ struct SettingsView: View {
 
 struct DeleteAccountSheetView: View {
     @ObservedObject private var profileViewModel: ProfileViewModel
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Environment(\.dismiss) var dismiss
     
     @State private var email = ""
     @State private var password = ""
@@ -144,7 +144,7 @@ struct DeleteAccountSheetView: View {
                     
                     Button(action: {
                         withAnimation {
-                            presentationMode.wrappedValue.dismiss()
+                            dismiss()
                             profileViewModel.deleteUserData() {
                                 profileViewModel.sessionStore!.deleteUser(email: email, password: password) {
                                     print("Successfully deleted user.")
@@ -171,7 +171,7 @@ struct DeleteAccountSheetView: View {
 
 struct ChangeEmailAddressSheetView: View {
     @ObservedObject private var profileViewModel: ProfileViewModel
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Environment(\.dismiss) var dismiss
     
     @State private var oldEmail = ""
     @State private var password = ""
@@ -198,7 +198,7 @@ struct ChangeEmailAddressSheetView: View {
                     
                     Button(action: {
                         withAnimation {
-                            presentationMode.wrappedValue.dismiss()
+                            dismiss()
                             profileViewModel.emailAddressChange(oldEmailAddress: oldEmail, password: password, newEmailAddress: newEmail) {}
                         }
                     }, label: {
@@ -221,7 +221,7 @@ struct ChangeEmailAddressSheetView: View {
 
 struct ChangePasswordSheetView: View {
     @ObservedObject private var profileViewModel: ProfileViewModel
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Environment(\.dismiss) var dismiss
     
     @State private var email = ""
     @State private var oldPassword = ""
@@ -248,7 +248,7 @@ struct ChangePasswordSheetView: View {
                     
                     Button(action: {
                         withAnimation {
-                            presentationMode.wrappedValue.dismiss()
+                            dismiss()
                             profileViewModel.passwordChange(emailAddress: email, oldPassword: oldPassword, newPassword: newPassword) {}
                         }
                     }, label: {
