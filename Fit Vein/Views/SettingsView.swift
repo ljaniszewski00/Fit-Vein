@@ -37,86 +37,83 @@ struct SettingsView: View {
             let screenWidth = geometry.size.width
             let screenHeight = geometry.size.height
             
-                Form {
-                    Section(header: Text("Chats")) {
-                        Toggle(isOn: .constant(false), label: {
-                            Text("Hide my activity status")
-                        })
-                    }
-                    
-                    Section(header: Text("Account")) {
-                        Button(action: {
-                            sheetManager.whichSheet = .email
-                            sheetManager.showSheet.toggle()
-                        }, label: {
-                            Text("Change e-mail address")
-                        })
-                        
-                        Button(action: {
-                            sheetManager.whichSheet = .password
-                            sheetManager.showSheet.toggle()
-                        }, label: {
-                            Text("Change password")
-                        })
-                        
-                        Button(action: {
-                            sheetManager.whichSheet = .logout
-                            shouldPresentActionSheet = true
-                        }, label: {
-                            Text("Logout")
-                                .foregroundColor(.red)
-                        })
-                        
-                        Button(action: {
-                            sheetManager.whichSheet = .signout
-                            shouldPresentActionSheet = true
-                        }, label: {
-                            Text("Delete account")
-                                .foregroundColor(.red)
-                        })
-                    }
-                    
-                    Section(header: Text("Additional")) {
-                        Label("Follow me on GitHub:", systemImage: "link")
-                            .font(.system(size: 17, weight: .semibold))
-                        Link("@Vader20FF", destination: URL(string: "https://github.com/Vader20FF")!)
-                            .font(.system(size: 17, weight: .semibold))
-                    }
-                }
-                .navigationBarTitle("Settings")
-                .navigationBarTitleDisplayMode(.large)
                 
-                .sheet(isPresented: $sheetManager.showSheet) {
-                    switch sheetManager.whichSheet {
-                    case .email:
-                        ChangeEmailAddressSheetView(profile: profileViewModel)
-                    case .password:
-                        ChangePasswordSheetView(profile: profileViewModel)
-                    case .signout:
-                        DeleteAccountSheetView(profile: profileViewModel)
-                    default:
-                        Text("No view")
-                    }
+            Form {
+                Section(header: Text("Chats")) {
+                    Toggle(isOn: .constant(false), label: {
+                        Text("Hide my activity status")
+                    })
                 }
-                .actionSheet(isPresented: $shouldPresentActionSheet) {
-                    if sheetManager.whichSheet == .logout {
-                        return ActionSheet(title: Text("Logout"), message: Text("Are you sure you want to logout?"), buttons: [
-                            .destructive(Text("Logout"), action: {
-                                profileViewModel.sessionStore!.signOut()
-                                presentationMode.wrappedValue.dismiss()
-                             }),
-                            .cancel()
-                        ])
-                    } else {
-                        return ActionSheet(title: Text("Delete Account"), message: Text("Are you sure you want to delete your account? All data will be lost."), buttons: [
-                            .destructive(Text("Delete my account"), action: {
-                                sheetManager.showSheet.toggle()
-                             }),
-                            .cancel()
-                        ])
-                    }
+                
+                Section(header: Text("Account")) {
+                    Button(action: {
+                        sheetManager.whichSheet = .email
+                        sheetManager.showSheet.toggle()
+                    }, label: {
+                        Text("Change e-mail address")
+                    })
+                    
+                    Button(action: {
+                        sheetManager.whichSheet = .password
+                        sheetManager.showSheet.toggle()
+                    }, label: {
+                        Text("Change password")
+                    })
+                    
+                    Button(action: {
+                        sheetManager.whichSheet = .logout
+                        shouldPresentActionSheet = true
+                    }, label: {
+                        Text("Logout")
+                            .foregroundColor(.red)
+                    })
+                    
+                    Button(action: {
+                        sheetManager.whichSheet = .signout
+                        shouldPresentActionSheet = true
+                    }, label: {
+                        Text("Delete account")
+                            .foregroundColor(.red)
+                    })
+                }
+                
+                Section(header: Text("Additional")) {
+                    Label("Follow me on GitHub:", systemImage: "link")
+                        .font(.system(size: 17, weight: .semibold))
+                    Link("@Vader20FF", destination: URL(string: "https://github.com/Vader20FF")!)
+                        .font(.system(size: 17, weight: .semibold))
                 }
             }
+            .navigationBarTitle("Settings")
+            .navigationBarTitleDisplayMode(.large)
+            
+            .sheet(isPresented: $sheetManager.showSheet) {
+                switch sheetManager.whichSheet {
+                case .email:
+                    ChangeEmailAddressSheetView(profile: profileViewModel)
+                case .password:
+                    ChangePasswordSheetView(profile: profileViewModel)
+                case .signout:
+                    DeleteAccountSheetView(profile: profileViewModel)
+                default:
+                    Text("No view")
+                }
+            }
+            .confirmationDialog(sheetManager.whichSheet == .logout ? "Are you sure you want to logout?" : "Are you sure you want to delete your account? All data will be lost.", isPresented: $shouldPresentActionSheet, titleVisibility: .visible) {
+                if sheetManager.whichSheet == .logout {
+                    Button("Logout", role: .destructive) {
+                        profileViewModel.sessionStore!.signOut()
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                    Button("Cancel", role: .cancel) {}
+                } else {
+                    Button("Delete Account", role: .destructive) {
+                        sheetManager.showSheet.toggle()
+                    }
+                    Button("Cancel", role: .cancel) {}
+                }
+            }
+        }
     }
 }
 
