@@ -20,7 +20,7 @@ struct ProfileView: View {
     
     @State private var shouldPresentSettings = false
     
-    @State private var tabSelection = 0
+    @State private var tabSelection = 1
     
     init(profileViewModel: ProfileViewModel) {
         self.profileViewModel = profileViewModel
@@ -232,10 +232,18 @@ struct ProfileView: View {
                         ForEach(0..<5) { workoutNumber in
                             VStack {
                                 HStack {
-                                    Image(uiImage: UIImage(named: "sprint")!)
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: screenWidth * 0.25, height: screenHeight * 0.3)
+                                    VStack {
+                                        Image(uiImage: UIImage(named: "sprint")!)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: screenWidth * 0.25, height: screenHeight * 0.3)
+                                        
+                                        Text("Image by freepik: www.freepik.com")
+                                            .font(.caption2)
+                                            .padding(.top, -screenHeight * 0.09)
+                                            .foregroundColor(Color(uiColor: UIColor.lightGray))
+                                    }
+                                    
                                         
                                     Spacer()
                                     
