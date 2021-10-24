@@ -9,9 +9,9 @@ import SwiftUI
 
 struct SettingsView: View {
     @ObservedObject private var profileViewModel: ProfileViewModel
-    
     @StateObject private var sheetManager = SheetManager()
     @State private var shouldPresentActionSheet = false
+    @AppStorage("locked") var biometricLock: Bool = false
     
     @Environment(\.dismiss) var dismiss
     
@@ -39,9 +39,9 @@ struct SettingsView: View {
             
                 
             Form {
-                Section(header: Text("Chats")) {
-                    Toggle(isOn: .constant(false), label: {
-                        Text("Hide my activity status")
+                Section(header: Text("Security"), footer: Text("Whether FaceID or TouchID is used depends on Your device's hardware capabilities.")) {
+                    Toggle(isOn: $biometricLock, label: {
+                        Text("Use FaceID / TouchID")
                     })
                 }
                 

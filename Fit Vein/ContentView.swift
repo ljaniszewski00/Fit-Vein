@@ -10,7 +10,8 @@ import LocalAuthentication
 
 struct ContentView: View {
     @EnvironmentObject var sessionStore: SessionStore
-    @State private var isUnlocked = false
+    @AppStorage("locked") var biometricLock: Bool = true
+    @State private var unlocked = false
     
     var body: some View {
         GeometryReader { geometry in
@@ -18,7 +19,7 @@ struct ContentView: View {
             let screenHeight = geometry.size.height
             
             NavigationView {
-                if self.isUnlocked {
+                if self.unlocked || !self.biometricLock {
                     if sessionStore.session != nil {
                         LoggedUserView()
                             .environmentObject(sessionStore)
@@ -29,11 +30,42 @@ struct ContentView: View {
                             .ignoresSafeArea(.keyboard)
                     }
                 } else {
-                    Text("Locked")
+                    VStack {
+                        Text("Welcome to")
+                            .font(.title)
+                            .padding(.bottom, screenHeight * 0.02)
+                        
+                        HStack(spacing: screenWidth * 0.0001) {
+                            Text("Fit")
+                                .foregroundColor(.green)
+                            Text("Vein")
+                        }
+                        .font(.system(size: screenHeight * 0.1))
+                        
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            authenticate()
+                        }, label: {
+                            Image(systemName: "faceid")
+                        })
+                        .font(.system(size: screenHeight * 0.08))
+                        .padding(.bottom, screenHeight * 0.02)
+                        
+                        Text("Unlock the device first")
+                            .foregroundColor(Color(uiColor: UIColor.lightGray))
+                        
+                        Spacer()
+                    }
+                    .padding()
+                    
                 }
             }
             .onAppear {
-                authenticate()
+                if self.biometricLock {
+                    authenticate()
+                }
                 sessionStore.listen()
             }
         }
@@ -53,7 +85,7 @@ struct ContentView: View {
                 DispatchQueue.main.async {
                     if success {
                         // authenticated successfully
-                        self.isUnlocked = true
+                        self.unlocked = true
                     } else {
                         // there was a problem
                     }
