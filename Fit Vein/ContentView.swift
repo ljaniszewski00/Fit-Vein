@@ -11,6 +11,7 @@ import LocalAuthentication
 struct ContentView: View {
     @EnvironmentObject var sessionStore: SessionStore
     @AppStorage("locked") var biometricLock: Bool = true
+    @AppStorage("shouldShowOnboarding") var shouldShowOnboarding: Bool = true
     @State private var unlocked = false
     
     var body: some View {
@@ -68,6 +69,11 @@ struct ContentView: View {
                 }
                 sessionStore.listen()
             }
+            .fullScreenCover(isPresented: $shouldShowOnboarding, onDismiss: {
+                shouldShowOnboarding = false
+            }, content: {
+                OnboardingView()
+            })
         }
     }
     
