@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0A3EF0932722138100FBE952 /* sprint.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A3EF0922722138100FBE952 /* sprint.png */; };
 		0A4174732725D45A00DF4460 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4174722725D45A00DF4460 /* OnboardingView.swift */; };
+		0A4174772726CC1A00DF4460 /* IntervalWorkout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4174762726CC1A00DF4460 /* IntervalWorkout.swift */; };
 		0A8F574C2720B70E00183F47 /* RingProgressViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F574B2720B70E00183F47 /* RingProgressViewStyle.swift */; };
 		0A8F574E2720B8A400183F47 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F574D2720B8A400183F47 /* SettingsView.swift */; };
 		0AB808CF2715B9D700337924 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB808CE2715B9D700337924 /* SessionStore.swift */; };
@@ -43,6 +44,7 @@
 /* Begin PBXFileReference section */
 		0A3EF0922722138100FBE952 /* sprint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sprint.png; path = Assets.xcassets/sprint.png; sourceTree = "<group>"; };
 		0A4174722725D45A00DF4460 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		0A4174762726CC1A00DF4460 /* IntervalWorkout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntervalWorkout.swift; sourceTree = "<group>"; };
 		0A8F574B2720B70E00183F47 /* RingProgressViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingProgressViewStyle.swift; sourceTree = "<group>"; };
 		0A8F574D2720B8A400183F47 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		0AB808CE2715B9D700337924 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				0ABE145227203E68009CD67A /* Profile.swift */,
+				0A4174762726CC1A00DF4460 /* IntervalWorkout.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -335,6 +338,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A4174772726CC1A00DF4460 /* IntervalWorkout.swift in Sources */,
 				0ABE144C27203DD9009CD67A /* HomeViewModel.swift in Sources */,
 				0A8F574E2720B8A400183F47 /* SettingsView.swift in Sources */,
 				0ABE145327203E68009CD67A /* Profile.swift in Sources */,

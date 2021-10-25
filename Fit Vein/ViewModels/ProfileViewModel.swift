@@ -17,13 +17,29 @@ class ProfileViewModel: ObservableObject {
     @Published var profile: Profile?
     @Published var profilePicturePhotoURL: URL?
     
+    @Published var workouts: [IntervalWorkout]?
+    
     @Published var fetchingData = true
     
     init(forPreviews: Bool) {
+        self.workouts = [IntervalWorkout(id: "1", type: "Interval Workout", duration: 8.00, date: Date(), series: 8, workTime: 45, restTime: 15),
+                         IntervalWorkout(id: "2", type: "Interval Workout", duration: 10.00, date: Date(), series: 10, workTime: 45, restTime: 15),
+                         IntervalWorkout(id: "3", type: "Interval Workout", duration: 6.00, date: Date(), series: 6, workTime: 45, restTime: 15),
+                         IntervalWorkout(id: "4", type: "Interval Workout", duration: 5.00, date: Date(), series: 5, workTime: 45, restTime: 15),
+                         IntervalWorkout(id: "5", type: "Interval Workout", duration: 10.00, date: Date(), series: 10, workTime: 45, restTime: 15)]
+        
         self.profile = Profile(id: "sessionStore!.currentUser!.uid", firstName: "firstname", username: "username", birthDate: Date(), age: 18, country: "country", city: "city", language: "language", gender: "gender", email: "email", profilePictureURL: nil)
     }
     
     init() {
+        // to be removed
+        self.workouts = [IntervalWorkout(id: "1", type: "Interval Workout", duration: 8.00, date: Date(), series: 8, workTime: 45, restTime: 15),
+                         IntervalWorkout(id: "2", type: "Interval Workout", duration: 10.00, date: Date(), series: 10, workTime: 45, restTime: 15),
+                         IntervalWorkout(id: "3", type: "Interval Workout", duration: 6.00, date: Date(), series: 6, workTime: 45, restTime: 15),
+                         IntervalWorkout(id: "4", type: "Interval Workout", duration: 5.00, date: Date(), series: 5, workTime: 45, restTime: 15),
+                         IntervalWorkout(id: "5", type: "Interval Workout", duration: 10.00, date: Date(), series: 10, workTime: 45, restTime: 15)]
+        //
+        
         Task {
             try await fetchData()
         }

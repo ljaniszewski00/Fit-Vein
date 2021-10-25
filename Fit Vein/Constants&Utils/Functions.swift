@@ -12,3 +12,11 @@ public func yearsBetweenDate(startDate: Date, endDate: Date) -> Int {
     let components = calendar.dateComponents([.year], from: startDate, to: endDate)
     return components.year!
 }
+
+public func getWorkoutsDivider(workoutsCount: Int) -> Int {
+    var workoutsCountNumber = workoutsCount
+    while workoutsCountNumber > 10 {
+        workoutsCountNumber = workoutsCountNumber / 10
+    }
+    return workoutsCountNumber % 10
+}

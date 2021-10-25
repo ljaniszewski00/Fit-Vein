@@ -112,14 +112,14 @@ struct ProfileView: View {
                                 RoundedRectangle(cornerRadius: 25)
                                     .foregroundColor(.green)
                                     .padding()
-                                    .frame(width: screenWidth * 0.7)
+                                    .frame(width: screenWidth * CGFloat(getWorkoutsDivider(workoutsCount: self.profileViewModel.workouts!.count)) / 10)
                                 
                                 Spacer()
                             }
                         )
                         .shadow(color: .gray, radius: 7)
                     
-                    Text("7 / 10 Workouts")
+                    Text("\(self.profileViewModel.workouts!.count) / 10 Workouts")
                     
                     Spacer(minLength: screenHeight * 0.05)
                     
@@ -130,10 +130,10 @@ struct ProfileView: View {
                     .pickerStyle(SegmentedPickerStyle())
                     
                     if tabSelection == 0 {
-                        HealtTabView()
+                        HealtTabView(profileViewModel: profileViewModel)
                             .frame(height: screenHeight)
                     } else {
-                        WorkoutTabView()
+                        WorkoutTabView(profileViewModel: profileViewModel)
                             .frame(height: screenHeight)
                     }
                 }
@@ -163,10 +163,16 @@ struct ProfileView: View {
     }
     
     struct HealtTabView: View {
+        @ObservedObject private var profileViewModel: ProfileViewModel
+        
         private var dataImagesNames: [String] = ["flame.fill", "flame.fill", "flame.fill", "flame.fill", "heart.fill"]
         private var dataNames: [String] = ["Steps", "Calories", "Distance", "Workout Time", "Pulse"]
         private var dataValues: [String] = ["3069", "234", "8.8", "1.5", "98"]
         private var dataValuesUnits: [String] = ["", "", "km", "hours", ""]
+        
+        init(profileViewModel: ProfileViewModel) {
+            self.profileViewModel = profileViewModel
+        }
         
         var body: some View {
             GeometryReader { geometry in
@@ -217,10 +223,17 @@ struct ProfileView: View {
     }
     
     struct WorkoutTabView: View {
+        @ObservedObject private var profileViewModel: ProfileViewModel
+        @Environment(\.colorScheme) var colorScheme
+        
         private var dataImagesNames: [String] = ["bicycle.circle", "figure.walk.circle", "bicycle.circle", "figure.walk.circle", "bicycle.circle", "figure.walk.circle", "bicycle.circle"]
         private var dataNames: [String] = ["Bike Ride", "Calories", "Distance", "Workout time", "Pulse"]
         private var dataValues: [String] = ["3069", "234", "8.8", "1.5", "98"]
         private var dataValuesUnits: [String] = ["", "", "km", "hours", ""]
+        
+        init(profileViewModel: ProfileViewModel) {
+            self.profileViewModel = profileViewModel
+        }
         
         var body: some View {
             GeometryReader { geometry in
@@ -229,43 +242,81 @@ struct ProfileView: View {
                 
                 NavigationView {
                     TabView {
-                        ForEach(0..<5) { workoutNumber in
-                            VStack {
-                                HStack {
+                        ForEach(profileViewModel.workouts!) { workout in
+                            ScrollView(.vertical) {
+                                VStack {
                                     VStack {
-                                        Image(uiImage: UIImage(named: "sprint")!)
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: screenWidth * 0.25, height: screenHeight * 0.3)
-                                        
-                                        Text("Image by freepik: www.freepik.com")
-                                            .font(.caption2)
-                                            .padding(.top, -screenHeight * 0.09)
-                                            .foregroundColor(Color(uiColor: UIColor.lightGray))
+                                        HStack {
+                                            VStack {
+                                                Image(uiImage: UIImage(named: "sprint")!)
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(width: screenWidth * 0.25, height: screenHeight * 0.3)
+                                                
+                                                Text("Image by freepik: www.freepik.com")
+                                                    .font(.caption2)
+                                                    .padding(.top, -screenHeight * 0.09)
+                                                    .foregroundColor(Color(uiColor: UIColor.lightGray))
+                                            }
+                                            
+                                                
+                                            Spacer()
+                                            
+                                            VStack {
+                                                Text("INTERVAL NO.\(workout.id)")
+                                                    .font(.title)
+                                                    .fontWeight(.bold)
+                                                    .foregroundColor(.green)
+                                                
+                                                Text("\(workout.date)")
+                                                    .font(.caption)
+                                                    .foregroundColor(Color(uiColor: UIColor.lightGray))
+                                                
+                                                Text("Workout Details")
+                                                    .font(.title3)
+                                                    .foregroundColor(.green)
+                                                    .padding(.top, screenHeight * 0.02)
+                                                    .padding(.bottom, screenHeight * 0.01)
+                                                
+                                                Image(systemName: "arrow.down.circle.fill")
+                                                    .font(.title2)
+                                            }
+                                            
+                                            Spacer()
+                                        }
+                                        .padding()
                                     }
                                     
-                                        
-                                    Spacer()
+                                    Spacer(minLength: -screenHeight * 0.05)
                                     
                                     VStack {
-                                        Text("INTERVAL NO.\(workoutNumber)")
-                                            .font(.title)
-                                            .fontWeight(.bold)
-                                            .foregroundColor(.green)
+                                        HStack {
+                                            Text(workout.type)
+                                            Spacer()
+                                        }
                                         
-                                        Text("\(Date())")
-                                            .font(.caption)
-                                            .foregroundColor(Color(uiColor: UIColor.lightGray))
+                                        HStack {
+                                            Spacer()
+                                            Text("\(workout.duration)")
+                                            Spacer()
+                                            Text("\(workout.series)")
+                                            Spacer()
+                                        }
+                                        
+                                        HStack {
+                                            Spacer()
+                                            Text("\(workout.workTime)")
+                                            Spacer()
+                                            Text("\(workout.restTime)")
+                                            Spacer()
+                                        }
                                     }
-                                    
-                                    
-                                    Spacer()
+                                    .foregroundColor(colorScheme == .dark ? .black : .white)
+                                    .padding()
+                                    .frame(width: screenWidth, height: screenHeight)
+                                    .background(RoundedRectangle(cornerRadius: 25))
                                 }
-                                .padding()
-                                
-                                Spacer()
                             }
-                            
                         }
                     }
                     .tabViewStyle(.page)
