@@ -12,6 +12,8 @@ struct SettingsView: View {
     @StateObject private var sheetManager = SheetManager()
     @State private var shouldPresentActionSheet = false
     @AppStorage("locked") var biometricLock: Bool = false
+    @AppStorage("notifications") var notifications: Bool = true
+    @Environment(\.colorScheme) var colorScheme
     
     @Environment(\.dismiss) var dismiss
     
@@ -39,8 +41,18 @@ struct SettingsView: View {
             
                 
             Form {
-                Section(header: Text("Security"), footer: Text("Whether FaceID or TouchID is used depends on Your device's hardware capabilities.")) {
+                Section(header: Text("App"), footer: Text("Whether FaceID or TouchID is used depends on device hardware capabilities.")) {
+                    Toggle(isOn: $notifications, label: {
+                        Image(systemName: "bell.circle.fill")
+                            .font(.title)
+                            .foregroundColor(.green)
+                        Text("Notifications")
+                    })
+                    
                     Toggle(isOn: $biometricLock, label: {
+                        Image(systemName: "faceid")
+                            .font(.title)
+                            .foregroundColor(.green)
                         Text("Use FaceID / TouchID")
                     })
                 }
@@ -50,38 +62,94 @@ struct SettingsView: View {
                         sheetManager.whichSheet = .email
                         sheetManager.showSheet.toggle()
                     }, label: {
-                        Text("Change e-mail address")
+                        HStack {
+                            Image(systemName: "envelope.circle.fill")
+                                .font(.title)
+                                .foregroundColor(.green)
+                            Text("Change e-mail address")
+                                .foregroundColor(colorScheme == .dark ? .white : .black)
+                        }
                     })
                     
                     Button(action: {
                         sheetManager.whichSheet = .password
                         sheetManager.showSheet.toggle()
                     }, label: {
-                        Text("Change password")
+                        HStack {
+                            Image(systemName: "lock.circle.fill")
+                                .font(.title)
+                                .foregroundColor(.green)
+                            Text("Change password")
+                                .foregroundColor(colorScheme == .dark ? .white : .black)
+                        }
                     })
                     
                     Button(action: {
                         sheetManager.whichSheet = .logout
                         shouldPresentActionSheet = true
                     }, label: {
-                        Text("Logout")
-                            .foregroundColor(.red)
+                        HStack {
+                            Image(systemName: "person.crop.circle.fill.badge.minus")
+                                .font(.title)
+                                .foregroundColor(.green)
+                            Text("Logout")
+                                .foregroundColor(.red)
+                        }
                     })
                     
                     Button(action: {
                         sheetManager.whichSheet = .signout
                         shouldPresentActionSheet = true
                     }, label: {
-                        Text("Delete account")
-                            .foregroundColor(.red)
+                        HStack {
+                            Image(systemName: "trash.circle.fill")
+                                .font(.title)
+                                .foregroundColor(.green)
+                            Text("Delete account")
+                                .foregroundColor(.red)
+                        }
                     })
                 }
                 
-                Section(header: Text("Additional")) {
-                    Label("Follow me on GitHub:", systemImage: "link")
-                        .font(.system(size: 17, weight: .semibold))
-                    Link("@Vader20FF", destination: URL(string: "https://github.com/Vader20FF")!)
-                        .font(.system(size: 17, weight: .semibold))
+                Section(header: Text("Help")) {
+                    HStack {
+                        Text("Version (Build)")
+                        Spacer()
+                        Text(UIApplication.versionBuild())
+                    }
+                    
+                    NavigationLink("Terms and Conditions", destination: {
+                        VStack(alignment: .leading) {
+                            Text("This app is a fully open-source and licence-free product so everyone has right to watch, rewrite, copy and publish every part of that app.")
+                            Spacer()
+                        }
+                        .padding()
+                        .navigationTitle("Terms and Conditions")
+                    })
+                    
+                    NavigationLink("Help", destination: {
+                        VStack(alignment: .leading) {
+                            Text("In case of any problem please write an e-mail to:")
+                            Text("ljaniszewski00@gmail.com")
+                                .foregroundColor(.green)
+                            Text("describing the matter.")
+                            Spacer()
+                        }
+                        .padding()
+                        .navigationTitle("Help")
+                    })
+                    
+                    HStack {
+                        HStack {
+                            Image(systemName: "link.circle.fill")
+                                .font(.title)
+                                .foregroundColor(.green)
+                            Text("Follow me on GitHub:")
+                            Link("Vader20FF", destination: URL(string: "https://github.com/Vader20FF")!)
+                                .foregroundColor(.green)
+                                .font(.system(size: 18, weight: .bold))
+                        }
+                    }
                 }
             }
             .navigationBarTitle("Settings")
