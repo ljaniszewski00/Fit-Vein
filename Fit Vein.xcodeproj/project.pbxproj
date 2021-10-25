@@ -33,6 +33,8 @@
 		0ABE145327203E68009CD67A /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABE145227203E68009CD67A /* Profile.swift */; };
 		0ABE145527204ABC009CD67A /* blank-profile-hi.png in Resources */ = {isa = PBXBuildFile; fileRef = 0ABE145427204ABC009CD67A /* blank-profile-hi.png */; };
 		0ABE145727204C72009CD67A /* SwiftUIImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABE145627204C72009CD67A /* SwiftUIImagePicker.swift */; };
+		0AC41CF627274F6A00DA5491 /* HealthTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC41CF527274F6A00DA5491 /* HealthTabView.swift */; };
+		0AC41CF827274F7300DA5491 /* WorkoutTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC41CF727274F7300DA5491 /* WorkoutTabView.swift */; };
 		0AC4DD852715A9E4003D5FED /* Fit_VeinApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC4DD842715A9E4003D5FED /* Fit_VeinApp.swift */; };
 		0AC4DD872715A9E4003D5FED /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC4DD862715A9E4003D5FED /* ContentView.swift */; };
 		0AC4DD892715A9E5003D5FED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AC4DD882715A9E5003D5FED /* Assets.xcassets */; };
@@ -68,6 +70,8 @@
 		0ABE145227203E68009CD67A /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		0ABE145427204ABC009CD67A /* blank-profile-hi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "blank-profile-hi.png"; path = "Assets.xcassets/blank-profile-hi.png"; sourceTree = "<group>"; };
 		0ABE145627204C72009CD67A /* SwiftUIImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIImagePicker.swift; sourceTree = "<group>"; };
+		0AC41CF527274F6A00DA5491 /* HealthTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthTabView.swift; sourceTree = "<group>"; };
+		0AC41CF727274F7300DA5491 /* WorkoutTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutTabView.swift; sourceTree = "<group>"; };
 		0AC4DD812715A9E4003D5FED /* Fit Vein.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Fit Vein.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AC4DD842715A9E4003D5FED /* Fit_VeinApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fit_VeinApp.swift; sourceTree = "<group>"; };
 		0AC4DD862715A9E4003D5FED /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -130,6 +134,8 @@
 				0ABE144927203D0D009CD67A /* ProfileView.swift */,
 				0A8F574D2720B8A400183F47 /* SettingsView.swift */,
 				0A4174722725D45A00DF4460 /* OnboardingView.swift */,
+				0AC41CF527274F6A00DA5491 /* HealthTabView.swift */,
+				0AC41CF727274F7300DA5491 /* WorkoutTabView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -342,9 +348,11 @@
 				0ABE144C27203DD9009CD67A /* HomeViewModel.swift in Sources */,
 				0A8F574E2720B8A400183F47 /* SettingsView.swift in Sources */,
 				0ABE145327203E68009CD67A /* Profile.swift in Sources */,
+				0AC41CF627274F6A00DA5491 /* HealthTabView.swift in Sources */,
 				0ABE145727204C72009CD67A /* SwiftUIImagePicker.swift in Sources */,
 				0ABE145027203DEF009CD67A /* ProfileViewModel.swift in Sources */,
 				0ABE14332716EC3E009CD67A /* FirebaseStorageManager.swift in Sources */,
+				0AC41CF827274F7300DA5491 /* WorkoutTabView.swift in Sources */,
 				0AC4DD872715A9E4003D5FED /* ContentView.swift in Sources */,
 				0ABE144227203B47009CD67A /* HomeView.swift in Sources */,
 				0ABE143C2716F6BE009CD67A /* SignUpViewModel.swift in Sources */,
