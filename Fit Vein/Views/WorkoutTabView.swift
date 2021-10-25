@@ -83,7 +83,7 @@ struct WorkoutTabViewList: View {
                                 .navigationTitle("Workout")
                                 .navigationBarHidden(false)) {
                     HStack {
-                        Image(uiImage: UIImage(named: "sprint")!)
+                        Image(uiImage: UIImage(named: "sprint2")!)
                             .resizable()
                             .scaledToFit()
                             .frame(width: screenWidth * 0.1, height: screenHeight * 0.1)
@@ -123,21 +123,17 @@ struct SingleWorkoutWindowView: View {
             let screenHeight = geometry.size.height
             
             ZStack {
-                RoundedRectangle(cornerRadius: 25).foregroundColor(Color(uiColor: UIColor.darkGray))
+                RoundedRectangle(cornerRadius: 25).foregroundColor(Color(UIColor.systemGray5))
                 
                 VStack {
                     VStack {
                         HStack {
                             VStack {
-                                Image(uiImage: UIImage(named: "sprint")!)
+                                Image(uiImage: UIImage(named: "sprint2")!)
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: screenWidth * 0.25, height: screenHeight * 0.3)
-                                
-                                Text("Image by freepik: www.freepik.com")
-                                    .font(.caption2)
-                                    .padding(.top, -screenHeight * 0.09)
-                                    .foregroundColor(Color(uiColor: UIColor.lightGray))
+                                    
                             }
                             
                                 
@@ -151,7 +147,7 @@ struct SingleWorkoutWindowView: View {
                                 
                                 Text("\(getShortDate(longDate: workout.date))")
                                     .font(.caption)
-                                    .foregroundColor(Color(uiColor: UIColor.lightGray))
+                                    .foregroundColor(colorScheme == .dark ? .white : .black)
                                 
                                 Text("Workout Details")
                                     .font(.title3)
@@ -160,7 +156,7 @@ struct SingleWorkoutWindowView: View {
                                     .padding(.bottom, screenHeight * 0.01)
                                 
                                 Image(systemName: "arrow.down.circle.fill")
-                                    .foregroundColor(.white)
+                                    .foregroundColor(colorScheme == .dark ? .white : .black)
                                     .font(.title2)
                             }
                             

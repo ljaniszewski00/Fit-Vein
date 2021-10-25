@@ -32,7 +32,7 @@ struct HealthTabView: View {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 25)
                                     .frame(height: screenHeight * 0.2)
-                                    .foregroundColor([0, 3, 4].contains(number) ? .green : .none)
+                                    .foregroundColor([0, 3, 4].contains(number) ? .green : Color(UIColor.systemGray5))
                                 
                                 VStack {
                                     HStack {
@@ -53,7 +53,7 @@ struct HealthTabView: View {
                                     
                                     Spacer()
                                 }
-                                .foregroundColor([0, 3, 4, 7, 8].contains(number) ? .none : .green)
+                                .foregroundColor([0, 3, 4, 7, 8].contains(number) ? Color(UIColor.systemGray5) : .green)
                                 .padding()
                             }
                             .padding()

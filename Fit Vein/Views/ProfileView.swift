@@ -117,6 +117,7 @@ struct ProfileView: View {
                                 Spacer()
                             }
                         )
+                        .foregroundColor(Color(UIColor.systemGray5))
                         .shadow(color: .gray, radius: 7)
                     
                     Text("\(self.profileViewModel.workouts!.count) / 10 Workouts")
