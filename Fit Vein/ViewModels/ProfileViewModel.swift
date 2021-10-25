@@ -22,22 +22,22 @@ class ProfileViewModel: ObservableObject {
     @Published var fetchingData = true
     
     init(forPreviews: Bool) {
-        self.workouts = [IntervalWorkout(id: "1", type: "Interval Workout", duration: 8.00, date: Date(), series: 8, workTime: 45, restTime: 15),
-                         IntervalWorkout(id: "2", type: "Interval Workout", duration: 10.00, date: Date(), series: 10, workTime: 45, restTime: 15),
-                         IntervalWorkout(id: "3", type: "Interval Workout", duration: 6.00, date: Date(), series: 6, workTime: 45, restTime: 15),
-                         IntervalWorkout(id: "4", type: "Interval Workout", duration: 5.00, date: Date(), series: 5, workTime: 45, restTime: 15),
-                         IntervalWorkout(id: "5", type: "Interval Workout", duration: 10.00, date: Date(), series: 10, workTime: 45, restTime: 15)]
+        self.workouts = [IntervalWorkout(id: "1", type: "Interval", date: Date(), duration: 8.00, calories: 200, series: 8, workTime: 45, restTime: 15),
+                         IntervalWorkout(id: "2", type: "Interval", date: Date(), duration: 10.00, calories: 260, series: 10, workTime: 45, restTime: 15),
+                         IntervalWorkout(id: "3", type: "Interval", date: Date(), duration: 6.00, calories: 140, series: 6, workTime: 45, restTime: 15),
+                         IntervalWorkout(id: "4", type: "Interval", date: Date(), duration: 5.00, calories: 110, series: 5, workTime: 45, restTime: 15),
+                         IntervalWorkout(id: "5", type: "Interval", date: Date(), duration: 10.00, calories: 260, series: 10, workTime: 45, restTime: 15)]
         
         self.profile = Profile(id: "sessionStore!.currentUser!.uid", firstName: "firstname", username: "username", birthDate: Date(), age: 18, country: "country", city: "city", language: "language", gender: "gender", email: "email", profilePictureURL: nil)
     }
     
     init() {
         // to be removed
-        self.workouts = [IntervalWorkout(id: "1", type: "Interval Workout", duration: 8.00, date: Date(), series: 8, workTime: 45, restTime: 15),
-                         IntervalWorkout(id: "2", type: "Interval Workout", duration: 10.00, date: Date(), series: 10, workTime: 45, restTime: 15),
-                         IntervalWorkout(id: "3", type: "Interval Workout", duration: 6.00, date: Date(), series: 6, workTime: 45, restTime: 15),
-                         IntervalWorkout(id: "4", type: "Interval Workout", duration: 5.00, date: Date(), series: 5, workTime: 45, restTime: 15),
-                         IntervalWorkout(id: "5", type: "Interval Workout", duration: 10.00, date: Date(), series: 10, workTime: 45, restTime: 15)]
+        self.workouts = [IntervalWorkout(id: "1", type: "Interval", date: Date(), duration: 8.00, calories: 200, series: 8, workTime: 45, restTime: 15),
+                         IntervalWorkout(id: "2", type: "Interval", date: Date(), duration: 10.00, calories: 260, series: 10, workTime: 45, restTime: 15),
+                         IntervalWorkout(id: "3", type: "Interval", date: Date(), duration: 6.00, calories: 140, series: 6, workTime: 45, restTime: 15),
+                         IntervalWorkout(id: "4", type: "Interval", date: Date(), duration: 5.00, calories: 110, series: 5, workTime: 45, restTime: 15),
+                         IntervalWorkout(id: "5", type: "Interval", date: Date(), duration: 10.00, calories: 260, series: 10, workTime: 45, restTime: 15)]
         //
         
         Task {

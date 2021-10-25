@@ -20,7 +20,7 @@ struct ProfileView: View {
     
     @State private var shouldPresentSettings = false
     
-    @State private var tabSelection = 1
+    @State private var tabSelection = 0
     
     init(profileViewModel: ProfileViewModel) {
         self.profileViewModel = profileViewModel
@@ -165,7 +165,7 @@ struct ProfileView: View {
     struct HealtTabView: View {
         @ObservedObject private var profileViewModel: ProfileViewModel
         
-        private var dataImagesNames: [String] = ["flame.fill", "flame.fill", "flame.fill", "flame.fill", "heart.fill"]
+        private var dataImagesNames: [String] = ["flame.fill", "flame.fill", "flame.fill", "timer", "heart.fill"]
         private var dataNames: [String] = ["Steps", "Calories", "Distance", "Workout Time", "Pulse"]
         private var dataValues: [String] = ["3069", "234", "8.8", "1.5", "98"]
         private var dataValuesUnits: [String] = ["", "", "km", "hours", ""]
@@ -226,10 +226,9 @@ struct ProfileView: View {
         @ObservedObject private var profileViewModel: ProfileViewModel
         @Environment(\.colorScheme) var colorScheme
         
-        private var dataImagesNames: [String] = ["bicycle.circle", "figure.walk.circle", "bicycle.circle", "figure.walk.circle", "bicycle.circle", "figure.walk.circle", "bicycle.circle"]
-        private var dataNames: [String] = ["Bike Ride", "Calories", "Distance", "Workout time", "Pulse"]
-        private var dataValues: [String] = ["3069", "234", "8.8", "1.5", "98"]
-        private var dataValuesUnits: [String] = ["", "", "km", "hours", ""]
+        private var dataImagesNames: [String] = ["timer", "flame", "play.circle", "pause.circle", "123.rectangle"]
+        private var dataNames: [String] = ["Duration", "Calories", "Work Time", "Rest Time", "Series"]
+        private var dataValuesUnits: [String] = ["minutes", "cal", "km", "hours", ""]
         
         init(profileViewModel: ProfileViewModel) {
             self.profileViewModel = profileViewModel
@@ -243,7 +242,9 @@ struct ProfileView: View {
                 NavigationView {
                     TabView {
                         ForEach(profileViewModel.workouts!) { workout in
-                            ScrollView(.vertical) {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 25).foregroundColor(Color(uiColor: UIColor.darkGray))
+                                
                                 VStack {
                                     VStack {
                                         HStack {
@@ -263,12 +264,12 @@ struct ProfileView: View {
                                             Spacer()
                                             
                                             VStack {
-                                                Text("INTERVAL NO.\(workout.id)")
+                                                Text("\(workout.type)")
                                                     .font(.title)
                                                     .fontWeight(.bold)
                                                     .foregroundColor(.green)
                                                 
-                                                Text("\(workout.date)")
+                                                Text("\(getShortDate(longDate: workout.date))")
                                                     .font(.caption)
                                                     .foregroundColor(Color(uiColor: UIColor.lightGray))
                                                 
@@ -279,42 +280,75 @@ struct ProfileView: View {
                                                     .padding(.bottom, screenHeight * 0.01)
                                                 
                                                 Image(systemName: "arrow.down.circle.fill")
+                                                    .foregroundColor(.white)
                                                     .font(.title2)
                                             }
                                             
                                             Spacer()
                                         }
-                                        .padding()
                                     }
-                                    
-                                    Spacer(minLength: -screenHeight * 0.05)
-                                    
-                                    VStack {
-                                        HStack {
-                                            Text(workout.type)
-                                            Spacer()
-                                        }
-                                        
-                                        HStack {
-                                            Spacer()
-                                            Text("\(workout.duration)")
-                                            Spacer()
-                                            Text("\(workout.series)")
-                                            Spacer()
-                                        }
-                                        
-                                        HStack {
-                                            Spacer()
-                                            Text("\(workout.workTime)")
-                                            Spacer()
-                                            Text("\(workout.restTime)")
-                                            Spacer()
-                                        }
-                                    }
-                                    .foregroundColor(colorScheme == .dark ? .black : .white)
                                     .padding()
-                                    .frame(width: screenWidth, height: screenHeight)
-                                    .background(RoundedRectangle(cornerRadius: 25))
+                                    
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: 25).foregroundColor(.green)
+                                        
+                                        LazyVGrid(columns: [GridItem(.flexible()),
+                                                            GridItem(.flexible())], spacing: 0) {
+                                            
+                                            ForEach(0..<dataNames.count) { number in
+                                                HStack {
+                                                    Image(systemName: dataImagesNames[number])
+                                                        .resizable()
+                                                        .scaledToFit()
+                                                        .frame(width: screenWidth * 0.1, height: screenHeight * 0.1)
+                                                    
+                                                    Spacer()
+                                                    
+                                                    VStack {
+                                                        Spacer()
+                                                        
+                                                        HStack {
+                                                            Text(dataNames[number])
+                                                                .fontWeight(.bold)
+                                                            
+                                                            Spacer()
+                                                        }
+                                                        
+                                                        HStack {
+                                                            if number == 0 {
+                                                                Text("\(Int(workout.duration))")
+                                                                    .font(.title)
+                                                                    .fontWeight(.bold)
+                                                            } else if number == 1 {
+                                                                Text("\(workout.calories)")
+                                                                    .font(.title)
+                                                                    .fontWeight(.bold)
+                                                            } else if number == 2 {
+                                                                Text("\(workout.workTime)")
+                                                                    .font(.title)
+                                                                    .fontWeight(.bold)
+                                                            } else if number == 3 {
+                                                                Text("\(workout.restTime)")
+                                                                    .font(.title)
+                                                                    .fontWeight(.bold)
+                                                            } else if number == 4 {
+                                                                Text("\(workout.series)")
+                                                                    .font(.title)
+                                                                    .fontWeight(.bold)
+                                                            }
+                                                            
+                                                            Text(dataValuesUnits[number])
+                                                            
+                                                            Spacer()
+                                                        }
+                                                        
+                                                        Spacer()
+                                                    }
+                                                }
+                                                .padding()
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }

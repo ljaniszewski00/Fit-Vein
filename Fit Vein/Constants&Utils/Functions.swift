@@ -20,3 +20,11 @@ public func getWorkoutsDivider(workoutsCount: Int) -> Int {
     }
     return workoutsCountNumber % 10
 }
+
+public func getShortDate(longDate: Date) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateStyle = .long
+    dateFormatter.timeStyle = .short
+    
+    return dateFormatter.string(from: longDate)
+}
