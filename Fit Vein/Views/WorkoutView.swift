@@ -9,13 +9,93 @@ import SwiftUI
 
 struct WorkoutView: View {
     @ObservedObject var workoutViewModel = WorkoutViewModel(forPreviews: false)
+    @State var dataCorrect = false
+    @State var startTraining = false
+    
+    @State var workoutType: String? = "Interval"
+    @State var series: String = ""
+    @State var workTime: String = ""
+    @State var restTime: String = ""
     
     var body: some View {
         GeometryReader { geometry in
             let screenWidth = geometry.size.width
             let screenHeight = geometry.size.height
             
-            WorkoutCountdownView(workoutViewModel: workoutViewModel, series: 8, workTime: 15, restTime: 5)
+            if dataCorrect && startTraining {
+                WorkoutCountdownView(workoutViewModel: workoutViewModel, series: Int(self.series) ?? 8, workTime: Int(self.workTime) ?? 45, restTime: Int(self.restTime) ?? 15)
+            } else {
+                VStack {
+                    HStack {
+                        Text("Start Workout")
+                            .font(.title)
+                            .fontWeight(.bold)
+                        Spacer()
+                    }
+                    .padding()
+                    
+                    Spacer()
+                    
+                    VStack {
+                        HStack {
+                            Text("Rounds Number")
+                            Spacer()
+                        }
+                        
+                        TextField("number", text: $series)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .disableAutocorrection(true)
+                            .autocapitalization(.none)
+                            .keyboardType(.numberPad)
+                    }
+                    .padding()
+                    
+                    VStack {
+                        HStack {
+                            Text("Work Time")
+                            Spacer()
+                        }
+                        
+                        TextField("seconds", text: $workTime)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .disableAutocorrection(true)
+                            .autocapitalization(.none)
+                            .keyboardType(.numberPad)
+                    }
+                    .padding()
+                    
+                    VStack {
+                        HStack {
+                            Text("Rest Time")
+                            Spacer()
+                        }
+                        
+                        TextField("seconds", text: $restTime)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .disableAutocorrection(true)
+                            .autocapitalization(.none)
+                            .keyboardType(.numberPad)
+                    }
+                    .padding()
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        startTraining = true
+                        if !self.series.isEmpty && !self.workTime.isEmpty && !self.restTime.isEmpty {
+                            dataCorrect = true
+                        }
+                    }, label: {
+                        Text("Start!")
+                            .foregroundColor(Color(uiColor: .systemGray5))
+                            .fontWeight(.bold)
+                    })
+                    .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(.green))
+                    .padding()
+                    
+                    Spacer()
+                }
+            }
         }
     }
 }

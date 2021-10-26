@@ -55,6 +55,7 @@ struct WorkoutTimerView: View {
                             Circle()
                                 .trim(from: 0, to: CGFloat(secondsRound) / CGFloat(rest ? workoutViewModel.workout!.restTime! : workoutViewModel.workout!.workTime!))
                                 .stroke(AngularGradient(gradient: Gradient(colors: [.red, .yellow, .green, .blue, .purple, .red]), center: .center), style: StrokeStyle(lineWidth: 15, lineCap: .round))
+                                .shadow(color: Color.black, radius: 5, x: -10, y: 10)
                                 .rotationEffect(.degrees(-90))
                                 .animation(.easeInOut)
                                 .padding(.horizontal)
@@ -84,6 +85,7 @@ struct WorkoutTimerView: View {
                                 Text(rest ? "REST" : "WORK")
                                     .font(.title)
                                     .background(RoundedRectangle(cornerRadius: 25).foregroundColor(rest ? .yellow : .red).frame(width: screenWidth * 0.3, height: screenHeight * 0.06))
+                                    .shadow(color: Color.black, radius: 7, x: 10, y: 10)
                                     .padding(.bottom, screenHeight * 0.12)
                             }
                         }
