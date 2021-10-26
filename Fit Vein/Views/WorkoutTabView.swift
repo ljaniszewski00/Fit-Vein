@@ -107,7 +107,8 @@ struct WorkoutTabViewList: View {
 struct SingleWorkoutWindowView: View {
     private var workout: IntervalWorkout
     
-    private var dataImagesNames: [String] = ["timer", "flame", "play.circle", "pause.circle", "123.rectangle"]
+    private var dataImagesNames: [String] = ["timer", "flame.fill", "play.circle.fill", "pause.circle.fill", "123.rectangle.fill"]
+    private var coloursForDataImages: [Color] = [Color.purple, Color.red, Color.blue, Color.yellow, Color.brown]
     private var dataNames: [String] = ["Duration", "Calories", "Work Time", "Rest Time", "Series"]
     private var dataValuesUnits: [String] = ["minutes", "cal", "km", "hours", ""]
     
@@ -176,6 +177,7 @@ struct SingleWorkoutWindowView: View {
                                     Image(systemName: dataImagesNames[number])
                                         .resizable()
                                         .scaledToFit()
+                                        .foregroundColor(coloursForDataImages[number])
                                         .frame(width: screenWidth * 0.06, height: screenHeight * 0.06)
                                     
                                     Spacer()
@@ -185,6 +187,7 @@ struct SingleWorkoutWindowView: View {
                                         
                                         HStack {
                                             Text(dataNames[number])
+                                                .foregroundColor(coloursForDataImages[number])
                                                 .fontWeight(.bold)
                                             
                                             Spacer()
@@ -217,6 +220,7 @@ struct SingleWorkoutWindowView: View {
                                             
                                             Spacer()
                                         }
+                                        .foregroundColor(Color(UIColor.systemGray5))
                                         
                                         Spacer()
                                     }
