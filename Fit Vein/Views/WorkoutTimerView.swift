@@ -1,0 +1,286 @@
+//
+//  WorkoutTimerView.swift
+//  Fit Vein
+//
+//  Created by Łukasz Janiszewski on 26/10/2021.
+//
+
+import SwiftUI
+
+struct WorkoutTimerView: View {
+    @ObservedObject var workoutViewModel: WorkoutViewModel
+    
+    @State private var secondsRound = 0
+    @State private var minutesRound = 0
+    
+    @State private var rest = false
+    
+    @State private var secondsElapsed = 0
+    @State private var minutesElapsed = 0
+    
+    @State private var secondsRemaining = 0
+    @State private var minutesRemaining = 0
+    
+    @State private var paused = false
+    @State private var locked = false
+    @State private var stopped = false
+    @State private var trainingStarted = false
+    private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @Environment(\.colorScheme) var colorScheme
+    
+    init(workoutViewModel: WorkoutViewModel) {
+        self.workoutViewModel = workoutViewModel
+    }
+    
+    var body: some View {
+        GeometryReader { geometry in
+            let screenWidth = geometry.size.width
+            let screenHeight = geometry.size.height
+            
+            if stopped {
+                withAnimation {
+                    FinishedWorkoutView(workout: self.workoutViewModel.workout)
+                }
+            } else {
+                VStack {
+                    HStack {
+                        Spacer()
+                        
+                        ZStack {
+                            Circle()
+                                .stroke(Color.gray.opacity(0.2), style: StrokeStyle(lineWidth: 15, lineCap: .round))
+                                .padding(.horizontal)
+                            
+                            Circle()
+                                .trim(from: 0, to: CGFloat(1 - (self.workoutViewModel.workout.duration! - secondsRound / self.workoutViewModel.workout.duration!)))
+                                .stroke(AngularGradient(gradient: Gradient(colors: [.red, .yellow, .green, .blue, .purple, .red]), center: .center), style: StrokeStyle(lineWidth: 15, lineCap: .round))
+                                .rotationEffect(.degrees(-90))
+                                .animation(.easeInOut)
+                                .padding(.horizontal)
+                            
+                            VStack {
+                                Spacer()
+                                
+                                Group {
+                                    if minutesRound < 10 {
+                                        if secondsRound < 10 {
+                                            Text("0\(minutesRound):0\(secondsRound)")
+                                        } else {
+                                            Text("0\(minutesRound):\(secondsRound)")
+                                        }
+                                    } else {
+                                        if secondsRound < 10 {
+                                            Text("\(minutesRound):0\(secondsRound)")
+                                        } else {
+                                            Text("\(minutesRound):\(secondsRound)")
+                                        }
+                                    }
+                                }
+                                .foregroundColor(Color(UIColor.systemGray5))
+                                .font(.system(size: screenHeight * 0.1, weight: .bold))
+                                .padding(.bottom, screenHeight * 0.02)
+                                
+                                Text(rest ? "REST" : "WORK")
+                                    .font(.title)
+                                    .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.yellow).frame(width: screenWidth * 0.3, height: screenHeight * 0.06))
+                                    .padding(.bottom, screenHeight * 0.12)
+                            }
+                        }
+                        
+                        Spacer()
+                    }
+                    
+                    Spacer(minLength: screenHeight * 0.08)
+                    
+                    VStack {
+                        HStack {
+                            Text("Elapsed")
+                            Spacer()
+                            Text("Remaining")
+                        }
+                        .padding(.horizontal)
+                        
+                        HStack {
+                            Group {
+                                if minutesElapsed < 10 {
+                                    if secondsElapsed < 10 {
+                                        Text("0\(minutesElapsed):0\(secondsElapsed)")
+                                    } else {
+                                        Text("0\(minutesElapsed):\(secondsElapsed)")
+                                    }
+                                } else {
+                                    if secondsElapsed < 10 {
+                                        Text("\(minutesElapsed):0\(secondsElapsed)")
+                                    } else {
+                                        Text("\(minutesElapsed):\(secondsElapsed)")
+                                    }
+                                }
+                            }
+                            .foregroundColor(Color(UIColor.systemGray5))
+                            .font(.system(size: screenHeight * 0.03, weight: .bold))
+                            
+                            Spacer()
+                            
+                            Group {
+                                if minutesRemaining < 10 {
+                                    if secondsRemaining < 10 {
+                                        Text("0\(minutesRemaining):0\(secondsRemaining)")
+                                    } else {
+                                        Text("0\(minutesRemaining):\(secondsRemaining)")
+                                    }
+                                } else {
+                                    if secondsRemaining < 10 {
+                                        Text("\(minutesRemaining):0\(secondsRemaining)")
+                                    } else {
+                                        Text("\(minutesRemaining):\(secondsRemaining)")
+                                    }
+                                }
+                            }
+                            .foregroundColor(Color(UIColor.systemGray5))
+                            .font(.system(size: screenHeight * 0.03, weight: .bold))
+                        }
+                        .padding(.horizontal)
+                        .padding(.bottom, screenHeight * 0.01)
+                        
+                        HStack {
+                            Spacer()
+                            
+                            Button(action: {
+                                locked.toggle()
+                            }, label: {
+                                Image(systemName: locked ? "lock.circle.fill" : "lock.circle")
+                                    .resizable()
+                                    .scaledToFit()
+                            })
+                                .foregroundColor(Color(uiColor: .systemGray5))
+                                .frame(width: screenWidth * 0.12, height: screenHeight * 0.06)
+                            
+                            Spacer()
+                        }
+                        .padding(.bottom, screenHeight * 0.05)
+                        
+                        HStack(spacing: screenWidth * 0.1) {
+                            Spacer()
+                            
+                            Button(action: {
+                                paused = false
+                            }, label: {
+                                Image(systemName: "play.circle.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                            })
+                                .disabled(locked)
+                                .foregroundColor(locked ? Color(uiColor: .systemGray5) : .blue)
+                                .frame(width: screenWidth * (!paused ? 0.16 : 0.24), height: screenHeight * (!paused ? 0.08 : 0.12))
+                            
+                            Button(action: {
+                                paused = true
+                            }, label: {
+                                Image(systemName: "pause.circle.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                            })
+                                .disabled(locked)
+                                .foregroundColor(locked ? Color(uiColor: .systemGray5) : .yellow)
+                                .frame(width: screenWidth * (paused ? 0.16 : 0.24), height: screenHeight * (paused ? 0.08 : 0.12))
+                            
+                            Button(action: {
+                                stopped = true
+                            }, label: {
+                                Image(systemName: "stop.circle.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                            })
+                                .disabled(locked)
+                                .foregroundColor(locked ? Color(uiColor: .systemGray5) : .red)
+                                .frame(width: screenWidth * 0.16, height: screenHeight * 0.08)
+                            
+                            Spacer()
+                        }
+                    }
+                    .background(RoundedRectangle(cornerRadius: 25)
+                                    .fill(LinearGradient(gradient: Gradient(colors: [Color.green, Color.clear]), startPoint: .top, endPoint: .bottom))
+                                    .frame(width: screenWidth, height: screenHeight * 0.4)
+                                    .ignoresSafeArea())
+                    
+                    Spacer(minLength: screenHeight * 0.08)
+                }
+                .background(RadialGradient(
+                    gradient: Gradient(colors: [Color.green, Color.black]),
+                    center: .center,
+                    startRadius: 100,
+                    endRadius: 500))
+                .onReceive(timer) { _ in
+                    if minutesRemaining == 0 && secondsRemaining == 0 {
+                        stopped = true
+                    }
+                    
+                    if !paused {
+                        if self.secondsRound == 0 {
+                            if self.minutesRound == 0 {
+                                
+                            }
+                            self.minutesRound -= 1
+                            self.secondsRound = 59
+                        } else {
+                            self.secondsRound -= 1
+                        }
+                        
+                        if self.secondsElapsed == 59 {
+                            self.minutesElapsed += 1
+                            self.secondsElapsed = 0
+                        } else {
+                            self.secondsElapsed += 1
+                        }
+                        
+                        if self.secondsRemaining == 0 {
+                            self.minutesRemaining -= 1
+                            self.secondsRemaining = 59
+                        } else {
+                            self.secondsRemaining -= 1
+                        }
+                    }
+                }
+            }
+        }
+        .onAppear {
+            // Round Time
+            if workoutViewModel.workout.workTime! >= 60 {
+                self.minutesRound = Int(workoutViewModel.workout.workTime! / 60)
+                self.secondsRound = workoutViewModel.workout.workTime! - (60 * self.minutesRound)
+
+            } else {
+                self.minutesRound = 0
+                self.secondsRound = workoutViewModel.workout.workTime!
+            }
+            
+            // Remaining
+            print(workoutViewModel.workout.duration)
+            print(workoutViewModel.workout.workTime)
+            print(workoutViewModel.workout.restTime)
+            if workoutViewModel.workout.duration! >= 60 {
+                self.minutesRemaining = Int(workoutViewModel.workout.duration! / 60)
+                self.secondsRemaining = workoutViewModel.workout.duration! - (60 * self.minutesRemaining)
+            } else {
+                self.minutesRemaining = 0
+                self.secondsRemaining = workoutViewModel.workout.duration!
+            }
+        }
+    }
+}
+
+struct WorkoutTimerView_Previews: PreviewProvider {
+    static var previews: some View {
+        ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
+            ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
+                let sessionStore = SessionStore()
+                
+                WorkoutTimerView(workoutViewModel: WorkoutViewModel())
+                    .preferredColorScheme(colorScheme)
+                    .previewDevice(PreviewDevice(rawValue: deviceName))
+                    .previewDisplayName(deviceName)
+                    .environmentObject(sessionStore)
+            }
+        }
+    }
+}

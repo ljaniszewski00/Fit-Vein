@@ -60,7 +60,7 @@ struct FinishedWorkoutView: View {
 
 struct FinishedWorkoutView_Previews: PreviewProvider {
     static var previews: some View {
-        let workout = IntervalWorkout(id: "1", type: "Interval", date: Date(), isFinished: true, duration: 8.00, calories: 200, series: 8, workTime: 45, restTime: 15)
+        let workout = IntervalWorkout(id: "1", type: "Interval", date: Date(), isFinished: true, calories: 200, series: 8, workTime: 45, restTime: 15)
         
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
