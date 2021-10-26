@@ -192,23 +192,23 @@ struct SingleWorkoutWindowView: View {
                                         
                                         HStack {
                                             if number == 0 {
-                                                Text("\(Int(workout.duration))")
+                                                Text("\(Int(workout.duration!))")
                                                     .font(.title)
                                                     .fontWeight(.bold)
                                             } else if number == 1 {
-                                                Text("\(workout.calories)")
+                                                Text("\(workout.calories!)")
                                                     .font(.title)
                                                     .fontWeight(.bold)
                                             } else if number == 2 {
-                                                Text("\(workout.workTime)")
+                                                Text("\(workout.workTime!)")
                                                     .font(.title)
                                                     .fontWeight(.bold)
                                             } else if number == 3 {
-                                                Text("\(workout.restTime)")
+                                                Text("\(workout.restTime!)")
                                                     .font(.title)
                                                     .fontWeight(.bold)
                                             } else if number == 4 {
-                                                Text("\(workout.series)")
+                                                Text("\(workout.series!)")
                                                     .font(.title)
                                                     .fontWeight(.bold)
                                             }
