@@ -17,6 +17,8 @@ struct IntervalWorkout: Codable, Identifiable {
     var series: Int?
     var workTime: Int?
     var restTime: Int?
+    var completedDuration: Int?
+    var completedSeries: Int?
     
     init(id: String, type: String, date: Date, isFinished: Bool = false, calories: Int?, series: Int?, workTime: Int?, restTime: Int?) {
         self.id = id
@@ -30,8 +32,10 @@ struct IntervalWorkout: Codable, Identifiable {
         self.restTime = restTime
     }
     
-    mutating func setCaloriesOnEnd(calories: Int?) {
+    mutating func setDataOnEnd(calories: Int?, completedDuration: Int?, completedSeries: Int?) {
         self.isFinished = true
         self.calories = calories
+        self.completedDuration = completedDuration
+        self.completedSeries = completedSeries
     }
 }

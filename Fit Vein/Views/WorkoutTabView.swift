@@ -110,7 +110,7 @@ struct SingleWorkoutWindowView: View {
     private var dataImagesNames: [String] = ["timer", "flame.fill", "play.circle.fill", "pause.circle.fill", "123.rectangle.fill"]
     private var coloursForDataImages: [Color] = [Color.purple, Color.red, Color.blue, Color.yellow, Color.brown]
     private var dataNames: [String] = ["Duration", "Calories", "Work Time", "Rest Time", "Series"]
-    private var dataValuesUnits: [String] = ["minutes", "cal", "km", "hours", ""]
+    private var dataValuesUnits: [String] = ["", "cal", "seconds", "seconds", ""]
     
     @Environment(\.colorScheme) var colorScheme
     
@@ -195,7 +195,7 @@ struct SingleWorkoutWindowView: View {
                                         
                                         HStack {
                                             if number == 0 {
-                                                Text("\(Int(workout.duration!))")
+                                                getTextTimeFromDuration(duration: workout.completedDuration!)
                                                     .font(.title)
                                                     .fontWeight(.bold)
                                             } else if number == 1 {
@@ -211,7 +211,7 @@ struct SingleWorkoutWindowView: View {
                                                     .font(.title)
                                                     .fontWeight(.bold)
                                             } else if number == 4 {
-                                                Text("\(workout.series!)")
+                                                Text("\(workout.completedSeries!)")
                                                     .font(.title)
                                                     .fontWeight(.bold)
                                             }

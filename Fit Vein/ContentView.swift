@@ -54,7 +54,7 @@ struct ContentView: View {
                         .font(.system(size: screenHeight * 0.08))
                         .padding(.bottom, screenHeight * 0.02)
                         
-                        Text("Unlock the device first")
+                        Text("Unlock the app first")
                             .foregroundColor(Color(uiColor: UIColor.lightGray))
                         
                         Spacer()

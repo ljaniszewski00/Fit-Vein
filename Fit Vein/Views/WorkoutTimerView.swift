@@ -9,9 +9,13 @@ import SwiftUI
 
 struct WorkoutTimerView: View {
     @ObservedObject var workoutViewModel: WorkoutViewModel
+    @Environment(\.colorScheme) var colorScheme
+    private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     @State private var secondsRound = 0
     @State private var minutesRound = 0
+    @State private var currentRound = 0
+    @State private var counting = false
     
     @State private var rest = false
     
@@ -24,9 +28,6 @@ struct WorkoutTimerView: View {
     @State private var paused = false
     @State private var locked = false
     @State private var stopped = false
-    @State private var trainingStarted = false
-    private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    @Environment(\.colorScheme) var colorScheme
     
     init(workoutViewModel: WorkoutViewModel) {
         self.workoutViewModel = workoutViewModel
@@ -39,7 +40,7 @@ struct WorkoutTimerView: View {
             
             if stopped {
                 withAnimation {
-                    FinishedWorkoutView(workout: self.workoutViewModel.workout)
+                    FinishedWorkoutView(workout: self.workoutViewModel.workout!)
                 }
             } else {
                 VStack {
@@ -52,7 +53,7 @@ struct WorkoutTimerView: View {
                                 .padding(.horizontal)
                             
                             Circle()
-                                .trim(from: 0, to: CGFloat(1 - (self.workoutViewModel.workout.duration! - secondsRound / self.workoutViewModel.workout.duration!)))
+                                .trim(from: 0, to: CGFloat(secondsRound) / CGFloat(rest ? workoutViewModel.workout!.restTime! : workoutViewModel.workout!.workTime!))
                                 .stroke(AngularGradient(gradient: Gradient(colors: [.red, .yellow, .green, .blue, .purple, .red]), center: .center), style: StrokeStyle(lineWidth: 15, lineCap: .round))
                                 .rotationEffect(.degrees(-90))
                                 .animation(.easeInOut)
@@ -82,7 +83,7 @@ struct WorkoutTimerView: View {
                                 
                                 Text(rest ? "REST" : "WORK")
                                     .font(.title)
-                                    .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.yellow).frame(width: screenWidth * 0.3, height: screenHeight * 0.06))
+                                    .background(RoundedRectangle(cornerRadius: 25).foregroundColor(rest ? .yellow : .red).frame(width: screenWidth * 0.3, height: screenHeight * 0.06))
                                     .padding(.bottom, screenHeight * 0.12)
                             }
                         }
@@ -95,6 +96,8 @@ struct WorkoutTimerView: View {
                     VStack {
                         HStack {
                             Text("Elapsed")
+                            Spacer()
+                            Text("Rounds").padding(.leading, screenWidth * 0.045)
                             Spacer()
                             Text("Remaining")
                         }
@@ -117,7 +120,13 @@ struct WorkoutTimerView: View {
                                 }
                             }
                             .foregroundColor(Color(UIColor.systemGray5))
-                            .font(.system(size: screenHeight * 0.03, weight: .bold))
+                            .font(.system(size: screenHeight * 0.03, weight: .bold, design: .monospaced))
+                            
+                            Spacer()
+                            
+                            Text("\(currentRound) / \(self.workoutViewModel.workout!.series!)")
+                                .foregroundColor(Color(UIColor.systemGray5))
+                                .font(.system(size: screenHeight * 0.03, weight: .bold))
                             
                             Spacer()
                             
@@ -137,7 +146,7 @@ struct WorkoutTimerView: View {
                                 }
                             }
                             .foregroundColor(Color(UIColor.systemGray5))
-                            .font(.system(size: screenHeight * 0.03, weight: .bold))
+                            .font(.system(size: screenHeight * 0.03, weight: .bold, design: .monospaced))
                         }
                         .padding(.horizontal)
                         .padding(.bottom, screenHeight * 0.01)
@@ -157,7 +166,8 @@ struct WorkoutTimerView: View {
                             
                             Spacer()
                         }
-                        .padding(.bottom, screenHeight * 0.05)
+                        .padding(.top, screenHeight * 0.025)
+                        .padding(.bottom, screenHeight * 0.045)
                         
                         HStack(spacing: screenWidth * 0.1) {
                             Spacer()
@@ -171,6 +181,7 @@ struct WorkoutTimerView: View {
                             })
                                 .disabled(locked)
                                 .foregroundColor(locked ? Color(uiColor: .systemGray5) : .blue)
+                                .shadow(color: Color.black, radius: 5, x: 0, y: 10)
                                 .frame(width: screenWidth * (!paused ? 0.16 : 0.24), height: screenHeight * (!paused ? 0.08 : 0.12))
                             
                             Button(action: {
@@ -182,9 +193,11 @@ struct WorkoutTimerView: View {
                             })
                                 .disabled(locked)
                                 .foregroundColor(locked ? Color(uiColor: .systemGray5) : .yellow)
+                                .shadow(color: Color.black, radius: 5, x: 0, y: 10)
                                 .frame(width: screenWidth * (paused ? 0.16 : 0.24), height: screenHeight * (paused ? 0.08 : 0.12))
                             
                             Button(action: {
+                                self.workoutViewModel.stopWorkout(calories: 200, completedDuration: (minutesElapsed != 0 ? secondsElapsed * minutesElapsed : secondsElapsed), completedSeries: currentRound)
                                 stopped = true
                             }, label: {
                                 Image(systemName: "stop.circle.fill")
@@ -193,6 +206,7 @@ struct WorkoutTimerView: View {
                             })
                                 .disabled(locked)
                                 .foregroundColor(locked ? Color(uiColor: .systemGray5) : .red)
+                                .shadow(color: Color.black, radius: 5, x: 0, y: 10)
                                 .frame(width: screenWidth * 0.16, height: screenHeight * 0.08)
                             
                             Spacer()
@@ -212,20 +226,30 @@ struct WorkoutTimerView: View {
                     endRadius: 500))
                 .onReceive(timer) { _ in
                     if minutesRemaining == 0 && secondsRemaining == 0 {
+                        self.workoutViewModel.stopWorkout(calories: 200, completedDuration: secondsElapsed * minutesElapsed, completedSeries: currentRound)
                         stopped = true
                     }
                     
                     if !paused {
-                        if self.secondsRound == 0 {
+                        //Setting Round Time Rules
+                        if self.secondsRound == 1 {
                             if self.minutesRound == 0 {
-                                
+                                if !self.rest {
+                                    self.rest = true
+                                    setRoundTime(workRound: false)
+                                } else {
+                                    self.rest = false
+                                    setRoundTime(workRound: true)
+                                }
+                            } else {
+                                self.minutesRound -= 1
+                                self.secondsRound = 59
                             }
-                            self.minutesRound -= 1
-                            self.secondsRound = 59
                         } else {
                             self.secondsRound -= 1
                         }
                         
+                        //Setting Elapsed Time Rules
                         if self.secondsElapsed == 59 {
                             self.minutesElapsed += 1
                             self.secondsElapsed = 0
@@ -233,6 +257,7 @@ struct WorkoutTimerView: View {
                             self.secondsElapsed += 1
                         }
                         
+                        //Setting Remaining Time Rules
                         if self.secondsRemaining == 0 {
                             self.minutesRemaining -= 1
                             self.secondsRemaining = 59
@@ -244,27 +269,48 @@ struct WorkoutTimerView: View {
             }
         }
         .onAppear {
-            // Round Time
-            if workoutViewModel.workout.workTime! >= 60 {
-                self.minutesRound = Int(workoutViewModel.workout.workTime! / 60)
-                self.secondsRound = workoutViewModel.workout.workTime! - (60 * self.minutesRound)
+            if !counting {
+                // Round Time
+                setRoundTime(workRound: true)
+                
+                // Remaining
+                setRemainingTime()
+                
+                counting = true
+            }
+        }
+    }
+    
+    func setRoundTime(workRound: Bool) {
+        if workRound {
+            self.currentRound += 1
+            if workoutViewModel.workout!.workTime! >= 60 {
+                self.minutesRound = Int(workoutViewModel.workout!.workTime! / 60)
+                self.secondsRound = workoutViewModel.workout!.workTime! - (60 * self.minutesRound)
 
             } else {
                 self.minutesRound = 0
-                self.secondsRound = workoutViewModel.workout.workTime!
+                self.secondsRound = workoutViewModel.workout!.workTime!
             }
-            
-            // Remaining
-            print(workoutViewModel.workout.duration)
-            print(workoutViewModel.workout.workTime)
-            print(workoutViewModel.workout.restTime)
-            if workoutViewModel.workout.duration! >= 60 {
-                self.minutesRemaining = Int(workoutViewModel.workout.duration! / 60)
-                self.secondsRemaining = workoutViewModel.workout.duration! - (60 * self.minutesRemaining)
+        } else {
+            if workoutViewModel.workout!.restTime! >= 60 {
+                self.minutesRound = Int(workoutViewModel.workout!.restTime! / 60)
+                self.secondsRound = workoutViewModel.workout!.restTime! - (60 * self.minutesRound)
+
             } else {
-                self.minutesRemaining = 0
-                self.secondsRemaining = workoutViewModel.workout.duration!
+                self.minutesRound = 0
+                self.secondsRound = workoutViewModel.workout!.restTime!
             }
+        }
+    }
+    
+    func setRemainingTime() {
+        if workoutViewModel.workout!.duration! >= 60 {
+            self.minutesRemaining = Int(workoutViewModel.workout!.duration! / 60)
+            self.secondsRemaining = workoutViewModel.workout!.duration! - (60 * self.minutesRemaining)
+        } else {
+            self.minutesRemaining = 0
+            self.secondsRemaining = workoutViewModel.workout!.duration!
         }
     }
 }
@@ -275,7 +321,7 @@ struct WorkoutTimerView_Previews: PreviewProvider {
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
                 let sessionStore = SessionStore()
                 
-                WorkoutTimerView(workoutViewModel: WorkoutViewModel())
+                WorkoutTimerView(workoutViewModel: WorkoutViewModel(forPreviews: true))
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)

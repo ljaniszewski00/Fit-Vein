@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 public func yearsBetweenDate(startDate: Date, endDate: Date) -> Int {
     let calendar = Calendar.current
@@ -27,4 +28,31 @@ public func getShortDate(longDate: Date) -> String {
     dateFormatter.timeStyle = .short
     
     return dateFormatter.string(from: longDate)
+}
+
+public func getTextTimeFromDuration(duration: Int) -> Text {
+    var secondsRemaining = 0
+    var minutesRemaining = 0
+    
+    if duration >= 60 {
+        minutesRemaining = Int(duration / 60)
+        secondsRemaining = duration - (60 * minutesRemaining)
+    } else {
+        minutesRemaining = 0
+        secondsRemaining = duration
+    }
+    
+    if minutesRemaining < 10 {
+        if secondsRemaining < 10 {
+            return Text("0\(minutesRemaining):0\(secondsRemaining)")
+        } else {
+            return Text("0\(minutesRemaining):\(secondsRemaining)")
+        }
+    } else {
+        if secondsRemaining < 10 {
+            return Text("\(minutesRemaining):0\(secondsRemaining)")
+        } else {
+            return Text("\(minutesRemaining):\(secondsRemaining)")
+        }
+    }
 }
