@@ -13,6 +13,7 @@ struct SettingsView: View {
     @State private var shouldPresentActionSheet = false
     @AppStorage("locked") var biometricLock: Bool = false
     @AppStorage("notifications") var notifications: Bool = true
+    @AppStorage("showSampleWorkoutsListFromSettings") var showSampleWorkoutsListFromSettings: Bool = true
     @Environment(\.colorScheme) var colorScheme
     
     @Environment(\.dismiss) var dismiss
@@ -39,7 +40,6 @@ struct SettingsView: View {
             let screenWidth = geometry.size.width
             let screenHeight = geometry.size.height
             
-                
             Form {
                 Section(header: Text("App"), footer: Text("Whether FaceID or TouchID is used depends on device hardware capabilities.")) {
                     Toggle(isOn: $notifications, label: {
@@ -47,6 +47,13 @@ struct SettingsView: View {
                             .font(.title)
                             .foregroundColor(.green)
                         Text("Notifications")
+                    })
+                    
+                    Toggle(isOn: $showSampleWorkoutsListFromSettings, label: {
+                        Image(systemName: "list.bullet.circle.fill")
+                            .font(.title)
+                            .foregroundColor(.green)
+                        Text("Show 'Sample Workouts' in Workouts Tab")
                     })
                     
                     Toggle(isOn: $biometricLock, label: {

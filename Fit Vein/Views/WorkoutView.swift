@@ -13,8 +13,7 @@ struct WorkoutView: View {
     @State var startWorkout = false
     @AppStorage("showSampleWorkoutsList") var showSampleWorkoutsList: Bool = true
     @AppStorage("showUsersWorkoutsList") var showUsersWorkoutsList: Bool = true
-    @State var showSampleWorkoutsListState: Bool = true
-    @State var showUsersWorkoutsListState: Bool = true
+    @AppStorage("showSampleWorkoutsListFromSettings") var showSampleWorkoutsListFromSettings: Bool = true
     
     var body: some View {
         GeometryReader { geometry in
@@ -28,77 +27,44 @@ struct WorkoutView: View {
             } else {
                 NavigationView {
                     VStack {
-                        Spacer()
-                        
-                        VStack {
-                            HStack {
-                                Text("Sample Workouts")
-                                    .font(.title2)
-                                    .fontWeight(.bold)
-                                
-                                Button(action: {
-                                    showSampleWorkoutsList.toggle()
-                                    showSampleWorkoutsListState.toggle()
-                                }, label: {
-                                    Image(systemName: showSampleWorkoutsList ? "chevron.down.circle.fill" : "chevron.forward.circle.fill")
-                                        .foregroundColor(.green)
-                                })
-                                
-                                Spacer()
-                            }
-                            .padding(.top)
-                            .padding(.horizontal)
-                            
+                        if showSampleWorkoutsListFromSettings {
                             List {
-                                ForEach(workoutViewModel.workoutsList) { workout in
-                                    HStack {
-                                        Image(uiImage: UIImage(named: "sprint2")!)
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: screenWidth * 0.1, height: screenHeight * 0.1)
-                                            .padding(.trailing)
-                                        
-                                        VStack {
-                                            Text(workout.type)
-                                                .font(.title3)
-                                                .fontWeight(.bold)
+                                DisclosureGroup(isExpanded: $showSampleWorkoutsList, content: {
+                                    ForEach(workoutViewModel.workoutsList) { workout in
+                                        HStack {
+                                            Image(uiImage: UIImage(named: "sprint2")!)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: screenWidth * 0.1, height: screenHeight * 0.1)
+                                                .padding(.trailing)
                                             
-                                            Text("Work Time: \(workout.workTime!)")
-                                            Text("Rest Time: \(workout.restTime!)")
-                                            Text("Series: \(workout.series!)")
+                                            VStack {
+                                                Text(workout.type)
+                                                    .font(.title3)
+                                                    .fontWeight(.bold)
+                                                
+                                                Text("Work Time: \(workout.workTime!)")
+                                                Text("Rest Time: \(workout.restTime!)")
+                                                Text("Series: \(workout.series!)")
+                                            }
+                                        }
+                                        .onTapGesture {
+                                            withAnimation {
+                                                workoutViewModel.workout = workout
+                                                startWorkout = true
+                                            }
                                         }
                                     }
-                                    .onTapGesture {
-                                        withAnimation {
-                                            workoutViewModel.workout = workout
-                                            startWorkout = true
-                                        }
-                                    }
-                                }
+                                }, label: {
+                                    Text("Sample Workouts")
+                                        .font(.title2)
+                                        .fontWeight(.bold)
+                                })
                             }
-                            .isHidden(!showSampleWorkoutsListState)
                         }
                         
-                        VStack {
-                            HStack {
-                                Text("User's Workouts")
-                                    .font(.title2)
-                                    .fontWeight(.bold)
-                                
-                                Button(action: {
-                                    showUsersWorkoutsList.toggle()
-                                    showUsersWorkoutsListState.toggle()
-                                }, label: {
-                                    Image(systemName: showUsersWorkoutsList ? "chevron.down.circle.fill" : "chevron.forward.circle.fill")
-                                        .foregroundColor(.green)
-                                })
-                                
-                                Spacer()
-                            }
-                            .padding(.top)
-                            .padding(.horizontal)
-                            
-                            List {
+                        List {
+                            DisclosureGroup(isExpanded: $showUsersWorkoutsList, content: {
                                 ForEach(workoutViewModel.usersWorkoutsList) { workout in
                                     HStack {
                                         Image(uiImage: UIImage(named: "sprint2")!)
@@ -127,13 +93,13 @@ struct WorkoutView: View {
                                 .onDelete { (indexSet) in
                                     workoutViewModel.deleteUserWorkout(indexSet: indexSet)
                                 }
-                            }
-                            .isHidden(!showUsersWorkoutsListState)
+                            }, label: {
+                                Text("User's Workouts")
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                            })
                         }
-                        .offset(y: showSampleWorkoutsListState ? 0 : -screenHeight * 0.35)
-                        
                     }
-                    
                     .navigationTitle("Workouts")
                     .navigationBarHidden(false)
                     .toolbar {
@@ -153,8 +119,6 @@ struct WorkoutView: View {
         }
         .onAppear {
             self.workoutViewModel.setup(sessionStore: sessionStore)
-            self.showSampleWorkoutsListState = self.showSampleWorkoutsList
-            self.showUsersWorkoutsListState = self.showUsersWorkoutsList
         }
     }
 }

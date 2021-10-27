@@ -17,37 +17,38 @@ struct LoggedUserView: View {
             let screenHeight = geometry.size.height
             
 //            if !profileViewModel.fetchingData {
-                TabView {
-                    HomeView()
-                        .environmentObject(sessionStore)
-                        .navigationTitle("")
-                        .navigationBarHidden(true)
-                        .ignoresSafeArea(.keyboard)
-                        .tabItem {
-                            Image(systemName: "house.fill")
-                        }
-                        .tag(0)
-                    
-                    WorkoutView()
-                        .environmentObject(sessionStore)
-                        .navigationTitle("")
-                        .navigationBarHidden(true)
-                        .ignoresSafeArea(.keyboard)
-                        .tabItem {
-                            Image(systemName: "figure.walk")
-                        }
-                        .tag(1)
-                    
-                    ProfileView(profileViewModel: profileViewModel)
-                        .environmentObject(sessionStore)
-                        .navigationTitle("")
-                        .navigationBarHidden(true)
-                        .ignoresSafeArea(.keyboard)
-                        .tabItem {
-                            Image(systemName: "person.fill")
-                        }
-                        .tag(2)
-                }
+            TabView {
+                HomeView()
+                    .environmentObject(sessionStore)
+                    .navigationTitle("")
+                    .navigationBarHidden(true)
+                    .ignoresSafeArea(.keyboard)
+                    .tabItem {
+                        Image(systemName: "house.fill")
+                    }
+                    .tag(0)
+                
+                WorkoutView()
+                    .environmentObject(sessionStore)
+                    .navigationTitle("")
+                    .navigationBarHidden(true)
+                    .ignoresSafeArea(.keyboard)
+                    .tabItem {
+                        Image(systemName: "figure.walk")
+                    }
+                    .tag(1)
+                
+                ProfileView(profileViewModel: profileViewModel)
+                    .environmentObject(sessionStore)
+                    .navigationTitle("")
+                    .navigationBarHidden(true)
+                    .ignoresSafeArea(.keyboard)
+                    .tabItem {
+                        Image(systemName: "person.fill")
+                    }
+                    .tag(2)
+            }
+                
 //            } else {
 //                VStack {
 //                    Spacer()
