@@ -10,6 +10,7 @@ import SwiftUI
 struct WorkoutTimerView: View {
     @ObservedObject var workoutViewModel: WorkoutViewModel
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.dismiss) var dismiss
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     @State private var secondsRound = 0
@@ -40,7 +41,7 @@ struct WorkoutTimerView: View {
             
             if stopped {
                 withAnimation {
-                    FinishedWorkoutView(workout: self.workoutViewModel.workout!)
+                    FinishedWorkoutView(workoutViewModel: workoutViewModel)
                 }
             } else {
                 VStack {
@@ -220,6 +221,9 @@ struct WorkoutTimerView: View {
                                     .ignoresSafeArea())
                     
                     Spacer(minLength: screenHeight * 0.08)
+                }
+                .onDisappear {
+                    dismiss()
                 }
                 .background(RadialGradient(
                     gradient: Gradient(colors: [Color.green, Color.black]),

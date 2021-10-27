@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct FinishedWorkoutView: View {
-    private var workout: IntervalWorkout
+    @ObservedObject var workoutViewModel: WorkoutViewModel
+    @Environment(\.dismiss) var dismiss
     @State private var backToBeginning = false
     
-    init(workout: IntervalWorkout) {
-        self.workout = workout
+    init(workoutViewModel: WorkoutViewModel) {
+        self.workoutViewModel = workoutViewModel
     }
     
     var body: some View {
@@ -21,10 +22,12 @@ struct FinishedWorkoutView: View {
             let screenHeight = geometry.size.height
             
             if backToBeginning {
-                WorkoutView()
+                withAnimation {
+                    WorkoutView()
+                }
             } else {
                 VStack(spacing: screenHeight * 0.05) {
-                    SingleWorkoutWindowView(workout: workout)
+                    SingleWorkoutWindowView(workout: workoutViewModel.workout!)
                     
                     HStack {
                         Spacer()
@@ -53,6 +56,9 @@ struct FinishedWorkoutView: View {
                     }
                     .padding(.bottom, screenHeight * 0.05)
                 }
+                .onDisappear {
+                    dismiss()
+                }
             }
         }
     }
@@ -60,13 +66,12 @@ struct FinishedWorkoutView: View {
 
 struct FinishedWorkoutView_Previews: PreviewProvider {
     static var previews: some View {
-        let workout = IntervalWorkout(id: "1", type: "Interval", date: Date(), isFinished: true, calories: 200, series: 8, workTime: 45, restTime: 15)
-        
+        let workoutViewModel = WorkoutViewModel(forPreviews: true)
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
                 let sessionStore = SessionStore()
                 
-                FinishedWorkoutView(workout: workout)
+                FinishedWorkoutView(workoutViewModel: workoutViewModel)
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)

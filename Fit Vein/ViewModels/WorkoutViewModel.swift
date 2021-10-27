@@ -6,11 +6,18 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor
 class WorkoutViewModel: ObservableObject {
     @Published var sessionStore: SessionStore?
     @Published var workout: IntervalWorkout?
+    @Published var workoutsList: [IntervalWorkout] = [IntervalWorkout(id: UUID().uuidString, type: "Interval", date: Date(), isFinished: false, calories: 200, series: 8, workTime: 45, restTime: 15),
+                                                       IntervalWorkout(id: UUID().uuidString, type: "Interval", date: Date(), isFinished: false, calories: 260, series: 10, workTime: 30, restTime: 15),
+                                                       IntervalWorkout(id: UUID().uuidString, type: "Interval", date: Date(), isFinished: false, calories: 140, series: 5, workTime: 60, restTime: 30),
+                                                       IntervalWorkout(id: UUID().uuidString, type: "Interval", date: Date(), isFinished: false, calories: 110, series: 7, workTime: 45, restTime: 20),
+                                                       IntervalWorkout(id: UUID().uuidString, type: "Interval", date: Date(), isFinished: false, calories: 260, series: 8, workTime: 45, restTime: 20)]
+    @AppStorage("usersWorkoutsList") var usersWorkoutsList: [IntervalWorkout] = []
     private let firestoreManager = FirestoreManager()
     private let firebaseStorageManager = FirebaseStorageManager()
     
@@ -20,12 +27,28 @@ class WorkoutViewModel: ObservableObject {
         }
     }
     
-    func startWorkout(series: Int, workTime: Int, restTime: Int) {
-        self.workout = IntervalWorkout(id: UUID().uuidString, type: "Interval", date: Date(), isFinished: false, calories: 0, series: series, workTime: workTime, restTime: restTime)
+    func setup(sessionStore: SessionStore) {
+        self.sessionStore = sessionStore
+    }
+    
+    func startWorkout(workout: IntervalWorkout) {
+        self.workout = workout
     }
 
     func stopWorkout(calories: Int, completedDuration: Int, completedSeries: Int) {
         self.workout?.setDataOnEnd(calories: calories, completedDuration: completedDuration, completedSeries: completedSeries)
+    }
+    
+    func addUserWorkout(series: Int, workTime: Int, restTime: Int) {
+        self.usersWorkoutsList.append(IntervalWorkout(id: UUID().uuidString, type: "Interval", date: Date(), isFinished: false, calories: 200, series: series, workTime: workTime, restTime: restTime))
+    }
+    
+    func deleteUserWorkout(indexSet: IndexSet) {
+        self.usersWorkoutsList.remove(atOffsets: indexSet)
+    }
+    
+    func fetchUsersWorkouts() {
+        
     }
     
 }

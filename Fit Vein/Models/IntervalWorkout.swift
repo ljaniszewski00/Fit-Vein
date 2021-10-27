@@ -32,6 +32,20 @@ struct IntervalWorkout: Codable, Identifiable {
         self.restTime = restTime
     }
     
+    init(forPreviews: Bool, id: String, type: String, date: Date, isFinished: Bool = false, calories: Int?, series: Int?, workTime: Int?, restTime: Int?, completedDuration: Int?, completedSeries: Int?) {
+        self.id = id
+        self.type = type
+        self.date = date
+        self.duration = (series! * workTime!) + (series! * restTime!)
+        self.isFinished = isFinished
+        self.calories = calories
+        self.series = series
+        self.workTime = workTime
+        self.restTime = restTime
+        self.completedDuration = completedDuration
+        self.completedSeries = completedSeries
+    }
+    
     mutating func setDataOnEnd(calories: Int?, completedDuration: Int?, completedSeries: Int?) {
         self.isFinished = true
         self.calories = calories
