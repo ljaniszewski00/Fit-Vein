@@ -38,17 +38,29 @@ struct WorkoutView: View {
                                                 .resizable()
                                                 .scaledToFit()
                                                 .frame(width: screenWidth * 0.1, height: screenHeight * 0.1)
-                                                .padding(.trailing)
+                                            
+                                            Spacer()
                                             
                                             VStack {
                                                 Text(workout.type)
+                                                    .foregroundColor(.green)
                                                     .font(.title3)
                                                     .fontWeight(.bold)
-                                                
+                                            }
+                                            
+                                            Spacer()
+                                            
+                                            Divider()
+                                            
+                                            Spacer()
+                                            
+                                            VStack {
                                                 Text("Work Time: \(workout.workTime!)")
                                                 Text("Rest Time: \(workout.restTime!)")
                                                 Text("Series: \(workout.series!)")
                                             }
+                                            
+                                            Spacer()
                                         }
                                         .onTapGesture {
                                             withAnimation {
@@ -62,8 +74,6 @@ struct WorkoutView: View {
                                         .font(.title3)
                                         .fontWeight(.bold)
                                 })
-                                
-                                .listRowSeparatorTint(.green)
                             }
                             
                             DisclosureGroup(isExpanded: $showUsersWorkoutsList, content: {
@@ -73,17 +83,29 @@ struct WorkoutView: View {
                                             .resizable()
                                             .scaledToFit()
                                             .frame(width: screenWidth * 0.1, height: screenHeight * 0.1)
-                                            .padding(.trailing)
+                                        
+                                        Spacer()
                                         
                                         VStack {
                                             Text(workout.type)
+                                                .foregroundColor(.green)
                                                 .font(.title3)
                                                 .fontWeight(.bold)
-                                            
+                                        }
+                                        
+                                        Spacer()
+                                        
+                                        Divider()
+                                        
+                                        Spacer()
+                                        
+                                        VStack {
                                             Text("Work Time: \(workout.workTime!)")
                                             Text("Rest Time: \(workout.restTime!)")
                                             Text("Series: \(workout.series!)")
                                         }
+                                        
+                                        Spacer()
                                     }
                                     .onTapGesture {
                                         withAnimation {
@@ -100,7 +122,6 @@ struct WorkoutView: View {
                                     .font(.title3)
                                     .fontWeight(.bold)
                             })
-                            .listRowSeparatorTint(.green)
                         }
                     }
                     .navigationTitle("Workouts")
