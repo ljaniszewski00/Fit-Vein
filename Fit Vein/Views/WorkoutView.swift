@@ -27,8 +27,10 @@ struct WorkoutView: View {
             } else {
                 NavigationView {
                     VStack {
-                        if showSampleWorkoutsListFromSettings {
-                            List {
+                        Spacer(minLength: screenHeight * 0.05)
+                        
+                        List {
+                            if showSampleWorkoutsListFromSettings {
                                 DisclosureGroup(isExpanded: $showSampleWorkoutsList, content: {
                                     ForEach(workoutViewModel.workoutsList) { workout in
                                         HStack {
@@ -57,13 +59,13 @@ struct WorkoutView: View {
                                     }
                                 }, label: {
                                     Text("Sample Workouts")
-                                        .font(.title2)
+                                        .font(.title3)
                                         .fontWeight(.bold)
                                 })
+                                
+                                .listRowSeparatorTint(.green)
                             }
-                        }
-                        
-                        List {
+                            
                             DisclosureGroup(isExpanded: $showUsersWorkoutsList, content: {
                                 ForEach(workoutViewModel.usersWorkoutsList) { workout in
                                     HStack {
@@ -95,9 +97,10 @@ struct WorkoutView: View {
                                 }
                             }, label: {
                                 Text("User's Workouts")
-                                    .font(.title2)
+                                    .font(.title3)
                                     .fontWeight(.bold)
                             })
+                            .listRowSeparatorTint(.green)
                         }
                     }
                     .navigationTitle("Workouts")
@@ -190,9 +193,6 @@ struct WorkoutAddView: View {
                 Button(action: {
                     workoutViewModel.addUserWorkout(series: Int(self.series) ?? 8, workTime: Int(self.workTime) ?? 45, restTime: Int(self.restTime) ?? 15)
                     dismiss()
-//                    if !self.series.isEmpty && !self.workTime.isEmpty && !self.restTime.isEmpty {
-//
-//                    }
                 }, label: {
                     Text("Save Workout")
                         .foregroundColor(Color(uiColor: .systemGray5))
@@ -211,7 +211,7 @@ struct WorkoutAddView: View {
 }
 
 struct WorkoutCountdownView: View {
-    @State private var timeToFinish = 3
+    @State private var timeToFinish = 5
     @Environment(\.dismiss) var dismiss
     @ObservedObject var workoutViewModel: WorkoutViewModel
     
@@ -237,8 +237,20 @@ struct WorkoutCountdownView: View {
                     HStack {
                         Spacer()
                         
-                        Text("\(timeToFinish)")
-                            .font(.system(size: screenHeight * 0.3, weight: .bold))
+                        ZStack {
+                            Circle()
+                                .stroke(Color.gray.opacity(0.2), style: StrokeStyle(lineWidth: 15, lineCap: .round))
+                            
+                            Circle()
+                                .trim(from: 0, to: CGFloat(timeToFinish) / 5)
+                                .stroke(.green, style: StrokeStyle(lineWidth: 15, lineCap: .round))
+                                .rotationEffect(.degrees(-90))
+                                .animation(.easeInOut)
+                            
+                            Text("\(timeToFinish)")
+                                .foregroundColor(.green)
+                                .font(.system(size: screenHeight * 0.3, weight: .bold))
+                        }
                         
                         Spacer()
                     }
