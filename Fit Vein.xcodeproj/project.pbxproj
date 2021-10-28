@@ -14,6 +14,9 @@
 		0A4BF9242728500800311D24 /* WorkoutTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4BF9232728500800311D24 /* WorkoutTimerView.swift */; };
 		0A4BF92A2728552100311D24 /* FinishedWorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4BF9292728552000311D24 /* FinishedWorkoutView.swift */; };
 		0A67B1D2272AD8AE007F8891 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A67B1D1272AD8AE007F8891 /* Post.swift */; };
+		0A67B1D4272AF359007F8891 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A67B1D3272AF359007F8891 /* NotificationsView.swift */; };
+		0A67B1D6272B04EC007F8891 /* SearchFriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A67B1D5272B04EC007F8891 /* SearchFriendsView.swift */; };
+		0A67B1D8272B0652007F8891 /* EditPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A67B1D7272B0652007F8891 /* EditPostView.swift */; };
 		0A8F574C2720B70E00183F47 /* RingProgressViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F574B2720B70E00183F47 /* RingProgressViewStyle.swift */; };
 		0A8F574E2720B8A400183F47 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F574D2720B8A400183F47 /* SettingsView.swift */; };
 		0AB808CF2715B9D700337924 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB808CE2715B9D700337924 /* SessionStore.swift */; };
@@ -56,6 +59,9 @@
 		0A4BF9232728500800311D24 /* WorkoutTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutTimerView.swift; sourceTree = "<group>"; };
 		0A4BF9292728552000311D24 /* FinishedWorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishedWorkoutView.swift; sourceTree = "<group>"; };
 		0A67B1D1272AD8AE007F8891 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		0A67B1D3272AF359007F8891 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
+		0A67B1D5272B04EC007F8891 /* SearchFriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFriendsView.swift; sourceTree = "<group>"; };
+		0A67B1D7272B0652007F8891 /* EditPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostView.swift; sourceTree = "<group>"; };
 		0A8F574B2720B70E00183F47 /* RingProgressViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingProgressViewStyle.swift; sourceTree = "<group>"; };
 		0A8F574D2720B8A400183F47 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		0AB808CE2715B9D700337924 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
@@ -148,6 +154,9 @@
 				0AC41CF727274F7300DA5491 /* WorkoutTabView.swift */,
 				0A4BF9232728500800311D24 /* WorkoutTimerView.swift */,
 				0A4BF9292728552000311D24 /* FinishedWorkoutView.swift */,
+				0A67B1D3272AF359007F8891 /* NotificationsView.swift */,
+				0A67B1D5272B04EC007F8891 /* SearchFriendsView.swift */,
+				0A67B1D7272B0652007F8891 /* EditPostView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -371,13 +380,16 @@
 				0ABE145027203DEF009CD67A /* ProfileViewModel.swift in Sources */,
 				0ABE14332716EC3E009CD67A /* FirebaseStorageManager.swift in Sources */,
 				0A67B1D2272AD8AE007F8891 /* Post.swift in Sources */,
+				0A67B1D4272AF359007F8891 /* NotificationsView.swift in Sources */,
 				0A4BF9242728500800311D24 /* WorkoutTimerView.swift in Sources */,
 				0AC41CF827274F7300DA5491 /* WorkoutTabView.swift in Sources */,
 				0AC4DD872715A9E4003D5FED /* ContentView.swift in Sources */,
+				0A67B1D6272B04EC007F8891 /* SearchFriendsView.swift in Sources */,
 				0ABE144227203B47009CD67A /* HomeView.swift in Sources */,
 				0ABE143C2716F6BE009CD67A /* SignUpViewModel.swift in Sources */,
 				0ABE144827203D04009CD67A /* WorkoutView.swift in Sources */,
 				0ABE143A2716F114009CD67A /* Functions.swift in Sources */,
+				0A67B1D8272B0652007F8891 /* EditPostView.swift in Sources */,
 				0ABE144627203BB0009CD67A /* LoggedUserView.swift in Sources */,
 				0ABE14312716EC23009CD67A /* FirestoreManager.swift in Sources */,
 				0ABE144A27203D0D009CD67A /* ProfileView.swift in Sources */,

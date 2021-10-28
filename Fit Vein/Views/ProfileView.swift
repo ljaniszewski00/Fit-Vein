@@ -68,7 +68,7 @@ struct ProfileView: View {
                     
                     VStack {
                         HStack {
-                            Text(profileViewModel.profile!.firstName)
+                            Text(profileViewModel.profile != nil ? profileViewModel.profile!.firstName : "Nil Placeholder")
                                 .foregroundColor(.green)
                                 .font(.system(size: screenHeight * 0.03))
                                 .fontWeight(.bold)
@@ -90,7 +90,7 @@ struct ProfileView: View {
                         .padding(.top, screenHeight * 0.02)
                         
                         HStack {
-                            Text(profileViewModel.profile!.username)
+                            Text(profileViewModel.profile != nil ? profileViewModel.profile!.username : "Nil Placeholder")
                                 .foregroundColor(Color(uiColor: UIColor.lightGray))
                             Spacer()
                         }
@@ -138,6 +138,12 @@ struct ProfileView: View {
                         WorkoutTabView(profileViewModel: profileViewModel)
                             .frame(height: screenHeight)
                     }
+                }
+            }
+            .onAppear {
+                self.profileViewModel.setup(sessionStore: sessionStore)
+                Task {
+                    try await self.profileViewModel.fetchData()
                 }
             }
             .navigationTitle("")

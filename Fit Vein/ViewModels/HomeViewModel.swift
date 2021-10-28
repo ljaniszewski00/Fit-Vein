@@ -53,6 +53,15 @@ class HomeViewModel: ObservableObject {
         }
     }
     
+    func likePost(postID: String) {
+        for postIndex in (0..<self.posts!.count) {
+            if self.posts![postIndex].id == postID {
+                self.posts![postIndex].reactToPost()
+                break
+            }
+        }
+    }
+    
     func commentPost(postID: String, author: Profile, text: String) {
         let commentToBeAdded = Comment(author: author, text: text)
         for postIndex in (0..<self.posts!.count) {
