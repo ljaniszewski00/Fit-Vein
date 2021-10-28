@@ -10,6 +10,7 @@ import SwiftUI
 struct SignInView: View {
     @EnvironmentObject var sessionStore: SessionStore
     @StateObject private var signInViewModel = SignInViewModel()
+    @Environment(\.colorScheme) var colorScheme
     
     @State var email: String = ""
     @State var password: String = ""
@@ -30,40 +31,68 @@ struct SignInView: View {
                 
                 VStack {
                     HStack {
-                        Text("E-mail")
+                        Image(uiImage: UIImage(named: colorScheme == .dark ? "FitVeinIconDark" : "FitVeinIconLight")!)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+                            .padding(.leading, screenWidth * 0.13)
+                        
+                        Spacer()
+                        
+                        Text("Sign In Form")
+                            .font(.system(size: screenHeight * 0.04, weight: .bold))
+                        
                         Spacer()
                     }
                     
-                    TextField("E-Mail", text: $email)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .disableAutocorrection(true)
-                        .autocapitalization(.none)
+                    VStack {
+                        HStack {
+                            Text("E-mail")
+                            Spacer()
+                        }
+                        
+                        VStack {
+                            TextField("E-mail", text: $email)
+                                .disableAutocorrection(true)
+                                .autocapitalization(.none)
+                            Divider()
+                                .background(Color.green)
+                        }
+                        
+                    }
+                    .padding()
+                    
+                    VStack {
+                        HStack {
+                            Text("Password")
+                            Spacer()
+                        }
+                        
+                        VStack {
+                            SecureField("Password", text: $password)
+                                .disableAutocorrection(true)
+                                .autocapitalization(.none)
+                            Divider()
+                                .background(Color.green)
+                        }
+                        
+                        HStack {
+                            Text("Forgot Password?")
+                                .font(.system(size: screenHeight * 0.018))
+                                .foregroundColor(.green)
+                                .onTapGesture {
+                                    showForgotPasswordSheet = true
+                                }
+                            Spacer()
+                        }
+                        
+                    }
+                    .padding()
                 }
-                .padding()
+                .background(RoundedRectangle(cornerRadius: 25)
+                                .foregroundColor(.black.opacity(0.7))
+                                .frame(width: screenWidth * 0.98, height: screenHeight * 0.55))
                 
-                VStack {
-                    HStack {
-                        Text("Password")
-                        Spacer()
-                    }
-                    
-                    SecureField("Password", text: $password)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .disableAutocorrection(true)
-                        .autocapitalization(.none)
-                    
-                    HStack {
-                        Text("Forgot Password?")
-                            .font(.system(size: screenHeight * 0.018))
-                            .foregroundColor(.green)
-                            .onTapGesture {
-                                showForgotPasswordSheet = true
-                            }
-                        Spacer()
-                    }
-                    
-                }
-                .padding()
 
                 Button(action: {
                     if checkDataIsCorrect() {
@@ -82,12 +111,12 @@ struct SignInView: View {
                     Text("Don't have an account?")
                     NavigationLink("Create One", destination: SignUpView().environmentObject(sessionStore).ignoresSafeArea(.keyboard))
                         .foregroundColor(.green)
-                } 
+                }
+                .padding(.bottom, screenHeight * 0.05)
             }
             .onAppear {
                 self.signInViewModel.setup(sessionStore: sessionStore)
             }
-            .navigationTitle("Sign In")
             .foregroundColor(.white)
             .background(Image("SignUpBackgroundImage")
                             .resizable()

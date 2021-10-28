@@ -173,11 +173,14 @@ struct WorkoutAddView: View {
                         Spacer()
                     }
                     
-                    TextField("number", text: $series)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .disableAutocorrection(true)
-                        .autocapitalization(.none)
-                        .keyboardType(.numberPad)
+                    VStack {
+                        TextField("number", text: $series)
+                            .disableAutocorrection(true)
+                            .autocapitalization(.none)
+                            .keyboardType(.numberPad)
+                        Divider()
+                            .background(Color.green)
+                    }
                 }
                 .padding()
                 
@@ -187,11 +190,14 @@ struct WorkoutAddView: View {
                         Spacer()
                     }
                     
-                    TextField("seconds", text: $workTime)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .disableAutocorrection(true)
-                        .autocapitalization(.none)
-                        .keyboardType(.numberPad)
+                    VStack {
+                        TextField("seconds", text: $workTime)
+                            .disableAutocorrection(true)
+                            .autocapitalization(.none)
+                            .keyboardType(.numberPad)
+                        Divider()
+                            .background(Color.green)
+                    }
                 }
                 .padding()
                 
@@ -201,11 +207,15 @@ struct WorkoutAddView: View {
                         Spacer()
                     }
                     
-                    TextField("seconds", text: $restTime)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .disableAutocorrection(true)
-                        .autocapitalization(.none)
-                        .keyboardType(.numberPad)
+                    VStack {
+                        TextField("seconds", text: $restTime)
+                            .disableAutocorrection(true)
+                            .autocapitalization(.none)
+                            .keyboardType(.numberPad)
+                        Divider()
+                            .background(Color.green)
+                    }
+                    
                 }
                 .padding()
                 
@@ -261,12 +271,14 @@ struct WorkoutCountdownView: View {
                         ZStack {
                             Circle()
                                 .stroke(Color.gray.opacity(0.2), style: StrokeStyle(lineWidth: 15, lineCap: .round))
+                                .padding()
                             
                             Circle()
                                 .trim(from: 0, to: CGFloat(timeToFinish) / 5)
                                 .stroke(.green, style: StrokeStyle(lineWidth: 15, lineCap: .round))
                                 .rotationEffect(.degrees(-90))
                                 .animation(.easeInOut)
+                                .padding()
                             
                             Text("\(timeToFinish)")
                                 .foregroundColor(.green)

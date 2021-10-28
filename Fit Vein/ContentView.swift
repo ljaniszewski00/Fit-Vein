@@ -10,6 +10,7 @@ import LocalAuthentication
 
 struct ContentView: View {
     @EnvironmentObject var sessionStore: SessionStore
+    @Environment(\.colorScheme) var colorScheme
     @AppStorage("locked") var biometricLock: Bool = true
     @AppStorage("shouldShowOnboarding") var shouldShowOnboarding: Bool = true
     @State private var unlocked = false
@@ -37,12 +38,19 @@ struct ContentView: View {
                             .padding(.bottom, screenHeight * 0.02)
                         
                         HStack(spacing: screenWidth * 0.0001) {
+                            Image(uiImage: UIImage(named: colorScheme == .dark ? "FitVeinIconDark" : "FitVeinIconLight")!)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: screenWidth * 0.2, height: screenHeight * 0.2)
+                                .padding(.horizontal, screenWidth * 0.05)
+                            
                             Text("Fit")
                                 .foregroundColor(.green)
+                                .fontWeight(.bold)
                             Text("Vein")
+                                .fontWeight(.bold)
                         }
                         .font(.system(size: screenHeight * 0.1))
-                        
                         
                         Spacer()
                         

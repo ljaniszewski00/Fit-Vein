@@ -10,6 +10,7 @@ import SwiftUI
 struct SignUpView: View {
     @EnvironmentObject private var sessionStore: SessionStore
     @StateObject private var signUpViewModel = SignUpViewModel()
+    @Environment(\.colorScheme) var colorScheme
     
     @State private var firstName = ""
     @State private var username = ""
@@ -20,7 +21,6 @@ struct SignUpView: View {
     @State private var birthDate = Date()
     
     @State private var country: Country = .poland
-    @State private var city: City = .łódź
     @State private var language: Language = .polish
     
     @State private var correctData = false
@@ -42,129 +42,146 @@ struct SignUpView: View {
             let screenHeight = geometry.size.height
             
             VStack {
-                Group {
-                    HStack {
-                        Text("Personal Information").font(.title)
-                        Spacer()
-                    }
-                    .padding()
-                    
-                    
-                    VStack {
+                VStack {
+                    Group {
                         HStack {
-                            Text("First Name")
+                            Image(uiImage: UIImage(named: colorScheme == .dark ? "FitVeinIconDark" : "FitVeinIconLight")!)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: screenWidth * 0.12, height: screenHeight * 0.12)
+                                .padding(.leading, screenWidth * 0.13)
+                            
+                            Spacer()
+                            
+                            Text("Sign Up Form")
+                                .font(.system(size: screenHeight * 0.04, weight: .bold))
+                            
                             Spacer()
                         }
                         
-                        TextField("First Name", text: $firstName)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .disableAutocorrection(true)
-                            .autocapitalization(.none)
-                    }
-                    .padding()
-                    
-                    VStack {
-                        HStack {
-                            Text("Username")
-                            Spacer()
-                        }
-                        
-                        TextField("Username", text: $username, onCommit: {
-                            Task {
-                                self.usernameTaken = try await signUpViewModel.checkUsernameDuplicate(username: username)
-                            }
-                        })
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .disableAutocorrection(true)
-                            .autocapitalization(.none)
-                        
-                        HStack {
-                            Text("This username has already been taken")
-                                .foregroundColor(.red)
-                                .font(.system(size: screenHeight * 0.02))
-                            Spacer()
-                        }
-                        .opacity(usernameTaken ? 100 : 0)
-                    }
-                    .padding()
-                    
-                    VStack {
-                        HStack {
-                            Text("Gender")
-                            Spacer()
-                        }
-                        
-                        Picker("Gender", selection: $gender) {
-                            ForEach(genderValues, id: \.self) {
-                                Text($0)
-                            }
-                        }
-                        .pickerStyle(SegmentedPickerStyle())
-                    }
-                    .padding()
-                }
-                
-                Group {
-                    VStack {
-                        HStack {
-                            Text("Birth Date")
-                            Spacer()
-                        }
-                        
-                        HStack {
-                            DatePicker("Birth Date", selection: $birthDate, in: dateRange, displayedComponents: [.date])
-                                .labelsHidden()
-                            Spacer()
-                        }
-                        
-                        
-                    }
-                    .padding()
-                    
-                    VStack {
-                        HStack(spacing: screenWidth * 0.2) {
-                            Text("Country")
-                            Text("City")
-                            Text("Language")
-                        }
-                        
-                        HStack(spacing: screenWidth * 0.26) {
-                            Picker("Country", selection: $country) {
-                                ForEach(Country.allCases) { country in
-                                    Text(country.rawValue.capitalized).tag(country)
-                                }
+                        VStack {
+                            HStack {
+                                Text("First Name")
+                                Spacer()
                             }
                             
-                            Picker("City", selection: $city) {
-                                ForEach(City.allCases) { city in
-                                    Text(city.rawValue.capitalized).tag(city)
-                                }
+                            VStack {
+                                TextField("First Name", text: $firstName)
+                                    .disableAutocorrection(true)
+                                    .autocapitalization(.none)
+                                
+                                Divider()
+                                    .background(Color.green)
                             }
                             
-                            Picker("Language", selection: $language) {
-                                ForEach(Language.allCases) { language in
-                                    Text(language.rawValue.capitalized).tag(language)
+                        }
+                        .padding(.top)
+                        .padding(.horizontal)
+                        
+                        VStack {
+                            HStack {
+                                Text("Username")
+                                Spacer()
+                            }
+                            
+                            VStack {
+                                TextField("Username", text: $username, onCommit: {
+                                    Task {
+                                        self.usernameTaken = try await signUpViewModel.checkUsernameDuplicate(username: username)
+                                    }
+                                })
+                                    .disableAutocorrection(true)
+                                    .autocapitalization(.none)
+                                
+                                Divider()
+                                    .background(Color.green)
+                            }
+                            
+                            HStack {
+                                Text("This username has already been taken")
+                                    .foregroundColor(.red)
+                                    .font(.system(size: screenHeight * 0.02))
+                                Spacer()
+                            }
+                            .opacity(usernameTaken ? 100 : 0)
+                        }
+                        .padding(.top)
+                        .padding(.horizontal)
+                        
+                        VStack {
+                            HStack {
+                                Text("Gender")
+                                Spacer()
+                            }
+                            
+                            Picker("Gender", selection: $gender) {
+                                ForEach(genderValues, id: \.self) {
+                                    Text($0)
+                                }
+                            }
+                            .pickerStyle(SegmentedPickerStyle())
+                        }
+                        .padding()
+                    }
+                    
+                    Group {
+                        VStack {
+                            HStack {
+                                Text("Birth Date")
+                                Spacer()
+                            }
+                            
+                            HStack {
+                                DatePicker("Birth Date", selection: $birthDate, in: dateRange, displayedComponents: [.date])
+                                    .labelsHidden()
+                                Spacer()
+                            }
+                            
+                            
+                        }
+                        .padding(.horizontal)
+                        
+                        VStack {
+                            HStack(spacing: screenWidth * 0.2) {
+                                Text("Country")
+                                Text("Language")
+                            }
+                            
+                            HStack(spacing: screenWidth * 0.26) {
+                                Picker("Country", selection: $country) {
+                                    ForEach(Country.allCases) { country in
+                                        Text(country.rawValue.capitalized).tag(country)
+                                    }
+                                }
+                                
+                                Picker("Language", selection: $language) {
+                                    ForEach(Language.allCases) { language in
+                                        Text(language.rawValue.capitalized).tag(language)
+                                    }
                                 }
                             }
                         }
+                        .padding(.top)
+                        .padding(.horizontal)
                     }
-                    .padding()
                     
                     Spacer()
                     
-                    
-                    NavigationLink("Next", destination: SecondSignUpView(firstName: firstName, username: username, gender: gender, birthDate: birthDate, country: country, city: city, language: language).environmentObject(sessionStore).ignoresSafeArea(.keyboard))
+                    NavigationLink("Next", destination: SecondSignUpView(firstName: firstName, username: username, gender: gender, birthDate: birthDate, country: country, language: language).environmentObject(sessionStore).ignoresSafeArea(.keyboard))
                         .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor((!checkFieldsNotEmpty() || usernameTaken) ? .gray : .green))
                         .padding()
                         .disabled(!checkFieldsNotEmpty() || usernameTaken)
+                    
+                    Spacer()
                 }
-                
+                .background(RoundedRectangle(cornerRadius: 25)
+                                .foregroundColor(.black.opacity(0.7))
+                                .frame(width: screenWidth * 0.98, height: screenHeight * 0.96))
                 
             }
             .onAppear {
                 self.signUpViewModel.setup(sessionStore: sessionStore)
             }
-            .navigationTitle("Sign Up")
             .foregroundColor(.white)
             .background(Image("SignUpBackgroundImage")
                             .resizable()
@@ -186,6 +203,7 @@ struct SignUpView: View {
 struct SecondSignUpView: View {
     @EnvironmentObject var sessionStore: SessionStore
     @StateObject private var signUpViewModel = SignUpViewModel()
+    @Environment(\.colorScheme) var colorScheme
     
     private var firstName: String
     private var username: String
@@ -193,7 +211,6 @@ struct SecondSignUpView: View {
     private var birthDate: Date
     
     private var country: Country
-    private var city: City
     private var language: Language
     
     @State private var email: String = ""
@@ -204,13 +221,12 @@ struct SecondSignUpView: View {
     
     @State private var correctData = false
     
-    init(firstName: String, username: String, gender: String, birthDate: Date, country: Country, city: City, language: Language) {
+    init(firstName: String, username: String, gender: String, birthDate: Date, country: Country, language: Language) {
         self.firstName = firstName
         self.username = username
         self.gender = gender
         self.birthDate = birthDate
         self.country = country
-        self.city = city
         self.language = language
     }
     
@@ -221,10 +237,19 @@ struct SecondSignUpView: View {
             
             VStack {
                 HStack {
-                    Text("Account Credentials").font(.title)
+                    Image(uiImage: UIImage(named: colorScheme == .dark ? "FitVeinIconDark" : "FitVeinIconLight")!)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: screenWidth * 0.12, height: screenHeight * 0.12)
+                        .padding(.leading, screenWidth * 0.13)
+                    
+                    Spacer()
+                    
+                    Text("Sign Up Form")
+                        .font(.system(size: screenHeight * 0.04, weight: .bold))
+                    
                     Spacer()
                 }
-                .padding()
                 
                 VStack {
                     HStack {
@@ -232,14 +257,18 @@ struct SecondSignUpView: View {
                         Spacer()
                     }
                     
-                    TextField("E-mail", text: $email, onCommit: {
-                        Task {
-                            self.emailTaken = try await signUpViewModel.checkEmailDuplicate(email: email)
-                        }
-                    })
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .disableAutocorrection(true)
-                        .autocapitalization(.none)
+                    VStack {
+                        TextField("E-mail", text: $email, onCommit: {
+                            Task {
+                                self.emailTaken = try await signUpViewModel.checkEmailDuplicate(email: email)
+                            }
+                        })
+                            .disableAutocorrection(true)
+                            .autocapitalization(.none)
+                        
+                        Divider()
+                            .background(Color.green)
+                    }
                     
                     HStack {
                         Image(systemName: "envelope")
@@ -255,7 +284,8 @@ struct SecondSignUpView: View {
                     }
                     .opacity(emailTaken ? 100 : 0)
                 }
-                .padding()
+                .padding(.top)
+                .padding(.horizontal)
                 
                 VStack {
                     HStack {
@@ -263,10 +293,14 @@ struct SecondSignUpView: View {
                         Spacer()
                     }
                     
-                    SecureField("Password", text: $password)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .disableAutocorrection(true)
-                        .autocapitalization(.none)
+                    VStack {
+                        SecureField("Password", text: $password)
+                            .disableAutocorrection(true)
+                            .autocapitalization(.none)
+                        
+                        Divider()
+                            .background(Color.green)
+                    }
                     
                     HStack {
                         Image(systemName: "lock.open")
@@ -274,7 +308,8 @@ struct SecondSignUpView: View {
                         Spacer()
                     }
                 }
-                .padding()
+                .padding(.top)
+                .padding(.horizontal)
                 
                 VStack {
                     HStack {
@@ -282,10 +317,14 @@ struct SecondSignUpView: View {
                         Spacer()
                     }
                     
-                    SecureField("Confirm Password", text: $repeatedPassword)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .disableAutocorrection(true)
-                        .autocapitalization(.none)
+                    VStack {
+                        SecureField("Confirm Password", text: $repeatedPassword)
+                            .disableAutocorrection(true)
+                            .autocapitalization(.none)
+                        
+                        Divider()
+                            .background(Color.green)
+                    }
                     
                     HStack {
                         Image(systemName: "arrow.up.square")
@@ -293,12 +332,11 @@ struct SecondSignUpView: View {
                         Spacer()
                     }
                 }
-                .padding()
-                
-                Spacer()
+                .padding(.top)
+                .padding(.horizontal)
                 
                 Button(action: {
-                    signUpViewModel.signUp(firstName: firstName, userName: username, birthDate: birthDate, country: country.rawValue, city: city.rawValue, language: language.rawValue, email: email, password: password, gender: gender)
+                    signUpViewModel.signUp(firstName: firstName, userName: username, birthDate: birthDate, country: country.rawValue, language: language.rawValue, email: email, password: password, gender: gender)
                 }, label: {
                     Text("Sign Up")
                         .fontWeight(.bold)
@@ -306,11 +344,15 @@ struct SecondSignUpView: View {
                 .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor((!checkDataIsCorrect()) ? .gray : .green))
                 .padding()
                 .disabled(!checkDataIsCorrect())
+                
+                Spacer()
             }
+            .background(RoundedRectangle(cornerRadius: 25)
+                            .foregroundColor(.black.opacity(0.7))
+                            .frame(width: screenWidth * 0.98, height: screenHeight * 0.95))
             .onAppear {
                 self.signUpViewModel.setup(sessionStore: sessionStore)
             }
-            .navigationTitle("Sign Up")
             .foregroundColor(.white)
             .background(Image("SignUpBackgroundImage")
                             .resizable()
@@ -344,7 +386,6 @@ struct SignUpView_Previews: PreviewProvider {
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
                 let country: Country = .poland
-                let city: City = .łódź
                 let language: Language = .polish
                 let sessionStore = SessionStore()
                 
@@ -353,7 +394,7 @@ struct SignUpView_Previews: PreviewProvider {
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)
                     .environmentObject(sessionStore)
-                SecondSignUpView(firstName: "firstName", username: "userName", gender: "gender", birthDate: Date(), country: country, city: city, language: language)
+                SecondSignUpView(firstName: "firstName", username: "userName", gender: "gender", birthDate: Date(), country: country, language: language)
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)

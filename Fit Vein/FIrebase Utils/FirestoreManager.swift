@@ -17,7 +17,7 @@ class FirestoreManager: ObservableObject {
         self.db
     }
     
-    func signUpDataCreation(id: String, firstName: String, username: String, birthDate: Date, country: String, city: String, language: String, email: String, gender: String) async {
+    func signUpDataCreation(id: String, firstName: String, username: String, birthDate: Date, country: String, language: String, email: String, gender: String) async {
         let documentData: [String: Any] = [
             "id": id,
             "firstName": firstName,
@@ -25,7 +25,6 @@ class FirestoreManager: ObservableObject {
             "birthDate": birthDate,
             "age": yearsBetweenDate(startDate: birthDate, endDate: Date()) == 0 ? 18 : yearsBetweenDate(startDate: birthDate, endDate: Date()),
             "country": country,
-            "city": city,
             "language": language,
             "email": email,
             "gender": gender
@@ -64,7 +63,7 @@ class FirestoreManager: ObservableObject {
         }
     }
     
-    func fetchDataForProfileViewModel(userID: String) async throws -> (String, String, Date, Int, String, String, String, String, String, String?) {
+    func fetchDataForProfileViewModel(userID: String) async throws -> (String, String, Date, Int, String, String, String, String, String?) {
         let document = try await self.db.collection("users").document(userID).getDocument()
         
         let firstName = document.get("firstName") as? String ?? ""
@@ -72,13 +71,12 @@ class FirestoreManager: ObservableObject {
         let birthDate = document.get("birthDate") as? Date ?? Date()
         let age = document.get("age") as? Int ?? 0
         let country = document.get("country") as? String ?? ""
-        let city = document.get("city") as? String ?? ""
         let language = document.get("language") as? String ?? ""
         let gender = document.get("gender") as? String ?? ""
         let email = document.get("email") as? String ?? ""
         let profilePictureURL = document.get("profilePictureURL") as? String ?? nil
         
-        return (firstName, username, birthDate, age, country, city, language, gender, email, profilePictureURL)
+        return (firstName, username, birthDate, age, country, language, gender, email, profilePictureURL)
     }
     
     func addProfilePictureURLToUsersData(photoURL: String, completion: @escaping (() -> ())) {

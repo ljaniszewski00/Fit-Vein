@@ -28,7 +28,7 @@ class ProfileViewModel: ObservableObject {
                          IntervalWorkout(forPreviews: true, id: UUID().uuidString, type: "Interval", date: Date(), isFinished: true, calories: 110, series: 5, workTime: 45, restTime: 15, completedDuration: 8 * (45 + 15), completedSeries: 8),
                          IntervalWorkout(forPreviews: true, id: UUID().uuidString, type: "Interval", date: Date(), isFinished: true, calories: 260, series: 10, workTime: 45, restTime: 15, completedDuration: 8 * (45 + 15), completedSeries: 8)]
         
-        self.profile = Profile(id: "sessionStore!.currentUser!.uid", firstName: "firstname", username: "username", birthDate: Date(), age: 18, country: "country", city: "city", language: "language", gender: "gender", email: "email", profilePictureURL: nil)
+        self.profile = Profile(id: "sessionStore!.currentUser!.uid", firstName: "firstname", username: "username", birthDate: Date(), age: 18, country: "country", language: "language", gender: "gender", email: "email", profilePictureURL: nil)
     }
     
     init() {
@@ -55,9 +55,9 @@ class ProfileViewModel: ObservableObject {
                 print("Fetching Data")
                 fetchingData = true
                 
-                let (firstname, username, birthDate, age, country, city, language, gender, email, profilePictureURL) = try await self.firestoreManager.fetchDataForProfileViewModel(userID: sessionStore!.currentUser!.uid)
+                let (firstname, username, birthDate, age, country, language, gender, email, profilePictureURL) = try await self.firestoreManager.fetchDataForProfileViewModel(userID: sessionStore!.currentUser!.uid)
                 
-                self.profile = Profile(id: sessionStore!.currentUser!.uid, firstName: firstname, username: username, birthDate: birthDate, age: age, country: country, city: city, language: language, gender: gender, email: email, profilePictureURL: profilePictureURL)
+                self.profile = Profile(id: sessionStore!.currentUser!.uid, firstName: firstname, username: username, birthDate: birthDate, age: age, country: country, language: language, gender: gender, email: email, profilePictureURL: profilePictureURL)
                 
                 if profilePictureURL != nil {
                     self.firebaseStorageManager.getDownloadURLForImage(stringURL: profilePictureURL!, userID: sessionStore!.currentUser!.uid) { photoURL in
