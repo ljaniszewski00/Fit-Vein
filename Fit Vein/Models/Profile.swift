@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SwiftUI
 
 struct Profile: Codable, Identifiable {
     var id: String

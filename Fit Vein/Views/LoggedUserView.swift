@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LoggedUserView: View {
     @EnvironmentObject private var sessionStore: SessionStore
+    @ObservedObject private var homeViewModel = HomeViewModel(forPreviews: true)
     @ObservedObject private var profileViewModel = ProfileViewModel()
     
     var body: some View {
@@ -18,7 +19,7 @@ struct LoggedUserView: View {
             
 //            if !profileViewModel.fetchingData {
             TabView {
-                HomeView()
+                HomeView(homeViewModel: homeViewModel, profileViewModel: profileViewModel)
                     .environmentObject(sessionStore)
                     .navigationTitle("")
                     .navigationBarHidden(true)

@@ -13,6 +13,7 @@
 		0A4174772726CC1A00DF4460 /* IntervalWorkout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4174762726CC1A00DF4460 /* IntervalWorkout.swift */; };
 		0A4BF9242728500800311D24 /* WorkoutTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4BF9232728500800311D24 /* WorkoutTimerView.swift */; };
 		0A4BF92A2728552100311D24 /* FinishedWorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4BF9292728552000311D24 /* FinishedWorkoutView.swift */; };
+		0A67B1D2272AD8AE007F8891 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A67B1D1272AD8AE007F8891 /* Post.swift */; };
 		0A8F574C2720B70E00183F47 /* RingProgressViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F574B2720B70E00183F47 /* RingProgressViewStyle.swift */; };
 		0A8F574E2720B8A400183F47 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F574D2720B8A400183F47 /* SettingsView.swift */; };
 		0AB808CF2715B9D700337924 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB808CE2715B9D700337924 /* SessionStore.swift */; };
@@ -54,6 +55,7 @@
 		0A4174762726CC1A00DF4460 /* IntervalWorkout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntervalWorkout.swift; sourceTree = "<group>"; };
 		0A4BF9232728500800311D24 /* WorkoutTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutTimerView.swift; sourceTree = "<group>"; };
 		0A4BF9292728552000311D24 /* FinishedWorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishedWorkoutView.swift; sourceTree = "<group>"; };
+		0A67B1D1272AD8AE007F8891 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		0A8F574B2720B70E00183F47 /* RingProgressViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingProgressViewStyle.swift; sourceTree = "<group>"; };
 		0A8F574D2720B8A400183F47 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		0AB808CE2715B9D700337924 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 			children = (
 				0ABE145227203E68009CD67A /* Profile.swift */,
 				0A4174762726CC1A00DF4460 /* IntervalWorkout.swift */,
+				0A67B1D1272AD8AE007F8891 /* Post.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -367,6 +370,7 @@
 				0ABE145727204C72009CD67A /* SwiftUIImagePicker.swift in Sources */,
 				0ABE145027203DEF009CD67A /* ProfileViewModel.swift in Sources */,
 				0ABE14332716EC3E009CD67A /* FirebaseStorageManager.swift in Sources */,
+				0A67B1D2272AD8AE007F8891 /* Post.swift in Sources */,
 				0A4BF9242728500800311D24 /* WorkoutTimerView.swift in Sources */,
 				0AC41CF827274F7300DA5491 /* WorkoutTabView.swift in Sources */,
 				0AC4DD872715A9E4003D5FED /* ContentView.swift in Sources */,
