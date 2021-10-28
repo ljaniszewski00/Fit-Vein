@@ -53,21 +53,22 @@ class ProfileViewModel: ObservableObject {
         if sessionStore != nil {
             if sessionStore!.currentUser != nil {
                 print("Fetching Data")
-                fetchingData = true
-                
-                let (firstname, username, birthDate, age, country, language, gender, email, profilePictureURL) = try await self.firestoreManager.fetchDataForProfileViewModel(userID: sessionStore!.currentUser!.uid)
-                
-                self.profile = Profile(id: sessionStore!.currentUser!.uid, firstName: firstname, username: username, birthDate: birthDate, age: age, country: country, language: language, gender: gender, email: email, profilePictureURL: profilePictureURL)
-                
-                if profilePictureURL != nil {
-                    self.firebaseStorageManager.getDownloadURLForImage(stringURL: profilePictureURL!, userID: sessionStore!.currentUser!.uid) { photoURL in
-                         self.profilePicturePhotoURL = photoURL
-                    }
-                }
-                
                 Task {
+                    fetchingData = true
+                    
+                    let (firstname, username, birthDate, age, country, language, gender, email, profilePictureURL) = try await self.firestoreManager.fetchDataForProfileViewModel(userID: sessionStore!.currentUser!.uid)
+                    
+                    self.profile = Profile(id: sessionStore!.currentUser!.uid, firstName: firstname, username: username, birthDate: birthDate, age: age, country: country, language: language, gender: gender, email: email, profilePictureURL: profilePictureURL)
+                    
+                    if profilePictureURL != nil {
+                        self.firebaseStorageManager.getDownloadURLForImage(stringURL: profilePictureURL!, userID: sessionStore!.currentUser!.uid) { photoURL in
+                             self.profilePicturePhotoURL = photoURL
+                        }
+                    }
+                    
                     fetchingData = false
                 }
+                
             }
         } else {
             fetchingData = false
@@ -103,12 +104,14 @@ class ProfileViewModel: ObservableObject {
     }
     
     func deleteUserData(completion: @escaping (() -> ())) {
-        if self.profile!.profilePictureURL != nil {
-            self.firestoreManager.deleteUserData(userUID: sessionStore!.currentUser!.uid) {
-                print("Successfully deleted user data")
-                Task {
-                    try await self.firebaseStorageManager.deleteImageFromStorage(userPhotoURL: self.profile!.profilePictureURL!, userID: self.sessionStore!.currentUser!.uid)
-                    completion()
+        if self.profile != nil {
+            if self.profile!.profilePictureURL != nil {
+                self.firestoreManager.deleteUserData(userUID: sessionStore!.currentUser!.uid) {
+                    print("Successfully deleted user data")
+                    Task {
+                        try await self.firebaseStorageManager.deleteImageFromStorage(userPhotoURL: self.profile!.profilePictureURL!, userID: self.sessionStore!.currentUser!.uid)
+                        completion()
+                    }
                 }
             }
         }

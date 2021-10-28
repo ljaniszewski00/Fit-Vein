@@ -233,9 +233,6 @@ struct HomeView: View {
         .onAppear {
             self.homeViewModel.setup(sessionStore: sessionStore)
             self.profileViewModel.setup(sessionStore: sessionStore)
-            Task {
-                try await self.profileViewModel.fetchData()
-            }
         }
     }
 }

@@ -64,6 +64,7 @@ struct LoggedUserView: View {
 //            }
         }
         .onAppear {
+            self.homeViewModel.setup(sessionStore: sessionStore)
             self.profileViewModel.setup(sessionStore: sessionStore)
         }
     }

@@ -55,10 +55,8 @@ class FirestoreManager: ObservableObject {
         let querySnapshot = try await self.db.collection("users").whereField("email", isEqualTo: email).getDocuments()
         
         if querySnapshot.documents.count != 0 {
-            print("FOUND")
             return true
         } else {
-            print("NOT FOUND")
             return false
         }
     }

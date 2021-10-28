@@ -68,7 +68,7 @@ struct ProfileView: View {
                     
                     VStack {
                         HStack {
-                            Text(profileViewModel.profile != nil ? profileViewModel.profile!.firstName : "Nil Placeholder")
+                            Text(profileViewModel.profile!.firstName)
                                 .foregroundColor(.green)
                                 .font(.system(size: screenHeight * 0.03))
                                 .fontWeight(.bold)
@@ -90,7 +90,7 @@ struct ProfileView: View {
                         .padding(.top, screenHeight * 0.02)
                         
                         HStack {
-                            Text(profileViewModel.profile != nil ? profileViewModel.profile!.username : "Nil Placeholder")
+                            Text(profileViewModel.profile!.username)
                                 .foregroundColor(Color(uiColor: UIColor.lightGray))
                             Spacer()
                         }
@@ -140,18 +140,15 @@ struct ProfileView: View {
                     }
                 }
             }
-            .onAppear {
-                self.profileViewModel.setup(sessionStore: sessionStore)
-                Task {
-                    try await self.profileViewModel.fetchData()
-                }
-            }
             .navigationTitle("")
             .navigationBarHidden(true)
             .sheet(isPresented: $shouldPresentImagePicker) {
                 ImagePicker(sourceType: self.shouldPresentCamera ? .camera : .photoLibrary, selectedImage: self.$image)
                     .onDisappear {
-                        profileViewModel.uploadPhoto(image: image)
+                        Task {
+                            profileViewModel.uploadPhoto(image: image)
+                            try await profileViewModel.fetchData()
+                        }
                     }
             }
             .actionSheet(isPresented: $shouldPresentAddActionSheet) {
