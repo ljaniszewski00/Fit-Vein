@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @ObservedObject private var profileViewModel: ProfileViewModel
+    @EnvironmentObject private var profileViewModel: ProfileViewModel
     @EnvironmentObject private var sessionStore: SessionStore
     @Environment(\.colorScheme) var colorScheme
     
@@ -22,10 +22,6 @@ struct ProfileView: View {
     @State private var shouldPresentSettings = false
     
     @State private var tabSelection = 0
-    
-    init(profileViewModel: ProfileViewModel) {
-        self.profileViewModel = profileViewModel
-    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -75,7 +71,7 @@ struct ProfileView: View {
                             
                             Spacer()
                             
-                            NavigationLink(destination: SettingsView(profile: profileViewModel).environmentObject(sessionStore), isActive: $shouldPresentSettings) {
+                            NavigationLink(destination: SettingsView().environmentObject(sessionStore).environmentObject(profileViewModel), isActive: $shouldPresentSettings) {
                                 Button(action: {
                                     shouldPresentSettings = true
                                 }, label: {
@@ -172,11 +168,12 @@ struct ProfileView_Previews: PreviewProvider {
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
                 let sessionStore = SessionStore(forPreviews: true)
                 
-                ProfileView(profileViewModel: profileViewModel)
+                ProfileView()
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)
                     .environmentObject(sessionStore)
+                    .environmentObject(profileViewModel)
             }
         }
     }

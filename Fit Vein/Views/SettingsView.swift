@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @ObservedObject private var profileViewModel: ProfileViewModel
+    @EnvironmentObject private var profileViewModel: ProfileViewModel
     @StateObject private var sheetManager = SheetManager()
     @State private var shouldPresentActionSheet = false
     @AppStorage("locked") var biometricLock: Bool = false
@@ -28,11 +28,6 @@ struct SettingsView: View {
         
         @Published var showSheet = false
         @Published var whichSheet: Sheet? = nil
-    }
-    
-    
-    init(profile: ProfileViewModel) {
-        self.profileViewModel = profile
     }
     
     var body: some View {
@@ -165,11 +160,11 @@ struct SettingsView: View {
             .sheet(isPresented: $sheetManager.showSheet) {
                 switch sheetManager.whichSheet {
                 case .email:
-                    ChangeEmailAddressSheetView(profile: profileViewModel)
+                    ChangeEmailAddressSheetView().environmentObject(profileViewModel)
                 case .password:
-                    ChangePasswordSheetView(profile: profileViewModel)
+                    ChangePasswordSheetView().environmentObject(profileViewModel)
                 case .signout:
-                    DeleteAccountSheetView(profile: profileViewModel)
+                    DeleteAccountSheetView().environmentObject(profileViewModel)
                 default:
                     Text("No view")
                 }
@@ -193,15 +188,11 @@ struct SettingsView: View {
 }
 
 struct DeleteAccountSheetView: View {
-    @ObservedObject private var profileViewModel: ProfileViewModel
+    @EnvironmentObject private var profileViewModel: ProfileViewModel
     @Environment(\.dismiss) var dismiss
     
     @State private var email = ""
     @State private var password = ""
-    
-    init(profile: ProfileViewModel) {
-        self.profileViewModel = profile
-    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -245,16 +236,12 @@ struct DeleteAccountSheetView: View {
 
 
 struct ChangeEmailAddressSheetView: View {
-    @ObservedObject private var profileViewModel: ProfileViewModel
+    @EnvironmentObject private var profileViewModel: ProfileViewModel
     @Environment(\.dismiss) var dismiss
     
     @State private var oldEmail = ""
     @State private var password = ""
     @State private var newEmail = ""
-    
-    init(profile: ProfileViewModel) {
-        self.profileViewModel = profile
-    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -295,16 +282,12 @@ struct ChangeEmailAddressSheetView: View {
 
 
 struct ChangePasswordSheetView: View {
-    @ObservedObject private var profileViewModel: ProfileViewModel
+    @EnvironmentObject private var profileViewModel: ProfileViewModel
     @Environment(\.dismiss) var dismiss
     
     @State private var email = ""
     @State private var oldPassword = ""
     @State private var newPassword = ""
-    
-    init(profile: ProfileViewModel) {
-        self.profileViewModel = profile
-    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -349,11 +332,12 @@ struct SettingsView_Previews: PreviewProvider {
         let profileViewModel = ProfileViewModel(forPreviews: true)
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
-                SettingsView(profile: profileViewModel)
+                SettingsView()
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)
                     .environmentObject(SessionStore(forPreviews: true))
+                    .environmentObject(profileViewModel)
             }
         }
     }

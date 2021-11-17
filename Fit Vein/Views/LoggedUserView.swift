@@ -18,7 +18,6 @@ struct LoggedUserView: View {
             let screenHeight = geometry.size.height
             
 //            if !profileViewModel.fetchingData {
-//            CustomTabView(homeViewModel: homeViewModel, profileViewModel: profileViewModel)
             
             TabView {
                 HomeView(homeViewModel: homeViewModel, profileViewModel: profileViewModel)
@@ -39,8 +38,9 @@ struct LoggedUserView: View {
                         Image(systemName: "figure.walk")
                     }
                 
-                ProfileView(profileViewModel: profileViewModel)
+                ProfileView()
                     .environmentObject(sessionStore)
+                    .environmentObject(profileViewModel)
                     .navigationTitle("")
                     .navigationBarHidden(true)
                     .ignoresSafeArea(.keyboard)
