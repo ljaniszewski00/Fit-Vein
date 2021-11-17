@@ -7,6 +7,7 @@
 
 import Foundation
 import Firebase
+import Combine
 
 struct User {
     var uid: String
@@ -15,13 +16,25 @@ struct User {
 
 @MainActor
 class SessionStore: ObservableObject {
-    @Published var session: User?
+    var didChange = PassthroughSubject<SessionStore, Never>()
+    
+    @Published var session: User? {
+        didSet {
+            self.didChange.send(self)
+        }
+    }
     private var firestoreManager = FirestoreManager()
     private var firebaseStorageManager = FirebaseStorageManager()
     
     var handle: AuthStateDidChangeListenerHandle?
     private let authRef = Auth.auth()
     public let currentUser = Auth.auth().currentUser
+    
+    init(forPreviews: Bool) {
+        if forPreviews {
+            self.session = User(uid: "uid", email: "email")
+        }
+    }
     
     func listen() {
         handle = authRef.addStateDidChangeListener({ (auth, user) in
@@ -33,34 +46,32 @@ class SessionStore: ObservableObject {
         })
     }
     
-    func signIn(email: String, password: String) async {
-        do {
-            let authResult = try await authRef.signIn(withEmail: email, password: password)
-            guard authResult != nil else {
-                throw AuthError.authFailed
+    func signIn(email: String, password: String, completion: @escaping (() -> ())) {
+        authRef.signIn(withEmail: email, password: password) { (result, error) in
+            if let error = error {
+                print("Error signing in: \(error.localizedDescription)")
+            } else {
+                print("Successfully signed in")
+                completion()
             }
-        } catch {
-            print(error.localizedDescription)
         }
     }
     
-    func signUp(email: String, password: String) async -> String {
-        do {
-            let authResult = try await authRef.createUser(withEmail: email, password: password)
-            guard authResult != nil else {
-                throw AuthError.authFailed
+    func signUp(email: String, password: String, completion: @escaping ((String) -> ())) {
+        authRef.createUser(withEmail: email, password: password) { (result, error) in
+            if let error = error {
+                print("Error signing up: \(error.localizedDescription)")
+            } else {
+                print("Successfully signed up")
+                completion(result!.user.uid)
             }
-            return authResult.user.uid
-        } catch {
-            print(error.localizedDescription)
         }
-        return ""
     }
     
     func signOut() {
         do {
+            try Auth.auth().signOut()
             self.session = nil
-            try authRef.signOut()
         } catch {
         }
     }
@@ -71,11 +82,20 @@ class SessionStore: ObservableObject {
         }
     }
     
-    func sendRecoveryEmail(email: String) async {
-        do {
-            try await authRef.sendPasswordReset(withEmail: email)
-        } catch {
-            print(error.localizedDescription)
+//    deinit {
+//        Task {
+//            await unbind()
+//        }
+//    }
+    
+    func sendRecoveryEmail(email: String, completion: @escaping (() -> ())) {
+        authRef.sendPasswordReset(withEmail: email) { (error) in
+            if let error = error {
+                print("Error sending recovery email: \(error.localizedDescription)")
+            } else {
+                print("Recovery email has been sent")
+                completion()
+            }
         }
     }
     

@@ -310,7 +310,7 @@ struct WorkoutCountdownView: View {
 
 struct WorkoutView_Previews: PreviewProvider {
     static var previews: some View {
-        let sessionStore = SessionStore()
+        let sessionStore = SessionStore(forPreviews: true)
         let workoutViewModel = WorkoutViewModel(forPreviews: true)
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in

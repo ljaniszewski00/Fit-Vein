@@ -18,14 +18,10 @@ class SignInViewModel: ObservableObject {
     }
     
     func signIn(email: String, password: String) {
-        Task {
-            await self.sessionStore!.signIn(email: email, password: password)
-        }
+        self.sessionStore!.signIn(email: email, password: password) {}
     }
     
     func sendRecoveryEmail(email: String) {
-        Task {
-            await self.sessionStore!.sendRecoveryEmail(email: email)
-        }
+        self.sessionStore!.sendRecoveryEmail(email: email) {}
     }
 }

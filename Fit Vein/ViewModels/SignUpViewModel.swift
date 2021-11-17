@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import UIKit
+import SwiftUI
 
 @MainActor
 class SignUpViewModel: ObservableObject {
@@ -18,9 +20,10 @@ class SignUpViewModel: ObservableObject {
     }
     
     func signUp(firstName: String, userName: String, birthDate: Date, country: String, language: String, email: String, password: String, gender: String) {
-        Task {
-            let userID = await self.sessionStore!.signUp(email: email, password: password)
-            await firestoreManager.signUpDataCreation(id: userID, firstName: firstName, username: userName, birthDate: birthDate, country: country, language: language, email: email, gender: gender)
+        self.sessionStore!.signUp(email: email, password: password) { userID in
+            self.firestoreManager.signUpDataCreation(id: userID, firstName: firstName, username: userName, birthDate: birthDate, country: country, language: language, email: email, gender: gender) { profile in
+                
+            }
         }
     }
     

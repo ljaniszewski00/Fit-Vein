@@ -244,7 +244,7 @@ struct HomeView_Previews: PreviewProvider {
 
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
-                let sessionStore = SessionStore()
+                let sessionStore = SessionStore(forPreviews: true)
 
                 HomeView(homeViewModel: homeViewModel, profileViewModel: profileViewModel)
                     .preferredColorScheme(colorScheme)

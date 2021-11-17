@@ -325,7 +325,7 @@ struct WorkoutTimerView_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
-                let sessionStore = SessionStore()
+                let sessionStore = SessionStore(forPreviews: true)
                 
                 WorkoutTimerView(workoutViewModel: WorkoutViewModel(forPreviews: true))
                     .preferredColorScheme(colorScheme)

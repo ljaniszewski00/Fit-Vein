@@ -8,6 +8,7 @@
 import Foundation
 import Firebase
 import SwiftUI
+import grpc
 
 class FirestoreManager: ObservableObject {
     private let db = Firestore.firestore()
@@ -17,7 +18,7 @@ class FirestoreManager: ObservableObject {
         self.db
     }
     
-    func signUpDataCreation(id: String, firstName: String, username: String, birthDate: Date, country: String, language: String, email: String, gender: String) async {
+    func signUpDataCreation(id: String, firstName: String, username: String, birthDate: Date, country: String, language: String, email: String, gender: String, completion: @escaping ((Profile) -> ())) {
         let documentData: [String: Any] = [
             "id": id,
             "firstName": firstName,
@@ -30,14 +31,14 @@ class FirestoreManager: ObservableObject {
             "gender": gender
         ]
         
-        do {
-            let error = try await self.db.collection("users").document(id).setData(documentData)
-            guard error == nil else {
-                throw DatabaseError.createUserDataFailed
+        self.db.collection("users").document(id).setData(documentData) { (error) in
+            if let error = error {
+                print("Error creating user's data: \(error.localizedDescription)")
+            } else {
+                print("Successfully created data for user: \(username) identifying with id: \(id) in database")
+                completion(Profile(id: id, firstName: firstName, username: username, birthDate: birthDate, age: yearsBetweenDate(startDate: birthDate, endDate: Date()) == 0 ? 18 : yearsBetweenDate(startDate: birthDate, endDate: Date()), country: country,
+                                   language: language, gender: gender, email: email, profilePictureURL: nil))
             }
-            print("Successfully created data for user: \(username) identifying with id: \(id) in database")
-        } catch {
-            print(error.localizedDescription)
         }
     }
     
@@ -61,20 +62,31 @@ class FirestoreManager: ObservableObject {
         }
     }
     
-    func fetchDataForProfileViewModel(userID: String) async throws -> (String, String, Date, Int, String, String, String, String, String?) {
-        let document = try await self.db.collection("users").document(userID).getDocument()
-        
-        let firstName = document.get("firstName") as? String ?? ""
-        let username = document.get("username") as? String ?? ""
-        let birthDate = document.get("birthDate") as? Date ?? Date()
-        let age = document.get("age") as? Int ?? 0
-        let country = document.get("country") as? String ?? ""
-        let language = document.get("language") as? String ?? ""
-        let gender = document.get("gender") as? String ?? ""
-        let email = document.get("email") as? String ?? ""
-        let profilePictureURL = document.get("profilePictureURL") as? String ?? nil
-        
-        return (firstName, username, birthDate, age, country, language, gender, email, profilePictureURL)
+    func fetchDataForProfileViewModel(userID: String, completion: @escaping ((Profile) -> ())) {
+
+        self.db.collection("users").addSnapshotListener { (querySnapshot, error) in
+            if let error = error {
+                print("Error fetching data: \(error.localizedDescription)")
+            } else {
+                let profile = querySnapshot!.documents.map { (queryDocumentSnapshot) -> Profile in
+                    let data = queryDocumentSnapshot.data()
+
+                    let firstName = data["firstName"] as? String ?? ""
+                    let username = data["username"] as? String ?? ""
+                    let birthDate = data["birthDate"] as? Date ?? Date()
+                    let age = data["age"] as? Int ?? 0
+                    let country = data["country"] as? String ?? ""
+                    let language = data["language"] as? String ?? ""
+                    let gender = data["gender"] as? String ?? ""
+                    let email = data["email"] as? String ?? ""
+                    let profilePictureURL = data["profilePictureURL"] as? String ?? nil
+
+                    return Profile(id: userID, firstName: firstName, username: username, birthDate: birthDate, age: age, country: country, language: language, gender: gender, email: email, profilePictureURL: profilePictureURL)
+                }
+                
+                completion(profile[0])
+            }
+        }
     }
     
     func addProfilePictureURLToUsersData(photoURL: String, completion: @escaping (() -> ())) {

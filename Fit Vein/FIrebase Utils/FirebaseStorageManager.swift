@@ -33,13 +33,16 @@ class FirebaseStorageManager: ObservableObject {
         }
     }
     
-    func deleteImageFromStorage(userPhotoURL: String, userID: String) async throws {
+    func deleteImageFromStorage(userPhotoURL: String, userID: String, completion: @escaping (() -> ())) {
         let userImagesStorageRef = storageRef.child("images/\(userID)/\(userPhotoURL)")
 
-        do {
-            try await userImagesStorageRef.delete()
-        } catch {
-            print(error.localizedDescription)
+        userImagesStorageRef.delete() { (error) in
+            if let error = error {
+                print("Error deleting image from storage: \(error.localizedDescription)")
+            } else {
+                print("Successfully deleted image from storage")
+                completion()
+            }
         }
     }
     

@@ -119,7 +119,7 @@ struct ContentView_Previews: PreviewProvider {
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)
-                    .environmentObject(SessionStore())
+                    .environmentObject(SessionStore(forPreviews: true))
             }
         }
     }

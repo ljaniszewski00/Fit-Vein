@@ -387,7 +387,7 @@ struct SignUpView_Previews: PreviewProvider {
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
                 let country: Country = .poland
                 let language: Language = .polish
-                let sessionStore = SessionStore()
+                let sessionStore = SessionStore(forPreviews: true)
                 
                 SignUpView()
                     .preferredColorScheme(colorScheme)

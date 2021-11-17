@@ -69,7 +69,7 @@ struct FinishedWorkoutView_Previews: PreviewProvider {
         let workoutViewModel = WorkoutViewModel(forPreviews: true)
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
-                let sessionStore = SessionStore()
+                let sessionStore = SessionStore(forPreviews: true)
                 
                 FinishedWorkoutView(workoutViewModel: workoutViewModel)
                     .preferredColorScheme(colorScheme)

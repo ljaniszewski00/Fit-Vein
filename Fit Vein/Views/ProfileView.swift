@@ -145,10 +145,7 @@ struct ProfileView: View {
             .sheet(isPresented: $shouldPresentImagePicker) {
                 ImagePicker(sourceType: self.shouldPresentCamera ? .camera : .photoLibrary, selectedImage: self.$image)
                     .onDisappear {
-                        Task {
-                            profileViewModel.uploadPhoto(image: image)
-                            try await profileViewModel.fetchData()
-                        }
+                        profileViewModel.uploadPhoto(image: image)
                     }
             }
             .actionSheet(isPresented: $shouldPresentAddActionSheet) {
@@ -173,7 +170,7 @@ struct ProfileView_Previews: PreviewProvider {
         let profileViewModel = ProfileViewModel(forPreviews: true)
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
-                let sessionStore = SessionStore()
+                let sessionStore = SessionStore(forPreviews: true)
                 
                 ProfileView(profileViewModel: profileViewModel)
                     .preferredColorScheme(colorScheme)

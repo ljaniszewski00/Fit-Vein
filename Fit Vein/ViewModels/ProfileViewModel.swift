@@ -40,35 +40,26 @@ class ProfileViewModel: ObservableObject {
                          IntervalWorkout(forPreviews: true, id: UUID().uuidString, type: "Interval", date: Date(), isFinished: true, calories: 260, series: 10, workTime: 45, restTime: 15, completedDuration: 8 * (45 + 15), completedSeries: 8)]
         //
         
-        Task {
-            try await fetchData()
-        }
+        fetchData()
     }
     
     func setup(sessionStore: SessionStore) {
         self.sessionStore = sessionStore
     }
     
-    func fetchData() async throws {
+    func fetchData() {
         if sessionStore != nil {
             if sessionStore!.currentUser != nil {
                 print("Fetching Data")
-                Task {
-                    fetchingData = true
+                self.firestoreManager.fetchDataForProfileViewModel(userID: self.sessionStore!.currentUser!.uid) { profile in
+                    self.profile = profile
                     
-                    let (firstname, username, birthDate, age, country, language, gender, email, profilePictureURL) = try await self.firestoreManager.fetchDataForProfileViewModel(userID: sessionStore!.currentUser!.uid)
-                    
-                    self.profile = Profile(id: sessionStore!.currentUser!.uid, firstName: firstname, username: username, birthDate: birthDate, age: age, country: country, language: language, gender: gender, email: email, profilePictureURL: profilePictureURL)
-                    
-                    if profilePictureURL != nil {
-                        self.firebaseStorageManager.getDownloadURLForImage(stringURL: profilePictureURL!, userID: sessionStore!.currentUser!.uid) { photoURL in
-                             self.profilePicturePhotoURL = photoURL
+                    if profile.profilePictureURL != nil {
+                        self.firebaseStorageManager.getDownloadURLForImage(stringURL: profile.profilePictureURL!, userID: self.sessionStore!.currentUser!.uid) { photoURL in
+                            self.profilePicturePhotoURL = photoURL
                         }
                     }
-                    
-                    fetchingData = false
                 }
-                
             }
         } else {
             fetchingData = false
@@ -77,16 +68,14 @@ class ProfileViewModel: ObservableObject {
     
     func uploadPhoto(image: UIImage) {
         if self.profile!.profilePictureURL != nil {
-            Task {
-                try await self.firebaseStorageManager.deleteImageFromStorage(userPhotoURL: self.profile!.profilePictureURL!, userID: self.profile!.id)
-            }
+            self.firebaseStorageManager.deleteImageFromStorage(userPhotoURL: self.profile!.profilePictureURL!, userID: self.sessionStore!.currentUser!.uid) {}
         }
         
-        self.firebaseStorageManager.uploadImageToStorage(image: image, userID: self.profile!.id) { photoURL in
+        print("Uploading photo for user ID: \(self.sessionStore!.currentUser!.uid)")
+        
+        self.firebaseStorageManager.uploadImageToStorage(image: image, userID: self.sessionStore!.currentUser!.uid) { photoURL in
             self.firestoreManager.addProfilePictureURLToUsersData(photoURL: photoURL) {
-                Task {
-                    try await self.fetchData()
-                }
+                self.fetchData()
             }
         }
     }
@@ -108,8 +97,7 @@ class ProfileViewModel: ObservableObject {
             if self.profile!.profilePictureURL != nil {
                 self.firestoreManager.deleteUserData(userUID: sessionStore!.currentUser!.uid) {
                     print("Successfully deleted user data")
-                    Task {
-                        try await self.firebaseStorageManager.deleteImageFromStorage(userPhotoURL: self.profile!.profilePictureURL!, userID: self.sessionStore!.currentUser!.uid)
+                    self.firebaseStorageManager.deleteImageFromStorage(userPhotoURL: self.profile!.profilePictureURL!, userID: self.sessionStore!.currentUser!.uid) {
                         completion()
                     }
                 }

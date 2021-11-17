@@ -66,6 +66,7 @@ struct LoggedUserView: View {
         .onAppear {
             self.homeViewModel.setup(sessionStore: sessionStore)
             self.profileViewModel.setup(sessionStore: sessionStore)
+            self.profileViewModel.fetchData()
         }
     }
 }
@@ -74,7 +75,7 @@ struct LoggedUserView_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
-                let sessionStore = SessionStore()
+                let sessionStore = SessionStore(forPreviews: true)
                 
                 LoggedUserView()
                     .preferredColorScheme(colorScheme)
