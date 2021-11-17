@@ -16,13 +16,8 @@ struct User {
 
 @MainActor
 class SessionStore: ObservableObject {
-    var didChange = PassthroughSubject<SessionStore, Never>()
     
-    @Published var session: User? {
-        didSet {
-            self.didChange.send(self)
-        }
-    }
+    @Published var session: User?
     private var firestoreManager = FirestoreManager()
     private var firebaseStorageManager = FirebaseStorageManager()
     

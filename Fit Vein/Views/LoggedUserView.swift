@@ -18,6 +18,8 @@ struct LoggedUserView: View {
             let screenHeight = geometry.size.height
             
 //            if !profileViewModel.fetchingData {
+//            CustomTabView(homeViewModel: homeViewModel, profileViewModel: profileViewModel)
+            
             TabView {
                 HomeView(homeViewModel: homeViewModel, profileViewModel: profileViewModel)
                     .environmentObject(sessionStore)
@@ -27,7 +29,6 @@ struct LoggedUserView: View {
                     .tabItem {
                         Image(systemName: "house.fill")
                     }
-                    .tag(0)
                 
                 WorkoutView()
                     .environmentObject(sessionStore)
@@ -37,7 +38,6 @@ struct LoggedUserView: View {
                     .tabItem {
                         Image(systemName: "figure.walk")
                     }
-                    .tag(1)
                 
                 ProfileView(profileViewModel: profileViewModel)
                     .environmentObject(sessionStore)
@@ -47,9 +47,9 @@ struct LoggedUserView: View {
                     .tabItem {
                         Image(systemName: "person.fill")
                     }
-                    .tag(2)
             }
-                
+            
+            
 //            } else {
 //                VStack {
 //                    Spacer()
