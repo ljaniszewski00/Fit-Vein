@@ -10,7 +10,7 @@ import SwiftUI
 
 @MainActor
 class ProfileViewModel: ObservableObject {
-    @Published var sessionStore: SessionStore?
+    @Published var sessionStore = SessionStore(forPreviews: false)
     private let firestoreManager = FirestoreManager()
     private let firebaseStorageManager = FirebaseStorageManager()
     
@@ -49,31 +49,48 @@ class ProfileViewModel: ObservableObject {
     
     func fetchData() {
         if sessionStore != nil {
-            if sessionStore!.currentUser != nil {
-                print("Fetching Data")
-                self.firestoreManager.fetchDataForProfileViewModel(userID: self.sessionStore!.currentUser!.uid) { profile in
+            if sessionStore.currentUser != nil {
+                print()
+                print()
+                print("Starting fetching data")
+                print()
+                print()
+                self.firestoreManager.fetchDataForProfileViewModel(userID: self.sessionStore.currentUser!.uid) { profile in
                     self.profile = profile
                     
                     if profile.profilePictureURL != nil {
-                        self.firebaseStorageManager.getDownloadURLForImage(stringURL: profile.profilePictureURL!, userID: self.sessionStore!.currentUser!.uid) { photoURL in
+                        print()
+                        print()
+                        print("Profile picture URL is not nil while fetching data")
+                        print()
+                        print()
+                        self.firebaseStorageManager.getDownloadURLForImage(stringURL: profile.profilePictureURL!, userID: self.sessionStore.currentUser!.uid) { photoURL in
                             self.profilePicturePhotoURL = photoURL
+                            self.fetchingData = false
                         }
+                    } else {
+                        self.fetchingData = false
                     }
                 }
             }
         } else {
-            fetchingData = false
+            print()
+            print()
+            print("Data is not fetching because sessionStore is nil")
+            print()
+            print()
+            self.fetchingData = false
         }
     }
     
     func uploadPhoto(image: UIImage) {
         if self.profile!.profilePictureURL != nil {
-            self.firebaseStorageManager.deleteImageFromStorage(userPhotoURL: self.profile!.profilePictureURL!, userID: self.sessionStore!.currentUser!.uid) {}
+            self.firebaseStorageManager.deleteImageFromStorage(userPhotoURL: self.profile!.profilePictureURL!, userID: self.sessionStore.currentUser!.uid) {}
         }
         
-        print("Uploading photo for user ID: \(self.sessionStore!.currentUser!.uid)")
+        print("Uploading photo for user ID: \(self.sessionStore.currentUser!.uid)")
         
-        self.firebaseStorageManager.uploadImageToStorage(image: image, userID: self.sessionStore!.currentUser!.uid) { photoURL in
+        self.firebaseStorageManager.uploadImageToStorage(image: image, userID: self.sessionStore.currentUser!.uid) { photoURL in
             self.firestoreManager.addProfilePictureURLToUsersData(photoURL: photoURL) {
                 self.fetchData()
             }
@@ -81,13 +98,13 @@ class ProfileViewModel: ObservableObject {
     }
     
     func emailAddressChange(oldEmailAddress: String, password: String, newEmailAddress: String, completion: @escaping (() -> ())) {
-        self.sessionStore!.changeEmailAddress(oldEmailAddress: oldEmailAddress, password: password, newEmailAddress: newEmailAddress) {
+        self.sessionStore.changeEmailAddress(oldEmailAddress: oldEmailAddress, password: password, newEmailAddress: newEmailAddress) {
             print("Successfully changed user's e-mail address")
         }
     }
     
     func passwordChange(emailAddress: String, oldPassword: String, newPassword: String, completion: @escaping (() -> ())) {
-        self.sessionStore!.changePassword(emailAddress: emailAddress, oldPassword: oldPassword, newPassword: newPassword) {
+        self.sessionStore.changePassword(emailAddress: emailAddress, oldPassword: oldPassword, newPassword: newPassword) {
             print("Successfully changed user's password")
         }
     }
@@ -95,9 +112,9 @@ class ProfileViewModel: ObservableObject {
     func deleteUserData(completion: @escaping (() -> ())) {
         if self.profile != nil {
             if self.profile!.profilePictureURL != nil {
-                self.firestoreManager.deleteUserData(userUID: sessionStore!.currentUser!.uid) {
+                self.firestoreManager.deleteUserData(userUID: sessionStore.currentUser!.uid) {
                     print("Successfully deleted user data")
-                    self.firebaseStorageManager.deleteImageFromStorage(userPhotoURL: self.profile!.profilePictureURL!, userID: self.sessionStore!.currentUser!.uid) {
+                    self.firebaseStorageManager.deleteImageFromStorage(userPhotoURL: self.profile!.profilePictureURL!, userID: self.sessionStore.currentUser!.uid) {
                         completion()
                     }
                 }

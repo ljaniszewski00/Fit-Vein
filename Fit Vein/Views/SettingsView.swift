@@ -172,7 +172,7 @@ struct SettingsView: View {
             .confirmationDialog(sheetManager.whichSheet == .logout ? "Are you sure you want to logout?" : "Are you sure you want to delete your account? All data will be lost.", isPresented: $shouldPresentActionSheet, titleVisibility: .visible) {
                 if sheetManager.whichSheet == .logout {
                     Button("Logout", role: .destructive) {
-                        profileViewModel.sessionStore!.signOut()
+                        profileViewModel.sessionStore.signOut()
                         dismiss()
                     }
                     Button("Cancel", role: .cancel) {}
@@ -212,7 +212,7 @@ struct DeleteAccountSheetView: View {
                         withAnimation {
                             dismiss()
                             profileViewModel.deleteUserData() {
-                                profileViewModel.sessionStore!.deleteUser(email: email, password: password) {
+                                profileViewModel.sessionStore.deleteUser(email: email, password: password) {
                                     print("Successfully deleted user.")
                                 }
                             }
