@@ -171,6 +171,10 @@ struct ProfileView: View {
             } else {
                 withAnimation {
                     ProfileTabFetchingView()
+                        .onAppear() {
+                            self.profileViewModel.setup(sessionStore: sessionStore)
+                            self.profileViewModel.fetchData()
+                        }
                 }
             }
         }

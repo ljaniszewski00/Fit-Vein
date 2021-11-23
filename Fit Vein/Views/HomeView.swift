@@ -235,12 +235,13 @@ struct HomeView: View {
             } else {
                 withAnimation {
                     HomeTabFetchingView()
+                        .onAppear() {
+                            self.homeViewModel.setup(sessionStore: sessionStore)
+                            self.profileViewModel.setup(sessionStore: sessionStore)
+                            self.profileViewModel.fetchData()
+                        }
                 }
             }
-        }
-        .onAppear {
-            self.homeViewModel.setup(sessionStore: sessionStore)
-            self.profileViewModel.setup(sessionStore: sessionStore)
         }
     }
 }
