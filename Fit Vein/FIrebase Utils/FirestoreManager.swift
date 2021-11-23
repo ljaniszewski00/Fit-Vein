@@ -62,7 +62,7 @@ class FirestoreManager: ObservableObject {
         }
     }
     
-    func fetchDataForProfileViewModel(userID: String, completion: @escaping ((Profile) -> ())) {
+    func fetchDataForProfileViewModel(userID: String, completion: @escaping ((Profile?) -> ())) {
 
         self.db.collection("users").addSnapshotListener { (querySnapshot, error) in
             if let error = error {
@@ -84,7 +84,13 @@ class FirestoreManager: ObservableObject {
                     return Profile(id: userID, firstName: firstName, username: username, birthDate: birthDate, age: age, country: country, language: language, gender: gender, email: email, profilePictureURL: profilePictureURL)
                 }
                 
-                completion(profile[0])
+                DispatchQueue.main.async {
+                    if profile.count != 0 {
+                        completion(profile[0])
+                    } else {
+                        completion(nil)
+                    }
+                }
             }
         }
     }

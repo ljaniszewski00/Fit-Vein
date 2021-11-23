@@ -18,6 +18,8 @@
 		0A67B1D4272AF359007F8891 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A67B1D3272AF359007F8891 /* NotificationsView.swift */; };
 		0A67B1D6272B04EC007F8891 /* SearchFriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A67B1D5272B04EC007F8891 /* SearchFriendsView.swift */; };
 		0A67B1D8272B0652007F8891 /* EditPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A67B1D7272B0652007F8891 /* EditPostView.swift */; };
+		0A7CA660274D7AC000B97EF2 /* HomeTabFetchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7CA65F274D7AC000B97EF2 /* HomeTabFetchingView.swift */; };
+		0A7CA662274D7AD100B97EF2 /* ProfileTabFetchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7CA661274D7AD100B97EF2 /* ProfileTabFetchingView.swift */; };
 		0A8F574C2720B70E00183F47 /* RingProgressViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F574B2720B70E00183F47 /* RingProgressViewStyle.swift */; };
 		0A8F574E2720B8A400183F47 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F574D2720B8A400183F47 /* SettingsView.swift */; };
 		0AB808CF2715B9D700337924 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB808CE2715B9D700337924 /* SessionStore.swift */; };
@@ -65,6 +67,8 @@
 		0A67B1D3272AF359007F8891 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		0A67B1D5272B04EC007F8891 /* SearchFriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFriendsView.swift; sourceTree = "<group>"; };
 		0A67B1D7272B0652007F8891 /* EditPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostView.swift; sourceTree = "<group>"; };
+		0A7CA65F274D7AC000B97EF2 /* HomeTabFetchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabFetchingView.swift; sourceTree = "<group>"; };
+		0A7CA661274D7AD100B97EF2 /* ProfileTabFetchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTabFetchingView.swift; sourceTree = "<group>"; };
 		0A8F574B2720B70E00183F47 /* RingProgressViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingProgressViewStyle.swift; sourceTree = "<group>"; };
 		0A8F574D2720B8A400183F47 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		0AB808CE2715B9D700337924 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
@@ -128,6 +132,8 @@
 			isa = PBXGroup;
 			children = (
 				0A8F574B2720B70E00183F47 /* RingProgressViewStyle.swift */,
+				0A7CA65F274D7AC000B97EF2 /* HomeTabFetchingView.swift */,
+				0A7CA661274D7AD100B97EF2 /* ProfileTabFetchingView.swift */,
 			);
 			path = HelpViews;
 			sourceTree = "<group>";
@@ -376,6 +382,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A7CA662274D7AD100B97EF2 /* ProfileTabFetchingView.swift in Sources */,
 				0A4174772726CC1A00DF4460 /* IntervalWorkout.swift in Sources */,
 				0A4BF92A2728552100311D24 /* FinishedWorkoutView.swift in Sources */,
 				0ABE144C27203DD9009CD67A /* HomeViewModel.swift in Sources */,
@@ -397,6 +404,7 @@
 				0ABE143A2716F114009CD67A /* Functions.swift in Sources */,
 				0A67B1D8272B0652007F8891 /* EditPostView.swift in Sources */,
 				0ABE144627203BB0009CD67A /* LoggedUserView.swift in Sources */,
+				0A7CA660274D7AC000B97EF2 /* HomeTabFetchingView.swift in Sources */,
 				0ABE14312716EC23009CD67A /* FirestoreManager.swift in Sources */,
 				0ABE144A27203D0D009CD67A /* ProfileView.swift in Sources */,
 				0ABE144E27203DE7009CD67A /* WorkoutViewModel.swift in Sources */,

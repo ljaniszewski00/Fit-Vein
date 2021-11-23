@@ -58,17 +58,23 @@ class ProfileViewModel: ObservableObject {
                 self.firestoreManager.fetchDataForProfileViewModel(userID: self.sessionStore.currentUser!.uid) { profile in
                     self.profile = profile
                     
-                    if profile.profilePictureURL != nil {
-                        print()
-                        print()
-                        print("Profile picture URL is not nil while fetching data")
-                        print()
-                        print()
-                        self.firebaseStorageManager.getDownloadURLForImage(stringURL: profile.profilePictureURL!, userID: self.sessionStore.currentUser!.uid) { photoURL in
-                            self.profilePicturePhotoURL = photoURL
+                    if profile != nil {
+                        if profile!.profilePictureURL != nil {
+                            print()
+                            print()
+                            print("Profile picture URL is not nil while fetching data")
+                            print()
+                            print()
+                            self.firebaseStorageManager.getDownloadURLForImage(stringURL: profile!.profilePictureURL!, userID: self.sessionStore.currentUser!.uid) { photoURL in
+                                self.profilePicturePhotoURL = photoURL
+                                self.fetchingData = false
+                            }
+                        } else {
                             self.fetchingData = false
                         }
                     } else {
+                        // "HERE SOMETHING TO DO WHEN DATA IS NOT FETCHED"
+                        
                         self.fetchingData = false
                     }
                 }
