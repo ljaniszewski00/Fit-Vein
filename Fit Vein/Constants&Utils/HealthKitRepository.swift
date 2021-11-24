@@ -11,8 +11,6 @@ import HealthKit
 final class HealthKitRepository {
     var healthStore: HKHealthStore?
     
-    public let allTypesNames = ["stepCount", "activeEnergyBurned", "distanceWalkingRunning", "appleExerciseTime", "heartRate"]
-    
     let allTypes = Set([
         HKObjectType.quantityType(forIdentifier: .stepCount)!,
         HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!,

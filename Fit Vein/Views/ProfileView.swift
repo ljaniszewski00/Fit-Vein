@@ -11,6 +11,7 @@ import SwiftUI
 struct ProfileView: View {
     @EnvironmentObject private var profileViewModel: ProfileViewModel
     @EnvironmentObject private var sessionStore: SessionStore
+    @ObservedObject private var healthKitViewModel = HealthKitViewModel()
     @Environment(\.colorScheme) var colorScheme
     
     @State private var image = UIImage()
@@ -132,7 +133,7 @@ struct ProfileView: View {
                             .pickerStyle(SegmentedPickerStyle())
                             
                             if tabSelection == 0 {
-                                HealthTabView(profileViewModel: profileViewModel)
+                                HealthTabView(healthKitViewModel: healthKitViewModel)
                                     .frame(height: screenHeight)
                             } else {
                                 WorkoutTabView(profileViewModel: profileViewModel)

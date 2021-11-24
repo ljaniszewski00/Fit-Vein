@@ -22,7 +22,7 @@
 		0A7CA662274D7AD100B97EF2 /* ProfileTabFetchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7CA661274D7AD100B97EF2 /* ProfileTabFetchingView.swift */; };
 		0A7CA668274E7FAF00B97EF2 /* HealthStat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7CA667274E7FAF00B97EF2 /* HealthStat.swift */; };
 		0A7CA66A274E802F00B97EF2 /* HealthKitRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7CA669274E802F00B97EF2 /* HealthKitRepository.swift */; };
-		0A7CA66C274EB5EB00B97EF2 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7CA66B274EB5EB00B97EF2 /* Activity.swift */; };
+		0A7CA66E274ED88900B97EF2 /* HealthKitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7CA66D274ED88900B97EF2 /* HealthKitViewModel.swift */; };
 		0A8F574C2720B70E00183F47 /* RingProgressViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F574B2720B70E00183F47 /* RingProgressViewStyle.swift */; };
 		0A8F574E2720B8A400183F47 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F574D2720B8A400183F47 /* SettingsView.swift */; };
 		0AB808CF2715B9D700337924 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB808CE2715B9D700337924 /* SessionStore.swift */; };
@@ -74,7 +74,7 @@
 		0A7CA661274D7AD100B97EF2 /* ProfileTabFetchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTabFetchingView.swift; sourceTree = "<group>"; };
 		0A7CA667274E7FAF00B97EF2 /* HealthStat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthStat.swift; sourceTree = "<group>"; };
 		0A7CA669274E802F00B97EF2 /* HealthKitRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitRepository.swift; sourceTree = "<group>"; };
-		0A7CA66B274EB5EB00B97EF2 /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
+		0A7CA66D274ED88900B97EF2 /* HealthKitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitViewModel.swift; sourceTree = "<group>"; };
 		0A8F574B2720B70E00183F47 /* RingProgressViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingProgressViewStyle.swift; sourceTree = "<group>"; };
 		0A8F574D2720B8A400183F47 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		0AB808CE2715B9D700337924 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
@@ -197,6 +197,7 @@
 				0ABE144B27203DD9009CD67A /* HomeViewModel.swift */,
 				0ABE144D27203DE7009CD67A /* WorkoutViewModel.swift */,
 				0ABE144F27203DEF009CD67A /* ProfileViewModel.swift */,
+				0A7CA66D274ED88900B97EF2 /* HealthKitViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -208,7 +209,6 @@
 				0A4174762726CC1A00DF4460 /* IntervalWorkout.swift */,
 				0A67B1D1272AD8AE007F8891 /* Post.swift */,
 				0A7CA667274E7FAF00B97EF2 /* HealthStat.swift */,
-				0A7CA66B274EB5EB00B97EF2 /* Activity.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -406,6 +406,7 @@
 				0A4BF9242728500800311D24 /* WorkoutTimerView.swift in Sources */,
 				0AC41CF827274F7300DA5491 /* WorkoutTabView.swift in Sources */,
 				0AC4DD872715A9E4003D5FED /* ContentView.swift in Sources */,
+				0A7CA66E274ED88900B97EF2 /* HealthKitViewModel.swift in Sources */,
 				0A67B1D6272B04EC007F8891 /* SearchFriendsView.swift in Sources */,
 				0ABE144227203B47009CD67A /* HomeView.swift in Sources */,
 				0ABE143C2716F6BE009CD67A /* SignUpViewModel.swift in Sources */,
@@ -419,7 +420,6 @@
 				0ABE144A27203D0D009CD67A /* ProfileView.swift in Sources */,
 				0ABE144E27203DE7009CD67A /* WorkoutViewModel.swift in Sources */,
 				0AC4DD852715A9E4003D5FED /* Fit_VeinApp.swift in Sources */,
-				0A7CA66C274EB5EB00B97EF2 /* Activity.swift in Sources */,
 				0A8F574C2720B70E00183F47 /* RingProgressViewStyle.swift in Sources */,
 				0AB808CF2715B9D700337924 /* SessionStore.swift in Sources */,
 				0A7CA668274E7FAF00B97EF2 /* HealthStat.swift in Sources */,

@@ -9,15 +9,10 @@ import SwiftUI
 import HealthKit
 
 struct HealthTabView: View {
-    @ObservedObject private var profileViewModel: ProfileViewModel
+    @ObservedObject private var healthKitViewModel: HealthKitViewModel
     
-    private var dataImagesNames: [String] = ["flame.fill", "flame.fill", "flame.fill", "timer", "heart.fill"]
-    private var dataNames: [String] = ["Steps", "Calories", "Distance", "Workout Time", "Pulse"]
-    private var dataValues: [String] = ["3069", "234", "8.8", "1.5", "98"]
-    private var dataValuesUnits: [String] = ["", "", "km", "hours", ""]
-    
-    init(profileViewModel: ProfileViewModel) {
-        self.profileViewModel = profileViewModel
+    init(healthKitViewModel: HealthKitViewModel) {
+        self.healthKitViewModel = healthKitViewModel
     }
     
     var body: some View {
@@ -26,14 +21,27 @@ struct HealthTabView: View {
             let screenHeight = geometry.size.height
         
             NavigationView {
-                ScrollView(.vertical) {
-                    LazyVGrid(columns: [GridItem(.flexible()),
-                                        GridItem(.flexible())], spacing: 0) {
-                        tileView(tileNumber: 0, tileName: "Steps", tileImage: "flame.fill", tileValue: profileViewModel.stepCount[1].stat, tileValueUnit: "")
-                        tileView(tileNumber: 1, tileName: "Calories", tileImage: "flame.fill", tileValue: profileViewModel.stepCount[1].stat, tileValueUnit: "")
-                        tileView(tileNumber: 2, tileName: "Distance", tileImage: "flame.fill", tileValue: profileViewModel.stepCount[1].stat, tileValueUnit: "km")
-                        tileView(tileNumber: 3, tileName: "Workout Time", tileImage: "timer", tileValue: profileViewModel.stepCount[1].stat, tileValueUnit: "hours")
-                        tileView(tileNumber: 4, tileName: "Pulse", tileImage: "heart.fill", tileValue: profileViewModel.stepCount[1].stat, tileValueUnit: "")
+                VStack(spacing: screenHeight * 0.05) {
+                    HStack {
+                        Spacer()
+                        tileView(tileNumber: 0, tileName: "Steps", tileImage: "flame.fill", tileValue: healthKitViewModel.stepCount.last!.stat, tileValueUnit: "")
+                        Spacer()
+                        tileView(tileNumber: 1, tileName: "Calories", tileImage: "flame.fill", tileValue: healthKitViewModel.activeEnergyBurned.last!.stat, tileValueUnit: "")
+                        Spacer()
+                    }
+                    
+                    HStack {
+                        Spacer()
+                        tileView(tileNumber: 2, tileName: "Distance", tileImage: "flame.fill", tileValue: healthKitViewModel.distanceWalkingRunning.last!.stat, tileValueUnit: "km")
+                        Spacer()
+                        tileView(tileNumber: 3, tileName: "Workout Time", tileImage: "timer", tileValue: healthKitViewModel.appleExerciseTime.last!.stat, tileValueUnit: "hours")
+                        Spacer()
+                    }
+                    
+                    HStack {
+                        Spacer()
+                        tileView(tileNumber: 4, tileName: "Pulse", tileImage: "heart.fill", tileValue: healthKitViewModel.heartRate.last!.stat, tileValueUnit: "")
+                        Spacer()
                     }
                 }
                 .navigationTitle("Health Data")
@@ -64,7 +72,7 @@ struct HealthTabView: View {
                 
                 ZStack {
                     RoundedRectangle(cornerRadius: 25)
-                        .frame(height: screenHeight * 0.2)
+                        .frame(height: screenHeight)
                         .foregroundColor([0, 3, 4].contains(tileNumber) ? .green : Color(UIColor.systemGray5))
                     
                     VStack {
@@ -97,11 +105,11 @@ struct HealthTabView: View {
 
 struct HealthTabView_Previews: PreviewProvider {
     static var previews: some View {
-        let profileViewModel = ProfileViewModel(forPreviews: true)
+        let healthKitViewModel = HealthKitViewModel()
+        
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
-                
-                HealthTabView(profileViewModel: profileViewModel)
+                HealthTabView(healthKitViewModel: healthKitViewModel)
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)
