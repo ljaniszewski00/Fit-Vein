@@ -47,6 +47,10 @@ class ProfileViewModel: ObservableObject {
         self.sessionStore = sessionStore
     }
     
+    func detachCurrentProfile() {
+        self.profile = nil
+    }
+    
     func fetchData() {
         if sessionStore != nil {
             if sessionStore.currentUser != nil {

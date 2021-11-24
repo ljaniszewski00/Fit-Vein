@@ -173,6 +173,7 @@ struct SettingsView: View {
                 if sheetManager.whichSheet == .logout {
                     Button("Logout", role: .destructive) {
                         profileViewModel.sessionStore.signOut()
+                        profileViewModel.detachCurrentProfile()
                         dismiss()
                     }
                     Button("Cancel", role: .cancel) {}
