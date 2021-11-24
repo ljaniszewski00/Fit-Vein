@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HealthKit
 
 struct HealthTabView: View {
     @ObservedObject private var profileViewModel: ProfileViewModel
@@ -28,40 +29,67 @@ struct HealthTabView: View {
                 ScrollView(.vertical) {
                     LazyVGrid(columns: [GridItem(.flexible()),
                                         GridItem(.flexible())], spacing: 0) {
-                        ForEach(0..<dataNames.count) { number in
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 25)
-                                    .frame(height: screenHeight * 0.2)
-                                    .foregroundColor([0, 3, 4].contains(number) ? .green : Color(UIColor.systemGray5))
-                                
-                                VStack {
-                                    HStack {
-                                        Image(systemName: dataImagesNames[number])
-                                        Text(dataNames[number])
-                                            .fontWeight(.bold)
-                                        Spacer()
-                                    }
-                                    
-                                    Spacer()
-                                    
-                                    HStack {
-                                        Text(dataValues[number])
-                                            .font(.title)
-                                            .fontWeight(.bold)
-                                        Text(dataValuesUnits[number])
-                                    }
-                                    
-                                    Spacer()
-                                }
-                                .foregroundColor([0, 3, 4, 7, 8].contains(number) ? Color(UIColor.systemGray5) : .green)
-                                .padding()
-                            }
-                            .padding()
-                        }
+                        tileView(tileNumber: 0, tileName: "Steps", tileImage: "flame.fill", tileValue: profileViewModel.stepCount[1].stat, tileValueUnit: "")
+                        tileView(tileNumber: 1, tileName: "Calories", tileImage: "flame.fill", tileValue: profileViewModel.stepCount[1].stat, tileValueUnit: "")
+                        tileView(tileNumber: 2, tileName: "Distance", tileImage: "flame.fill", tileValue: profileViewModel.stepCount[1].stat, tileValueUnit: "km")
+                        tileView(tileNumber: 3, tileName: "Workout Time", tileImage: "timer", tileValue: profileViewModel.stepCount[1].stat, tileValueUnit: "hours")
+                        tileView(tileNumber: 4, tileName: "Pulse", tileImage: "heart.fill", tileValue: profileViewModel.stepCount[1].stat, tileValueUnit: "")
                     }
                 }
                 .navigationTitle("Health Data")
                 .navigationBarHidden(false)
+            }
+        }
+    }
+    
+    struct tileView: View {
+        private var tileNumber: Int
+        private var tileName: String
+        private var tileImage: String
+        private var tileValue: HKQuantity?
+        private var tileValueUnit: String
+        
+        init(tileNumber: Int, tileName: String, tileImage: String, tileValue: HKQuantity?, tileValueUnit: String) {
+            self.tileNumber = tileNumber
+            self.tileName = tileName
+            self.tileImage = tileImage
+            self.tileValue = tileValue
+            self.tileValueUnit = tileValueUnit
+        }
+        
+        var body: some View {
+            GeometryReader { geometry in
+                let screenWidth = geometry.size.width
+                let screenHeight = geometry.size.height
+                
+                ZStack {
+                    RoundedRectangle(cornerRadius: 25)
+                        .frame(height: screenHeight * 0.2)
+                        .foregroundColor([0, 3, 4].contains(tileNumber) ? .green : Color(UIColor.systemGray5))
+                    
+                    VStack {
+                        HStack {
+                            Image(systemName: tileImage)
+                            Text(tileName)
+                                .fontWeight(.bold)
+                            Spacer()
+                        }
+                        
+                        Spacer()
+                        
+                        HStack {
+                            Text("\(tileValue!)")
+                                .font(.title)
+                                .fontWeight(.bold)
+                            Text(tileValueUnit)
+                        }
+                        
+                        Spacer()
+                    }
+                    .foregroundColor([0, 3, 4].contains(tileNumber) ? Color(UIColor.systemGray5) : .green)
+                    .padding()
+                }
+                .padding()
             }
         }
     }

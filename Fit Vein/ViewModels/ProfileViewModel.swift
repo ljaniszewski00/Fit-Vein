@@ -14,6 +14,13 @@ class ProfileViewModel: ObservableObject {
     private let firestoreManager = FirestoreManager()
     private let firebaseStorageManager = FirebaseStorageManager()
     
+    private var healthKitRepository = HealthKitRepository()
+    @Published var stepCount = [HealthStat]()
+    @Published var activeEnergyBurned = [HealthStat]()
+    @Published var distanceWalkingRunning = [HealthStat]()
+    @Published var appleExerciseTime = [HealthStat]()
+    @Published var heartRate = [HealthStat]()
+    
     @Published var profile: Profile?
     @Published var profilePicturePhotoURL: URL?
     
@@ -29,6 +36,34 @@ class ProfileViewModel: ObservableObject {
                          IntervalWorkout(forPreviews: true, id: UUID().uuidString, type: "Interval", date: Date(), isFinished: true, calories: 260, series: 10, workTime: 45, restTime: 15, completedDuration: 8 * (45 + 15), completedSeries: 8)]
         
         self.profile = Profile(id: "sessionStore!.currentUser!.uid", firstName: "firstname", username: "username", birthDate: Date(), age: 18, country: "country", language: "language", gender: "gender", email: "email", profilePictureURL: nil)
+        
+        DispatchQueue.main.async {
+            self.healthKitRepository.requestAuthorization() { success in
+                print("Auth success: \(success)")
+            }
+            
+            self.healthKitRepository.requestHealthStats(by: "stepCount") { hStats in
+                self.stepCount = hStats
+            }
+            
+            self.healthKitRepository.requestHealthStats(by: "activeEnergyBurned") { hStats in
+                self.activeEnergyBurned = hStats
+            }
+            
+            self.healthKitRepository.requestHealthStats(by: "distanceWalkingRunning") { hStats in
+                self.distanceWalkingRunning = hStats
+            }
+            
+            self.healthKitRepository.requestHealthStats(by: "appleExerciseTime") { hStats in
+                self.appleExerciseTime = hStats
+            }
+            
+            self.healthKitRepository.requestHealthStats(by: "heartRate") { hStats in
+                self.heartRate = hStats
+            }
+            
+            
+        }
     }
     
     init() {
@@ -41,6 +76,32 @@ class ProfileViewModel: ObservableObject {
         //
         
         fetchData()
+        
+        DispatchQueue.main.async {
+            self.healthKitRepository.requestAuthorization() { success in
+                print("Auth success: \(success)")
+            }
+            
+            self.healthKitRepository.requestHealthStats(by: "stepCount") { hStats in
+                self.stepCount = hStats
+            }
+            
+            self.healthKitRepository.requestHealthStats(by: "activeEnergyBurned") { hStats in
+                self.activeEnergyBurned = hStats
+            }
+            
+            self.healthKitRepository.requestHealthStats(by: "distanceWalkingRunning") { hStats in
+                self.distanceWalkingRunning = hStats
+            }
+            
+            self.healthKitRepository.requestHealthStats(by: "appleExerciseTime") { hStats in
+                self.appleExerciseTime = hStats
+            }
+            
+            self.healthKitRepository.requestHealthStats(by: "heartRate") { hStats in
+                self.heartRate = hStats
+            }
+        }
     }
     
     func setup(sessionStore: SessionStore) {
