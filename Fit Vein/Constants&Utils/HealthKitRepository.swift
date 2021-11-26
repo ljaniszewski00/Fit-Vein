@@ -83,7 +83,7 @@ final class HealthKitRepository {
             return .stepCount
         case "activeEnergyBurned":
             return .activeEnergyBurned
-        case "distanceWalkingRunnning":
+        case "distanceWalkingRunning":
             return .distanceWalkingRunning
         case "appleExerciseTime":
             return .appleExerciseTime

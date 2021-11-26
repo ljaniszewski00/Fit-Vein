@@ -133,7 +133,7 @@ struct ProfileView: View {
                             .pickerStyle(SegmentedPickerStyle())
                             
                             if tabSelection == 0 {
-                                HealthTabView(healthKitViewModel: healthKitViewModel)
+                                HealthTabView()
                                     .frame(height: screenHeight)
                             } else {
                                 WorkoutTabView(profileViewModel: profileViewModel)

@@ -95,3 +95,12 @@ extension Array: RawRepresentable where Element: Codable {
         return result
     }
 }
+
+extension StringProtocol {
+    var letters: String {
+        return String(compactMap {
+            guard let unicodeScalar = $0.unicodeScalars.first else { return nil }
+            return CharacterSet.letters.contains(unicodeScalar) ? $0 : nil
+        })
+    }
+}

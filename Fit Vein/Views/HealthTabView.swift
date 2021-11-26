@@ -9,11 +9,7 @@ import SwiftUI
 import HealthKit
 
 struct HealthTabView: View {
-    @ObservedObject private var healthKitViewModel: HealthKitViewModel
-    
-    init(healthKitViewModel: HealthKitViewModel) {
-        self.healthKitViewModel = healthKitViewModel
-    }
+    @ObservedObject private var healthKitViewModel = HealthKitViewModel()
     
     var body: some View {
         GeometryReader { geometry in
@@ -24,23 +20,23 @@ struct HealthTabView: View {
                 VStack(spacing: screenHeight * 0.05) {
                     HStack {
                         Spacer()
-                        tileView(tileNumber: 0, tileName: "Steps", tileImage: "flame.fill", tileValue: healthKitViewModel.stepCount.last!.stat, tileValueUnit: "")
+                        tileView(tileNumber: 0, tileName: "Steps", tileImage: "flame.fill", tileValue: healthKitViewModel.stepCount.last == nil ? "No Data" : "\(healthKitViewModel.value(from: healthKitViewModel.stepCount.last!.stat).value) \(healthKitViewModel.value(from: healthKitViewModel.stepCount.last!.stat).units)")
                         Spacer()
-                        tileView(tileNumber: 1, tileName: "Calories", tileImage: "flame.fill", tileValue: healthKitViewModel.activeEnergyBurned.last!.stat, tileValueUnit: "")
-                        Spacer()
-                    }
-                    
-                    HStack {
-                        Spacer()
-                        tileView(tileNumber: 2, tileName: "Distance", tileImage: "flame.fill", tileValue: healthKitViewModel.distanceWalkingRunning.last!.stat, tileValueUnit: "km")
-                        Spacer()
-                        tileView(tileNumber: 3, tileName: "Workout Time", tileImage: "timer", tileValue: healthKitViewModel.appleExerciseTime.last!.stat, tileValueUnit: "hours")
+                        tileView(tileNumber: 1, tileName: "Calories", tileImage: "flame.fill", tileValue: healthKitViewModel.activeEnergyBurned.last == nil ? "No Data" : "\(healthKitViewModel.value(from: healthKitViewModel.activeEnergyBurned.last!.stat).value) \(healthKitViewModel.value(from: healthKitViewModel.activeEnergyBurned.last!.stat).units)")
                         Spacer()
                     }
                     
                     HStack {
                         Spacer()
-                        tileView(tileNumber: 4, tileName: "Pulse", tileImage: "heart.fill", tileValue: healthKitViewModel.heartRate.last!.stat, tileValueUnit: "")
+                        tileView(tileNumber: 2, tileName: "Distance", tileImage: "flame.fill", tileValue: healthKitViewModel.distanceWalkingRunning.last == nil ? "No Data" : "\(healthKitViewModel.value(from: healthKitViewModel.distanceWalkingRunning.last!.stat).value) \(healthKitViewModel.value(from: healthKitViewModel.distanceWalkingRunning.last!.stat).units)")
+                        Spacer()
+                        tileView(tileNumber: 3, tileName: "Workout Time", tileImage: "timer", tileValue: healthKitViewModel.appleExerciseTime.last == nil ? "No Data" : "\(healthKitViewModel.value(from: healthKitViewModel.appleExerciseTime.last!.stat).value) \(healthKitViewModel.value(from: healthKitViewModel.appleExerciseTime.last!.stat).units)")
+                        Spacer()
+                    }
+                    
+                    HStack {
+                        Spacer()
+                        tileView(tileNumber: 4, tileName: "Pulse", tileImage: "heart.fill", tileValue: healthKitViewModel.heartRate.last == nil ? "No Data" : "\(healthKitViewModel.value(from: healthKitViewModel.heartRate.last!.stat).value) \(healthKitViewModel.value(from: healthKitViewModel.heartRate.last!.stat).units)")
                         Spacer()
                     }
                 }
@@ -54,15 +50,13 @@ struct HealthTabView: View {
         private var tileNumber: Int
         private var tileName: String
         private var tileImage: String
-        private var tileValue: HKQuantity?
-        private var tileValueUnit: String
+        private var tileValue: String
         
-        init(tileNumber: Int, tileName: String, tileImage: String, tileValue: HKQuantity?, tileValueUnit: String) {
+        init(tileNumber: Int, tileName: String, tileImage: String, tileValue: String) {
             self.tileNumber = tileNumber
             self.tileName = tileName
             self.tileImage = tileImage
             self.tileValue = tileValue
-            self.tileValueUnit = tileValueUnit
         }
         
         var body: some View {
@@ -86,10 +80,9 @@ struct HealthTabView: View {
                         Spacer()
                         
                         HStack {
-                            Text("\(tileValue!)")
+                            Text("\(tileValue)")
                                 .font(.title)
                                 .fontWeight(.bold)
-                            Text(tileValueUnit)
                         }
                         
                         Spacer()
@@ -105,11 +98,9 @@ struct HealthTabView: View {
 
 struct HealthTabView_Previews: PreviewProvider {
     static var previews: some View {
-        let healthKitViewModel = HealthKitViewModel()
-        
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
-                HealthTabView(healthKitViewModel: healthKitViewModel)
+                HealthTabView()
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)
