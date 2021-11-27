@@ -21,27 +21,25 @@ class HealthKitViewModel: ObservableObject {
     init() {
         DispatchQueue.main.async {
             self.healthKitRepository.requestAuthorization() { success in
-                print("Auth success: \(success)")
-            }
-            
-            self.healthKitRepository.requestHealthStats(by: "stepCount") { hStats in
-                self.stepCount = hStats
-            }
-            
-            self.healthKitRepository.requestHealthStats(by: "activeEnergyBurned") { hStats in
-                self.activeEnergyBurned = hStats
-            }
-            
-            self.healthKitRepository.requestHealthStats(by: "distanceWalkingRunning") { hStats in
-                self.distanceWalkingRunning = hStats
-            }
-            
-            self.healthKitRepository.requestHealthStats(by: "appleExerciseTime") { hStats in
-                self.appleExerciseTime = hStats
-            }
-            
-            self.healthKitRepository.requestHealthStats(by: "heartRate") { hStats in
-                self.heartRate = hStats
+                self.healthKitRepository.requestHealthStats(by: "stepCount") { hStats in
+                    self.stepCount = hStats
+                }
+                
+                self.healthKitRepository.requestHealthStats(by: "activeEnergyBurned") { hStats in
+                    self.activeEnergyBurned = hStats
+                }
+                
+                self.healthKitRepository.requestHealthStats(by: "distanceWalkingRunning") { hStats in
+                    self.distanceWalkingRunning = hStats
+                }
+                
+                self.healthKitRepository.requestHealthStats(by: "appleExerciseTime") { hStats in
+                    self.appleExerciseTime = hStats
+                }
+                
+                self.healthKitRepository.requestHealthStats(by: "heartRate") { hStats in
+                    self.heartRate = hStats
+                }
             }
         }
     }
@@ -50,7 +48,7 @@ class HealthKitViewModel: ObservableObject {
     
     func value(from stat: HKQuantity?) -> (value: Float, units: String) {
         guard let stat = stat else {
-            return (0, "")
+            return (0, "No data")
         }
         
         measurementFormatter.unitStyle = .short

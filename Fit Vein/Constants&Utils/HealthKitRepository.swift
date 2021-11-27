@@ -34,8 +34,9 @@ final class HealthKitRepository {
         
         store.requestAuthorization(toShare: [], read: allTypes) { (success, error) in
             if let error = error {
-                print("Error requesting authorization for HealthKit: \(error)")
+                print("HealthKit authorization error: \(error)")
             } else {
+                print("Health authorization success")
                 completion(success)
             }
         }

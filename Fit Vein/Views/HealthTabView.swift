@@ -80,12 +80,14 @@ struct HealthTabView: View {
                         Spacer()
                         
                         HStack {
-                            Text(tileValue.contains("km") ? tileValue : tileValue.removeCharactersFromString(string: tileValue, character: ".", before: false, upToCharacter: " "))
+                            Text(tileValue.contains("No data") ? "No data" : (tileValue.contains("km") ? tileValue : tileValue.removeCharactersFromString(string: tileValue, character: ".", before: false, upToCharacter: " ")))
                                 .font(.title)
                                 .fontWeight(.bold)
                         }
                         
                         Spacer()
+                        
+                        
                     }
                     .foregroundColor([0, 3, 4].contains(tileNumber) ? Color(UIColor.systemGray5) : .green)
                     .padding()
