@@ -62,8 +62,13 @@ final class HealthKitRepository {
                 print("Error in requestHealthStats functions in initialResultsHandler: \(error)")
             } else {
                 statistics?.enumerateStatistics(from: startDate, to: endDate, with: { (stats, _) in
-                    let stat = HealthStat(stat: stats.sumQuantity(), date: stats.startDate)
-                    healthStats.append(stat)
+                    if stats.quantityType == HKObjectType.quantityType(forIdentifier: .heartRate) {
+                        let stat = HealthStat(stat: stats.averageQuantity(), date: stats.startDate)
+                        healthStats.append(stat)
+                    } else {
+                        let stat = HealthStat(stat: stats.sumQuantity(), date: stats.startDate)
+                        healthStats.append(stat)
+                    }
                 })
                 
                 completion(healthStats)

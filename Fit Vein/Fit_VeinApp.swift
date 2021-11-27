@@ -104,3 +104,27 @@ extension StringProtocol {
         })
     }
 }
+
+extension StringProtocol {
+    public func removeCharactersFromString(string: String, character: String, before: Bool, upToCharacter: String?) -> String {
+        if let startingCharacterindex = string.range(of: character)?.lowerBound {
+            var substring = ""
+            
+            if before {
+                substring = String(string.prefix(upTo: startingCharacterindex))
+            } else {
+                if upToCharacter != nil {
+                    if let endingCharacterIndex = string.range(of: upToCharacter!)?.lowerBound {
+                        let lastCharacterIndex = string.endIndex
+                        substring = String(string[..<startingCharacterindex]) + String(string[endingCharacterIndex..<lastCharacterIndex])
+                    } else {
+                        substring = String(string[..<startingCharacterindex])
+                    }
+                }
+            }
+            return substring
+        } else {
+            return ""
+        }
+    }
+}

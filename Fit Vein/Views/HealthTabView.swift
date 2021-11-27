@@ -80,7 +80,7 @@ struct HealthTabView: View {
                         Spacer()
                         
                         HStack {
-                            Text("\(tileValue)")
+                            Text(tileValue.contains("km") ? tileValue : tileValue.removeCharactersFromString(string: tileValue, character: ".", before: false, upToCharacter: " "))
                                 .font(.title)
                                 .fontWeight(.bold)
                         }
@@ -91,6 +91,7 @@ struct HealthTabView: View {
                     .padding()
                 }
                 .padding()
+                .opacity(0.9)
             }
         }
     }

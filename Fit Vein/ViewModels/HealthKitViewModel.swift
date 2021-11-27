@@ -48,28 +48,29 @@ class HealthKitViewModel: ObservableObject {
     
     let measurementFormatter = MeasurementFormatter()
     
-    func value(from stat: HKQuantity?) -> (value: Int, units: String) {
+    func value(from stat: HKQuantity?) -> (value: Float, units: String) {
         guard let stat = stat else {
             return (0, "")
         }
         
-        measurementFormatter.unitStyle = .long
+        measurementFormatter.unitStyle = .short
         
         if stat.is(compatibleWith: .kilocalorie()) {
             let value = stat.doubleValue(for: .kilocalorie())
-            return(Int(value), stat.description.letters)
+            return(Float(value), stat.description.letters)
         } else if stat.is(compatibleWith: .meter()) {
             let value = stat.doubleValue(for: .mile())
             let unit = Measurement(value: value, unit: UnitLength.miles)
-            return (Int(value), measurementFormatter.string(from: unit).letters == "kilometres" ? "km" : measurementFormatter.string(from: unit).letters)
+            return (Float(round(value * 100) / 100.0), measurementFormatter.string(from: unit).letters)
         } else if stat.is(compatibleWith: .count()) {
             let value = stat.doubleValue(for: .count())
-            return (Int(value), stat.description.letters == "count" ? "" : stat.description.letters)
+            return (Float(value), stat.description.letters == "count" ? "" : stat.description.letters)
         } else if stat.is(compatibleWith: .minute()) {
             let value = stat.doubleValue(for: .minute())
-            return (Int(value), stat.description.letters)
+            return (Float(value), stat.description.letters)
+        } else {
+            let value = stat.doubleValue(for: HKUnit(from: "count/min"))
+            return (Float(value), "BPM")
         }
-        
-        return (0, "")
     }
 }
