@@ -21,9 +21,9 @@ struct LoggedUserView: View {
     }
     
     private var tabItems = [
-        TabItem(text: "Feed", icon: "house.fill", tab: .home),
+        TabItem(text: "Feed", icon: "house", tab: .home),
         TabItem(text: "Workout", icon: "figure.walk", tab: .workout),
-        TabItem(text: "Profile", icon: "person.fill", tab: .profile)
+        TabItem(text: "Profile", icon: "person", tab: .profile)
     ]
     
     var body: some View {
@@ -53,42 +53,68 @@ struct LoggedUserView: View {
                         .navigationBarHidden(true)
                         .ignoresSafeArea(.keyboard)
                 }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            
+            HStack {
+                Spacer()
                 
-                VStack {
-                    Spacer()
-                    
-                    HStack {
-                        Spacer()
-                        
-                        ForEach(tabItems) { tabItem in
-                            Button {
-                                selectedTab = tabItem.tab
-                            } label: {
-                                VStack(spacing: 0) {
-                                    Image(systemName: tabItem.icon)
-                                        .symbolVariant(.fill)
-                                        .font(.body.bold())
-                                        .frame(width: 44, height: 29)
-                                    Text(tabItem.text)
-                                        .font(.caption2)
-                                        .lineLimit(1)
-                                }
-                                .foregroundColor(selectedTab == tabItem.tab ? .green : Color(uiColor: .systemGray))
-                                .frame(maxWidth: .infinity)
-                            }
-                            .foregroundStyle(selectedTab == tabItem.tab ? .primary : .secondary)
-                            
-                            Spacer()
+                ForEach(tabItems) { tabItem in
+                    Button {
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                            selectedTab = tabItem.tab
                         }
+                    } label: {
+                        VStack(spacing: 0) {
+                            Image(systemName: tabItem.icon)
+                                .symbolVariant(.fill)
+                                .font(.body.bold())
+                                .frame(width: 44, height: 29)
+                            Text(tabItem.text)
+                                .font(.caption2)
+                                .lineLimit(1)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .foregroundColor(selectedTab == tabItem.tab ? .green : Color(uiColor: .systemGray))
                     }
-                    .padding(.top, 14)
-                    .padding(.horizontal, 8)
-                    .frame(height: 88, alignment: .top)
-                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 34, style: .continuous))
-                    .frame(maxHeight: .infinity, alignment: .bottom)
-                    .ignoresSafeArea()
+                    .foregroundStyle(selectedTab == tabItem.tab ? .primary : .secondary)
+                    
+                    Spacer()
                 }
             }
+            .padding(.horizontal, 8)
+            .padding(.top, 14)
+            .frame(height: 88, alignment: .top)
+            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 40, style: .continuous))
+            .overlay(
+                HStack {
+                    if selectedTab == .workout {
+                        Spacer()
+                    }
+                    
+                    if selectedTab == .profile {
+                        Spacer()
+                    }
+                    
+                    Rectangle()
+                        .fill(.green)
+                        .frame(width: 40, height: 5)
+                        .cornerRadius(3)
+                        .frame(width: 88)
+                        .frame(maxHeight: .infinity, alignment: .top)
+                    
+                    if selectedTab == .home {
+                        Spacer()
+                    }
+                    
+                    if selectedTab == .workout {
+                        Spacer()
+                    }
+                }
+                .padding(.horizontal, 18)
+            )
+            .frame(maxHeight: .infinity, alignment: .bottom)
+            .ignoresSafeArea()
         }
     }
     
