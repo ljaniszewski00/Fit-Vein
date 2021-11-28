@@ -21,7 +21,7 @@ struct LoggedUserView: View {
     }
     
     private var tabItems = [
-        TabItem(text: "Feed", icon: "house", tab: .home),
+        TabItem(text: "Home", icon: "house", tab: .home),
         TabItem(text: "Workout", icon: "figure.walk", tab: .workout),
         TabItem(text: "Profile", icon: "person", tab: .profile)
     ]
@@ -111,7 +111,7 @@ struct LoggedUserView: View {
                         Spacer()
                     }
                 }
-                .padding(selectedTab == .home ? .leading : .trailing, selectedTab == .workout ? 0 : screenWidth * 0.07)
+                .padding(selectedTab == .home ? .leading : .trailing, selectedTab == .workout ? 0 : screenWidth * 0.074)
             )
             .frame(maxHeight: .infinity, alignment: .bottom)
             .ignoresSafeArea()
