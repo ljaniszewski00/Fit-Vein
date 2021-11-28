@@ -111,7 +111,7 @@ struct LoggedUserView: View {
                         Spacer()
                     }
                 }
-                .padding(.horizontal, 18)
+                .padding(selectedTab == .home ? .leading : .trailing, selectedTab == .workout ? 0 : screenWidth * 0.07)
             )
             .frame(maxHeight: .infinity, alignment: .bottom)
             .ignoresSafeArea()
