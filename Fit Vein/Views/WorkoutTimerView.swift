@@ -238,7 +238,7 @@ struct WorkoutTimerView: View {
                     
                     if !paused {
                         //Setting Round Time Rules
-                        if self.secondsRound == 1 {
+                        if self.secondsRound == 1 || self.secondsRound == 0 {
                             if self.minutesRound == 0 {
                                 if !self.rest {
                                     self.rest = true
@@ -292,7 +292,9 @@ struct WorkoutTimerView: View {
             self.currentRound += 1
             if workoutViewModel.workout!.workTime! >= 60 {
                 self.minutesRound = Int(workoutViewModel.workout!.workTime! / 60)
+                print(self.minutesRound)
                 self.secondsRound = workoutViewModel.workout!.workTime! - (60 * self.minutesRound)
+                print(self.secondsRound)
 
             } else {
                 self.minutesRound = 0
