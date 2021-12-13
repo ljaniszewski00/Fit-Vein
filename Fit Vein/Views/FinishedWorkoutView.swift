@@ -21,7 +21,7 @@ struct FinishedWorkoutView: View {
             let screenWidth = geometry.size.width
             let screenHeight = geometry.size.height
             
-            if backToBeginning {
+            if backToBeginning || workoutViewModel.workout == nil {
                 withAnimation {
                     WorkoutView()
                 }
@@ -33,7 +33,9 @@ struct FinishedWorkoutView: View {
                         Spacer()
                         
                         Button(action: {
-                            backToBeginning = true
+                            self.workoutViewModel.saveWorkoutToDatabase() {
+                                backToBeginning = true
+                            }
                         }, label: {
                             Text("Save")
                                 .foregroundColor(Color(uiColor: .systemGray5))

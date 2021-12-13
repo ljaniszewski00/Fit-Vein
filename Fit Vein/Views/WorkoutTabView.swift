@@ -21,20 +21,24 @@ struct WorkoutTabView: View {
             let screenHeight = geometry.size.height
             
             NavigationView {
-                Group {
-                    if howToDisplay == 0 {
-                        WorkoutTabViewWindows(profileViewModel: profileViewModel)
-                    } else {
-                        WorkoutTabViewList(profileViewModel: profileViewModel)
-                    }
-                }
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Picker("", selection: $howToDisplay) {
-                            Image(systemName: "squareshape.split.2x2").tag(0)
-                            Image(systemName: "list.bullet").tag(1)
+                if self.profileViewModel.workouts == nil {
+                    Text("No data")
+                } else {
+                    Group {
+                        if howToDisplay == 0 {
+                            WorkoutTabViewWindows(profileViewModel: profileViewModel)
+                        } else {
+                            WorkoutTabViewList(profileViewModel: profileViewModel)
                         }
-                        .pickerStyle(SegmentedPickerStyle())
+                    }
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Picker("", selection: $howToDisplay) {
+                                Image(systemName: "squareshape.split.2x2").tag(0)
+                                Image(systemName: "list.bullet").tag(1)
+                            }
+                            .pickerStyle(SegmentedPickerStyle())
+                        }
                     }
                 }
             }

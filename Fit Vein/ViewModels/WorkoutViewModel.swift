@@ -39,6 +39,15 @@ class WorkoutViewModel: ObservableObject {
         self.workout?.setDataOnEnd(calories: calories, completedDuration: completedDuration, completedSeries: completedSeries)
     }
     
+    func saveWorkoutToDatabase(completion: @escaping (() -> ())) {
+        if self.workout != nil && sessionStore != nil {
+            self.workout?.setUsersID(usersID: (self.sessionStore?.currentUser!.uid)!)
+            self.firestoreManager.workoutDataCreation(id: workout!.id, usersID: workout!.usersID, type: workout!.type, date: workout!.date, isFinished: workout!.isFinished, calories: workout!.calories, series: workout!.series, workTime: workout!.workTime, restTime: workout!.restTime, completedDuration: workout!.completedDuration, completedSeries: workout!.completedSeries) {
+                completion()
+            }
+        }
+    }
+    
     func addUserWorkout(series: Int, workTime: Int, restTime: Int) {
         self.usersWorkoutsList.append(IntervalWorkout(id: UUID().uuidString, usersID: "9999", type: "Interval", date: Date(), isFinished: false, calories: 200, series: series, workTime: workTime, restTime: restTime))
     }
@@ -46,11 +55,6 @@ class WorkoutViewModel: ObservableObject {
     func deleteUserWorkout(indexSet: IndexSet) {
         self.usersWorkoutsList.remove(atOffsets: indexSet)
     }
-    
-    func fetchUsersWorkouts() {
-        
-    }
-    
 }
 
 

@@ -55,4 +55,8 @@ struct IntervalWorkout: Codable, Identifiable {
         self.completedDuration = completedDuration
         self.completedSeries = completedSeries
     }
+    
+    mutating func setUsersID(usersID: String) {
+        self.usersID = usersID
+    }
 }

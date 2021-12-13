@@ -112,7 +112,7 @@ struct ProfileView: View {
                                         RoundedRectangle(cornerRadius: 25)
                                             .foregroundColor(.green)
                                             .padding()
-                                            .frame(width: screenWidth * CGFloat(getWorkoutsDivider(workoutsCount: self.profileViewModel.workouts!.count)) / 10)
+                                            .frame(width: screenWidth * CGFloat(getWorkoutsDivider(workoutsCount: self.profileViewModel.workouts != nil ? self.profileViewModel.workouts!.count : 0)) / 10)
                                         
                                         Spacer()
                                     }
@@ -120,7 +120,7 @@ struct ProfileView: View {
                                 .foregroundColor(Color(UIColor.systemGray5))
                                 .shadow(color: .gray, radius: 7)
                             
-                            Text("\(self.profileViewModel.workouts!.count) / 10 Workouts")
+                            Text("\(self.profileViewModel.workouts != nil ? self.profileViewModel.workouts!.count : 0) / 10 Workouts")
                             
                             Spacer(minLength: screenHeight * 0.05)
                             

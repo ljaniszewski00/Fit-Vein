@@ -95,39 +95,68 @@ class FirestoreManager: ObservableObject {
         }
     }
     
-//    func fetchWorkouts(userID: String, completion: @escaping (([IntervalWorkout]) -> ())) {
-//        var fetchedWorkouts: [IntervalWorkout] = [IntervalWorkout]()
-//        let g = DispatchGroup()
-//        
-//        g.enter()
-//        self.db.collection("workouts").addSnapshotListener { (querySnapshot, error) in
-//            if let error = error {
-//                print("Error fetching workouts data: \(error.localizedDescription)")
-//            } else {
-//                let profile = querySnapshot!.documents.map { (queryDocumentSnapshot) -> [IntervalWorkout] in
-//                    let data = queryDocumentSnapshot.data()
-//
-//                    let id = data["id"] as? String ?? ""
-//                    let usersID = data["usersID"] as? String ?? ""
-//                    let type = data["type"] as? String ?? ""
-//                    let date = data["data"] as? Date ?? Date()
-//                    let isFinished = data["isFinished"] as? Bool ?? true
-//                    let calories = data["calories"] as? Int? ?? 0
-//                    let series = data["series"] as? Int? ?? 0
-//                    let workTime = data["workTime"] as? Int? ?? 0
-//                    let restTime = data["restTime"] as? Int? ?? 0
-//                    let completedDuration = data["completedDuration"] as? Int? ?? 0
-//                    let completedSeries = data["completedSeries"] as? Int? ?? 0
-//
-//                    fetchedWorkouts.append(IntervalWorkout(forPreviews: false, id: id, usersID: usersID, type: type, date: date, isFinished: isFinished, calories: calories, series: series, workTime: workTime, restTime: restTime, completedDuration: completedDuration, completedSeries: completedSeries)
-//                }
-//                
-//                g.notify(queue:.main) {
-//                    completion(userImages)
-//                }
-//            }
-//        }
-//    }
+    func fetchWorkouts(userID: String, completion: @escaping (([IntervalWorkout]?) -> ())) {
+        var fetchedWorkouts: [IntervalWorkout] = [IntervalWorkout]()
+
+        self.db.collection("workouts").whereField("usersID", isEqualTo: userID).addSnapshotListener { (querySnapshot, error) in
+            if let error = error {
+                print("Error fetching workouts data: \(error.localizedDescription)")
+            } else {
+                fetchedWorkouts = querySnapshot!.documents.map { (queryDocumentSnapshot) -> IntervalWorkout in
+                    let data = queryDocumentSnapshot.data()
+
+                    let id = data["id"] as? String ?? ""
+                    let usersID = data["usersID"] as? String ?? ""
+                    let type = data["type"] as? String ?? ""
+                    let date = data["date"] as? Timestamp
+                    let isFinished = data["isFinished"] as? Bool ?? true
+                    let calories = data["calories"] as? Int? ?? 0
+                    let series = data["series"] as? Int? ?? 0
+                    let workTime = data["workTime"] as? Int? ?? 0
+                    let restTime = data["restTime"] as? Int? ?? 0
+                    let completedDuration = data["completedDuration"] as? Int? ?? 0
+                    let completedSeries = data["completedSeries"] as? Int? ?? 0
+
+                    return IntervalWorkout(forPreviews: false, id: id, usersID: usersID, type: type, date: (date?.dateValue())!, isFinished: isFinished, calories: calories, series: series, workTime: workTime, restTime: restTime, completedDuration: completedDuration, completedSeries: completedSeries)
+                }
+                
+                DispatchQueue.main.async {
+                    if fetchedWorkouts.count != 0 {
+                        fetchedWorkouts.sort() {
+                            $0.date < $1.date
+                        }
+                        completion(fetchedWorkouts)
+                    } else {
+                        completion(nil)
+                    }
+                }
+            }
+        }
+    }
+    
+    func workoutDataCreation(id: String, usersID: String, type: String, date: Date, isFinished: Bool, calories: Int?, series: Int?, workTime: Int?, restTime: Int?, completedDuration: Int?, completedSeries: Int?, completion: @escaping (() -> ())) {
+        let documentData: [String: Any] = [
+            "id": id,
+            "usersID": usersID,
+            "type": type,
+            "date": date,
+            "isFinished": isFinished,
+            "calories": calories,
+            "series": series,
+            "workTime": workTime,
+            "restTime": restTime,
+            "completedDuration": completedDuration,
+            "completedSeries": completedSeries,
+        ]
+        
+        self.db.collection("workouts").document(id).setData(documentData) { (error) in
+            if let error = error {
+                print("Error creating workout's data: \(error.localizedDescription)")
+            } else {
+                print("Successfully created data for workout: \(id) finished by user \(usersID)")
+            }
+        }
+    }
     
     func addProfilePictureURLToUsersData(photoURL: String, completion: @escaping (() -> ())) {
         let documentData: [String: Any] = [
