@@ -134,8 +134,32 @@ struct ProfileView: View {
                                 HealthTabView()
                                     .frame(height: screenHeight)
                             } else {
-                                WorkoutTabView(profileViewModel: profileViewModel)
-                                    .frame(height: screenHeight)
+                                if self.profileViewModel.workouts == nil {
+                                    VStack(spacing: screenHeight * 0.05) {
+                                        ZStack {
+                                            RoundedRectangle(cornerRadius: 30)
+                                                .foregroundColor(Color(UIColor.systemGray5))
+                                                .frame(width: screenWidth * 0.95, height: screenHeight * 0.2)
+                                            
+                                            Text("Go to 'Workout' Tab to do your first training!")
+                                                .font(.title)
+                                                .fontWeight(.bold)
+                                                .foregroundColor(.green)
+                                                .frame(width: screenWidth * 0.8)
+                                        }
+                                        .padding(.top, screenHeight * 0.1)
+                                        
+                                        Image(systemName: "arrow.down.circle.fill")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .foregroundColor(.green)
+                                            .frame(width: screenWidth * 0.1, height: screenHeight * 0.1)
+                                    }
+                                    
+                                } else {
+                                    WorkoutTabView(profileViewModel: profileViewModel)
+                                        .frame(height: screenHeight)
+                                }
                             }
                         }
                     }
