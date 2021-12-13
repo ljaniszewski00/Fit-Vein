@@ -64,9 +64,9 @@ class FirestoreManager: ObservableObject {
     
     func fetchDataForProfileViewModel(userID: String, completion: @escaping ((Profile?) -> ())) {
 
-        self.db.collection("users").addSnapshotListener { (querySnapshot, error) in
+        self.db.collection("users").whereField("id", isEqualTo: userID).addSnapshotListener { (querySnapshot, error) in
             if let error = error {
-                print("Error fetching data: \(error.localizedDescription)")
+                print("Error fetching profile data: \(error.localizedDescription)")
             } else {
                 let profile = querySnapshot!.documents.map { (queryDocumentSnapshot) -> Profile in
                     let data = queryDocumentSnapshot.data()
@@ -94,6 +94,40 @@ class FirestoreManager: ObservableObject {
             }
         }
     }
+    
+//    func fetchWorkouts(userID: String, completion: @escaping (([IntervalWorkout]) -> ())) {
+//        var fetchedWorkouts: [IntervalWorkout] = [IntervalWorkout]()
+//        let g = DispatchGroup()
+//        
+//        g.enter()
+//        self.db.collection("workouts").addSnapshotListener { (querySnapshot, error) in
+//            if let error = error {
+//                print("Error fetching workouts data: \(error.localizedDescription)")
+//            } else {
+//                let profile = querySnapshot!.documents.map { (queryDocumentSnapshot) -> [IntervalWorkout] in
+//                    let data = queryDocumentSnapshot.data()
+//
+//                    let id = data["id"] as? String ?? ""
+//                    let usersID = data["usersID"] as? String ?? ""
+//                    let type = data["type"] as? String ?? ""
+//                    let date = data["data"] as? Date ?? Date()
+//                    let isFinished = data["isFinished"] as? Bool ?? true
+//                    let calories = data["calories"] as? Int? ?? 0
+//                    let series = data["series"] as? Int? ?? 0
+//                    let workTime = data["workTime"] as? Int? ?? 0
+//                    let restTime = data["restTime"] as? Int? ?? 0
+//                    let completedDuration = data["completedDuration"] as? Int? ?? 0
+//                    let completedSeries = data["completedSeries"] as? Int? ?? 0
+//
+//                    fetchedWorkouts.append(IntervalWorkout(forPreviews: false, id: id, usersID: usersID, type: type, date: date, isFinished: isFinished, calories: calories, series: series, workTime: workTime, restTime: restTime, completedDuration: completedDuration, completedSeries: completedSeries)
+//                }
+//                
+//                g.notify(queue:.main) {
+//                    completion(userImages)
+//                }
+//            }
+//        }
+//    }
     
     func addProfilePictureURLToUsersData(photoURL: String, completion: @escaping (() -> ())) {
         let documentData: [String: Any] = [

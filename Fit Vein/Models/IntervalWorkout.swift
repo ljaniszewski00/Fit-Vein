@@ -9,6 +9,7 @@ import Foundation
 
 struct IntervalWorkout: Codable, Identifiable {
     var id: String
+    var usersID: String
     var type: String
     var date: Date
     var isFinished: Bool
@@ -20,8 +21,9 @@ struct IntervalWorkout: Codable, Identifiable {
     var completedDuration: Int?
     var completedSeries: Int?
     
-    init(id: String, type: String, date: Date, isFinished: Bool = false, calories: Int?, series: Int?, workTime: Int?, restTime: Int?) {
+    init(id: String, usersID: String, type: String, date: Date, isFinished: Bool = false, calories: Int?, series: Int?, workTime: Int?, restTime: Int?) {
         self.id = id
+        self.usersID = usersID
         self.type = type
         self.date = date
         self.duration = (series! * workTime!) + (series! * restTime!)
@@ -32,8 +34,9 @@ struct IntervalWorkout: Codable, Identifiable {
         self.restTime = restTime
     }
     
-    init(forPreviews: Bool, id: String, type: String, date: Date, isFinished: Bool = false, calories: Int?, series: Int?, workTime: Int?, restTime: Int?, completedDuration: Int?, completedSeries: Int?) {
+    init(forPreviews: Bool, id: String, usersID: String, type: String, date: Date, isFinished: Bool = false, calories: Int?, series: Int?, workTime: Int?, restTime: Int?, completedDuration: Int?, completedSeries: Int?) {
         self.id = id
+        self.usersID = usersID
         self.type = type
         self.date = date
         self.duration = (series! * workTime!) + (series! * restTime!)
