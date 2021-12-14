@@ -124,14 +124,14 @@ struct HomeView: View {
                                                     
                                                     VStack {
                                                         HStack {
-                                                            Text(post.author.firstName)
+                                                            Text(post.authorFirstName)
                                                                 .fontWeight(.bold)
                                                             Text("•")
-                                                            Text(post.author.username)
+                                                            Text(post.authorUsername)
                                                             Spacer()
                                                             
                                                             if profileViewModel.profile != nil {
-                                                                if profileViewModel.profile!.id == post.author.id {
+                                                                if profileViewModel.profile!.id == post.authorID {
                                                                     NavigationLink(destination: EditPostView()) {
                                                                         Image(systemName: "gearshape")
                                                                     }

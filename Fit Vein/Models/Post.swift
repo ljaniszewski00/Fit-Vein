@@ -9,16 +9,20 @@ import Foundation
 
 struct Post: Codable, Identifiable {
     var id: String
-    var author: String
+    var authorID: String
+    var authorFirstName: String
+    var authorUsername: String
     var addDate: Date
     var text: String
     var reactionsNumber: Int
     var commentsNumber: Int
     var comments: [Comment]?
     
-    init(author: String, text: String) {
+    init(authorID: String, authorFirstName: String, authorUsername: String, text: String) {
         self.id = UUID().uuidString
-        self.author = author
+        self.authorID = authorID
+        self.authorFirstName = authorFirstName
+        self.authorUsername = authorUsername
         self.addDate = Date()
         self.text = text
         self.reactionsNumber = 0
@@ -26,9 +30,11 @@ struct Post: Codable, Identifiable {
         self.comments = nil
     }
     
-    init(id: String, author: String, addDate: Date, text: String, reactionsNumber: Int, commentsNumber: Int, comments: [Comment]?) {
+    init(id: String, authorID: String, authorFirstName: String, authorUsername: String, addDate: Date, text: String, reactionsNumber: Int, commentsNumber: Int, comments: [Comment]?) {
         self.id = id
-        self.author = author
+        self.authorID = authorID
+        self.authorFirstName = authorFirstName
+        self.authorUsername = authorUsername
         self.addDate = addDate
         self.text = text
         self.reactionsNumber = reactionsNumber
@@ -53,18 +59,50 @@ struct Post: Codable, Identifiable {
         }
         self.commentsNumber += 1
     }
+    
+    mutating func addComments(comments: [Comment]) {
+        if self.comments != nil {
+            self.comments!.append(contentsOf: comments)
+        } else {
+            self.comments = comments
+        }
+        self.commentsNumber = comments.count
+    }
+    
+    mutating func deleteCommentFromPost(id: String) {
+        if self.comments != nil {
+            for (index, comment) in self.comments!.enumerated() {
+                if comment.id == id {
+                    self.comments!.remove(at: index)
+                }
+            }
+        }
+    }
 }
 
 struct Comment: Codable, Identifiable {
     var id: String
-    var author: Profile
+    var authorID: String
+    var authorFirstName: String
+    var authorUsername: String
     var addDate: Date
     var text: String
     
-    init(author: Profile, text: String) {
+    init(authorID: String, authorFirstName: String, authorUsername: String, text: String) {
         self.id = UUID().uuidString
-        self.author = author
+        self.authorID = authorID
+        self.authorFirstName = authorFirstName
+        self.authorUsername = authorUsername
         self.addDate = Date()
+        self.text = text
+    }
+    
+    init(id: String, authorID: String, authorFirstName: String, authorUsername: String, addDate: Date, text: String) {
+        self.id = id
+        self.authorID = authorID
+        self.authorFirstName = authorFirstName
+        self.authorUsername = authorUsername
+        self.addDate = addDate
         self.text = text
     }
 }
