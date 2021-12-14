@@ -17,7 +17,7 @@ struct HealthTabView: View {
             let screenHeight = geometry.size.height
         
             NavigationView {
-                VStack(spacing: screenHeight * 0.05) {
+                VStack(spacing: 0) {
                     HStack {
                         Spacer()
                         tileView(tileNumber: 0, tileName: "Steps", tileImage: "flame.fill", tileValue: healthKitViewModel.stepCount.last == nil ? "No Data" : "\(healthKitViewModel.value(from: healthKitViewModel.stepCount.last!.stat).value) \(healthKitViewModel.value(from: healthKitViewModel.stepCount.last!.stat).units)")
@@ -39,6 +39,8 @@ struct HealthTabView: View {
                         tileView(tileNumber: 4, tileName: "Pulse", tileImage: "heart.fill", tileValue: healthKitViewModel.heartRate.last == nil ? "No Data" : "\(healthKitViewModel.value(from: healthKitViewModel.heartRate.last!.stat).value) \(healthKitViewModel.value(from: healthKitViewModel.heartRate.last!.stat).units)")
                         Spacer()
                     }
+                    
+                    Spacer()
                 }
                 .navigationTitle("Health Data")
                 .navigationBarHidden(false)
@@ -64,36 +66,35 @@ struct HealthTabView: View {
                 let screenWidth = geometry.size.width
                 let screenHeight = geometry.size.height
                 
-                ZStack {
-                    RoundedRectangle(cornerRadius: 25)
-                        .frame(height: screenHeight)
-                        .foregroundColor([0, 3, 4].contains(tileNumber) ? .green : Color(UIColor.systemGray5))
-                    
-                    VStack {
-                        HStack {
-                            Image(systemName: tileImage)
-                            Text(tileName)
-                                .fontWeight(.bold)
-                            Spacer()
-                        }
-                        
+                VStack {
+                    HStack {
+                        Image(systemName: tileImage)
+                        Text(tileName)
+                            .fontWeight(.bold)
                         Spacer()
-                        
-                        HStack {
-                            Text(tileValue.contains("No data") ? "No data" : (tileValue.contains("km") ? tileValue : tileValue.removeCharactersFromString(string: tileValue, character: ".", before: false, upToCharacter: " ")))
-                                .font(.title)
-                                .fontWeight(.bold)
-                        }
-                        
-                        Spacer()
-                        
-                        
                     }
-                    .foregroundColor([0, 3, 4].contains(tileNumber) ? Color(UIColor.systemGray5) : .green)
-                    .padding()
+                    .padding(.top, screenHeight * 0.13)
+                    
+                    Spacer()
+                    
+                    HStack {
+                        Text(tileValue.contains("No data") ? "No data" : (tileValue.contains("km") ? tileValue : tileValue.removeCharactersFromString(string: tileValue, character: ".", before: false, upToCharacter: " ")))
+                            .font(.title)
+                            .fontWeight(.bold)
+                    }
+                    
+                    Spacer()
+                    
+                    
                 }
                 .padding()
-                .opacity(0.9)
+                .foregroundColor([0, 3, 4].contains(tileNumber) ? Color(UIColor.systemGray5) : .green)
+                .background {
+                    RoundedRectangle(cornerRadius: 25)
+                        .frame(height: screenHeight * 0.7)
+                        .foregroundColor([0, 3, 4].contains(tileNumber) ? .green : Color(UIColor.systemGray5))
+                }
+                .padding(.horizontal)
             }
         }
     }
