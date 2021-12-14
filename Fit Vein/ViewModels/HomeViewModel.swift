@@ -15,6 +15,7 @@ class HomeViewModel: ObservableObject {
     private let firebaseStorageManager = FirebaseStorageManager()
     
     @Published var posts: [Post]?
+    @Published var postsAuthorsProfilePicturesURLs = [String: URL]()
     
     @Published var fetchingData = true
     
@@ -33,6 +34,10 @@ class HomeViewModel: ObservableObject {
 //                    Post(author: profile2, text: "Quite a good form for a now.", comments: commentsPost2),
 //                    Post(author: profile3, text: "Trying to stay on track.", comments: commentsPost3)]
         
+        
+    }
+    
+    init() {
         fetchData()
     }
     
@@ -45,33 +50,30 @@ class HomeViewModel: ObservableObject {
             if sessionStore.currentUser != nil {
                 self.firestoreManager.fetchPosts(userID: self.sessionStore.currentUser!.uid) { [self] fetchedPosts in
                     self.posts = fetchedPosts
+                    if self.posts != nil {
+                        for post in self.posts! {
+                            self.firebaseStorageManager.getDownloadURLForImage(stringURL: post.authorProfilePictureURL, userID: post.authorID) { photoURL in
+                                postsAuthorsProfilePicturesURLs.updateValue(value: photoURL, forKey: post.id)
+                            }
+                        }
+                    }
                 }
             }
         }
     }
     
-    func addPost(authorID: String, authorFirstName: String, authorUsername: String, text: String) {
-        self.firestoreManager.postDataCreation(id: UUID().uuidString, authorID: authorID, authorFirstName: authorFirstName, authorUsername: authorUsername, addDate: Date(), text: text, reactionsNumber: 0, commentsNumber: 0, comments: nil) {
+    func addPost(authorID: String, authorFirstName: String, authorUsername: String, authorProfilePictureURL: String, text: String) {
+        self.firestoreManager.postDataCreation(id: UUID().uuidString, authorID: authorID, authorFirstName: authorFirstName, authorUsername: authorUsername, authorProfilePictureURL: authorProfilePictureURL, addDate: Date(), text: text, reactionsNumber: 0, commentsNumber: 0, comments: nil) {
             self.fetchData()
         }
     }
     
     func editPost(postID: String, text: String) {
-        for postIndex in (0..<self.posts!.count) {
-            if self.posts![postIndex].id == postID {
-                self.posts![postIndex].editPost(newText: text)
-                break
-            }
-        }
+        
     }
     
     func likePost(postID: String) {
-        for postIndex in (0..<self.posts!.count) {
-            if self.posts![postIndex].id == postID {
-                self.posts![postIndex].reactToPost()
-                break
-            }
-        }
+        
     }
     
     func commentPost(postID: String, authorID: String, authorFirstName: String, authorLastName: String, text: String) {
@@ -80,5 +82,11 @@ class HomeViewModel: ObservableObject {
     
     func deletePost(postID: String) {
         self.firestoreManager.postRemoval(id: postID) {}
+    }
+    
+    func getPostAuthorProfilePictureURL(authorID: String, stringPhotoURL: String, completion: @escaping ((URL?) -> ())) {
+        self.firebaseStorageManager.getDownloadURLForImage(stringURL: stringPhotoURL, userID: authorID) { photoURL in
+            completion(photoURL)
+        }
     }
 }

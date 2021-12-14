@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LoggedUserView: View {
     @EnvironmentObject private var sessionStore: SessionStore
-    @ObservedObject private var homeViewModel = HomeViewModel(forPreviews: true)
+    @ObservedObject private var homeViewModel = HomeViewModel()
     @ObservedObject private var profileViewModel = ProfileViewModel()
     
     @State var selectedTab: Tab = .home

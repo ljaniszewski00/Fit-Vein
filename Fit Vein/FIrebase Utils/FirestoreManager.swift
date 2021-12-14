@@ -205,52 +205,56 @@ class FirestoreManager: ObservableObject {
         var fetchedPosts: [Post] = [Post]()
 
         self.fetchFollowed(userID: userID) { fetchedFollowed in
-            if let fetchedFollowed = fetchedFollowed {
-                var fetchedFollowedAndSelf = fetchedFollowed
+            var fetchedFollowedAndSelf = [String]()
+            if fetchedFollowed == nil {
+                fetchedFollowedAndSelf = [userID]
+            } else {
+                fetchedFollowedAndSelf = fetchedFollowed!
                 fetchedFollowedAndSelf.append(userID)
-                self.db.collection("posts").whereField("author", in: fetchedFollowedAndSelf).addSnapshotListener { (querySnapshot, error) in
-                    if let error = error {
-                        print("Error fetching posts data: \(error.localizedDescription)")
-                    } else {
-                        fetchedPosts = querySnapshot!.documents.map { (queryDocumentSnapshot) -> Post in
-                            let data = queryDocumentSnapshot.data()
+            }
+            print(fetchedFollowedAndSelf)
+            self.db.collection("posts").whereField("authorID", in: fetchedFollowedAndSelf).addSnapshotListener { (querySnapshot, error) in
+                if let error = error {
+                    print("Error fetching posts data: \(error.localizedDescription)")
+                } else {
+                    fetchedPosts = querySnapshot!.documents.map { (queryDocumentSnapshot) -> Post in
+                        let data = queryDocumentSnapshot.data()
 
-                            let id = data["id"] as? String ?? ""
-                            let authorID = data["authorID"] as? String ?? ""
-                            let authorFirstName = data["authorFirstName"] as? String ?? ""
-                            let authorUsername = data["authorUsername"] as? String ?? ""
-                            let addDate = data["addDate"] as? Timestamp
-                            let text = data["text"] as? String ?? ""
-                            let reactionsNumber = data["reactionsNumber"] as? Int ?? 0
-                            let commentsNumber = data["commentsNumber"] as? Int ?? 0
+                        let id = data["id"] as? String ?? ""
+                        let authorID = data["authorID"] as? String ?? ""
+                        let authorFirstName = data["authorFirstName"] as? String ?? ""
+                        let authorUsername = data["authorUsername"] as? String ?? ""
+                        let authorProfilePictureURL = data["authorProfilePictureURL"] as? String ?? ""
+                        let addDate = data["addDate"] as? Timestamp
+                        let text = data["text"] as? String ?? ""
+                        let reactionsNumber = data["reactionsNumber"] as? Int ?? 0
+                        let commentsNumber = data["commentsNumber"] as? Int ?? 0
 
-                            return Post(id: id, authorID: authorID, authorFirstName: authorFirstName, authorUsername: authorUsername, addDate: (addDate?.dateValue())!, text: text, reactionsNumber: reactionsNumber, commentsNumber: commentsNumber, comments: nil)
-                        }
-                        
-                        DispatchQueue.main.async {
-                            if fetchedPosts.count != 0 {
-                                fetchedPosts.sort() {
-                                    $0.addDate < $1.addDate
-                                }
-                                completion(fetchedPosts)
-                            } else {
-                                completion(nil)
+                        return Post(id: id, authorID: authorID, authorFirstName: authorFirstName, authorUsername: authorUsername, authorProfilePictureURL: authorProfilePictureURL, addDate: (addDate?.dateValue())!, text: text, reactionsNumber: reactionsNumber, commentsNumber: commentsNumber, comments: nil)
+                    }
+                    
+                    DispatchQueue.main.async {
+                        if fetchedPosts.count != 0 {
+                            fetchedPosts.sort() {
+                                $0.addDate < $1.addDate
                             }
+                            completion(fetchedPosts)
+                        } else {
+                            completion(nil)
                         }
                     }
                 }
-            } else {
-                completion(nil)
             }
         }
     }
     
-    func postDataCreation(id: String, authorID: String, authorFirstName: String, authorUsername: String, addDate: Date, text: String, reactionsNumber: Int, commentsNumber: Int, comments: [Comment]?, completion: @escaping (() -> ())) {
+    func postDataCreation(id: String, authorID: String, authorFirstName: String, authorUsername: String, authorProfilePictureURL: String, addDate: Date, text: String, reactionsNumber: Int, commentsNumber: Int, comments: [Comment]?, completion: @escaping (() -> ())) {
         let documentData: [String: Any] = [
             "id": id,
             "authorID": authorID,
             "authorFirstName": authorFirstName,
             "authorUsername": authorUsername,
+            "authorProfilePictureURL": authorProfilePictureURL,
             "addDate": Date(),
             "text": text,
             "reactionsNumber": reactionsNumber,

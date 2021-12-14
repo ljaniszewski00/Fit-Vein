@@ -12,17 +12,19 @@ struct Post: Codable, Identifiable {
     var authorID: String
     var authorFirstName: String
     var authorUsername: String
+    var authorProfilePictureURL: String
     var addDate: Date
     var text: String
     var reactionsNumber: Int
     var commentsNumber: Int
     var comments: [Comment]?
     
-    init(authorID: String, authorFirstName: String, authorUsername: String, text: String) {
+    init(authorID: String, authorFirstName: String, authorUsername: String, authorProfilePictureURL: String, text: String) {
         self.id = UUID().uuidString
         self.authorID = authorID
         self.authorFirstName = authorFirstName
         self.authorUsername = authorUsername
+        self.authorProfilePictureURL = authorProfilePictureURL
         self.addDate = Date()
         self.text = text
         self.reactionsNumber = 0
@@ -30,11 +32,12 @@ struct Post: Codable, Identifiable {
         self.comments = nil
     }
     
-    init(id: String, authorID: String, authorFirstName: String, authorUsername: String, addDate: Date, text: String, reactionsNumber: Int, commentsNumber: Int, comments: [Comment]?) {
+    init(id: String, authorID: String, authorFirstName: String, authorUsername: String, authorProfilePictureURL: String, addDate: Date, text: String, reactionsNumber: Int, commentsNumber: Int, comments: [Comment]?) {
         self.id = id
         self.authorID = authorID
         self.authorFirstName = authorFirstName
         self.authorUsername = authorUsername
+        self.authorProfilePictureURL = authorProfilePictureURL
         self.addDate = addDate
         self.text = text
         self.reactionsNumber = reactionsNumber
@@ -85,23 +88,26 @@ struct Comment: Codable, Identifiable {
     var authorID: String
     var authorFirstName: String
     var authorUsername: String
+    var authorProfilePictureURL: String
     var addDate: Date
     var text: String
     
-    init(authorID: String, authorFirstName: String, authorUsername: String, text: String) {
+    init(authorID: String, authorFirstName: String, authorUsername: String, authorProfilePictureURL: String, text: String) {
         self.id = UUID().uuidString
         self.authorID = authorID
         self.authorFirstName = authorFirstName
         self.authorUsername = authorUsername
+        self.authorProfilePictureURL = authorProfilePictureURL
         self.addDate = Date()
         self.text = text
     }
     
-    init(id: String, authorID: String, authorFirstName: String, authorUsername: String, addDate: Date, text: String) {
+    init(id: String, authorID: String, authorFirstName: String, authorUsername: String, authorProfilePictureURL: String, addDate: Date, text: String) {
         self.id = id
         self.authorID = authorID
         self.authorFirstName = authorFirstName
         self.authorUsername = authorUsername
+        self.authorProfilePictureURL = authorProfilePictureURL
         self.addDate = addDate
         self.text = text
     }

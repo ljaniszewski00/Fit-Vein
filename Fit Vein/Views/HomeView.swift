@@ -12,8 +12,7 @@ struct HomeView: View {
     @EnvironmentObject private var sessionStore: SessionStore
     @Environment(\.colorScheme) var colorScheme
     
-    @State var showPlaceholderText: Bool = true
-    @State var postText: String = ""
+    @State private var postText = ""
     
     init(homeViewModel: HomeViewModel, profileViewModel: ProfileViewModel) {
         self.homeViewModel = homeViewModel
@@ -54,16 +53,8 @@ struct HomeView: View {
                                                 .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
                                         }
                                         
-                                        ZStack {
-                                            TextEditor(text: $postText)
-                                                .onTapGesture {
-                                                    showPlaceholderText = false
-                                                }
-                                            Text("What do you want to share?")
-                                                .frame(width: screenWidth * 0.6, height: screenHeight * 0.1)
-                                                .opacity(showPlaceholderText ? 100 : 0)
-                                        }
-                                        .frame(width: screenWidth * 0.8, height: screenHeight * 0.15)
+                                        Text("What do you want to share?")
+                                            .frame(width: screenWidth * 0.6, height: screenHeight * 0.1)
                                     }
                                     .padding(.leading, screenWidth * 0.05)
                                     
@@ -71,7 +62,9 @@ struct HomeView: View {
                                     
                                     HStack(spacing: 0) {
                                         Button(action: {
-        //                                    homeViewModel.addPost(author: profileViewModel.profile!, text: postText)
+                                            if homeViewModel.sessionStore.currentUser != nil && profileViewModel.profile != nil {
+                                                homeViewModel.addPost(authorID: self.sessionStore.currentUser!.uid, authorFirstName: self.profileViewModel.profile!.firstName, authorUsername: self.profileViewModel.profile!.username, authorProfilePictureURL: self.profileViewModel.profile!.profilePictureURL != nil ? self.profileViewModel.profile!.profilePictureURL! : "", text: postText)
+                                            }
                                         }, label: {
                                             HStack {
                                                 Image(systemName: "paperplane")
@@ -80,11 +73,11 @@ struct HomeView: View {
                                         })
                                             .foregroundColor(colorScheme == .dark ? .white : .black)
                                             .frame(width: screenWidth * 0.5, height: screenHeight * 0.04)
-                                        
+
                                         Divider()
-                                        
+
                                         Button(action: {
-                                            self.postText = ""
+                                            
                                         }, label: {
                                             HStack {
                                                 Image(systemName: "xmark.circle")
@@ -115,12 +108,29 @@ struct HomeView: View {
                                                     .frame(width: screenWidth, height: screenHeight * 0.02)
                                                 
                                                 HStack {
-                                                    Image(uiImage: UIImage(named: "blank-profile-hi")!)
-                                                        .resizable()
-                                                        .aspectRatio(contentMode: .fit)
-                                                        .clipShape(RoundedRectangle(cornerRadius: 50))
-                                                        .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
-                                                        .padding(.horizontal, screenWidth * 0.05)
+                                                    //This causes en error
+                                                    if !homeViewModel.postsAuthorsProfilePicturesURLs.isEmpty {
+                                                        AsyncImage(url: homeViewModel.postsAuthorsProfilePicturesURLs[post.id]) { image in
+                                                            image
+                                                                .resizable()
+                                                                .aspectRatio(contentMode: .fit)
+                                                                .clipShape(RoundedRectangle(cornerRadius: 50))
+                                                                .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+                                                        } placeholder: {
+                                                            Image(uiImage: UIImage(named: "blank-profile-hi")!)
+                                                                .resizable()
+                                                                .aspectRatio(contentMode: .fit)
+                                                                .clipShape(RoundedRectangle(cornerRadius: 50))
+                                                                .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+                                                        }
+                                                    } else {
+                                                        Image(uiImage: UIImage(named: "blank-profile-hi")!)
+                                                            .resizable()
+                                                            .aspectRatio(contentMode: .fit)
+                                                            .clipShape(RoundedRectangle(cornerRadius: 50))
+                                                            .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+                                                    }
+                                                    //This causes en error
                                                     
                                                     VStack {
                                                         HStack {
@@ -236,6 +246,7 @@ struct HomeView: View {
                     HomeTabFetchingView()
                         .onAppear() {
                             self.homeViewModel.setup(sessionStore: sessionStore)
+                            self.homeViewModel.fetchData()
                             self.profileViewModel.setup(sessionStore: sessionStore)
                             self.profileViewModel.fetchData()
                         }
