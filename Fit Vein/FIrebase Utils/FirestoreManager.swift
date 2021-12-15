@@ -71,7 +71,6 @@ class FirestoreManager: ObservableObject {
     // User
     
     func fetchDataForProfileViewModel(userID: String, completion: @escaping ((Profile?) -> ())) {
-
         self.db.collection("users").whereField("id", isEqualTo: userID).addSnapshotListener { (querySnapshot, error) in
             if let error = error {
                 print("Error fetching profile data: \(error.localizedDescription)")
@@ -88,8 +87,10 @@ class FirestoreManager: ObservableObject {
                     let gender = data["gender"] as? String ?? ""
                     let email = data["email"] as? String ?? ""
                     let profilePictureURL = data["profilePictureURL"] as? String ?? nil
+                    let reactedPostsIDs = data["reactedPostsIDs"] as? [String]? ?? nil
+                    let commentedPostsIDs = data["commentedPostsIDs"] as? [String]? ?? nil
 
-                    return Profile(id: userID, firstName: firstName, username: username, birthDate: birthDate, age: age, country: country, language: language, gender: gender, email: email, profilePictureURL: profilePictureURL)
+                    return Profile(id: userID, firstName: firstName, username: username, birthDate: birthDate, age: age, country: country, language: language, gender: gender, email: email, profilePictureURL: profilePictureURL, reactedPostsIDs: reactedPostsIDs, commentedPostsIDs: commentedPostsIDs)
                 }
                 
                 DispatchQueue.main.async {
@@ -131,6 +132,56 @@ class FirestoreManager: ObservableObject {
                 print("Could not delete user data: \(error)")
             } else {
                 completion()
+            }
+        }
+    }
+    
+    func addReactedPostID(userID: String, postID: String, completion: @escaping (() -> ())) {
+        self.db.collection("users").document(userID).getDocument() { [self] (document, error) in
+            if let error = error {
+                print("Error getting document for adding reacted post for user: \(error.localizedDescription)")
+            } else {
+                if let document = document {
+                    let reactedPostsIDs = document.get("reactedPostsIDs") as? [String]? ?? nil
+                    
+                    if let reactedPostsIDs = reactedPostsIDs {
+                        var newReactionsPostsIDs = reactedPostsIDs
+                        newReactionsPostsIDs.append(postID)
+                        
+                        let documentData: [String: Any] = [
+                            "reactedPostsIDs": newReactionsPostsIDs
+                        ]
+                        updateUserData(documentData: documentData) {
+                            print("Successfully added post \(postID) to user reacted")
+                            completion()
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func addCommentedPostID(userID: String, postID: String, completion: @escaping (() -> ())) {
+        self.db.collection("users").document(userID).getDocument() { [self] (document, error) in
+            if let error = error {
+                print("Error getting document for adding commented post for user: \(error.localizedDescription)")
+            } else {
+                if let document = document {
+                    let commentedPostsIDs = document.get("commentedPostsIDs") as? [String]? ?? nil
+                    
+                    if let commentedPostsIDs = commentedPostsIDs {
+                        var newCommentedPostsIDs = commentedPostsIDs
+                        newCommentedPostsIDs.append(postID)
+                        
+                        let documentData: [String: Any] = [
+                            "commentedPostsIDs": newCommentedPostsIDs
+                        ]
+                        updateUserData(documentData: documentData) {
+                            print("Successfully added post \(postID) to user commented")
+                            completion()
+                        }
+                    }
+                }
             }
         }
     }
@@ -227,10 +278,11 @@ class FirestoreManager: ObservableObject {
                         let authorProfilePictureURL = data["authorProfilePictureURL"] as? String ?? ""
                         let addDate = data["addDate"] as? Timestamp
                         let text = data["text"] as? String ?? ""
-                        let reactionsNumber = data["reactionsNumber"] as? Int ?? 0
-                        let commentsNumber = data["commentsNumber"] as? Int ?? 0
+                        let reactionsUsersIDs = data["reactionsUsersIDs"] as? [String]? ?? nil
+                        
+//                        let comments = data["comments"] as? Int ?? 0
 
-                        return Post(id: id, authorID: authorID, authorFirstName: authorFirstName, authorUsername: authorUsername, authorProfilePictureURL: authorProfilePictureURL, addDate: (addDate?.dateValue())!, text: text, reactionsNumber: reactionsNumber, commentsNumber: commentsNumber, comments: nil)
+                        return Post(id: id, authorID: authorID, authorFirstName: authorFirstName, authorUsername: authorUsername, authorProfilePictureURL: authorProfilePictureURL, addDate: (addDate?.dateValue())!, text: text, reactionsUsersIDs: reactionsUsersIDs, comments: nil)
                     }
                     
                     DispatchQueue.main.async {
@@ -248,7 +300,7 @@ class FirestoreManager: ObservableObject {
         }
     }
     
-    func postDataCreation(id: String, authorID: String, authorFirstName: String, authorUsername: String, authorProfilePictureURL: String, addDate: Date, text: String, reactionsNumber: Int, commentsNumber: Int, comments: [Comment]?, completion: @escaping (() -> ())) {
+    func postDataCreation(id: String, authorID: String, authorFirstName: String, authorUsername: String, authorProfilePictureURL: String, addDate: Date, text: String, reactionsUsersIDs: [String]?, comments: [Comment]?, completion: @escaping (() -> ())) {
         let documentData: [String: Any] = [
             "id": id,
             "authorID": authorID,
@@ -257,8 +309,8 @@ class FirestoreManager: ObservableObject {
             "authorProfilePictureURL": authorProfilePictureURL,
             "addDate": Date(),
             "text": text,
-            "reactionsNumber": reactionsNumber,
-            "commentsNumber": commentsNumber
+            "reactionsUsersIDs": reactionsUsersIDs,
+            "comments": comments
         ]
         
         self.db.collection("posts").document(id).setData(documentData) { (error) in
@@ -276,6 +328,31 @@ class FirestoreManager: ObservableObject {
                 print("Error deleting post: \(error.localizedDescription)")
             } else {
                 print("Successfully deleted post: \(id)")
+            }
+        }
+    }
+    
+    func postAddReaction(id: String, userID: String, completion: @escaping (() -> ())) {
+        self.db.collection("posts").document(id).getDocument() { [self] (document, error) in
+            if let error = error {
+                print("Error getting document for post add reaction: \(error.localizedDescription)")
+            } else {
+                if let document = document {
+                    let reactionsUsersIDs = document.get("reactionsUsersIDs") as? [String]? ?? nil
+                    
+                    if let reactionsUsersIDs = reactionsUsersIDs {
+                        var newReactionsUsersIDs = reactionsUsersIDs
+                        newReactionsUsersIDs.append(userID)
+                        
+                        let documentData: [String: Any] = [
+                            "reactionsNumber": newReactionsUsersIDs
+                        ]
+                        updateUserData(documentData: documentData) {
+                            print("Successfully added reaction of \(userID) to post \(id)")
+                            completion()
+                        }
+                    }
+                }
             }
         }
     }

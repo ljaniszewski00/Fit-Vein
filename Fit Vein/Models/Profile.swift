@@ -18,6 +18,8 @@ struct Profile: Codable, Identifiable {
     var gender: String
     var email: String
     var profilePictureURL: String?
+    var reactedPostsIDs: [String]?
+    var commentedPostsIDs: [String]?
 }
 
 

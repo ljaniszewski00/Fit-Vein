@@ -15,25 +15,21 @@ class HomeViewModel: ObservableObject {
     private let firebaseStorageManager = FirebaseStorageManager()
     
     @Published var posts: [Post]?
-    @Published var postsAuthorsProfilePicturesURLs = [String: URL]()
+    @Published var postsAuthorsProfilePicturesURLs: [String: URL] = [:]
     
     @Published var fetchingData = true
     
     init(forPreviews: Bool) {
-//        let profile1: Profile = Profile(id: "1", firstName: "Jan", username: "jan23.d", birthDate: Date(), age: 18, country: "Poland", language: "Polish", gender: "Male", email: "jan23.d@gmail.com", profilePictureURL: nil)
-//        let profile2: Profile = Profile(id: "2", firstName: "Maciej", username: "maciej23.d", birthDate: Date(), age: 18, country: "Poland", language: "Polish", gender: "Male", email: "maciej23.d@gmail.com", profilePictureURL: nil)
-//        let profile3: Profile = Profile(id: "3", firstName: "Jakub", username: "jakub23.d", birthDate: Date(), age: 18, country: "Poland", language: "Polish", gender: "Male", email: "jakub23.d@gmail.com", profilePictureURL: nil)
-//
-//        let commentsPost1: [Comment] = [Comment(author: profile2, text: "Excellent :)"), Comment(author: profile3, text: "Well done!")]
-//
-//        let commentsPost2: [Comment] = [Comment(author: profile1, text: "Great! Thumbs up."), Comment(author: profile3, text: "Well done!")]
-//
-//        let commentsPost3: [Comment] = [Comment(author: profile1, text: "Great! Thumbs up."), Comment(author: profile2, text: "Excellent :)")]
-//
-//        self.posts = [Post(author: profile1, text: "Did this today!", comments: commentsPost1),
-//                    Post(author: profile2, text: "Quite a good form for a now.", comments: commentsPost2),
-//                    Post(author: profile3, text: "Trying to stay on track.", comments: commentsPost3)]
-        
+
+        let commentsPost1: [Comment] = [Comment(authorID: "2", authorFirstName: "Maciej", authorUsername: "maciej23.d", authorProfilePictureURL: "", text: "Excellent :)"), Comment(authorID: "2", authorFirstName: "Maciej", authorUsername: "maciej23.d", authorProfilePictureURL: "", text: "Excellent :)")]
+
+        let commentsPost2: [Comment] = [Comment(authorID: "3", authorFirstName: "Jakub", authorUsername: "jakub23.d", authorProfilePictureURL: "", text: "Excellent :)"), Comment(authorID: "2", authorFirstName: "Maciej", authorUsername: "maciej23.d", authorProfilePictureURL: "", text: "Excellent :)")]
+
+        let commentsPost3: [Comment] = [Comment(authorID: "1", authorFirstName: "Jan", authorUsername: "jan23.d", authorProfilePictureURL: "", text: "Excellent :)"), Comment(authorID: "2", authorFirstName: "Maciej", authorUsername: "maciej23.d", authorProfilePictureURL: "", text: "Excellent :)")]
+
+        self.posts = [Post(id: "1", authorID: "1", authorFirstName: "Jan", authorUsername: "jan23.d", authorProfilePictureURL: "", addDate: Date(), text: "Did this today!", reactionsNumber: 0, commentsNumber: 1, comments: commentsPost1),
+                      Post(id: "1", authorID: "2", authorFirstName: "Maciej", authorUsername: "maciej23.d", authorProfilePictureURL: "", addDate: Date(), text: "Good form for now!", reactionsNumber: 0, commentsNumber: 1, comments: commentsPost2),
+                      Post(id: "1", authorID: "3", authorFirstName: "Jakub", authorUsername: "jakub23.d", authorProfilePictureURL: "", addDate: Date(), text: " Hell Yeeeah!", reactionsNumber: 0, commentsNumber: 1, comments: commentsPost3)]
         
     }
     
@@ -53,7 +49,7 @@ class HomeViewModel: ObservableObject {
                     if self.posts != nil {
                         for post in self.posts! {
                             self.firebaseStorageManager.getDownloadURLForImage(stringURL: post.authorProfilePictureURL, userID: post.authorID) { photoURL in
-                                postsAuthorsProfilePicturesURLs.updateValue(value: photoURL, forKey: post.id)
+                                postsAuthorsProfilePicturesURLs.updateValue(photoURL, forKey: post.id)
                             }
                         }
                     }

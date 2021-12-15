@@ -31,19 +31,21 @@ struct HomeView: View {
                             VStack {
                                 VStack {
                                     HStack {
-                                        if profileViewModel.profilePicturePhotoURL != nil {
-                                            AsyncImage(url: profileViewModel.profilePicturePhotoURL!) { image in
-                                                image
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                                    .clipShape(RoundedRectangle(cornerRadius: 50))
-                                                    .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
-                                            } placeholder: {
-                                                Image(uiImage: UIImage(named: "blank-profile-hi")!)
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                                    .clipShape(RoundedRectangle(cornerRadius: 50))
-                                                    .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+                                        if let profilePicturePhotoURL = profileViewModel.profilePicturePhotoURL {
+                                            AsyncImage(url: profilePicturePhotoURL) { phase in
+                                                if let image = phase.image {
+                                                    image
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                        .clipShape(RoundedRectangle(cornerRadius: 50))
+                                                        .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+                                                } else {
+                                                    Image(uiImage: UIImage(named: "blank-profile-hi")!)
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                        .clipShape(RoundedRectangle(cornerRadius: 50))
+                                                        .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+                                                }
                                             }
                                         } else {
                                             Image(uiImage: UIImage(named: "blank-profile-hi")!)
@@ -100,37 +102,46 @@ struct HomeView: View {
                                     }
                                     .padding()
                                     
-                                    if homeViewModel.posts != nil {
-                                        ForEach(homeViewModel.posts!) { post in
+                                    if let posts = homeViewModel.posts {
+                                        ForEach(posts) { post in
                                             VStack {
                                                 Rectangle()
                                                     .foregroundColor(Color(uiColor: .systemGray6))
                                                     .frame(width: screenWidth, height: screenHeight * 0.02)
                                                 
                                                 HStack {
-                                                    //This causes en error
-                                                    if !homeViewModel.postsAuthorsProfilePicturesURLs.isEmpty {
-                                                        AsyncImage(url: homeViewModel.postsAuthorsProfilePicturesURLs[post.id]) { image in
-                                                            image
-                                                                .resizable()
-                                                                .aspectRatio(contentMode: .fit)
-                                                                .clipShape(RoundedRectangle(cornerRadius: 50))
-                                                                .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
-                                                        } placeholder: {
-                                                            Image(uiImage: UIImage(named: "blank-profile-hi")!)
-                                                                .resizable()
-                                                                .aspectRatio(contentMode: .fit)
-                                                                .clipShape(RoundedRectangle(cornerRadius: 50))
-                                                                .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
-                                                        }
-                                                    } else {
-                                                        Image(uiImage: UIImage(named: "blank-profile-hi")!)
-                                                            .resizable()
-                                                            .aspectRatio(contentMode: .fit)
-                                                            .clipShape(RoundedRectangle(cornerRadius: 50))
-                                                            .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
-                                                    }
-                                                    //This causes en error
+                                                    Spacer()
+//                                                    This causes an error
+//                                                    if let postAuthorProfilePictureURL = homeViewModel.postsAuthorsProfilePicturesURLs[post.id] {
+//                                                        AsyncImage(url: postAuthorProfilePictureURL) { phase in
+//                                                            if let image = phase.image {
+//                                                                image
+//                                                                    .resizable()
+//                                                                    .aspectRatio(contentMode: .fit)
+//                                                                    .clipShape(RoundedRectangle(cornerRadius: 50))
+//                                                                    .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+//                                                            } else {
+//                                                                Image(uiImage: UIImage(named: "blank-profile-hi")!)
+//                                                                    .resizable()
+//                                                                    .aspectRatio(contentMode: .fit)
+//                                                                    .clipShape(RoundedRectangle(cornerRadius: 50))
+//                                                                    .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+//                                                            }
+//                                                        }
+//                                                    } else {
+//                                                        Image(uiImage: UIImage(named: "blank-profile-hi")!)
+//                                                            .resizable()
+//                                                            .aspectRatio(contentMode: .fit)
+//                                                            .clipShape(RoundedRectangle(cornerRadius: 50))
+//                                                            .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+//                                                    }
+//                                                    This causes an error
+                                                    
+                                                    Image(uiImage: UIImage(named: "blank-profile-hi")!)
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                        .clipShape(RoundedRectangle(cornerRadius: 50))
+                                                        .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
                                                     
                                                     VStack {
                                                         HStack {
@@ -210,7 +221,8 @@ struct HomeView: View {
                                             }
                                         }
                                     } else {
-                                        Text("Nothing to show")
+                                        Text("Add friends to see their achievements")
+                                            .foregroundColor(.green)
                                     }
                                 }
                             }
