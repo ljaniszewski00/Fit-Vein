@@ -116,7 +116,7 @@ struct HomeView: View {
                                                         .frame(width: screenWidth, height: screenHeight * 0.02)
                                                         .confirmationDialog("What do you want to do with the selected post?", isPresented: $showPostOptions) {
                                                             Button("Edit") {
-                                                                self.showEditView()
+                                                                self.showEditView = true
                                                             }
                                                             Button("Delete", role: .destructive) {
                                                                 self.homeViewModel.deletePost(postID: post.id)

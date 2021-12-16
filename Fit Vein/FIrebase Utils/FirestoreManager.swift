@@ -362,12 +362,32 @@ class FirestoreManager: ObservableObject {
                     
                     if let reactionsUsersIDs = reactionsUsersIDs {
                         var newReactionsUsersIDs = reactionsUsersIDs
-                        newReactionsUsersIDs.append(userID)
+                        if newReactionsUsersIDs.contains(userID) {
+                            for (index, userID) in newReactionsUsersIDs.enumerated() {
+                                if userID == userID {
+                                    newReactionsUsersIDs.remove(at: index)
+                                    break
+                                }
+                            }
+                        } else {
+                            newReactionsUsersIDs.append(userID)
+                        }
                         
                         let documentData: [String: Any] = [
-                            "reactionsNumber": newReactionsUsersIDs
+                            "reactionsUsersIDs": newReactionsUsersIDs
                         ]
-                        updateUserData(documentData: documentData) {
+                        updatePostData(postID: id, documentData: documentData) {
+                            print("Successfully added reaction of \(userID) to post \(id)")
+                            completion()
+                        }
+                    } else {
+                        let newReactionsUsersIDs = [userID]
+                        print(newReactionsUsersIDs)
+                        
+                        let documentData: [String: Any] = [
+                            "reactionsUsersIDs": newReactionsUsersIDs
+                        ]
+                        updatePostData(postID: id, documentData: documentData) {
                             print("Successfully added reaction of \(userID) to post \(id)")
                             completion()
                         }
@@ -458,6 +478,16 @@ class FirestoreManager: ObservableObject {
         self.db.collection("users").document(user!.uid).updateData(documentData) { (error) in
             if let error = error {
                 print("Error updating user's data: \(error.localizedDescription)")
+            } else {
+                completion()
+            }
+        }
+    }
+    
+    private func updatePostData(postID: String, documentData: [String: Any], completion: @escaping (() -> ())) {
+        self.db.collection("posts").document(postID).updateData(documentData) { (error) in
+            if let error = error {
+                print("Error updating post's data: \(error.localizedDescription)")
             } else {
                 completion()
             }
