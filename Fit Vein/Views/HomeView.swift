@@ -14,6 +14,9 @@ struct HomeView: View {
     
     @State private var postText = ""
     
+    @State private var showPostOptions = false
+    @State private var showEditView = false
+    
     init(homeViewModel: HomeViewModel, profileViewModel: ProfileViewModel) {
         self.homeViewModel = homeViewModel
         self.profileViewModel = profileViewModel
@@ -24,246 +27,272 @@ struct HomeView: View {
             let screenWidth = geometry.size.width
             let screenHeight = geometry.size.height
             
-            if profileViewModel.profile != nil {
-                withAnimation {
-                    NavigationView {
-                        ScrollView(.vertical) {
-                            VStack {
+            if showEditView {
+                EditPostView()
+            } else {
+                if profileViewModel.profile != nil {
+                    withAnimation {
+                        NavigationView {
+                            ScrollView(.vertical) {
                                 VStack {
-                                    HStack {
-                                        if let profilePicturePhotoURL = profileViewModel.profilePicturePhotoURL {
-                                            AsyncImage(url: profilePicturePhotoURL) { phase in
-                                                if let image = phase.image {
-                                                    image
-                                                        .resizable()
-                                                        .aspectRatio(contentMode: .fit)
-                                                        .clipShape(RoundedRectangle(cornerRadius: 50))
-                                                        .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
-                                                } else {
-                                                    Image(uiImage: UIImage(named: "blank-profile-hi")!)
-                                                        .resizable()
-                                                        .aspectRatio(contentMode: .fit)
-                                                        .clipShape(RoundedRectangle(cornerRadius: 50))
-                                                        .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+                                    VStack {
+                                        HStack {
+                                            if let profilePicturePhotoURL = profileViewModel.profilePicturePhotoURL {
+                                                AsyncImage(url: profilePicturePhotoURL) { phase in
+                                                    if let image = phase.image {
+                                                        image
+                                                            .resizable()
+                                                            .aspectRatio(contentMode: .fit)
+                                                            .clipShape(RoundedRectangle(cornerRadius: 50))
+                                                            .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+                                                    } else {
+                                                        Image(uiImage: UIImage(named: "blank-profile-hi")!)
+                                                            .resizable()
+                                                            .aspectRatio(contentMode: .fit)
+                                                            .clipShape(RoundedRectangle(cornerRadius: 50))
+                                                            .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+                                                    }
                                                 }
+                                            } else {
+                                                Image(uiImage: UIImage(named: "blank-profile-hi")!)
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                                    .clipShape(RoundedRectangle(cornerRadius: 50))
+                                                    .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
                                             }
-                                        } else {
-                                            Image(uiImage: UIImage(named: "blank-profile-hi")!)
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fit)
-                                                .clipShape(RoundedRectangle(cornerRadius: 50))
-                                                .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+                                            
+                                            Text("What do you want to share?")
+                                                .frame(width: screenWidth * 0.6, height: screenHeight * 0.1)
+                                        }
+                                        .padding(.leading, screenWidth * 0.05)
+                                        
+                                        Divider()
+                                        
+                                        HStack(spacing: 0) {
+                                            Button(action: {
+                                                if homeViewModel.sessionStore.currentUser != nil && profileViewModel.profile != nil {
+                                                    homeViewModel.addPost(authorID: self.sessionStore.currentUser!.uid, authorFirstName: self.profileViewModel.profile!.firstName, authorUsername: self.profileViewModel.profile!.username, authorProfilePictureURL: self.profileViewModel.profile!.profilePictureURL != nil ? self.profileViewModel.profile!.profilePictureURL! : "", text: postText)
+                                                }
+                                            }, label: {
+                                                HStack {
+                                                    Image(systemName: "paperplane")
+                                                    Text("Post")
+                                                }
+                                            })
+                                                .foregroundColor(colorScheme == .dark ? .white : .black)
+                                                .frame(width: screenWidth * 0.5, height: screenHeight * 0.04)
+
+                                            Divider()
+
+                                            Button(action: {
+                                                
+                                            }, label: {
+                                                HStack {
+                                                    Image(systemName: "xmark.circle")
+                                                    Text("Clear")
+                                                }
+                                            })
+                                                .foregroundColor(colorScheme == .dark ? .white : .black)
+                                                .frame(width: screenWidth * 0.5, height: screenHeight * 0.04)
                                         }
                                         
-                                        Text("What do you want to share?")
-                                            .frame(width: screenWidth * 0.6, height: screenHeight * 0.1)
-                                    }
-                                    .padding(.leading, screenWidth * 0.05)
-                                    
-                                    Divider()
-                                    
-                                    HStack(spacing: 0) {
-                                        Button(action: {
-                                            if homeViewModel.sessionStore.currentUser != nil && profileViewModel.profile != nil {
-                                                homeViewModel.addPost(authorID: self.sessionStore.currentUser!.uid, authorFirstName: self.profileViewModel.profile!.firstName, authorUsername: self.profileViewModel.profile!.username, authorProfilePictureURL: self.profileViewModel.profile!.profilePictureURL != nil ? self.profileViewModel.profile!.profilePictureURL! : "", text: postText)
-                                            }
-                                        }, label: {
-                                            HStack {
-                                                Image(systemName: "paperplane")
-                                                Text("Post")
-                                            }
-                                        })
-                                            .foregroundColor(colorScheme == .dark ? .white : .black)
-                                            .frame(width: screenWidth * 0.5, height: screenHeight * 0.04)
-
                                         Divider()
-
-                                        Button(action: {
-                                            
-                                        }, label: {
-                                            HStack {
-                                                Image(systemName: "xmark.circle")
-                                                Text("Clear")
-                                            }
-                                        })
-                                            .foregroundColor(colorScheme == .dark ? .white : .black)
-                                            .frame(width: screenWidth * 0.5, height: screenHeight * 0.04)
-                                    }
-                                    
-                                    Divider()
-                                    
-                                    Spacer(minLength: screenHeight * 0.05)
-                                    
-                                    HStack {
-                                        Text("Your friends activity")
-                                            .foregroundColor(.green)
-                                            .font(.system(size: screenHeight * 0.04, weight: .bold))
-                                            .background(Rectangle().foregroundColor(Color(uiColor: .systemGray6)).frame(width: screenWidth, height: screenHeight * 0.08))
-                                    }
-                                    .padding()
-                                    
-                                    if let posts = homeViewModel.posts {
-                                        ForEach(posts) { post in
-                                            VStack {
-                                                Rectangle()
-                                                    .foregroundColor(Color(uiColor: .systemGray6))
-                                                    .frame(width: screenWidth, height: screenHeight * 0.02)
-                                                
-                                                HStack {
-                                                    Spacer()
-//                                                    This causes an error
-//                                                    if let postAuthorProfilePictureURL = homeViewModel.postsAuthorsProfilePicturesURLs[post.id] {
-//                                                        AsyncImage(url: postAuthorProfilePictureURL) { phase in
-//                                                            if let image = phase.image {
-//                                                                image
-//                                                                    .resizable()
-//                                                                    .aspectRatio(contentMode: .fit)
-//                                                                    .clipShape(RoundedRectangle(cornerRadius: 50))
-//                                                                    .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
-//                                                            } else {
-//                                                                Image(uiImage: UIImage(named: "blank-profile-hi")!)
-//                                                                    .resizable()
-//                                                                    .aspectRatio(contentMode: .fit)
-//                                                                    .clipShape(RoundedRectangle(cornerRadius: 50))
-//                                                                    .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
-//                                                            }
-//                                                        }
-//                                                    } else {
-//                                                        Image(uiImage: UIImage(named: "blank-profile-hi")!)
-//                                                            .resizable()
-//                                                            .aspectRatio(contentMode: .fit)
-//                                                            .clipShape(RoundedRectangle(cornerRadius: 50))
-//                                                            .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
-//                                                    }
-//                                                    This causes an error
+                                        
+                                        Spacer(minLength: screenHeight * 0.05)
+                                        
+                                        HStack {
+                                            Text("Your friends activity")
+                                                .foregroundColor(.green)
+                                                .font(.system(size: screenHeight * 0.04, weight: .bold))
+                                                .background(Rectangle().foregroundColor(Color(uiColor: .systemGray6)).frame(width: screenWidth, height: screenHeight * 0.08))
+                                        }
+                                        .padding()
+                                        
+                                        if let posts = homeViewModel.posts {
+                                            ForEach(posts) { post in
+                                                VStack {
+                                                    Rectangle()
+                                                        .foregroundColor(Color(uiColor: .systemGray6))
+                                                        .frame(width: screenWidth, height: screenHeight * 0.02)
+                                                        .confirmationDialog("What do you want to do with the selected post?", isPresented: $showPostOptions) {
+                                                            Button("Edit") {
+                                                                self.showEditView()
+                                                            }
+                                                            Button("Delete", role: .destructive) {
+                                                                self.homeViewModel.deletePost(postID: post.id)
+                                                            }
+                                                            Button("Cancel", role: .cancel) {}
+                                                        }
                                                     
-                                                    Image(uiImage: UIImage(named: "blank-profile-hi")!)
-                                                        .resizable()
-                                                        .aspectRatio(contentMode: .fit)
-                                                        .clipShape(RoundedRectangle(cornerRadius: 50))
-                                                        .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
-                                                    
-                                                    VStack {
-                                                        HStack {
-                                                            Text(post.authorFirstName)
-                                                                .fontWeight(.bold)
-                                                            Text("•")
-                                                            Text(post.authorUsername)
-                                                            Spacer()
-                                                            
-                                                            if profileViewModel.profile != nil {
-                                                                if profileViewModel.profile!.id == post.authorID {
-                                                                    NavigationLink(destination: EditPostView()) {
-                                                                        Image(systemName: "gearshape")
+                                                    HStack {
+                                                        Spacer()
+    //                                                    This causes an error
+    //                                                    if let postAuthorProfilePictureURL = homeViewModel.postsAuthorsProfilePicturesURLs[post.id] {
+    //                                                        AsyncImage(url: postAuthorProfilePictureURL) { phase in
+    //                                                            if let image = phase.image {
+    //                                                                image
+    //                                                                    .resizable()
+    //                                                                    .aspectRatio(contentMode: .fit)
+    //                                                                    .clipShape(RoundedRectangle(cornerRadius: 50))
+    //                                                                    .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+    //                                                            } else {
+    //                                                                Image(uiImage: UIImage(named: "blank-profile-hi")!)
+    //                                                                    .resizable()
+    //                                                                    .aspectRatio(contentMode: .fit)
+    //                                                                    .clipShape(RoundedRectangle(cornerRadius: 50))
+    //                                                                    .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+    //                                                            }
+    //                                                        }
+    //                                                    } else {
+    //                                                        Image(uiImage: UIImage(named: "blank-profile-hi")!)
+    //                                                            .resizable()
+    //                                                            .aspectRatio(contentMode: .fit)
+    //                                                            .clipShape(RoundedRectangle(cornerRadius: 50))
+    //                                                            .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+    //                                                    }
+    //                                                    This causes an error
+                                                        
+                                                        Image(uiImage: UIImage(named: "blank-profile-hi")!)
+                                                            .resizable()
+                                                            .aspectRatio(contentMode: .fit)
+                                                            .clipShape(RoundedRectangle(cornerRadius: 50))
+                                                            .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+                                                            .padding(.leading, screenWidth * 0.05)
+                                                        
+                                                        VStack {
+                                                            HStack {
+                                                                Text(post.authorFirstName)
+                                                                    .fontWeight(.bold)
+                                                                Text("•")
+                                                                Text(post.authorUsername)
+                                                                Spacer()
+                                                                
+                                                                if profileViewModel.profile != nil {
+                                                                    if profileViewModel.profile!.id == post.authorID {
+                                                                        Button(action: {
+                                                                            self.showPostOptions = true
+                                                                        }, label: {
+                                                                            Image(systemName: "gearshape")
+                                                                                .foregroundColor(.green)
+                                                                                .padding(.trailing, screenWidth * 0.05)
+                                                                        })
+                                                                            
                                                                     }
                                                                 }
                                                             }
-                                                        }
-                                                        .padding(.bottom, screenHeight * 0.001)
-                                                        
-                                                        HStack {
-                                                            Text(getShortDate(longDate: post.addDate))
-                                                                .foregroundColor(Color(uiColor: .systemGray2))
-                                                            Spacer()
+                                                            .padding(.bottom, screenHeight * 0.001)
+                                                            
+                                                            HStack {
+                                                                Text(getShortDate(longDate: post.addDate))
+                                                                    .foregroundColor(Color(uiColor: .systemGray2))
+                                                                Spacer()
+                                                            }
                                                         }
                                                     }
-                                                }
-                                                
-                                                Text(post.text)
-                                                    .fixedSize(horizontal: false, vertical: true)
-                                                
-                                                Spacer()
-                                                
-                                                HStack {
-                                                    Image(systemName: "hand.thumbsup.fill")
-                                                        .foregroundColor(.green)
-                                                        .padding(.leading, screenWidth * 0.05)
-                                                        .isHidden(post.reactionsNumber == 0)
-                                                    Text("\(post.reactionsNumber)")
-                                                        .isHidden(post.reactionsNumber == 0)
-
+                                                    
+                                                    Text(post.text)
+                                                        .fixedSize(horizontal: false, vertical: true)
+                                                    
                                                     Spacer()
-
-                                                    Text("\(post.commentsNumber) comments")
-                                                        .isHidden(post.reactionsNumber == 0)
-                                                        .padding(.trailing, screenWidth * 0.05)
-                                                }
-                                                
-                                                Divider()
-                                                
-                                                HStack(spacing: 0) {
-                                                    Button(action: {
-                                                        // Like Functionality
-                                                    }, label: {
-                                                        HStack {
-                                                            Image(systemName: "hand.thumbsup")
-                                                            Text("Like")
+                                                    
+                                                    HStack {
+                                                        if post.reactionsUsersIDs != nil {
+                                                            Image(systemName: "hand.thumbsup.fill")
+                                                                .foregroundColor(.green)
+                                                                .padding(.leading, screenWidth * 0.05)
+                                                            
+                                                            if post.reactionsUsersIDs != nil {
+                                                                Text("\(post.reactionsUsersIDs!.count)")
+                                                                    .foregroundColor(Color(uiColor: .systemGray5))
+                                                            }
                                                         }
-                                                    })
-                                                        .foregroundColor(colorScheme == .dark ? .white : .black)
-                                                        .frame(width: screenWidth * 0.5, height: screenHeight * 0.04)
+
+                                                        Spacer()
+                                                        
+                                                        if post.comments != nil {
+                                                            Text("\(post.comments!.count) comments")
+                                                                .padding(.trailing, screenWidth * 0.05)
+                                                                .foregroundColor(Color(uiColor: .systemGray5))
+                                                        }
+                                                    }
                                                     
                                                     Divider()
                                                     
-                                                    Button(action: {
-                                                        // Comment Functionality
-                                                    }, label: {
-                                                        HStack {
-                                                            Image(systemName: "bubble.left")
-                                                            Text("Comment")
-                                                        }
-                                                    })
-                                                        .foregroundColor(colorScheme == .dark ? .white : .black)
-                                                        .frame(width: screenWidth * 0.5, height: screenHeight * 0.04)
+                                                    HStack(spacing: 0) {
+                                                        Button(action: {
+                                                            self.homeViewModel.reactToPost(postID: post.id)
+                                                        }, label: {
+                                                            HStack {
+                                                                Image(systemName: "hand.thumbsup")
+                                                                Text("Like")
+                                                            }
+                                                        })
+                                                            .foregroundColor(colorScheme == .dark ? .white : .black)
+                                                            .frame(width: screenWidth * 0.5, height: screenHeight * 0.04)
+                                                        
+                                                        Divider()
+                                                        
+                                                        Button(action: {
+                                                            // Comment Functionality
+                                                        }, label: {
+                                                            HStack {
+                                                                Image(systemName: "bubble.left")
+                                                                Text("Comment")
+                                                            }
+                                                        })
+                                                            .foregroundColor(colorScheme == .dark ? .white : .black)
+                                                            .frame(width: screenWidth * 0.5, height: screenHeight * 0.04)
+                                                    }
+                                                    
+                                                    Divider()
                                                 }
-                                                
-                                                Divider()
                                             }
+                                        } else {
+                                            Text("Add friends to see their achievements")
+                                                .foregroundColor(.green)
                                         }
-                                    } else {
-                                        Text("Add friends to see their achievements")
-                                            .foregroundColor(.green)
                                     }
                                 }
                             }
-                        }
-                        .navigationTitle("")
-                        .navigationBarTitleDisplayMode(.inline)
-                        .toolbar {
-                            ToolbarItem(placement: .navigationBarLeading) {
-                                Image(uiImage: UIImage(named: colorScheme == .dark ? "FitVeinIconDark" : "FitVeinIconLight")!)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
-                            }
-                            
-                            ToolbarItem(placement: .navigationBarTrailing) {
-                                NavigationLink(destination: SearchFriendsView()) {
-                                    Image(systemName: "magnifyingglass")
-                                        .foregroundColor(.green)
+                            .navigationTitle("")
+                            .navigationBarTitleDisplayMode(.inline)
+                            .toolbar {
+                                ToolbarItem(placement: .navigationBarLeading) {
+                                    Image(uiImage: UIImage(named: colorScheme == .dark ? "FitVeinIconDark" : "FitVeinIconLight")!)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
                                 }
-                            }
-                            
-                            ToolbarItem(placement: .navigationBarTrailing) {
-                                NavigationLink(destination: NotificationsView()) {
-                                    Image(systemName: "bell")
-                                        .foregroundColor(.green)
+                                
+                                ToolbarItem(placement: .navigationBarTrailing) {
+                                    NavigationLink(destination: SearchFriendsView()) {
+                                        Image(systemName: "magnifyingglass")
+                                            .foregroundColor(.green)
+                                    }
+                                }
+                                
+                                ToolbarItem(placement: .navigationBarTrailing) {
+                                    NavigationLink(destination: NotificationsView()) {
+                                        Image(systemName: "bell")
+                                            .foregroundColor(.green)
+                                    }
                                 }
                             }
                         }
                     }
-                }
-            } else {
-                withAnimation {
-                    HomeTabFetchingView()
-                        .onAppear() {
-                            self.homeViewModel.setup(sessionStore: sessionStore)
-                            self.homeViewModel.fetchData()
-                            self.profileViewModel.setup(sessionStore: sessionStore)
-                            self.profileViewModel.fetchData()
-                        }
+                } else {
+                    withAnimation {
+                        HomeTabFetchingView()
+                            .onAppear() {
+                                self.homeViewModel.setup(sessionStore: sessionStore)
+                                self.homeViewModel.fetchData()
+                                self.profileViewModel.setup(sessionStore: sessionStore)
+                                self.profileViewModel.fetchData()
+                            }
+                    }
                 }
             }
+            
         }
     }
 }

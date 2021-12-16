@@ -32,7 +32,9 @@ class FirestoreManager: ObservableObject {
             "country": country,
             "language": language,
             "email": email,
-            "gender": gender
+            "gender": gender,
+            "reactedPostsIDs": [String](),
+            "commentedPostsIDs": [String]()
         ]
         
         self.db.collection("users").document(id).setData(documentData) { (error) in
@@ -41,7 +43,7 @@ class FirestoreManager: ObservableObject {
             } else {
                 print("Successfully created data for user: \(username) identifying with id: \(id) in database")
                 completion(Profile(id: id, firstName: firstName, username: username, birthDate: birthDate, age: yearsBetweenDate(startDate: birthDate, endDate: Date()) == 0 ? 18 : yearsBetweenDate(startDate: birthDate, endDate: Date()), country: country,
-                                   language: language, gender: gender, email: email, profilePictureURL: nil))
+                                   language: language, gender: gender, email: email, profilePictureURL: nil, reactedPostsIDs: nil, commentedPostsIDs: nil))
             }
         }
     }
@@ -328,6 +330,24 @@ class FirestoreManager: ObservableObject {
                 print("Error deleting post: \(error.localizedDescription)")
             } else {
                 print("Successfully deleted post: \(id)")
+            }
+        }
+    }
+    
+    func postEdit(id: String, text: String, completion: @escaping (() -> ())) {
+        self.db.collection("posts").document(id).getDocument() { [self] (document, error) in
+            if let error = error {
+                print("Error getting document for post edit: \(error.localizedDescription)")
+            } else {
+                if let document = document {
+                    let documentData: [String: Any] = [
+                        "text": text
+                    ]
+                    updateUserData(documentData: documentData) {
+                        print("Successfully changed post \(id) text.")
+                        completion()
+                    }
+                }
             }
         }
     }

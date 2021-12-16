@@ -57,4 +57,19 @@ class FirebaseStorageManager: ObservableObject {
             completion(url)
         }
     }
+    
+    func downloadImageFromStorage(userID: String, userPhotoURL: String, completion: @escaping ((UIImage) -> ())) {
+        let userImagesStorageRef = storageRef.child("images/\(userID)/\(userPhotoURL)")
+        
+        userImagesStorageRef.getData(maxSize: 1 * 100 * 1024 * 1024) { (data, error) in
+            if let error = error {
+                print("Error downloading file: ", error.localizedDescription)
+            } else {
+                if let data = data {
+                    let image = UIImage(data: data)!
+                    completion(image)
+                }
+            }
+        }
+    }
 }
