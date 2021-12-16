@@ -197,22 +197,25 @@ struct HomeView: View {
                                                     
                                                     HStack {
                                                         if post.reactionsUsersIDs != nil {
-                                                            Image(systemName: "hand.thumbsup.fill")
-                                                                .foregroundColor(.green)
-                                                                .padding(.leading, screenWidth * 0.05)
-                                                            
-                                                            if post.reactionsUsersIDs != nil {
+                                                            if post.reactionsUsersIDs!.count != 0 {
+                                                                Image(systemName: "hand.thumbsup.fill")
+                                                                    .foregroundColor(.green)
+                                                                    .padding(.leading, screenWidth * 0.05)
+                                                                
                                                                 Text("\(post.reactionsUsersIDs!.count)")
                                                                     .foregroundColor(Color(uiColor: .systemGray5))
                                                             }
+                                                            
                                                         }
 
                                                         Spacer()
                                                         
                                                         if post.comments != nil {
-                                                            Text("\(post.comments!.count) comments")
-                                                                .padding(.trailing, screenWidth * 0.05)
-                                                                .foregroundColor(Color(uiColor: .systemGray5))
+                                                            if post.comments!.count != 0 {
+                                                                Text("\(post.comments!.count) comments")
+                                                                    .padding(.trailing, screenWidth * 0.05)
+                                                                    .foregroundColor(Color(uiColor: .systemGray5))
+                                                            }
                                                         }
                                                     }
                                                     
@@ -248,8 +251,17 @@ struct HomeView: View {
                                                 }
                                             }
                                         } else {
-                                            Text("Add friends to see their achievements")
-                                                .foregroundColor(.green)
+                                            if self.profileViewModel.profile!.followedIDs != nil {
+                                                if self.profileViewModel.profile!.followedIDs!.count != 0 {
+                                                    
+                                                } else {
+                                                    Text("Add friends to see their achievements")
+                                                        .foregroundColor(.green)
+                                                }
+                                            } else {
+                                                Text("Add friends to see their achievements")
+                                                    .foregroundColor(.green)
+                                            }
                                         }
                                     }
                                 }
@@ -265,7 +277,7 @@ struct HomeView: View {
                                 }
                                 
                                 ToolbarItem(placement: .navigationBarTrailing) {
-                                    NavigationLink(destination: SearchFriendsView()) {
+                                    NavigationLink(destination: SearchFriendsView(homeViewModel: homeViewModel, profileViewModel: profileViewModel).environmentObject(sessionStore)) {
                                         Image(systemName: "magnifyingglass")
                                             .foregroundColor(.green)
                                     }
@@ -302,11 +314,10 @@ struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         let homeViewModel = HomeViewModel(forPreviews: true)
         let profileViewModel = ProfileViewModel(forPreviews: true)
+        let sessionStore = SessionStore(forPreviews: true)
 
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
-                let sessionStore = SessionStore(forPreviews: true)
-
                 HomeView(homeViewModel: homeViewModel, profileViewModel: profileViewModel)
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))

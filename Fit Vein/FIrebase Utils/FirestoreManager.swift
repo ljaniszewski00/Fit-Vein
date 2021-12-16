@@ -33,6 +33,7 @@ class FirestoreManager: ObservableObject {
             "language": language,
             "email": email,
             "gender": gender,
+            "followedIDs": [String](),
             "reactedPostsIDs": [String](),
             "commentedPostsIDs": [String]()
         ]
@@ -43,7 +44,7 @@ class FirestoreManager: ObservableObject {
             } else {
                 print("Successfully created data for user: \(username) identifying with id: \(id) in database")
                 completion(Profile(id: id, firstName: firstName, username: username, birthDate: birthDate, age: yearsBetweenDate(startDate: birthDate, endDate: Date()) == 0 ? 18 : yearsBetweenDate(startDate: birthDate, endDate: Date()), country: country,
-                                   language: language, gender: gender, email: email, profilePictureURL: nil, reactedPostsIDs: nil, commentedPostsIDs: nil))
+                                   language: language, gender: gender, email: email, profilePictureURL: nil, followedIDs: nil, reactedPostsIDs: nil, commentedPostsIDs: nil))
             }
         }
     }
@@ -89,10 +90,11 @@ class FirestoreManager: ObservableObject {
                     let gender = data["gender"] as? String ?? ""
                     let email = data["email"] as? String ?? ""
                     let profilePictureURL = data["profilePictureURL"] as? String ?? nil
+                    let followedIDs = data["followedUsers"] as? [String]? ?? nil
                     let reactedPostsIDs = data["reactedPostsIDs"] as? [String]? ?? nil
                     let commentedPostsIDs = data["commentedPostsIDs"] as? [String]? ?? nil
 
-                    return Profile(id: userID, firstName: firstName, username: username, birthDate: birthDate, age: age, country: country, language: language, gender: gender, email: email, profilePictureURL: profilePictureURL, reactedPostsIDs: reactedPostsIDs, commentedPostsIDs: commentedPostsIDs)
+                    return Profile(id: userID, firstName: firstName, username: username, birthDate: birthDate, age: age, country: country, language: language, gender: gender, email: email, profilePictureURL: profilePictureURL, followedIDs: followedIDs, reactedPostsIDs: reactedPostsIDs, commentedPostsIDs: commentedPostsIDs)
                 }
                 
                 DispatchQueue.main.async {
@@ -208,8 +210,10 @@ class FirestoreManager: ObservableObject {
     func addUserToFollowed(userID: String, userIDToFollow: String, completion: @escaping (() -> ())) {
         self.fetchFollowed(userID: userID) { [self] fetchedFollowed in
             if let fetchedFollowed = fetchedFollowed {
+                var fetchedFollowedToBeModified = fetchedFollowed
+                fetchedFollowedToBeModified.append(userIDToFollow)
                 let documentData: [String: Any] = [
-                    "followedUsers": fetchedFollowed
+                    "followedUsers": fetchedFollowedToBeModified
                 ]
                 updateUserData(documentData: documentData) {
                     print("Successfully updated followed users for the user \(userID)")
@@ -473,6 +477,24 @@ class FirestoreManager: ObservableObject {
     
     
     // Universal
+    
+    func getAllUsersIDs(completion: @escaping (([String]?) -> ())) {
+        self.db.collection("users").getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting documents in 'users' collection: \(error.localizedDescription)")
+            } else {
+                var usersIDs = [String]()
+                for document in querySnapshot!.documents {
+                    let data = document.data()
+
+                    let userID = data["id"] as? String ?? ""
+                    usersIDs.append(userID)
+                }
+                
+                completion(usersIDs)
+            }
+        }
+    }
     
     private func updateUserData(documentData: [String: Any], completion: @escaping (() -> ())) {
         self.db.collection("users").document(user!.uid).updateData(documentData) { (error) in

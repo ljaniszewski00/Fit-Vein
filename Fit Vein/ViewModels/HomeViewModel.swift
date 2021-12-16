@@ -17,6 +17,8 @@ class HomeViewModel: ObservableObject {
     @Published var posts: [Post]?
     @Published var postsAuthorsProfilePicturesURLs: [String: URL] = [:]
     
+    @Published var usersIDs: [String]?
+    
     @Published var fetchingData = true
     
     init(forPreviews: Bool) {
@@ -31,10 +33,13 @@ class HomeViewModel: ObservableObject {
                       Post(id: "1", authorID: "2", authorFirstName: "Maciej", authorUsername: "maciej23.d", authorProfilePictureURL: "", addDate: Date(), text: "Good form for now!", reactionsUsersIDs: nil, comments: commentsPost2),
                       Post(id: "1", authorID: "3", authorFirstName: "Jakub", authorUsername: "jakub23.d", authorProfilePictureURL: "", addDate: Date(), text: " Hell Yeeeah!", reactionsUsersIDs: nil, comments: commentsPost3)]
         
+        self.usersIDs = ["id1", "id2", "id3"]
+        
     }
     
     init() {
         fetchData()
+        getAllUsersIDs()
     }
     
     func setup(sessionStore: SessionStore) {
@@ -93,6 +98,12 @@ class HomeViewModel: ObservableObject {
     func getPostAuthorProfilePictureURL(authorID: String, stringPhotoURL: String, completion: @escaping ((URL?) -> ())) {
         self.firebaseStorageManager.getDownloadURLForImage(stringURL: stringPhotoURL, userID: authorID) { photoURL in
             completion(photoURL)
+        }
+    }
+    
+    func getAllUsersIDs() {
+        self.firestoreManager.getAllUsersIDs() { usersIDs in
+            self.usersIDs = usersIDs
         }
     }
 }
