@@ -17,8 +17,6 @@ struct WorkoutTabView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            let screenWidth = geometry.size.width
-            let screenHeight = geometry.size.height
             
             NavigationView {
                 Group {
@@ -51,8 +49,6 @@ struct WorkoutTabViewWindows: View {
     
     var body: some View {
         GeometryReader { geometry in
-            let screenWidth = geometry.size.width
-            let screenHeight = geometry.size.height
             
             TabView {
                 ForEach(profileViewModel.workouts!) { workout in

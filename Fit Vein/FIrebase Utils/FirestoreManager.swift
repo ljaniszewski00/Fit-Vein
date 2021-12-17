@@ -315,8 +315,8 @@ class FirestoreManager: ObservableObject {
             "authorProfilePictureURL": authorProfilePictureURL,
             "addDate": Date(),
             "text": text,
-            "reactionsUsersIDs": reactionsUsersIDs,
-            "comments": comments
+            "reactionsUsersIDs": reactionsUsersIDs as Any,
+            "comments": comments as Any
         ]
         
         self.db.collection("posts").document(id).setData(documentData) { (error) in
@@ -339,20 +339,12 @@ class FirestoreManager: ObservableObject {
     }
     
     func postEdit(id: String, text: String, completion: @escaping (() -> ())) {
-        self.db.collection("posts").document(id).getDocument() { [self] (document, error) in
-            if let error = error {
-                print("Error getting document for post edit: \(error.localizedDescription)")
-            } else {
-                if let document = document {
-                    let documentData: [String: Any] = [
-                        "text": text
-                    ]
-                    updateUserData(documentData: documentData) {
-                        print("Successfully changed post \(id) text.")
-                        completion()
-                    }
-                }
-            }
+        let documentData: [String: Any] = [
+            "text": text
+        ]
+        updateUserData(documentData: documentData) {
+            print("Successfully changed post \(id) text.")
+            completion()
         }
     }
     
@@ -457,12 +449,12 @@ class FirestoreManager: ObservableObject {
             "type": type,
             "date": date,
             "isFinished": isFinished,
-            "calories": calories,
-            "series": series,
-            "workTime": workTime,
-            "restTime": restTime,
-            "completedDuration": completedDuration,
-            "completedSeries": completedSeries,
+            "calories": calories as Any,
+            "series": series as Any,
+            "workTime": workTime as Any,
+            "restTime": restTime as Any,
+            "completedDuration": completedDuration as Any,
+            "completedSeries": completedSeries as Any,
         ]
         
         self.db.collection("workouts").document(id).setData(documentData) { (error) in

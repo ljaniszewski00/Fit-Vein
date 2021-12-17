@@ -13,9 +13,6 @@ struct HealthTabView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            let screenWidth = geometry.size.width
-            let screenHeight = geometry.size.height
-        
             NavigationView {
                 VStack(spacing: 0) {
                     HStack {
@@ -63,7 +60,6 @@ struct HealthTabView: View {
         
         var body: some View {
             GeometryReader { geometry in
-                let screenWidth = geometry.size.width
                 let screenHeight = geometry.size.height
                 
                 VStack {

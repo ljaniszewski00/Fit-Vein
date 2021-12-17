@@ -19,25 +19,33 @@ class HealthKitViewModel: ObservableObject {
     @Published var heartRate = [HealthStat]()
     
     init() {
-        DispatchQueue.main.async {
-            self.healthKitRepository.requestAuthorization() { success in
-                self.healthKitRepository.requestHealthStats(by: "stepCount") { hStats in
+        self.healthKitRepository.requestAuthorization() { success in
+            self.healthKitRepository.requestHealthStats(by: "stepCount") { hStats in
+                DispatchQueue.main.async {
                     self.stepCount = hStats
                 }
-                
-                self.healthKitRepository.requestHealthStats(by: "activeEnergyBurned") { hStats in
+            }
+            
+            self.healthKitRepository.requestHealthStats(by: "activeEnergyBurned") { hStats in
+                DispatchQueue.main.async {
                     self.activeEnergyBurned = hStats
                 }
-                
-                self.healthKitRepository.requestHealthStats(by: "distanceWalkingRunning") { hStats in
+            }
+            
+            self.healthKitRepository.requestHealthStats(by: "distanceWalkingRunning") { hStats in
+                DispatchQueue.main.async {
                     self.distanceWalkingRunning = hStats
                 }
-                
-                self.healthKitRepository.requestHealthStats(by: "appleExerciseTime") { hStats in
+            }
+            
+            self.healthKitRepository.requestHealthStats(by: "appleExerciseTime") { hStats in
+                DispatchQueue.main.async {
                     self.appleExerciseTime = hStats
                 }
-                
-                self.healthKitRepository.requestHealthStats(by: "heartRate") { hStats in
+            }
+            
+            self.healthKitRepository.requestHealthStats(by: "heartRate") { hStats in
+                DispatchQueue.main.async {
                     self.heartRate = hStats
                 }
             }

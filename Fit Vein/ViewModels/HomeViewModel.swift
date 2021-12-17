@@ -47,15 +47,13 @@ class HomeViewModel: ObservableObject {
     }
     
     func fetchData() {
-        if sessionStore != nil {
-            if sessionStore.currentUser != nil {
-                self.firestoreManager.fetchPosts(userID: self.sessionStore.currentUser!.uid) { [self] fetchedPosts in
-                    self.posts = fetchedPosts
-                    if self.posts != nil {
-                        for post in self.posts! {
-                            self.firebaseStorageManager.getDownloadURLForImage(stringURL: post.authorProfilePictureURL, userID: post.authorID) { photoURL in
-                                postsAuthorsProfilePicturesURLs.updateValue(photoURL, forKey: post.id)
-                            }
+        if sessionStore.currentUser != nil {
+            self.firestoreManager.fetchPosts(userID: self.sessionStore.currentUser!.uid) { [self] fetchedPosts in
+                self.posts = fetchedPosts
+                if self.posts != nil {
+                    for post in self.posts! {
+                        self.firebaseStorageManager.getDownloadURLForImage(stringURL: post.authorProfilePictureURL, userID: post.authorID) { photoURL in
+                            postsAuthorsProfilePicturesURLs.updateValue(photoURL, forKey: post.id)
                         }
                     }
                 }

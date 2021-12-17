@@ -12,10 +12,9 @@ struct HomeView: View {
     @EnvironmentObject private var sessionStore: SessionStore
     @Environment(\.colorScheme) var colorScheme
     
-    @State private var postText = ""
-    
     @State private var showPostOptions = false
     @State private var showEditView = false
+    @State private var showAddView = false
     
     init(homeViewModel: HomeViewModel, profileViewModel: ProfileViewModel) {
         self.homeViewModel = homeViewModel
@@ -65,35 +64,16 @@ struct HomeView: View {
                                                 .frame(width: screenWidth * 0.6, height: screenHeight * 0.1)
                                         }
                                         .padding(.leading, screenWidth * 0.05)
+                                        .onTapGesture {
+                                            withAnimation {
+                                                self.showAddView = true
+                                            }
+                                        }
                                         
                                         Divider()
                                         
                                         HStack(spacing: 0) {
-                                            Button(action: {
-                                                if homeViewModel.sessionStore.currentUser != nil && profileViewModel.profile != nil {
-                                                    homeViewModel.addPost(authorID: self.sessionStore.currentUser!.uid, authorFirstName: self.profileViewModel.profile!.firstName, authorUsername: self.profileViewModel.profile!.username, authorProfilePictureURL: self.profileViewModel.profile!.profilePictureURL != nil ? self.profileViewModel.profile!.profilePictureURL! : "", text: postText)
-                                                }
-                                            }, label: {
-                                                HStack {
-                                                    Image(systemName: "paperplane")
-                                                    Text("Post")
-                                                }
-                                            })
-                                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                                                .frame(width: screenWidth * 0.5, height: screenHeight * 0.04)
-
-                                            Divider()
-
-                                            Button(action: {
-                                                
-                                            }, label: {
-                                                HStack {
-                                                    Image(systemName: "xmark.circle")
-                                                    Text("Clear")
-                                                }
-                                            })
-                                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                                                .frame(width: screenWidth * 0.5, height: screenHeight * 0.04)
+                                            
                                         }
                                         
                                         Divider()
@@ -291,15 +271,18 @@ struct HomeView: View {
                                 }
                             }
                         }
+                        .sheet(isPresented: self.$showAddView) {
+                            AddPostView(homeViewModel: homeViewModel, profileViewModel: profileViewModel).environmentObject(sessionStore)
+                        }
                     }
                 } else {
                     withAnimation {
                         HomeTabFetchingView()
                             .onAppear() {
-                                self.homeViewModel.setup(sessionStore: sessionStore)
-                                self.homeViewModel.fetchData()
-                                self.profileViewModel.setup(sessionStore: sessionStore)
-                                self.profileViewModel.fetchData()
+//                                self.homeViewModel.setup(sessionStore: sessionStore)
+//                                self.homeViewModel.fetchData()
+//                                self.profileViewModel.setup(sessionStore: sessionStore)
+//                                self.profileViewModel.fetchData()
                             }
                     }
                 }

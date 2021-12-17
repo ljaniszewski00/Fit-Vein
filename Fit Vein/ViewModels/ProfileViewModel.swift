@@ -44,38 +44,36 @@ class ProfileViewModel: ObservableObject {
     }
     
     func fetchData() {
-        if sessionStore != nil {
-            if sessionStore.currentUser != nil {
-                print()
-                print()
-                print("Starting fetching data")
-                print()
-                print()
-                self.firestoreManager.fetchDataForProfileViewModel(userID: self.sessionStore.currentUser!.uid) { [self] fetchedProfile in
-                    self.profile = fetchedProfile
-                    
-                    if profile != nil {
-                        if profile!.profilePictureURL != nil {
-                            print()
-                            print()
-                            print("Profile picture URL is not nil while fetching data")
-                            print()
-                            print()
-                            self.firebaseStorageManager.getDownloadURLForImage(stringURL: profile!.profilePictureURL!, userID: self.sessionStore.currentUser!.uid) { photoURL in
-                                self.profilePicturePhotoURL = photoURL
-                                self.firestoreManager.fetchWorkouts(userID: self.sessionStore.currentUser!.uid) { fetchedWorkouts in
-                                    self.workouts = fetchedWorkouts
-                                    self.fetchingData = false
-                                }
+        if sessionStore.currentUser != nil {
+            print()
+            print()
+            print("Starting fetching data")
+            print()
+            print()
+            self.firestoreManager.fetchDataForProfileViewModel(userID: self.sessionStore.currentUser!.uid) { [self] fetchedProfile in
+                self.profile = fetchedProfile
+                
+                if profile != nil {
+                    if profile!.profilePictureURL != nil {
+                        print()
+                        print()
+                        print("Profile picture URL is not nil while fetching data")
+                        print()
+                        print()
+                        self.firebaseStorageManager.getDownloadURLForImage(stringURL: profile!.profilePictureURL!, userID: self.sessionStore.currentUser!.uid) { photoURL in
+                            self.profilePicturePhotoURL = photoURL
+                            self.firestoreManager.fetchWorkouts(userID: self.sessionStore.currentUser!.uid) { fetchedWorkouts in
+                                self.workouts = fetchedWorkouts
+                                self.fetchingData = false
                             }
-                        } else {
-                            self.fetchingData = false
                         }
                     } else {
-                        // "HERE SOMETHING TO DO WHEN DATA IS NOT FETCHED"
-                        
                         self.fetchingData = false
                     }
+                } else {
+                    // "HERE SOMETHING TO DO WHEN DATA IS NOT FETCHED"
+                    
+                    self.fetchingData = false
                 }
             }
         } else {

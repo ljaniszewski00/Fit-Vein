@@ -25,57 +25,61 @@ struct SearchFriendsView: View {
             let screenWidth = geometry.size.width
             let screenHeight = geometry.size.height
             
-            VStack {
-                if self.homeViewModel.usersIDs != nil {
-                    List {
-                        ForEach(self.homeViewModel.usersIDs!, id: \.self) { userID in
-                            HStack {
-                                Image(uiImage: UIImage(named: "blank-profile-hi")!)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .clipShape(RoundedRectangle(cornerRadius: 50))
-                                    .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
-                                
-                                VStack {
+            NavigationView {
+                VStack {
+                    if self.homeViewModel.usersIDs != nil {
+                        List {
+                            ForEach(self.homeViewModel.usersIDs!, id: \.self) { userID in
+                                HStack {
+                                    Image(uiImage: UIImage(named: "blank-profile-hi")!)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .clipShape(RoundedRectangle(cornerRadius: 50))
+                                        .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+                                    
+                                    VStack {
+                                        Spacer()
+                                        
+                                        Text(userID)
+                                        
+                                        Spacer()
+                                    }
+                                    .padding(.leading, screenWidth * 0.03)
+                                    
                                     Spacer()
                                     
-                                    Text(userID)
-                                    
-                                    Spacer()
-                                }
-                                .padding(.leading, screenWidth * 0.03)
-                                
-                                Spacer()
-                                
-                                if self.profileViewModel.profile!.followedIDs != nil {
-                                    if self.profileViewModel.profile!.followedIDs!.contains(userID) {
-                                        Button(action: {
-                                            self.profileViewModel.unfollowUser(userID: userID)
-                                        }, label: {
-                                            Image(systemName: "minus.circle.fill")
-                                                .resizable()
-                                                .foregroundColor(.red)
-                                                .frame(width: screenWidth * 0.07, height: screenHeight * 0.035)
-                                        })
-                                    } else {
-                                        Button(action: {
-                                            self.profileViewModel.followUser(userID: userID)
-                                        }, label: {
-                                            Image(systemName: "plus.circle.fill")
-                                                .resizable()
-                                                .foregroundColor(.green)
-                                                .frame(width: screenWidth * 0.07, height: screenHeight * 0.035)
-                                        })
+                                    if self.profileViewModel.profile!.followedIDs != nil {
+                                        if self.profileViewModel.profile!.followedIDs!.contains(userID) {
+                                            Button(action: {
+                                                self.profileViewModel.unfollowUser(userID: userID)
+                                            }, label: {
+                                                Image(systemName: "minus.circle.fill")
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                                    .foregroundColor(.red)
+                                                    .frame(width: screenWidth * 0.07, height: screenHeight * 0.035)
+                                            })
+                                        } else {
+                                            Button(action: {
+                                                self.profileViewModel.followUser(userID: userID)
+                                            }, label: {
+                                                Image(systemName: "plus.circle.fill")
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                                    .foregroundColor(.green)
+                                                    .frame(width: screenWidth * 0.07, height: screenHeight * 0.035)
+                                            })
+                                        }
                                     }
                                 }
+                                .frame(width: screenWidth * 0.8, height: screenHeight * 0.1)
                             }
-                            .frame(width: screenWidth * 0.8, height: screenHeight * 0.1)
                         }
+                        .searchable(text: $searchText)
+                        .listStyle(GroupedListStyle())
                     }
-                    .searchable(text: $searchText)
-                    .listStyle(GroupedListStyle())
                 }
-                 
+                .navigationTitle("Follow")
             }
         }
         .ignoresSafeArea(.keyboard)
