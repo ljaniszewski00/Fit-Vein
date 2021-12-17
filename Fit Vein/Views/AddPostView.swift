@@ -118,6 +118,7 @@ struct AddPostView: View {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(action: {
                             self.homeViewModel.addPost(authorID: self.profileViewModel.profile!.id, authorFirstName: self.profileViewModel.profile!.firstName, authorUsername: self.profileViewModel.profile!.username, authorProfilePictureURL: self.profileViewModel.profile!.profilePictureURL == nil ? "" : self.profileViewModel.profile!.profilePictureURL!, text: self.postText)
+                            dismiss()
                         }, label: {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 10)

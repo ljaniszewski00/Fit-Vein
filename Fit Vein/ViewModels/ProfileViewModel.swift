@@ -60,12 +60,20 @@ class ProfileViewModel: ObservableObject {
                         print("Profile picture URL is not nil while fetching data")
                         print()
                         print()
-                        self.firebaseStorageManager.getDownloadURLForImage(stringURL: profile!.profilePictureURL!, userID: self.sessionStore.currentUser!.uid) { photoURL in
-                            self.profilePicturePhotoURL = photoURL
-                            self.firestoreManager.fetchWorkouts(userID: self.sessionStore.currentUser!.uid) { fetchedWorkouts in
-                                self.workouts = fetchedWorkouts
-                                self.fetchingData = false
+                        if self.sessionStore.currentUser != nil {
+                            self.firebaseStorageManager.getDownloadURLForImage(stringURL: profile!.profilePictureURL!, userID: self.sessionStore.currentUser!.uid) { photoURL in
+                                self.profilePicturePhotoURL = photoURL
+                                self.firestoreManager.fetchWorkouts(userID: self.sessionStore.currentUser!.uid) { fetchedWorkouts in
+                                    self.workouts = fetchedWorkouts
+                                    self.fetchingData = false
+                                }
                             }
+                        } else {
+                            print()
+                            print()
+                            print("Current user became nil")
+                            print()
+                            print()
                         }
                     } else {
                         self.fetchingData = false

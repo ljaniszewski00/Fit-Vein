@@ -100,8 +100,10 @@ class HomeViewModel: ObservableObject {
     }
     
     func getAllUsersIDs() {
-        self.firestoreManager.getAllUsersIDs() { usersIDs in
-            self.usersIDs = usersIDs
+        if sessionStore.currentUser != nil {
+            self.firestoreManager.getAllUsersIDs(userID: self.sessionStore.currentUser!.uid) { usersIDs in
+                self.usersIDs = usersIDs
+            }
         }
     }
 }

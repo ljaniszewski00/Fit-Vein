@@ -78,12 +78,13 @@ struct ProfileView: View {
                                         Button(action: {
                                             shouldPresentSettings = true
                                         }, label: {
-                                            Image(systemName: "slider.vertical.3")
+                                            Image(systemName: "ellipsis")
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fit)
+                                                .foregroundColor(.green)
+                                                .padding(.trailing, screenWidth * 0.05)
                                         })
                                         .frame(width: screenWidth * 0.12, height: screenHeight * 0.04)
-                                        .foregroundColor(colorScheme == .dark ? .white : .black)
                                     }
                                 }
                                 .padding(.top, screenHeight * 0.02)

@@ -294,7 +294,7 @@ class FirestoreManager: ObservableObject {
                     DispatchQueue.main.async {
                         if fetchedPosts.count != 0 {
                             fetchedPosts.sort() {
-                                $0.addDate < $1.addDate
+                                $0.addDate > $1.addDate
                             }
                             completion(fetchedPosts)
                         } else {
@@ -349,6 +349,8 @@ class FirestoreManager: ObservableObject {
     }
     
     func postAddReaction(id: String, userID: String, completion: @escaping (() -> ())) {
+        var removedReaction = false
+        
         self.db.collection("posts").document(id).getDocument() { [self] (document, error) in
             if let error = error {
                 print("Error getting document for post add reaction: \(error.localizedDescription)")
@@ -362,6 +364,7 @@ class FirestoreManager: ObservableObject {
                             for (index, userID) in newReactionsUsersIDs.enumerated() {
                                 if userID == userID {
                                     newReactionsUsersIDs.remove(at: index)
+                                    removedReaction = true
                                     break
                                 }
                             }
@@ -378,13 +381,12 @@ class FirestoreManager: ObservableObject {
                         }
                     } else {
                         let newReactionsUsersIDs = [userID]
-                        print(newReactionsUsersIDs)
                         
                         let documentData: [String: Any] = [
                             "reactionsUsersIDs": newReactionsUsersIDs
                         ]
                         updatePostData(postID: id, documentData: documentData) {
-                            print("Successfully added reaction of \(userID) to post \(id)")
+                            print(!removedReaction ? "Successfully added reaction of \(userID) to post \(id)" : "Successfully removed reaction of \(userID) to post \(id)")
                             completion()
                         }
                     }
@@ -470,7 +472,7 @@ class FirestoreManager: ObservableObject {
     
     // Universal
     
-    func getAllUsersIDs(completion: @escaping (([String]?) -> ())) {
+    func getAllUsersIDs(userID: String, completion: @escaping (([String]?) -> ())) {
         self.db.collection("users").getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("Error getting documents in 'users' collection: \(error.localizedDescription)")
@@ -481,6 +483,13 @@ class FirestoreManager: ObservableObject {
 
                     let userID = data["id"] as? String ?? ""
                     usersIDs.append(userID)
+                }
+                
+                for (index, userID) in usersIDs.enumerated() {
+                    if userID == userID {
+                        usersIDs.remove(at: index)
+                        break
+                    }
                 }
                 
                 completion(usersIDs)
