@@ -71,7 +71,7 @@ struct Comment: Codable, Identifiable {
         self.authorUsername = authorUsername
         self.authorProfilePictureURL = authorProfilePictureURL
         self.addDate = addDate
-        self.reactionsUsersIDs = reactionsUsersIDs
         self.text = text
+        self.reactionsUsersIDs = reactionsUsersIDs
     }
 }
