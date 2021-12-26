@@ -18,6 +18,8 @@ struct HomeView: View {
     @State private var showEditView = false
     @State private var showAddView = false
     
+    @State private var showCommentsView = false
+    
     init(homeViewModel: HomeViewModel, profileViewModel: ProfileViewModel) {
         self.homeViewModel = homeViewModel
         self.profileViewModel = profileViewModel
@@ -193,7 +195,7 @@ struct HomeView: View {
                                                 HStack {
                                                     if post.reactionsUsersIDs != nil {
                                                         if post.reactionsUsersIDs!.count != 0 {
-                                                            Image(systemName: "hand.thumbsup.fill")
+                                                            Image(systemName: post.reactionsUsersIDs!.contains(self.homeViewModel.sessionStore.currentUser!.uid) ? "hand.thumbsup.fill" : "hand.thumbsup")
                                                                 .foregroundColor(.green)
                                                                 .padding(.leading, screenWidth * 0.05)
                                                             
@@ -230,16 +232,16 @@ struct HomeView: View {
                                                     
                                                     Divider()
                                                     
-                                                    Button(action: {
-                                                        // Comment Functionality
-                                                    }, label: {
+                                                    NavigationLink(destination: PostCommentsView(homeViewModel: homeViewModel, profileViewModel: profileViewModel, post: post)) {
                                                         HStack {
                                                             Image(systemName: "bubble.left")
                                                             Text("Comment")
                                                         }
-                                                    })
                                                         .foregroundColor(colorScheme == .dark ? .white : .black)
                                                         .frame(width: screenWidth * 0.5, height: screenHeight * 0.04)
+                                                    }
+                                                    
+                                                    
                                                 }
                                                 
                                                 Divider()

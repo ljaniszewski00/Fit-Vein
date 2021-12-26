@@ -285,8 +285,6 @@ class FirestoreManager: ObservableObject {
                         let addDate = data["addDate"] as? Timestamp
                         let text = data["text"] as? String ?? ""
                         let reactionsUsersIDs = data["reactionsUsersIDs"] as? [String]? ?? nil
-                        
-//                        let comments = data["comments"] as? Int ?? 0
 
                         return Post(id: id, authorID: authorID, authorFirstName: authorFirstName, authorUsername: authorUsername, authorProfilePictureURL: authorProfilePictureURL, addDate: (addDate?.dateValue())!, text: text, reactionsUsersIDs: reactionsUsersIDs, comments: nil)
                     }
@@ -342,8 +340,8 @@ class FirestoreManager: ObservableObject {
         let documentData: [String: Any] = [
             "text": text
         ]
-        updateUserData(documentData: documentData) {
-            print("Successfully changed post \(id) text.")
+        updatePostData(postID: id, documentData: documentData) {
+            print("Successfully changed post \(id) data.")
             completion()
         }
     }
@@ -399,7 +397,131 @@ class FirestoreManager: ObservableObject {
     
     // Comments
     
+    func fetchComments(userID: String, postID: String, completion: @escaping (([Comment]?) -> ())) {
+        var fetchedComments: [Comment] = [Comment]()
+
+        self.db.collection("comments").whereField("postID", isEqualTo: postID).addSnapshotListener { (querySnapshot, error) in
+            if let error = error {
+                print("Error fetching comments data: \(error.localizedDescription)")
+            } else {
+                fetchedComments = querySnapshot!.documents.map { (queryDocumentSnapshot) -> Comment in
+                    let data = queryDocumentSnapshot.data()
+
+                    let id = data["id"] as? String ?? ""
+                    let authorID = data["authorID"] as? String ?? ""
+                    let postID = data["postID"] as? String ?? ""
+                    let authorFirstName = data["authorFirstName"] as? String ?? ""
+                    let authorUsername = data["authorUsername"] as? String ?? ""
+                    let authorProfilePictureURL = data["authorProfilePictureURL"] as? String ?? ""
+                    let addDate = data["addDate"] as? Timestamp
+                    let text = data["text"] as? String ?? ""
+                    let reactionsUsersIDs = data["reactionsUsersIDs"] as? [String]? ?? nil
+
+                    return Comment(id: id, authorID: authorID, postID: postID, authorFirstName: authorFirstName, authorUsername: authorUsername, authorProfilePictureURL: authorProfilePictureURL, addDate: (addDate?.dateValue())!, text: text, reactionsUsersIDs: reactionsUsersIDs)
+                }
+                
+                DispatchQueue.main.async {
+                    if fetchedComments.count != 0 {
+                        fetchedComments.sort() {
+                            $0.addDate > $1.addDate
+                        }
+                        completion(fetchedComments)
+                    } else {
+                        completion(nil)
+                    }
+                }
+            }
+        }
+    }
     
+    func commentDataCreation(id: String, authorID: String, postID: String, authorFirstName: String, authorUsername: String, authorProfilePictureURL: String, addDate: Date, text: String, reactionsUsersIDs: [String]?, completion: @escaping (() -> ())) {
+        let documentData: [String: Any] = [
+            "id": id,
+            "authorID": authorID,
+            "postID": postID,
+            "authorFirstName": authorFirstName,
+            "authorUsername": authorUsername,
+            "authorProfilePictureURL": authorProfilePictureURL,
+            "addDate": Date(),
+            "text": text,
+            "reactionsUsersIDs": reactionsUsersIDs as Any
+        ]
+        
+        self.db.collection("comments").document(id).setData(documentData) { (error) in
+            if let error = error {
+                print("Error creating post's data: \(error.localizedDescription)")
+            } else {
+                print("Successfully created comment: \(id) by user: \(authorID)")
+            }
+        }
+    }
+    
+    func commentRemoval(id: String, completion: @escaping (() -> ())) {
+        self.db.collection("comments").document(id).delete() { (error) in
+            if let error = error {
+                print("Error deleting post: \(error.localizedDescription)")
+            } else {
+                print("Successfully deleted comment: \(id)")
+            }
+        }
+    }
+    
+    func commentEdit(id: String, text: String, completion: @escaping (() -> ())) {
+        let documentData: [String: Any] = [
+            "text": text
+        ]
+        updateCommentData(commentID: id, documentData: documentData) {
+            print("Successfully changed comment \(id) data.")
+            completion()
+        }
+    }
+    
+    func commentAddReaction(id: String, userID: String, completion: @escaping (() -> ())) {
+        var removedReaction = false
+        
+        self.db.collection("comments").document(id).getDocument() { [self] (document, error) in
+            if let error = error {
+                print("Error getting document for comment add reaction: \(error.localizedDescription)")
+            } else {
+                if let document = document {
+                    let reactionsUsersIDs = document.get("reactionsUsersIDs") as? [String]? ?? nil
+                    
+                    if let reactionsUsersIDs = reactionsUsersIDs {
+                        var newReactionsUsersIDs = reactionsUsersIDs
+                        if newReactionsUsersIDs.contains(userID) {
+                            for (index, userID) in newReactionsUsersIDs.enumerated() {
+                                if userID == userID {
+                                    newReactionsUsersIDs.remove(at: index)
+                                    removedReaction = true
+                                    break
+                                }
+                            }
+                        } else {
+                            newReactionsUsersIDs.append(userID)
+                        }
+                        
+                        let documentData: [String: Any] = [
+                            "reactionsUsersIDs": newReactionsUsersIDs
+                        ]
+                        updateCommentData(commentID: id, documentData: documentData) {
+                            print("Successfully added reaction of \(userID) to comment \(id)")
+                            completion()
+                        }
+                    } else {
+                        let newReactionsUsersIDs = [userID]
+                        
+                        let documentData: [String: Any] = [
+                            "reactionsUsersIDs": newReactionsUsersIDs
+                        ]
+                        updateCommentData(commentID: id, documentData: documentData) {
+                            print(!removedReaction ? "Successfully added reaction of \(userID) to comment \(id)" : "Successfully removed reaction of \(userID) to comment \(id)")
+                            completion()
+                        }
+                    }
+                }
+            }
+        }
+    }
     
     
     
@@ -511,6 +633,16 @@ class FirestoreManager: ObservableObject {
         self.db.collection("posts").document(postID).updateData(documentData) { (error) in
             if let error = error {
                 print("Error updating post's data: \(error.localizedDescription)")
+            } else {
+                completion()
+            }
+        }
+    }
+    
+    private func updateCommentData(commentID: String, documentData: [String: Any], completion: @escaping (() -> ())) {
+        self.db.collection("comments").document(commentID).updateData(documentData) { (error) in
+            if let error = error {
+                print("Error updating comment's data: \(error.localizedDescription)")
             } else {
                 completion()
             }

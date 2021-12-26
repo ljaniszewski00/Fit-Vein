@@ -26,7 +26,6 @@ struct Post: Codable, Identifiable {
         self.authorProfilePictureURL = authorProfilePictureURL
         self.addDate = Date()
         self.text = text
-        self.comments = nil
     }
     
     init(id: String, authorID: String, authorFirstName: String, authorUsername: String, authorProfilePictureURL: String, addDate: Date, text: String, reactionsUsersIDs: [String]?, comments: [Comment]?) {
@@ -45,15 +44,18 @@ struct Post: Codable, Identifiable {
 struct Comment: Codable, Identifiable {
     var id: String
     var authorID: String
+    var postID: String
     var authorFirstName: String
     var authorUsername: String
     var authorProfilePictureURL: String
     var addDate: Date
+    var reactionsUsersIDs: [String]?
     var text: String
     
-    init(authorID: String, authorFirstName: String, authorUsername: String, authorProfilePictureURL: String, text: String) {
+    init(authorID: String, postID: String, authorFirstName: String, authorUsername: String, authorProfilePictureURL: String, text: String) {
         self.id = UUID().uuidString
         self.authorID = authorID
+        self.postID = postID
         self.authorFirstName = authorFirstName
         self.authorUsername = authorUsername
         self.authorProfilePictureURL = authorProfilePictureURL
@@ -61,13 +63,15 @@ struct Comment: Codable, Identifiable {
         self.text = text
     }
     
-    init(id: String, authorID: String, authorFirstName: String, authorUsername: String, authorProfilePictureURL: String, addDate: Date, text: String) {
+    init(id: String, authorID: String, postID: String, authorFirstName: String, authorUsername: String, authorProfilePictureURL: String, addDate: Date, text: String, reactionsUsersIDs: [String]?) {
         self.id = id
         self.authorID = authorID
+        self.postID = postID
         self.authorFirstName = authorFirstName
         self.authorUsername = authorUsername
         self.authorProfilePictureURL = authorProfilePictureURL
         self.addDate = addDate
+        self.reactionsUsersIDs = reactionsUsersIDs
         self.text = text
     }
 }
