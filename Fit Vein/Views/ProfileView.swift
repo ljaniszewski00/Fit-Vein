@@ -196,8 +196,8 @@ struct ProfileView: View {
                 withAnimation {
                     ProfileTabFetchingView()
                         .onAppear() {
-                            self.profileViewModel.setup(sessionStore: sessionStore)
-                            self.profileViewModel.fetchData()
+//                            self.profileViewModel.setup(sessionStore: sessionStore)
+//                            self.profileViewModel.fetchData()
                         }
                 }
             }
