@@ -52,9 +52,15 @@ class HomeViewModel: ObservableObject {
             self.firestoreManager.fetchPosts(userID: self.sessionStore.currentUser!.uid) { [self] fetchedPosts in
                 self.posts = fetchedPosts
                 if self.posts != nil {
-                    for post in self.posts! {
+                    for var post in self.posts! {
                         self.firebaseStorageManager.getDownloadURLForImage(stringURL: post.authorProfilePictureURL, userID: post.authorID) { photoURL in
                             postsAuthorsProfilePicturesURLs.updateValue(photoURL, forKey: post.id)
+                        }
+                        
+                        self.firestoreManager.fetchComments(postID: post.id) { comments in
+                            if let fetchedComments = comments {
+                                post.setComments(comments: fetchedComments)
+                            }
                         }
                     }
                 }

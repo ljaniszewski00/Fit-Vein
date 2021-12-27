@@ -8,17 +8,12 @@
 import SwiftUI
 
 struct SearchFriendsView: View {
-    @ObservedObject private var homeViewModel: HomeViewModel
-    @ObservedObject private var profileViewModel: ProfileViewModel
+    @EnvironmentObject private var homeViewModel: HomeViewModel
+    @EnvironmentObject private var profileViewModel: ProfileViewModel
     @EnvironmentObject private var sessionStore: SessionStore
     
     @State var searching = false
     @State var searchText = ""
-    
-    init(homeViewModel: HomeViewModel, profileViewModel: ProfileViewModel) {
-        self.homeViewModel = homeViewModel
-        self.profileViewModel = profileViewModel
-    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -90,15 +85,15 @@ struct SearchFriendsView_Previews: PreviewProvider {
     static var previews: some View {
         let homeViewModel = HomeViewModel(forPreviews: true)
         let profileViewModel = ProfileViewModel(forPreviews: true)
-        let sessionStore = SessionStore(forPreviews: true)
         
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
-                SearchFriendsView(homeViewModel: homeViewModel, profileViewModel: profileViewModel)
+                SearchFriendsView()
+                    .environmentObject(homeViewModel)
+                    .environmentObject(profileViewModel)
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)
-                    .environmentObject(sessionStore)
             }
         }
     }

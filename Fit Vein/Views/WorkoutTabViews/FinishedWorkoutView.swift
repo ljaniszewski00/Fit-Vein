@@ -8,13 +8,9 @@
 import SwiftUI
 
 struct FinishedWorkoutView: View {
-    @ObservedObject var workoutViewModel: WorkoutViewModel
+    @EnvironmentObject private var workoutViewModel: WorkoutViewModel
     @Environment(\.dismiss) var dismiss
     @State private var backToBeginning = false
-    
-    init(workoutViewModel: WorkoutViewModel) {
-        self.workoutViewModel = workoutViewModel
-    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -24,6 +20,7 @@ struct FinishedWorkoutView: View {
             if backToBeginning || workoutViewModel.workout == nil {
                 withAnimation {
                     WorkoutView()
+                        .environmentObject(workoutViewModel)
                 }
             } else {
                 VStack(spacing: screenHeight * 0.05) {
@@ -73,11 +70,12 @@ struct FinishedWorkoutView_Previews: PreviewProvider {
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
                 let sessionStore = SessionStore(forPreviews: true)
                 
-                FinishedWorkoutView(workoutViewModel: workoutViewModel)
+                FinishedWorkoutView()
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)
                     .environmentObject(sessionStore)
+                    .environmentObject(workoutViewModel)
             }
         }
     }

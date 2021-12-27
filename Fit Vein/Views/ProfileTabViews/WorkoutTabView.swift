@@ -8,12 +8,8 @@
 import SwiftUI
 
 struct WorkoutTabView: View {
-    @ObservedObject private var profileViewModel: ProfileViewModel
+    @EnvironmentObject private var profileViewModel: ProfileViewModel
     @State private var howToDisplay = 0
-    
-    init(profileViewModel: ProfileViewModel) {
-        self.profileViewModel = profileViewModel
-    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -21,9 +17,9 @@ struct WorkoutTabView: View {
             NavigationView {
                 Group {
                     if howToDisplay == 0 {
-                        WorkoutTabViewWindows(profileViewModel: profileViewModel)
+                        WorkoutTabViewWindows()
                     } else {
-                        WorkoutTabViewList(profileViewModel: profileViewModel)
+                        WorkoutTabViewList()
                     }
                 }
                 .toolbar {
@@ -41,11 +37,7 @@ struct WorkoutTabView: View {
 }
 
 struct WorkoutTabViewWindows: View {
-    @ObservedObject private var profileViewModel: ProfileViewModel
-    
-    init(profileViewModel: ProfileViewModel) {
-        self.profileViewModel = profileViewModel
-    }
+    @EnvironmentObject private var profileViewModel: ProfileViewModel
     
     var body: some View {
         GeometryReader { geometry in
@@ -63,11 +55,7 @@ struct WorkoutTabViewWindows: View {
 }
 
 struct WorkoutTabViewList: View {
-    @ObservedObject var profileViewModel: ProfileViewModel
-    
-    init(profileViewModel: ProfileViewModel) {
-        self.profileViewModel = profileViewModel
-    }
+    @EnvironmentObject var profileViewModel: ProfileViewModel
     
     var body: some View {
         GeometryReader { geometry in
@@ -236,17 +224,20 @@ struct WorkoutTabView_Previews: PreviewProvider {
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
                 
-                WorkoutTabView(profileViewModel: profileViewModel)
+                WorkoutTabView()
+                    .environmentObject(profileViewModel)
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)
                 
-                WorkoutTabViewWindows(profileViewModel: profileViewModel)
+                WorkoutTabViewWindows()
+                    .environmentObject(profileViewModel)
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)
                 
-                WorkoutTabViewList(profileViewModel: profileViewModel)
+                WorkoutTabViewList()
+                    .environmentObject(profileViewModel)
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)

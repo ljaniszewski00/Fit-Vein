@@ -12,6 +12,8 @@ struct ProfileView: View {
     @EnvironmentObject private var sessionStore: SessionStore
     @Environment(\.colorScheme) var colorScheme
     
+    @Binding var tabBarHidden: Bool
+    
     @State private var image = UIImage()
     
     @State private var shouldPresentAddActionSheet = false
@@ -23,6 +25,10 @@ struct ProfileView: View {
     @State private var tabSelection = 0
     
     @State private var alreadyAppearedOnce = false
+    
+    init(tabBarHidden: Binding<Bool>) {
+        self._tabBarHidden = tabBarHidden
+    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -158,7 +164,7 @@ struct ProfileView: View {
                                     }
                                     
                                 } else {
-                                    WorkoutTabView(profileViewModel: profileViewModel)
+                                    WorkoutTabView().environmentObject(profileViewModel)
                                         .frame(height: screenHeight)
                                 }
                             }
@@ -212,7 +218,7 @@ struct ProfileView_Previews: PreviewProvider {
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
                 let sessionStore = SessionStore(forPreviews: true)
                 
-                ProfileView()
+                ProfileView(tabBarHidden: .constant(false))
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)

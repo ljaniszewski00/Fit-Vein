@@ -138,6 +138,49 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		0A45EC132779D2BB0076660A /* AuthenticationViews */ = {
+			isa = PBXGroup;
+			children = (
+				0AB808D32715C1AB00337924 /* SignInView.swift */,
+				0AB808D52715C1B500337924 /* SignUpView.swift */,
+			);
+			path = AuthenticationViews;
+			sourceTree = "<group>";
+		};
+		0A45EC142779D2D50076660A /* HomeTabViews */ = {
+			isa = PBXGroup;
+			children = (
+				0ABE144127203B47009CD67A /* HomeView.swift */,
+				0A67B1D3272AF359007F8891 /* NotificationsView.swift */,
+				0A67B1D5272B04EC007F8891 /* SearchFriendsView.swift */,
+				0A67B1D7272B0652007F8891 /* EditPostView.swift */,
+				0AE00BA6276CC9B600C876FE /* AddPostView.swift */,
+				0ABEF73227788624007E20FC /* PostCommentsView.swift */,
+			);
+			path = HomeTabViews;
+			sourceTree = "<group>";
+		};
+		0A45EC152779D3010076660A /* WorkoutTabViews */ = {
+			isa = PBXGroup;
+			children = (
+				0ABE144727203D04009CD67A /* WorkoutView.swift */,
+				0A4BF9232728500800311D24 /* WorkoutTimerView.swift */,
+				0A4BF9292728552000311D24 /* FinishedWorkoutView.swift */,
+			);
+			path = WorkoutTabViews;
+			sourceTree = "<group>";
+		};
+		0A45EC162779D32B0076660A /* ProfileTabViews */ = {
+			isa = PBXGroup;
+			children = (
+				0ABE144927203D0D009CD67A /* ProfileView.swift */,
+				0A8F574D2720B8A400183F47 /* SettingsView.swift */,
+				0AC41CF527274F6A00DA5491 /* HealthTabView.swift */,
+				0AC41CF727274F7300DA5491 /* WorkoutTabView.swift */,
+			);
+			path = ProfileTabViews;
+			sourceTree = "<group>";
+		};
 		0A8F574A2720B6E700183F47 /* HelpViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -161,24 +204,11 @@
 		0AB808D02715C18300337924 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0A45EC142779D2D50076660A /* HomeTabViews */,
 				0A8F574A2720B6E700183F47 /* HelpViews */,
-				0AB808D32715C1AB00337924 /* SignInView.swift */,
-				0AB808D52715C1B500337924 /* SignUpView.swift */,
-				0ABE144127203B47009CD67A /* HomeView.swift */,
-				0ABE144527203BB0009CD67A /* LoggedUserView.swift */,
-				0ABE144727203D04009CD67A /* WorkoutView.swift */,
-				0ABE144927203D0D009CD67A /* ProfileView.swift */,
-				0A8F574D2720B8A400183F47 /* SettingsView.swift */,
-				0A4174722725D45A00DF4460 /* OnboardingView.swift */,
-				0AC41CF527274F6A00DA5491 /* HealthTabView.swift */,
-				0AC41CF727274F7300DA5491 /* WorkoutTabView.swift */,
-				0A4BF9232728500800311D24 /* WorkoutTimerView.swift */,
-				0A4BF9292728552000311D24 /* FinishedWorkoutView.swift */,
-				0A67B1D3272AF359007F8891 /* NotificationsView.swift */,
-				0A67B1D5272B04EC007F8891 /* SearchFriendsView.swift */,
-				0A67B1D7272B0652007F8891 /* EditPostView.swift */,
-				0AE00BA6276CC9B600C876FE /* AddPostView.swift */,
-				0ABEF73227788624007E20FC /* PostCommentsView.swift */,
+				0A45EC132779D2BB0076660A /* AuthenticationViews */,
+				0A45EC152779D3010076660A /* WorkoutTabViews */,
+				0A45EC162779D32B0076660A /* ProfileTabViews */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -250,6 +280,8 @@
 				0ADC2DEF2715AE43003ED144 /* GoogleService-Info.plist */,
 				0AC4DD842715A9E4003D5FED /* Fit_VeinApp.swift */,
 				0AC4DD862715A9E4003D5FED /* ContentView.swift */,
+				0ABE144527203BB0009CD67A /* LoggedUserView.swift */,
+				0A4174722725D45A00DF4460 /* OnboardingView.swift */,
 				0AC4DD882715A9E5003D5FED /* Assets.xcassets */,
 				0A20A8A52729FF790058F3DB /* FitVeinIconDark.png */,
 				0A20A8A62729FF790058F3DB /* FitVeinIconLight.png */,

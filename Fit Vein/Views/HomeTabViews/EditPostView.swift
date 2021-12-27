@@ -8,18 +8,15 @@
 import SwiftUI
 
 struct EditPostView: View {
-    @ObservedObject private var homeViewModel: HomeViewModel
-    @ObservedObject private var profileViewModel: ProfileViewModel
-    @EnvironmentObject private var sessionStore: SessionStore
+    @EnvironmentObject private var homeViewModel: HomeViewModel
+    @EnvironmentObject private var profileViewModel: ProfileViewModel
     
     @Environment(\.dismiss) var dismiss
     
     private var postID: String
     @State private var postText = ""
     
-    init(homeViewModel: HomeViewModel, profileViewModel: ProfileViewModel, postID: String, postText: String) {
-        self.homeViewModel = homeViewModel
-        self.profileViewModel = profileViewModel
+    init(postID: String, postText: String) {
         self.postID = postID
         self.postText = postText
     }
@@ -144,15 +141,15 @@ struct EditPostView_Previews: PreviewProvider {
     static var previews: some View {
         let homeViewModel = HomeViewModel(forPreviews: true)
         let profileViewModel = ProfileViewModel(forPreviews: true)
-        let sessionStore = SessionStore(forPreviews: true)
 
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
-                EditPostView(homeViewModel: homeViewModel, profileViewModel: profileViewModel, postID: "id1", postText: "text")
+                EditPostView(postID: "id1", postText: "text")
+                    .environmentObject(homeViewModel)
+                    .environmentObject(profileViewModel)
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)
-                    .environmentObject(sessionStore)
             }
         }
     }

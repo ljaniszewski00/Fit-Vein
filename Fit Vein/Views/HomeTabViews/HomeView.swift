@@ -7,12 +7,14 @@
 import SwiftUI
 
 struct HomeView: View {
-    @ObservedObject private var homeViewModel: HomeViewModel
-    @ObservedObject private var profileViewModel: ProfileViewModel
+    @EnvironmentObject private var homeViewModel: HomeViewModel
+    @EnvironmentObject private var profileViewModel: ProfileViewModel
     @EnvironmentObject private var sessionStore: SessionStore
     @Environment(\.colorScheme) var colorScheme
     
     @StateObject private var sheetManager = SheetManager()
+    
+    @Binding var tabBarHidden: Bool
     
     @State private var showPostOptions = false
     @State private var showEditView = false
@@ -20,9 +22,8 @@ struct HomeView: View {
     
     @State private var showCommentsView = false
     
-    init(homeViewModel: HomeViewModel, profileViewModel: ProfileViewModel) {
-        self.homeViewModel = homeViewModel
-        self.profileViewModel = profileViewModel
+    init(tabBarHidden: Binding<Bool>) {
+        self._tabBarHidden = tabBarHidden
     }
     
     private class SheetManager: ObservableObject {
@@ -212,8 +213,16 @@ struct HomeView: View {
                                                             Text("\(post.comments!.count) comments")
                                                                 .padding(.trailing, screenWidth * 0.05)
                                                                 .foregroundColor(Color(uiColor: .systemGray5))
+                                                                .onAppear {
+                                                                    print("TUTAJ2")
+                                                                    print(post.comments)
+                                                                }
                                                         }
                                                     }
+                                                }
+                                                .onAppear {
+                                                    print("TUTAJ")
+                                                    print(post.comments)
                                                 }
                                                 
                                                 Divider()
@@ -232,7 +241,15 @@ struct HomeView: View {
                                                     
                                                     Divider()
                                                     
-                                                    NavigationLink(destination: PostCommentsView(homeViewModel: homeViewModel, profileViewModel: profileViewModel, post: post)) {
+                                                    NavigationLink(destination:
+                                                                    PostCommentsView(post: post)
+                                                                    .environmentObject(homeViewModel)
+                                                                    .environmentObject(profileViewModel)
+                                                                    .onAppear {
+                                                        self.tabBarHidden = true
+                                                    }.onDisappear {
+                                                        self.tabBarHidden = false
+                                                    }) {
                                                         HStack {
                                                             Image(systemName: "bubble.left")
                                                             Text("Comment")
@@ -274,7 +291,7 @@ struct HomeView: View {
                             }
                             
                             ToolbarItem(placement: .navigationBarTrailing) {
-                                NavigationLink(destination: SearchFriendsView(homeViewModel: homeViewModel, profileViewModel: profileViewModel).environmentObject(sessionStore)) {
+                                NavigationLink(destination: SearchFriendsView().environmentObject(homeViewModel).environmentObject(profileViewModel).environmentObject(sessionStore)) {
                                     Image(systemName: "magnifyingglass")
                                         .foregroundColor(.green)
                                 }
@@ -291,9 +308,9 @@ struct HomeView: View {
                     .sheet(isPresented: $sheetManager.showSheet) {
                         switch sheetManager.whichSheet {
                         case .addView:
-                            AddPostView(homeViewModel: homeViewModel, profileViewModel: profileViewModel).environmentObject(profileViewModel)
+                            AddPostView().environmentObject(homeViewModel).environmentObject(profileViewModel).environmentObject(sessionStore)
                         case .editView:
-                            EditPostView(homeViewModel: homeViewModel, profileViewModel: profileViewModel, postID: sheetManager.postID!, postText: sheetManager.postText!).environmentObject(profileViewModel)
+                            EditPostView(postID: sheetManager.postID!, postText: sheetManager.postText!).environmentObject(homeViewModel).environmentObject(profileViewModel).environmentObject(sessionStore)
                         default:
                             Text("No view")
                         }
@@ -322,7 +339,9 @@ struct HomeView_Previews: PreviewProvider {
 
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
-                HomeView(homeViewModel: homeViewModel, profileViewModel: profileViewModel)
+                HomeView(tabBarHidden: .constant(false))
+                    .environmentObject(homeViewModel)
+                    .environmentObject(profileViewModel)
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)

@@ -397,7 +397,7 @@ class FirestoreManager: ObservableObject {
     
     // Comments
     
-    func fetchComments(userID: String, postID: String, completion: @escaping (([Comment]?) -> ())) {
+    func fetchComments(postID: String, completion: @escaping (([Comment]?) -> ())) {
         var fetchedComments: [Comment] = [Comment]()
 
         self.db.collection("comments").whereField("postID", isEqualTo: postID).addSnapshotListener { (querySnapshot, error) in

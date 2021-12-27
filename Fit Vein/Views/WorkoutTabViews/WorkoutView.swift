@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WorkoutView: View {
     @EnvironmentObject private var sessionStore: SessionStore
-    @ObservedObject var workoutViewModel = WorkoutViewModel(forPreviews: false)
+    @EnvironmentObject var workoutViewModel: WorkoutViewModel
     @State var startWorkout = false
     @AppStorage("showSampleWorkoutsList") var showSampleWorkoutsList: Bool = true
     @AppStorage("showUsersWorkoutsList") var showUsersWorkoutsList: Bool = true
@@ -22,7 +22,8 @@ struct WorkoutView: View {
             
             if startWorkout {
                 withAnimation {
-                    WorkoutCountdownView(workoutViewModel: workoutViewModel)
+                    WorkoutCountdownView()
+                        .environmentObject(workoutViewModel)
                 }
             } else {
                 NavigationView {
@@ -128,7 +129,7 @@ struct WorkoutView: View {
                     .navigationBarHidden(false)
                     .toolbar {
                         ToolbarItem(placement: .navigationBarTrailing) {
-                            NavigationLink(destination: WorkoutAddView(workoutViewModel: workoutViewModel).navigationTitle("Add Workout").navigationBarHidden(false)) {
+                            NavigationLink(destination: WorkoutAddView().environmentObject(workoutViewModel).navigationTitle("Add Workout").navigationBarHidden(false)) {
                                 Image(systemName: "plus.circle.fill")
                                     .resizable()
                                     .scaledToFit()
@@ -149,17 +150,13 @@ struct WorkoutView: View {
 
 
 struct WorkoutAddView: View {
-    @ObservedObject var workoutViewModel: WorkoutViewModel
+    @EnvironmentObject var workoutViewModel: WorkoutViewModel
     @Environment(\.dismiss) var dismiss
     
     @State var workoutType: String? = "Interval"
     @State var series: String = ""
     @State var workTime: String = ""
     @State var restTime: String = ""
-    
-    init(workoutViewModel: WorkoutViewModel) {
-        self.workoutViewModel = workoutViewModel
-    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -244,13 +241,9 @@ struct WorkoutAddView: View {
 struct WorkoutCountdownView: View {
     @State private var timeToFinish = 5
     @Environment(\.dismiss) var dismiss
-    @ObservedObject var workoutViewModel: WorkoutViewModel
+    @EnvironmentObject var workoutViewModel: WorkoutViewModel
     
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    
-    init(workoutViewModel: WorkoutViewModel) {
-        self.workoutViewModel = workoutViewModel
-    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -258,7 +251,8 @@ struct WorkoutCountdownView: View {
             
             if timeToFinish == 0 {
                 withAnimation {
-                    WorkoutTimerView(workoutViewModel: workoutViewModel)
+                    WorkoutTimerView()
+                        .environmentObject(workoutViewModel)
                 }
             } else {
                 VStack {
@@ -289,12 +283,11 @@ struct WorkoutCountdownView: View {
                     
                     Spacer()
                 }
-                .onDisappear {
-                    dismiss()
-                }
                 .onReceive(timer) { _ in
                     if timeToFinish == 1 {
-                        workoutViewModel.startWorkout(workout: workoutViewModel.workout!)
+                        if workoutViewModel.workout != nil {
+                            workoutViewModel.startWorkout(workout: workoutViewModel.workout!)
+                        }
                     }
                     if timeToFinish > 0 {
                         timeToFinish -= 1
@@ -313,23 +306,24 @@ struct WorkoutView_Previews: PreviewProvider {
         let workoutViewModel = WorkoutViewModel(forPreviews: true)
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
-                WorkoutView(workoutViewModel: workoutViewModel)
+                WorkoutView()
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)
                     .environmentObject(sessionStore)
+                    .environmentObject(workoutViewModel)
                 
-                WorkoutAddView(workoutViewModel: workoutViewModel)
+                WorkoutAddView()
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)
-                    .environmentObject(sessionStore)
+                    .environmentObject(workoutViewModel)
                 
-                WorkoutCountdownView(workoutViewModel: workoutViewModel)
+                WorkoutCountdownView()
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)
-                    .environmentObject(sessionStore)
+                    .environmentObject(workoutViewModel)
             }
         }
     }

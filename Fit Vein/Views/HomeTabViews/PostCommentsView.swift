@@ -8,18 +8,15 @@
 import SwiftUI
 
 struct PostCommentsView: View {
-    @ObservedObject private var homeViewModel: HomeViewModel
-    @ObservedObject private var profileViewModel: ProfileViewModel
-    @EnvironmentObject private var sessionStore: SessionStore
+    @EnvironmentObject private var homeViewModel: HomeViewModel
+    @EnvironmentObject private var profileViewModel: ProfileViewModel
     @Environment(\.colorScheme) var colorScheme
     
     @State var commentText = ""
     
     private var post: Post
     
-    init(homeViewModel: HomeViewModel, profileViewModel: ProfileViewModel, post: Post) {
-        self.homeViewModel = homeViewModel
-        self.profileViewModel = profileViewModel
+    init(post: Post) {
         self.post = post
     }
     
@@ -158,6 +155,37 @@ struct PostCommentsView: View {
                         }
                     }
                 }
+                
+                Spacer()
+                
+                HStack {
+                    VStack {
+                        HStack {
+                            Text("Add Comment")
+                            Spacer()
+                        }
+                        
+                        VStack {
+                            HStack {
+                                TextField("", text: $commentText)
+                                    .disableAutocorrection(true)
+                                    .autocapitalization(.none)
+                                
+                                Button(action: {
+                                    self.homeViewModel.commentPost(postID: post.id, authorID: self.profileViewModel.profile!.id, authorFirstName: self.profileViewModel.profile!.firstName, authorLastName: self.profileViewModel.profile!.username, authorProfilePictureURL: self.profileViewModel.profile!.profilePictureURL!, text: commentText)
+                                }, label: {
+                                    Text("Send")
+                                        .foregroundColor(.green)
+                                })
+                            }
+                            
+                            Divider()
+                                .background(Color.green)
+                        }
+                        
+                    }
+                    .padding(.horizontal)
+                }
             }
             .navigationTitle("")
             .navigationBarTitleDisplayMode(.inline)
@@ -217,34 +245,7 @@ struct PostCommentsView: View {
                 }
                 
                 ToolbarItem(placement: .bottomBar) {
-                    HStack {
-                        VStack {
-                            HStack {
-                                Text("Add Comment")
-                                Spacer()
-                            }
-                            
-                            VStack {
-                                HStack {
-                                    TextField("", text: $commentText)
-                                        .disableAutocorrection(true)
-                                        .autocapitalization(.none)
-                                    
-                                    Button(action: {
-                                        self.homeViewModel.commentPost(postID: post.id, authorID: self.profileViewModel.profile!.id, authorFirstName: self.profileViewModel.profile!.firstName, authorLastName: self.profileViewModel.profile!.username, authorProfilePictureURL: self.profileViewModel.profile!.profilePictureURL!, text: commentText)
-                                    }, label: {
-                                        Text("Send")
-                                            .foregroundColor(.green)
-                                    })
-                                }
-                                
-                                Divider()
-                                    .background(Color.green)
-                            }
-                            
-                        }
-                        .padding(.horizontal)
-                    }
+                    
                     
 //                    Button(action: {
 //
@@ -262,18 +263,18 @@ struct PostCommentsView_Previews: PreviewProvider {
     static var previews: some View {
         let homeViewModel = HomeViewModel(forPreviews: true)
         let profileViewModel = ProfileViewModel(forPreviews: true)
-        let sessionStore = SessionStore(forPreviews: true)
         let comments = [Comment(id: "id1", authorID: "1", postID: "1", authorFirstName: "Maciej", authorUsername: "maciej.j223", authorProfilePictureURL: "nil", addDate: Date(), text: "Good job!", reactionsUsersIDs: ["2", "3"]), Comment(id: "id2", authorID: "3", postID: "1", authorFirstName: "Kamil", authorUsername: "kamil.j223", authorProfilePictureURL: "nil", addDate: Date(), text: "Let's Go!", reactionsUsersIDs: ["1", "3"])]
         let post = Post(id: "1", authorID: "1", authorFirstName: "Jan", authorUsername: "jan23.d", authorProfilePictureURL: "", addDate: Date(), text: "Did this today!", reactionsUsersIDs: nil, comments: comments)
 
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
                 NavigationView {
-                    PostCommentsView(homeViewModel: homeViewModel, profileViewModel: profileViewModel, post: post)
+                    PostCommentsView(post: post)
+                        .environmentObject(homeViewModel)
+                        .environmentObject(profileViewModel)
                         .preferredColorScheme(colorScheme)
                         .previewDevice(PreviewDevice(rawValue: deviceName))
                         .previewDisplayName(deviceName)
-                        .environmentObject(sessionStore)
                 }
             }
         }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct WorkoutTimerView: View {
-    @ObservedObject var workoutViewModel: WorkoutViewModel
+    @EnvironmentObject var workoutViewModel: WorkoutViewModel
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -30,10 +30,6 @@ struct WorkoutTimerView: View {
     @State private var locked = false
     @State private var stopped = false
     
-    init(workoutViewModel: WorkoutViewModel) {
-        self.workoutViewModel = workoutViewModel
-    }
-    
     var body: some View {
         GeometryReader { geometry in
             let screenWidth = geometry.size.width
@@ -41,7 +37,8 @@ struct WorkoutTimerView: View {
             
             if stopped {
                 withAnimation {
-                    FinishedWorkoutView(workoutViewModel: workoutViewModel)
+                    FinishedWorkoutView()
+                        .environmentObject(workoutViewModel)
                 }
             } else {
                 VStack {
@@ -328,12 +325,14 @@ struct WorkoutTimerView_Previews: PreviewProvider {
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
                 let sessionStore = SessionStore(forPreviews: true)
+                let workoutViewModel = WorkoutViewModel(forPreviews: true)
                 
-                WorkoutTimerView(workoutViewModel: WorkoutViewModel(forPreviews: true))
+                WorkoutTimerView()
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)
                     .environmentObject(sessionStore)
+                    .environmentObject(workoutViewModel)
             }
         }
     }

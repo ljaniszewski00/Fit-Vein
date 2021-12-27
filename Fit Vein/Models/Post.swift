@@ -39,6 +39,10 @@ struct Post: Codable, Identifiable {
         self.reactionsUsersIDs = reactionsUsersIDs
         self.comments = comments
     }
+    
+    mutating func setComments(comments: [Comment]?) {
+        self.comments = comments
+    }
 }
 
 struct Comment: Codable, Identifiable {

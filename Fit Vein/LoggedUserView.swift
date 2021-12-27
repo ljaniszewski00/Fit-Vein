@@ -10,7 +10,10 @@ import SwiftUI
 struct LoggedUserView: View {
     @EnvironmentObject private var sessionStore: SessionStore
     @ObservedObject private var homeViewModel = HomeViewModel()
+    @ObservedObject private var workoutViewModel = WorkoutViewModel(forPreviews: false)
     @ObservedObject private var profileViewModel = ProfileViewModel()
+    
+    @State private var tabBarHidden: Bool = false
     
     @State var selectedTab: Tab = .home
     
@@ -33,19 +36,22 @@ struct LoggedUserView: View {
             Group {
                 switch selectedTab {
                 case .home:
-                    HomeView(homeViewModel: homeViewModel, profileViewModel: profileViewModel)
+                    HomeView(tabBarHidden: self.$tabBarHidden)
                         .environmentObject(sessionStore)
+                        .environmentObject(homeViewModel)
+                        .environmentObject(profileViewModel)
                         .navigationTitle("")
                         .navigationBarHidden(true)
                         .ignoresSafeArea(.keyboard)
                 case .workout:
                     WorkoutView()
                         .environmentObject(sessionStore)
+                        .environmentObject(workoutViewModel)
                         .navigationTitle("")
                         .navigationBarHidden(true)
                         .ignoresSafeArea(.keyboard)
                 case .profile:
-                    ProfileView()
+                    ProfileView(tabBarHidden: self.$tabBarHidden)
                         .environmentObject(sessionStore)
                         .environmentObject(profileViewModel)
                         .navigationTitle("")
@@ -114,6 +120,7 @@ struct LoggedUserView: View {
             )
             .frame(maxHeight: .infinity, alignment: .bottom)
             .ignoresSafeArea()
+            .isHidden(tabBarHidden)
         }
     }
     
