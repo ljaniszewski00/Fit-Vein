@@ -104,177 +104,174 @@ struct HomeView: View {
                                     .padding()
                                     
                                     if let posts = homeViewModel.posts {
-                                        ForEach(posts) { post in
-                                            VStack {
-                                                Rectangle()
-                                                    .foregroundColor(Color(uiColor: .systemGray6))
-                                                    .frame(width: screenWidth, height: screenHeight * 0.02)
-                                                    .confirmationDialog("What do you want to do with the selected post?", isPresented: $showPostOptions) {
-                                                        Button("Edit") {
-                                                            sheetManager.postID = post.id
-                                                            sheetManager.postText = post.text
-                                                            sheetManager.whichSheet = .editView
-                                                            sheetManager.showSheet.toggle()
+                                        if posts.count != 0 {
+                                            ForEach(posts) { post in
+                                                VStack {
+                                                    Rectangle()
+                                                        .foregroundColor(Color(uiColor: .systemGray6))
+                                                        .frame(width: screenWidth, height: screenHeight * 0.02)
+                                                        .confirmationDialog("What do you want to do with the selected post?", isPresented: $showPostOptions) {
+                                                            Button("Edit") {
+                                                                sheetManager.postID = post.id
+                                                                sheetManager.postText = post.text
+                                                                sheetManager.whichSheet = .editView
+                                                                sheetManager.showSheet.toggle()
+                                                            }
+                                                            Button("Delete", role: .destructive) {
+                                                                self.homeViewModel.deletePost(postID: post.id)
+                                                            }
+                                                            Button("Cancel", role: .cancel) {}
                                                         }
-                                                        Button("Delete", role: .destructive) {
-                                                            self.homeViewModel.deletePost(postID: post.id)
-                                                        }
-                                                        Button("Cancel", role: .cancel) {}
-                                                    }
-                                                
-                                                HStack {
-                                                    Spacer()
-//                                                    This causes an error
-//                                                    if let postAuthorProfilePictureURL = homeViewModel.postsAuthorsProfilePicturesURLs[post.id] {
-//                                                        AsyncImage(url: postAuthorProfilePictureURL) { phase in
-//                                                            if let image = phase.image {
-//                                                                image
-//                                                                    .resizable()
-//                                                                    .aspectRatio(contentMode: .fit)
-//                                                                    .clipShape(RoundedRectangle(cornerRadius: 50))
-//                                                                    .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
-//                                                            } else {
-//                                                                Image(uiImage: UIImage(named: "blank-profile-hi")!)
-//                                                                    .resizable()
-//                                                                    .aspectRatio(contentMode: .fit)
-//                                                                    .clipShape(RoundedRectangle(cornerRadius: 50))
-//                                                                    .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
-//                                                            }
-//                                                        }
-//                                                    } else {
-//                                                        Image(uiImage: UIImage(named: "blank-profile-hi")!)
-//                                                            .resizable()
-//                                                            .aspectRatio(contentMode: .fit)
-//                                                            .clipShape(RoundedRectangle(cornerRadius: 50))
-//                                                            .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
-//                                                    }
-//                                                    This causes an error
                                                     
-                                                    Image(uiImage: UIImage(named: "blank-profile-hi")!)
-                                                        .resizable()
-                                                        .aspectRatio(contentMode: .fit)
-                                                        .clipShape(RoundedRectangle(cornerRadius: 50))
-                                                        .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
-                                                        .padding(.leading, screenWidth * 0.05)
-                                                    
-                                                    VStack {
-                                                        HStack {
-                                                            Text(post.authorFirstName)
-                                                                .fontWeight(.bold)
-                                                            Text("•")
-                                                            Text(post.authorUsername)
-                                                            Spacer()
-                                                            
-                                                            if profileViewModel.profile != nil {
-                                                                if profileViewModel.profile!.id == post.authorID {
-                                                                    Button(action: {
-                                                                        self.showPostOptions = true
-                                                                    }, label: {
-                                                                        Image(systemName: "ellipsis")
-                                                                            .foregroundColor(.green)
-                                                                            .padding(.trailing, screenWidth * 0.05)
-                                                                    })
-                                                                        
+                                                    HStack {
+                                                        Spacer()
+    //                                                    This causes an error
+    //                                                    if let postAuthorProfilePictureURL = homeViewModel.postsAuthorsProfilePicturesURLs[post.id] {
+    //                                                        AsyncImage(url: postAuthorProfilePictureURL) { phase in
+    //                                                            if let image = phase.image {
+    //                                                                image
+    //                                                                    .resizable()
+    //                                                                    .aspectRatio(contentMode: .fit)
+    //                                                                    .clipShape(RoundedRectangle(cornerRadius: 50))
+    //                                                                    .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+    //                                                            } else {
+    //                                                                Image(uiImage: UIImage(named: "blank-profile-hi")!)
+    //                                                                    .resizable()
+    //                                                                    .aspectRatio(contentMode: .fit)
+    //                                                                    .clipShape(RoundedRectangle(cornerRadius: 50))
+    //                                                                    .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+    //                                                            }
+    //                                                        }
+    //                                                    } else {
+    //                                                        Image(uiImage: UIImage(named: "blank-profile-hi")!)
+    //                                                            .resizable()
+    //                                                            .aspectRatio(contentMode: .fit)
+    //                                                            .clipShape(RoundedRectangle(cornerRadius: 50))
+    //                                                            .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+    //                                                    }
+    //                                                    This causes an error
+                                                        
+                                                        Image(uiImage: UIImage(named: "blank-profile-hi")!)
+                                                            .resizable()
+                                                            .aspectRatio(contentMode: .fit)
+                                                            .clipShape(RoundedRectangle(cornerRadius: 50))
+                                                            .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+                                                            .padding(.leading, screenWidth * 0.05)
+                                                        
+                                                        VStack {
+                                                            HStack {
+                                                                Text(post.authorFirstName)
+                                                                    .fontWeight(.bold)
+                                                                Text("•")
+                                                                Text(post.authorUsername)
+                                                                Spacer()
+                                                                
+                                                                if profileViewModel.profile != nil {
+                                                                    if profileViewModel.profile!.id == post.authorID {
+                                                                        Button(action: {
+                                                                            self.showPostOptions = true
+                                                                        }, label: {
+                                                                            Image(systemName: "ellipsis")
+                                                                                .foregroundColor(.green)
+                                                                                .padding(.trailing, screenWidth * 0.05)
+                                                                        })
+                                                                            
+                                                                    }
                                                                 }
                                                             }
-                                                        }
-                                                        .padding(.bottom, screenHeight * 0.001)
-                                                        
-                                                        HStack {
-                                                            Text(getShortDate(longDate: post.addDate))
-                                                                .foregroundColor(Color(uiColor: .systemGray2))
-                                                            Spacer()
-                                                        }
-                                                    }
-                                                }
-                                                
-                                                Text(post.text)
-                                                    .fixedSize(horizontal: false, vertical: true)
-                                                
-                                                Spacer()
-                                                
-                                                HStack {
-                                                    if post.reactionsUsersIDs != nil {
-                                                        if post.reactionsUsersIDs!.count != 0 {
-                                                            Image(systemName: post.reactionsUsersIDs!.contains(self.homeViewModel.sessionStore.currentUser!.uid) ? "hand.thumbsup.fill" : "hand.thumbsup")
-                                                                .foregroundColor(.green)
-                                                                .padding(.leading, screenWidth * 0.05)
+                                                            .padding(.bottom, screenHeight * 0.001)
                                                             
-                                                            Text("\(post.reactionsUsersIDs!.count)")
-                                                                .foregroundColor(Color(uiColor: .systemGray5))
+                                                            HStack {
+                                                                Text(getShortDate(longDate: post.addDate))
+                                                                    .foregroundColor(Color(uiColor: .systemGray2))
+                                                                Spacer()
+                                                            }
                                                         }
-                                                        
                                                     }
-
+                                                    
+                                                    Text(post.text)
+                                                        .fixedSize(horizontal: false, vertical: true)
+                                                    
                                                     Spacer()
                                                     
-                                                    if post.comments != nil {
-                                                        if post.comments!.count != 0 {
-                                                            Text("\(post.comments!.count) comments")
+                                                    HStack {
+                                                        if post.reactionsUsersIDs != nil {
+                                                            if post.reactionsUsersIDs!.count != 0 {
+                                                                Image(systemName: post.reactionsUsersIDs!.contains(self.homeViewModel.sessionStore.currentUser!.uid) ? "hand.thumbsup.fill" : "hand.thumbsup")
+                                                                    .foregroundColor(.green)
+                                                                    .padding(.leading, screenWidth * 0.05)
+                                                                
+                                                                Text("\(post.reactionsUsersIDs!.count)")
+                                                                    .foregroundColor(Color(uiColor: .systemGray5))
+                                                            }
+                                                            
+                                                        }
+
+                                                        Spacer()
+                                                        
+                                                        if let postComments = homeViewModel.postsComments[post.id] {
+                                                            Text("\(postComments.count) comments")
                                                                 .padding(.trailing, screenWidth * 0.05)
                                                                 .foregroundColor(Color(uiColor: .systemGray5))
-                                                                .onAppear {
-                                                                    print("TUTAJ2")
-                                                                    print(post.comments)
-                                                                }
                                                         }
                                                     }
-                                                }
-                                                .onAppear {
-                                                    print("TUTAJ")
-                                                    print(post.comments)
-                                                }
-                                                
-                                                Divider()
-                                                
-                                                HStack(spacing: 0) {
-                                                    Button(action: {
-                                                        self.homeViewModel.reactToPost(postID: post.id)
-                                                    }, label: {
-                                                        HStack {
-                                                            Image(systemName: "hand.thumbsup")
-                                                            Text("Like")
-                                                        }
-                                                    })
-                                                        .foregroundColor(colorScheme == .dark ? .white : .black)
-                                                        .frame(width: screenWidth * 0.5, height: screenHeight * 0.04)
                                                     
                                                     Divider()
                                                     
-                                                    NavigationLink(destination:
-                                                                    PostCommentsView(post: post)
-                                                                    .environmentObject(homeViewModel)
-                                                                    .environmentObject(profileViewModel)
-                                                                    .onAppear {
-                                                        self.tabBarHidden = true
-                                                    }.onDisappear {
-                                                        self.tabBarHidden = false
-                                                    }) {
-                                                        HStack {
-                                                            Image(systemName: "bubble.left")
-                                                            Text("Comment")
+                                                    HStack(spacing: 0) {
+                                                        Button(action: {
+                                                            self.homeViewModel.reactToPost(postID: post.id)
+                                                        }, label: {
+                                                            HStack {
+                                                                Image(systemName: "hand.thumbsup")
+                                                                Text("Like")
+                                                            }
+                                                        })
+                                                            .foregroundColor(colorScheme == .dark ? .white : .black)
+                                                            .frame(width: screenWidth * 0.5, height: screenHeight * 0.04)
+                                                        
+                                                        Divider()
+                                                        
+                                                        NavigationLink(destination:
+                                                                        PostCommentsView(post: post)
+                                                                        .environmentObject(homeViewModel)
+                                                                        .environmentObject(profileViewModel)
+                                                                        .onAppear {
+                                                            self.tabBarHidden = true
+                                                        }.onDisappear {
+                                                            self.tabBarHidden = false
+                                                        }) {
+                                                            HStack {
+                                                                Image(systemName: "bubble.left")
+                                                                Text("Comment")
+                                                            }
+                                                            .foregroundColor(colorScheme == .dark ? .white : .black)
+                                                            .frame(width: screenWidth * 0.5, height: screenHeight * 0.04)
                                                         }
-                                                        .foregroundColor(colorScheme == .dark ? .white : .black)
-                                                        .frame(width: screenWidth * 0.5, height: screenHeight * 0.04)
+                                                        
+                                                        
                                                     }
                                                     
-                                                    
+                                                    Divider()
                                                 }
-                                                
-                                                Divider()
                                             }
+                                        } else {
+                                            Text("Nothing to show")
+                                                .foregroundColor(.green)
                                         }
                                     } else {
-                                        if self.profileViewModel.profile!.followedIDs != nil {
-                                            if self.profileViewModel.profile!.followedIDs!.count != 0 {
-                                                HomeTabPostsFetchingView()
+                                        if let followedIDs = self.profileViewModel.profile!.followedIDs {
+                                            if followedIDs.count != 0 {
+                                                Text("Nothing to show")
+                                                    .foregroundColor(.green)
+                                                
                                             } else {
-                                                Text("Add friends to see their achievements")
+                                                Text("Add friends to see their activity")
                                                     .foregroundColor(.green)
                                             }
                                         } else {
-                                            Text("Add friends to see their achievements")
-                                                .foregroundColor(.green)
+                                            HomeTabPostsFetchingView()
+                                                .frame(width: screenWidth, height: screenHeight)
                                         }
                                     }
                                 }

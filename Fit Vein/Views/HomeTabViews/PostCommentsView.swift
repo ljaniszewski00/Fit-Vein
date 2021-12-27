@@ -47,12 +47,10 @@ struct PostCommentsView: View {
 
                     Spacer()
                     
-                    if post.comments != nil {
-                        if post.comments!.count != 0 {
-                            Text("\(post.comments!.count) comments")
-                                .padding(.trailing, screenWidth * 0.05)
-                                .foregroundColor(Color(uiColor: .systemGray5))
-                        }
+                    if let postComments = homeViewModel.postsComments[post.id] {
+                        Text("\(postComments.count) comments")
+                            .padding(.trailing, screenWidth * 0.05)
+                            .foregroundColor(Color(uiColor: .systemGray5))
                     }
                 }
                 
@@ -73,8 +71,8 @@ struct PostCommentsView: View {
                 
                 Divider()
                 
-                if let comments = self.post.comments {
-                    ForEach(comments) { comment in
+                if let postComments = homeViewModel.postsComments[post.id] {
+                    ForEach(postComments) { comment in
                         VStack(spacing: 0) {
                             HStack {
                                 Image(uiImage: UIImage(named: "blank-profile-hi")!)

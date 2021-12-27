@@ -34,6 +34,8 @@ class HomeViewModel: ObservableObject {
                       Post(id: "1", authorID: "2", authorFirstName: "Maciej", authorUsername: "maciej23.d", authorProfilePictureURL: "", addDate: Date(), text: "Good form for now!", reactionsUsersIDs: nil, comments: commentsPost2),
                       Post(id: "1", authorID: "3", authorFirstName: "Jakub", authorUsername: "jakub23.d", authorProfilePictureURL: "", addDate: Date(), text: " Hell Yeeeah!", reactionsUsersIDs: nil, comments: commentsPost3)]
         
+        self.postsComments = ["1": commentsPost1, "2": commentsPost2, "3": commentsPost3]
+        
         self.usersIDs = ["id1", "id2", "id3"]
         
     }
@@ -52,14 +54,14 @@ class HomeViewModel: ObservableObject {
             self.firestoreManager.fetchPosts(userID: self.sessionStore.currentUser!.uid) { [self] fetchedPosts in
                 self.posts = fetchedPosts
                 if self.posts != nil {
-                    for var post in self.posts! {
+                    for post in self.posts! {
                         self.firebaseStorageManager.getDownloadURLForImage(stringURL: post.authorProfilePictureURL, userID: post.authorID) { photoURL in
                             postsAuthorsProfilePicturesURLs.updateValue(photoURL, forKey: post.id)
                         }
                         
                         self.firestoreManager.fetchComments(postID: post.id) { comments in
                             if let fetchedComments = comments {
-                                post.setComments(comments: fetchedComments)
+                                postsComments.updateValue(fetchedComments, forKey: post.id)
                             }
                         }
                     }
