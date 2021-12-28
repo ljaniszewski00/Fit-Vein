@@ -129,6 +129,11 @@ class ProfileViewModel: ObservableObject {
                         completion()
                     }
                 }
+            } else {
+                self.firestoreManager.deleteUserData(userUID: self.sessionStore.currentUser!.uid) {
+                    print("Successfully deleted user data")
+                    completion()
+                }
             }
         }
     }

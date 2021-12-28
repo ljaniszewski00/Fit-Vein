@@ -21,6 +21,7 @@ struct Profile: Codable, Identifiable {
     var followedIDs: [String]?
     var reactedPostsIDs: [String]?
     var commentedPostsIDs: [String]?
+    var reactedCommentsIDs: [String]?
 }
 
 

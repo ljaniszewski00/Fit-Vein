@@ -65,6 +65,16 @@ struct SearchFriendsView: View {
                                                     .frame(width: screenWidth * 0.07, height: screenHeight * 0.035)
                                             })
                                         }
+                                    } else {
+                                        Button(action: {
+                                            self.profileViewModel.followUser(userID: userID)
+                                        }, label: {
+                                            Image(systemName: "plus.circle.fill")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .foregroundColor(.green)
+                                                .frame(width: screenWidth * 0.07, height: screenHeight * 0.035)
+                                        })
                                     }
                                 }
                                 .frame(width: screenWidth * 0.8, height: screenHeight * 0.1)

@@ -16,6 +16,7 @@ struct Post: Codable, Identifiable {
     var addDate: Date
     var text: String
     var reactionsUsersIDs: [String]?
+    var commentedUsersIDs: [String]?
     var comments: [Comment]?
     
     init(authorID: String, authorFirstName: String, authorUsername: String, authorProfilePictureURL: String, text: String) {
@@ -28,7 +29,7 @@ struct Post: Codable, Identifiable {
         self.text = text
     }
     
-    init(id: String, authorID: String, authorFirstName: String, authorUsername: String, authorProfilePictureURL: String, addDate: Date, text: String, reactionsUsersIDs: [String]?, comments: [Comment]?) {
+    init(id: String, authorID: String, authorFirstName: String, authorUsername: String, authorProfilePictureURL: String, addDate: Date, text: String, reactionsUsersIDs: [String]?, commentedUsersIDs: [String]?, comments: [Comment]?) {
         self.id = id
         self.authorID = authorID
         self.authorFirstName = authorFirstName
@@ -37,10 +38,7 @@ struct Post: Codable, Identifiable {
         self.addDate = addDate
         self.text = text
         self.reactionsUsersIDs = reactionsUsersIDs
-        self.comments = comments
-    }
-    
-    mutating func setComments(comments: [Comment]?) {
+        self.commentedUsersIDs = commentedUsersIDs
         self.comments = comments
     }
 }

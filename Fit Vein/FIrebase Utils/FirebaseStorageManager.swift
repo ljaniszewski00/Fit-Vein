@@ -41,8 +41,8 @@ class FirebaseStorageManager: ObservableObject {
                 print("Error deleting image from storage: \(error.localizedDescription)")
             } else {
                 print("Successfully deleted image from storage")
-                completion()
             }
+            completion()
         }
     }
     

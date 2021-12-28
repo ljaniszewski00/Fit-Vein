@@ -10,7 +10,7 @@ import SwiftUI
 
 @MainActor
 class WorkoutViewModel: ObservableObject {
-    @Published var sessionStore: SessionStore?
+    var sessionStore = SessionStore(forPreviews: false)
     @Published var workout: IntervalWorkout?
     @Published var workoutsList: [IntervalWorkout] = [IntervalWorkout(id: UUID().uuidString, usersID: "9999", type: "Interval", date: Date(), isFinished: false, calories: 200, series: 8, workTime: 45, restTime: 15),
                                                        IntervalWorkout(id: UUID().uuidString, usersID: "9999", type: "Interval", date: Date(), isFinished: false, calories: 260, series: 10, workTime: 30, restTime: 15),
@@ -40,10 +40,12 @@ class WorkoutViewModel: ObservableObject {
     }
     
     func saveWorkoutToDatabase(completion: @escaping (() -> ())) {
-        if self.workout != nil && sessionStore != nil {
-            self.workout?.setUsersID(usersID: (self.sessionStore?.currentUser!.uid)!)
-            self.firestoreManager.workoutDataCreation(id: workout!.id, usersID: workout!.usersID, type: workout!.type, date: workout!.date, isFinished: workout!.isFinished, calories: workout!.calories, series: workout!.series, workTime: workout!.workTime, restTime: workout!.restTime, completedDuration: workout!.completedDuration, completedSeries: workout!.completedSeries) {
-                completion()
+        if self.workout != nil {
+            if self.sessionStore.currentUser != nil {
+                self.workout!.setUsersID(usersID: self.sessionStore.currentUser!.uid)
+                self.firestoreManager.workoutDataCreation(id: workout!.id, usersID: workout!.usersID, type: workout!.type, date: workout!.date, isFinished: workout!.isFinished, calories: workout!.calories, series: workout!.series, workTime: workout!.workTime, restTime: workout!.restTime, completedDuration: workout!.completedDuration, completedSeries: workout!.completedSeries) {
+                    completion()
+                }
             }
         }
     }

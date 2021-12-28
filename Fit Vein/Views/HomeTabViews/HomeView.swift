@@ -262,16 +262,15 @@ struct HomeView: View {
                                     } else {
                                         if let followedIDs = self.profileViewModel.profile!.followedIDs {
                                             if followedIDs.count != 0 {
-                                                Text("Nothing to show")
-                                                    .foregroundColor(.green)
-                                                
+                                                HomeTabPostsFetchingView()
+                                                    .frame(width: screenWidth, height: screenHeight)
                                             } else {
                                                 Text("Add friends to see their activity")
                                                     .foregroundColor(.green)
                                             }
                                         } else {
-                                            HomeTabPostsFetchingView()
-                                                .frame(width: screenWidth, height: screenHeight)
+                                            Text("Add friends to see their activity")
+                                                .foregroundColor(.green)
                                         }
                                     }
                                 }
