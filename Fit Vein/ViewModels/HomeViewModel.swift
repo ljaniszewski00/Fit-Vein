@@ -42,7 +42,6 @@ class HomeViewModel: ObservableObject {
     
     init() {
         fetchData()
-        getAllUsersIDs()
     }
     
     func setup(sessionStore: SessionStore) {

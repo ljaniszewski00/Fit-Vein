@@ -46,7 +46,9 @@ struct SearchFriendsView: View {
                                     if self.profileViewModel.profile!.followedIDs != nil {
                                         if self.profileViewModel.profile!.followedIDs!.contains(userID) {
                                             Button(action: {
-                                                self.profileViewModel.unfollowUser(userID: userID)
+                                                self.profileViewModel.unfollowUser(userID: userID) {
+                                                    self.homeViewModel.fetchData()
+                                                }
                                             }, label: {
                                                 Image(systemName: "minus.circle.fill")
                                                     .resizable()
@@ -56,7 +58,9 @@ struct SearchFriendsView: View {
                                             })
                                         } else {
                                             Button(action: {
-                                                self.profileViewModel.followUser(userID: userID)
+                                                self.profileViewModel.followUser(userID: userID) {
+                                                    self.homeViewModel.fetchData()
+                                                }
                                             }, label: {
                                                 Image(systemName: "plus.circle.fill")
                                                     .resizable()
@@ -67,7 +71,9 @@ struct SearchFriendsView: View {
                                         }
                                     } else {
                                         Button(action: {
-                                            self.profileViewModel.followUser(userID: userID)
+                                            self.profileViewModel.followUser(userID: userID) {
+                                                self.homeViewModel.fetchData()
+                                            }
                                         }, label: {
                                             Image(systemName: "plus.circle.fill")
                                                 .resizable()
@@ -85,6 +91,9 @@ struct SearchFriendsView: View {
                     }
                 }
                 .navigationTitle("Follow")
+                .onAppear {
+                    self.homeViewModel.getAllUsersIDs()
+                }
             }
         }
         .ignoresSafeArea(.keyboard)

@@ -219,18 +219,47 @@ struct HomeView: View {
                                                     Divider()
                                                     
                                                     HStack(spacing: 0) {
-                                                        Button(action: {
-                                                            self.homeViewModel.reactToPost(postID: post.id)
-                                                        }, label: {
-                                                            HStack {
-                                                                Image(systemName: "hand.thumbsup")
-                                                                Text("Like")
+                                                        Spacer()
+                                                        
+                                                        if let reactionsUsersIDs = post.reactionsUsersIDs {
+                                                            if reactionsUsersIDs.contains(self.profileViewModel.profile!.id) {
+                                                                Button(action: {
+                                                                    self.homeViewModel.reactToPost(postID: post.id)
+                                                                }, label: {
+                                                                    HStack {
+                                                                        Image(systemName: "hand.thumbsdown")
+                                                                        Text("Unlike")
+                                                                    }
+                                                                    .foregroundColor(colorScheme == .dark ? .white : .black)
+                                                                })
+                                                            } else {
+                                                                Button(action: {
+                                                                    self.homeViewModel.reactToPost(postID: post.id)
+                                                                }, label: {
+                                                                    HStack {
+                                                                        Image(systemName: "hand.thumbsup")
+                                                                        Text("Like")
+                                                                    }
+                                                                    .foregroundColor(colorScheme == .dark ? .white : .black)
+                                                                })
                                                             }
-                                                        })
-                                                            .foregroundColor(colorScheme == .dark ? .white : .black)
-                                                            .frame(width: screenWidth * 0.5, height: screenHeight * 0.04)
+                                                        } else {
+                                                            Button(action: {
+                                                                self.homeViewModel.reactToPost(postID: post.id)
+                                                            }, label: {
+                                                                HStack {
+                                                                    Image(systemName: "hand.thumbsup")
+                                                                    Text("Like")
+                                                                }
+                                                                .foregroundColor(colorScheme == .dark ? .white : .black)
+                                                            })
+                                                        }
+                                                        
+                                                        Spacer()
                                                         
                                                         Divider()
+                                                        
+                                                        Spacer()
                                                         
                                                         NavigationLink(destination:
                                                                         PostCommentsView(post: post)
@@ -246,11 +275,11 @@ struct HomeView: View {
                                                                 Text("Comment")
                                                             }
                                                             .foregroundColor(colorScheme == .dark ? .white : .black)
-                                                            .frame(width: screenWidth * 0.5, height: screenHeight * 0.04)
                                                         }
                                                         
-                                                        
+                                                        Spacer()
                                                     }
+                                                    .frame(height: screenHeight * 0.035)
                                                     
                                                     Divider()
                                                 }
@@ -276,6 +305,7 @@ struct HomeView: View {
                                 }
                             }
                         }
+                        .padding(.bottom, screenHeight * 0.07)
                         .navigationTitle("")
                         .navigationBarTitleDisplayMode(.inline)
                         .toolbar {

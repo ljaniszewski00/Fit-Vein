@@ -138,18 +138,20 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
-    func followUser(userID: String) {
+    func followUser(userID: String, completion: @escaping (() -> ())) {
         if sessionStore.currentUser != nil {
             self.firestoreManager.addUserToFollowed(userID: self.sessionStore.currentUser!.uid, userIDToFollow: userID) {
                 self.fetchData()
+                completion()
             }
         }
     }
     
-    func unfollowUser(userID: String) {
+    func unfollowUser(userID: String, completion: @escaping (() -> ())) {
         if sessionStore.currentUser != nil {
             self.firestoreManager.removeUserFromFollowed(userID: self.sessionStore.currentUser!.uid, userIDToStopFollow: userID) {
                 self.fetchData()
+                completion()
             }
         }
     }

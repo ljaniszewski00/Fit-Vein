@@ -228,9 +228,9 @@ struct WorkoutAddView: View {
                 })
                 .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(.green))
                 .padding()
-                
-                Spacer()
             }
+            .padding(.top, screenHeight * 0.10)
+            .padding(.bottom, screenHeight * 0.15)
             .onDisappear {
                 dismiss()
             }
