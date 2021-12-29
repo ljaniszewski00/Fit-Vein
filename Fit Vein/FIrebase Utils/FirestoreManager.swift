@@ -283,10 +283,10 @@ class FirestoreManager: ObservableObject {
                     let reactedPostsIDs = document.get("reactedPostsIDs") as? [String]? ?? nil
                     
                     if let reactedPostsIDs = reactedPostsIDs {
-                        var newReactionsPostsIDs = reactedPostsIDs
-                        for (index, reactionsPostID) in newReactionsPostsIDs.enumerated() {
-                            if reactionsPostID == postID {
-                                newReactionsPostsIDs.remove(at: index)
+                        var newReactionsPostsIDs = [String]()
+                        for reactionsPostID in reactedPostsIDs {
+                            if !(reactionsPostID == postID) {
+                                newReactionsPostsIDs.append(reactionsPostID)
                             }
                         }
                         

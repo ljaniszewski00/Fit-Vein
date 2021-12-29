@@ -57,16 +57,39 @@ struct PostCommentsView: View {
                 Divider()
                 
                 HStack(spacing: 0) {
-                    Button(action: {
-                        self.homeViewModel.reactToPost(postID: post.id)
-                    }, label: {
-                        HStack {
-                            Image(systemName: "hand.thumbsup")
-                            Text("Like")
+                    if let reactionsUsersIDs = profileViewModel.profile!.reactedPostsIDs {
+                        if reactionsUsersIDs.contains(post.id) {
+                            Button(action: {
+                                self.homeViewModel.removeReactionFromPost(postID: post.id)
+                            }, label: {
+                                HStack {
+                                    Image(systemName: "hand.thumbsdown")
+                                    Text("Unlike")
+                                }
+                                .foregroundColor(colorScheme == .dark ? .white : .black)
+                            })
+                        } else {
+                            Button(action: {
+                                self.homeViewModel.reactToPost(postID: post.id)
+                            }, label: {
+                                HStack {
+                                    Image(systemName: "hand.thumbsup")
+                                    Text("Like")
+                                }
+                                .foregroundColor(colorScheme == .dark ? .white : .black)
+                            })
                         }
-                    })
-                        .foregroundColor(colorScheme == .dark ? .white : .black)
-                        .frame(width: screenWidth * 0.5, height: screenHeight * 0.04)
+                    } else {
+                        Button(action: {
+                            self.homeViewModel.reactToPost(postID: post.id)
+                        }, label: {
+                            HStack {
+                                Image(systemName: "hand.thumbsup")
+                                Text("Like")
+                            }
+                            .foregroundColor(colorScheme == .dark ? .white : .black)
+                        })
+                    }
                 }
                 
                 Divider()

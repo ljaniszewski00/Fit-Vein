@@ -221,10 +221,10 @@ struct HomeView: View {
                                                     HStack(spacing: 0) {
                                                         Spacer()
                                                         
-                                                        if let reactionsUsersIDs = post.reactionsUsersIDs {
-                                                            if reactionsUsersIDs.contains(self.profileViewModel.profile!.id) {
+                                                        if let reactionsUsersIDs = profileViewModel.profile!.reactedPostsIDs {
+                                                            if reactionsUsersIDs.contains(post.id) {
                                                                 Button(action: {
-                                                                    self.homeViewModel.reactToPost(postID: post.id)
+                                                                    self.homeViewModel.removeReactionFromPost(postID: post.id)
                                                                 }, label: {
                                                                     HStack {
                                                                         Image(systemName: "hand.thumbsdown")

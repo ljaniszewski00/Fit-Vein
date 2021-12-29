@@ -93,6 +93,16 @@ class HomeViewModel: ObservableObject {
         }
     }
     
+    func removeReactionFromPost(postID: String) {
+        if sessionStore.currentUser != nil {
+            self.firestoreManager.removeReactedPostID(userID: self.sessionStore.currentUser!.uid, postID: postID) {
+                self.firestoreManager.removeReactedPostID(userID: self.sessionStore.currentUser!.uid, postID: postID) {
+                    self.fetchData()
+                }
+            }
+        }
+    }
+    
     func deletePost(postID: String) {
         self.firestoreManager.postRemoval(id: postID) {
             self.fetchData()
