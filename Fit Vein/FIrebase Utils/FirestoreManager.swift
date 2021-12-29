@@ -137,9 +137,6 @@ class FirestoreManager: ObservableObject {
         queue.async {
             //Firstly, delete the id of user, who is deleting his/her account, from arrays of followed ids of all user who followed this user
             self.db.collection("users").whereField("followedUsers", arrayContains: userUID).getDocuments() { (querySnapshot, error) in
-                print()
-                print("HERE0")
-                print()
                 if let error = error {
                     print("Error getting users for followed users modify upon when user deletes his account: \(error.localizedDescription)")
                 } else {
@@ -155,9 +152,6 @@ class FirestoreManager: ObservableObject {
             for collection in ["comments", "workouts", "posts"] {
                 self.db.collection(collection).whereField(["comments", "posts"].contains(collection) ? "authorID" : "usersID", isEqualTo: userUID).getDocuments() { (querySnapshot, error) in
                     if let error = error {
-                        print()
-                        print("HERE1 collection \(collection)")
-                        print()
                         //If user has not made some activity in particular collection print the error and go to deleting his data from 'users' collection
                         switch collection {
                         case "comments":
@@ -170,17 +164,11 @@ class FirestoreManager: ObservableObject {
                             print()
                         }
                     } else {
-                        print()
-                        print("HERE2 collection \(collection)")
-                        print()
                         //If user has made some activity in particular collection
                         for document in querySnapshot!.documents {
                             // Delete all documents in 'comments', 'posts' and 'workouts' collection that is created by user who deletes his/her account
                             self.db.collection(collection).document(document.documentID).delete() { (error) in
                                 if let error = error {
-                                    print()
-                                    print("HERE3 collection \(collection)")
-                                    print()
                                     switch collection {
                                     case "comments":
                                         print("Error deleting user comment: \(error.localizedDescription)")
@@ -192,23 +180,13 @@ class FirestoreManager: ObservableObject {
                                         print()
                                     }
                                 } else {
-                                    print()
-                                    print("HERE4 collection \(collection)")
-                                    print()
                                     switch collection {
                                     case "comments":
                                         // Delete reaction to previously deleted comment
                                         self.db.collection("users").whereField("reactedCommentsIDs", arrayContains: document.documentID).getDocuments() { (querySnapshot, error) in
                                             if let error = error {
-                                                print()
-                                                print("HERE5")
-                                                print()
-                                                
                                                 print("Error getting users for reacted comments modify upon comment removal when user deletes his account: \(error.localizedDescription)")
                                             } else {
-                                                print()
-                                                print("HERE6")
-                                                print()
                                                 for userDocument in querySnapshot!.documents {
                                                     self.removeReactedCommentID(userID: userDocument.documentID, commentID: document.documentID) {
                                                         print("Successfully removed comment's id from comments ids reacted by user: \(userDocument.documentID)")
@@ -220,15 +198,8 @@ class FirestoreManager: ObservableObject {
                                         // Delete reaction to previously deleted post
                                         self.db.collection("users").whereField("reactedPostsIDs", arrayContains: document.documentID).getDocuments() { (querySnapshot, error) in
                                             if let error = error {
-                                                print()
-                                                print("HERE7")
-                                                print()
-                                                
                                                 print("Error getting users for reacted posts modify upon comment removal when user deletes his account: \(error.localizedDescription)")
                                             } else {
-                                                print()
-                                                print("HERE8")
-                                                print()
                                                 for userDocument in querySnapshot!.documents {
                                                     self.removeReactedPostID(userID: userDocument.documentID, postID: document.documentID) {
                                                         print("Successfully removed post id from post ids reacted by user: \(userDocument.documentID)")
@@ -240,15 +211,8 @@ class FirestoreManager: ObservableObject {
                                         // Delete comment to previously deleted post
                                         self.db.collection("users").whereField("commentedPostsIDs", arrayContains: document.documentID).getDocuments() { (querySnapshot, error) in
                                             if let error = error {
-                                                print()
-                                                print("HERE9")
-                                                print()
-                                                
                                                 print("Error getting users for commented posts modify upon comment removal when user deletes his account: \(error.localizedDescription)")
                                             } else {
-                                                print()
-                                                print("HERE10")
-                                                print()
                                                 for userDocument in querySnapshot!.documents {
                                                     self.removeCommentedPostID(userID: userDocument.documentID, postID: document.documentID) {
                                                         print("Successfully removed post id from post ids commented by user: \(userDocument.documentID)")
@@ -270,10 +234,6 @@ class FirestoreManager: ObservableObject {
         queue.async {
             //Finally, delete user from 'users' collection
             self.deleteUserExistence(userUID: userUID) {
-                print()
-                print("HERE FINAL")
-                print()
-                print("Successfully deleted user from 'users' collection.")
                 completion()
             }
         }
@@ -711,7 +671,7 @@ class FirestoreManager: ObservableObject {
                             let documentData: [String: Any] = [
                                 "commentedUsersIDs": newCommentedUsersIDs
                             ]
-                            updateUserData(documentData: documentData) {
+                            updatePostData(postID: id, documentData: documentData) {
                                 print("Successfully removed user \(userID) from users ids that commented post")
                                 completion()
                             }
