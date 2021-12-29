@@ -25,6 +25,7 @@ struct FinishedWorkoutView: View {
             } else {
                 VStack(spacing: screenHeight * 0.05) {
                     SingleWorkoutWindowView(workout: workoutViewModel.workout!)
+                        .frame(height: screenHeight * 0.75)
                     
                     HStack {
                         Spacer()

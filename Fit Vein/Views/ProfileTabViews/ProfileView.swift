@@ -14,6 +14,7 @@ struct ProfileView: View {
     
     @Binding var tabBarHidden: Bool
     
+    @State private var oldImage = UIImage()
     @State private var image = UIImage()
     
     @State private var shouldPresentAddActionSheet = false
@@ -181,7 +182,10 @@ struct ProfileView: View {
                     .sheet(isPresented: $shouldPresentImagePicker) {
                         ImagePicker(sourceType: self.shouldPresentCamera ? .camera : .photoLibrary, selectedImage: self.$image)
                             .onDisappear {
-                                profileViewModel.uploadPhoto(image: image)
+                                if !self.image.isEqual(self.oldImage) {
+                                    self.oldImage = image
+                                    profileViewModel.uploadPhoto(image: image)
+                                }
                             }
                     }
                     .actionSheet(isPresented: $shouldPresentAddActionSheet) {

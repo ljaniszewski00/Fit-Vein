@@ -39,6 +39,7 @@ struct WorkoutTimerView: View {
                 withAnimation {
                     FinishedWorkoutView()
                         .environmentObject(workoutViewModel)
+                        .ignoresSafeArea()
                 }
             } else {
                 VStack {
@@ -289,9 +290,7 @@ struct WorkoutTimerView: View {
             self.currentRound += 1
             if workoutViewModel.workout!.workTime! >= 60 {
                 self.minutesRound = Int(workoutViewModel.workout!.workTime! / 60)
-                print(self.minutesRound)
                 self.secondsRound = workoutViewModel.workout!.workTime! - (60 * self.minutesRound)
-                print(self.secondsRound)
 
             } else {
                 self.minutesRound = 0
