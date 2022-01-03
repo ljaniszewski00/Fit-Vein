@@ -61,6 +61,7 @@ struct PreLaunchView: View {
                         .padding(.top, screenHeight * 0.15)
                     }
                     .padding()
+                    .padding(.top, screenHeight * 0.15)
                 }
             }
             .onAppear {

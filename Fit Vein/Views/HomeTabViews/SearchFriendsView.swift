@@ -65,7 +65,7 @@ struct SearchFriendsView: View {
                                                 Image(systemName: "plus.circle.fill")
                                                     .resizable()
                                                     .aspectRatio(contentMode: .fit)
-                                                    .foregroundColor(.green)
+                                                    .foregroundColor(appPrimaryColor)
                                                     .frame(width: screenWidth * 0.07, height: screenHeight * 0.035)
                                             })
                                         }
@@ -78,7 +78,7 @@ struct SearchFriendsView: View {
                                             Image(systemName: "plus.circle.fill")
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fit)
-                                                .foregroundColor(.green)
+                                                .foregroundColor(appPrimaryColor)
                                                 .frame(width: screenWidth * 0.07, height: screenHeight * 0.035)
                                         })
                                     }

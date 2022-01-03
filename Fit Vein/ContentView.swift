@@ -45,7 +45,7 @@ struct ContentView: View {
                                 .padding(.horizontal, screenWidth * 0.05)
                             
                             Text("Fit")
-                                .foregroundColor(.green)
+                                .foregroundColor(appPrimaryColor)
                                 .fontWeight(.bold)
                             Text("Vein")
                                 .fontWeight(.bold)

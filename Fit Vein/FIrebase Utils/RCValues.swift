@@ -9,6 +9,10 @@ import Foundation
 import SwiftUI
 import Firebase
 
+var appPrimaryColor: Color {
+    RCValues.sharedInstance.color(forKey: .appPrimaryColor)
+}
+
 class RCValues {
     enum ValueKey: String {
         case appPrimaryColor
@@ -26,7 +30,7 @@ class RCValues {
 
     func loadDefaultValues() {
         let appDefaults: [String: Any?] = [
-            ValueKey.appPrimaryColor.rawValue : "#FBB03B"
+            ValueKey.appPrimaryColor.rawValue : "#00D100"
         ]
         RemoteConfig.remoteConfig().setDefaults(appDefaults as? [String: NSObject])
     }
@@ -61,7 +65,7 @@ class RCValues {
     }
     
     func color(forKey key: ValueKey) -> Color {
-        let colorAsHexString = RemoteConfig.remoteConfig()[key.rawValue].stringValue ?? "#FFFFFF"
+        let colorAsHexString = RemoteConfig.remoteConfig()[key.rawValue].stringValue ?? "#00D100"
         let convertedColor = Color(hex: colorAsHexString)
         if self.fetchComplete {
             return convertedColor

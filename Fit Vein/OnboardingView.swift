@@ -34,7 +34,7 @@ struct OnboardingView: View {
                             Text("Dismiss Onboarding")
                                 .foregroundColor(colorScheme == .dark ? .white : .black)
                         })
-                        .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(.green))
+                        .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(appPrimaryColor))
                         .padding(.bottom, screenHeight * 0.12)
                     }
                     .padding()

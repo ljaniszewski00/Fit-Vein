@@ -38,21 +38,21 @@ struct SettingsView: View {
                     Toggle(isOn: $notifications, label: {
                         Image(systemName: "bell.circle.fill")
                             .font(.title)
-                            .foregroundColor(.green)
+                            .foregroundColor(appPrimaryColor)
                         Text("Notifications")
                     })
                     
                     Toggle(isOn: $showSampleWorkoutsListFromSettings, label: {
                         Image(systemName: "list.bullet.circle.fill")
                             .font(.title)
-                            .foregroundColor(.green)
+                            .foregroundColor(appPrimaryColor)
                         Text("Show 'Sample Workouts' in Workouts Tab")
                     })
                     
                     Toggle(isOn: $biometricLock, label: {
                         Image(systemName: "faceid")
                             .font(.title)
-                            .foregroundColor(.green)
+                            .foregroundColor(appPrimaryColor)
                         Text("Use FaceID / TouchID")
                     })
                 }
@@ -65,7 +65,7 @@ struct SettingsView: View {
                         HStack {
                             Image(systemName: "envelope.circle.fill")
                                 .font(.title)
-                                .foregroundColor(.green)
+                                .foregroundColor(appPrimaryColor)
                             Text("Change e-mail address")
                                 .foregroundColor(colorScheme == .dark ? .white : .black)
                         }
@@ -78,7 +78,7 @@ struct SettingsView: View {
                         HStack {
                             Image(systemName: "lock.circle.fill")
                                 .font(.title)
-                                .foregroundColor(.green)
+                                .foregroundColor(appPrimaryColor)
                             Text("Change password")
                                 .foregroundColor(colorScheme == .dark ? .white : .black)
                         }
@@ -91,7 +91,7 @@ struct SettingsView: View {
                         HStack {
                             Image(systemName: "person.crop.circle.fill.badge.minus")
                                 .font(.title)
-                                .foregroundColor(.green)
+                                .foregroundColor(appPrimaryColor)
                             Text("Logout")
                                 .foregroundColor(.red)
                         }
@@ -104,7 +104,7 @@ struct SettingsView: View {
                         HStack {
                             Image(systemName: "trash.circle.fill")
                                 .font(.title)
-                                .foregroundColor(.green)
+                                .foregroundColor(appPrimaryColor)
                             Text("Delete account")
                                 .foregroundColor(.red)
                         }
@@ -131,7 +131,7 @@ struct SettingsView: View {
                         VStack(alignment: .leading) {
                             Text("In case of any problem please write an e-mail to:")
                             Text("ljaniszewski00@gmail.com")
-                                .foregroundColor(.green)
+                                .foregroundColor(appPrimaryColor)
                             Text("describing the matter.")
                             Spacer()
                         }
@@ -143,10 +143,10 @@ struct SettingsView: View {
                         HStack {
                             Image(systemName: "link.circle.fill")
                                 .font(.title)
-                                .foregroundColor(.green)
+                                .foregroundColor(appPrimaryColor)
                             Text("Follow me on GitHub:")
                             Link("Vader20FF", destination: URL(string: "https://github.com/Vader20FF")!)
-                                .foregroundColor(.green)
+                                .foregroundColor(appPrimaryColor)
                                 .font(.system(size: 18, weight: .bold))
                         }
                     }
@@ -220,7 +220,7 @@ struct DeleteAccountSheetView: View {
                         Text("Delete account permanently")
                     })
                     .frame(width: screenWidth * 0.7, height: screenHeight * 0.08)
-                    .background(Color.green)
+                    .background(appPrimaryColor)
                     .cornerRadius(15.0)
                     .font(.system(size: screenHeight * 0.026))
                     .foregroundColor(.white)
@@ -266,7 +266,7 @@ struct ChangeEmailAddressSheetView: View {
                         Text("Change e-mail address")
                     })
                     .frame(width: screenWidth * 0.7, height: screenHeight * 0.08)
-                    .background(Color.green)
+                    .background(appPrimaryColor)
                     .cornerRadius(15.0)
                     .font(.system(size: screenHeight * 0.026))
                     .foregroundColor(.white)
@@ -312,7 +312,7 @@ struct ChangePasswordSheetView: View {
                         Text("Change password")
                     })
                     .frame(width: screenWidth * 0.7, height: screenHeight * 0.08)
-                    .background(Color.green)
+                    .background(appPrimaryColor)
                     .cornerRadius(15.0)
                     .font(.system(size: screenHeight * 0.026))
                     .foregroundColor(.white)

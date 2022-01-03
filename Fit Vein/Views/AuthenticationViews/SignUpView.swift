@@ -71,7 +71,7 @@ struct SignUpView: View {
                                     .autocapitalization(.none)
                                 
                                 Divider()
-                                    .background(Color.green)
+                                    .background(appPrimaryColor)
                             }
                             
                         }
@@ -94,7 +94,7 @@ struct SignUpView: View {
                                     .autocapitalization(.none)
                                 
                                 Divider()
-                                    .background(Color.green)
+                                    .background(appPrimaryColor)
                             }
                             
                             HStack {
@@ -168,7 +168,7 @@ struct SignUpView: View {
                     Spacer()
                     
                     NavigationLink("Next", destination: SecondSignUpView(firstName: firstName, username: username, gender: gender, birthDate: birthDate, country: country, language: language).environmentObject(sessionStore).ignoresSafeArea(.keyboard))
-                        .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor((!checkFieldsNotEmpty() || usernameTaken) ? .gray : .green))
+                        .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor((!checkFieldsNotEmpty() || usernameTaken) ? .gray : appPrimaryColor))
                         .padding()
                         .disabled(!checkFieldsNotEmpty() || usernameTaken)
                     
@@ -267,7 +267,7 @@ struct SecondSignUpView: View {
                             .autocapitalization(.none)
                         
                         Divider()
-                            .background(Color.green)
+                            .background(appPrimaryColor)
                     }
                     
                     HStack {
@@ -299,7 +299,7 @@ struct SecondSignUpView: View {
                             .autocapitalization(.none)
                         
                         Divider()
-                            .background(Color.green)
+                            .background(appPrimaryColor)
                     }
                     
                     HStack {
@@ -323,7 +323,7 @@ struct SecondSignUpView: View {
                             .autocapitalization(.none)
                         
                         Divider()
-                            .background(Color.green)
+                            .background(appPrimaryColor)
                     }
                     
                     HStack {
@@ -341,7 +341,7 @@ struct SecondSignUpView: View {
                     Text("Sign Up")
                         .fontWeight(.bold)
                 })
-                .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor((!checkDataIsCorrect()) ? .gray : .green))
+                .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor((!checkDataIsCorrect()) ? .gray : appPrimaryColor))
                 .padding()
                 .disabled(!checkDataIsCorrect())
                 

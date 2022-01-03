@@ -56,7 +56,7 @@ struct SignInView: View {
                                 .disableAutocorrection(true)
                                 .autocapitalization(.none)
                             Divider()
-                                .background(Color.green)
+                                .background(appPrimaryColor)
                         }
                         
                     }
@@ -73,13 +73,13 @@ struct SignInView: View {
                                 .disableAutocorrection(true)
                                 .autocapitalization(.none)
                             Divider()
-                                .background(Color.green)
+                                .background(appPrimaryColor)
                         }
                         
                         HStack {
                             Text("Forgot Password?")
                                 .font(.system(size: screenHeight * 0.018))
-                                .foregroundColor(.green)
+                                .foregroundColor(appPrimaryColor)
                                 .onTapGesture {
                                     showForgotPasswordSheet = true
                                 }
@@ -101,7 +101,7 @@ struct SignInView: View {
                 }, label: {
                     Text("Sign In")
                 })
-                .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(.green))
+                .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(appPrimaryColor))
                 .padding()
                 .padding(.top, screenHeight * 0.05)
                 
@@ -110,7 +110,7 @@ struct SignInView: View {
                 HStack {
                     Text("Don't have an account?")
                     NavigationLink("Create One", destination: SignUpView().environmentObject(sessionStore).ignoresSafeArea(.keyboard))
-                        .foregroundColor(.green)
+                        .foregroundColor(appPrimaryColor)
                 }
                 .padding(.bottom, screenHeight * 0.05)
             }
@@ -126,7 +126,7 @@ struct SignInView: View {
                 NavigationView {
                     ScrollView(.vertical) {
                         Form {
-                            Section(header: Text("Forgot Password"), footer: sendRecoveryEmailButtonPressed ? (recoveryEmailSent ? Text("Recovery e-mail has been sent! Please check your inbox.").foregroundColor(.green) : Text("Please provide correct e-mail address.").foregroundColor(.red)) : Text("Please provide your e-mail address so that we could send you recovery e-mail with instructions how to reset the password.")) {
+                            Section(header: Text("Forgot Password"), footer: sendRecoveryEmailButtonPressed ? (recoveryEmailSent ? Text("Recovery e-mail has been sent! Please check your inbox.").foregroundColor(appPrimaryColor) : Text("Please provide correct e-mail address.").foregroundColor(.red)) : Text("Please provide your e-mail address so that we could send you recovery e-mail with instructions how to reset the password.")) {
                                 TextField("E-mail", text: $forgotPasswordEmail)
                             }
                         }
@@ -145,7 +145,7 @@ struct SignInView: View {
                                 Text("Send Recovery E-mail")
                                     .foregroundColor(.white)
                             })
-                            .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(.green))
+                            .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(appPrimaryColor))
                             .padding()
                         }
                         .frame(width: screenWidth * 0.6, height: screenHeight * 0.07)
