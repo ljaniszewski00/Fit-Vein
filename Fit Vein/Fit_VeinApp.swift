@@ -16,7 +16,7 @@ struct Fit_VeinApp: App {
     var body: some Scene {
         WindowGroup {
             let sessionStore = SessionStore(forPreviews: false)
-            ContentView()
+            PreLaunchView()
                 .environmentObject(sessionStore)
         }
     }
