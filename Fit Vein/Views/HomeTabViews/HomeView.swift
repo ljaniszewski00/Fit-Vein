@@ -12,6 +12,9 @@ struct HomeView: View {
     @EnvironmentObject private var sessionStore: SessionStore
     @Environment(\.colorScheme) var colorScheme
     
+    let yourFriendsActivityColor = RCValues.sharedInstance
+        .color(forKey: .appPrimaryColor)
+    
     @StateObject private var sheetManager = SheetManager()
     
     @Binding var tabBarHidden: Bool
@@ -97,7 +100,7 @@ struct HomeView: View {
                                     
                                     HStack {
                                         Text("Your friends activity")
-                                            .foregroundColor(.green)
+                                            .foregroundColor(yourFriendsActivityColor)
                                             .font(.system(size: screenHeight * 0.04, weight: .bold))
                                             .background(Rectangle().foregroundColor(Color(uiColor: .systemGray6)).frame(width: screenWidth, height: screenHeight * 0.08))
                                     }
