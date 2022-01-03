@@ -32,6 +32,7 @@ struct LoggedUserView: View {
     var body: some View {
         GeometryReader { geometry in
             let screenWidth = geometry.size.width
+            let screenHeight = geometry.size.height
             
             Group {
                 switch selectedTab {
@@ -65,6 +66,8 @@ struct LoggedUserView: View {
                 Spacer()
                 
                 ForEach(tabItems) { tabItem in
+                    Spacer()
+                    
                     Button {
                         withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                             selectedTab = tabItem.tab
@@ -86,10 +89,12 @@ struct LoggedUserView: View {
                     
                     Spacer()
                 }
+                
+                Spacer()
             }
-            .padding(.horizontal, 8)
-            .padding(.top, 14)
-            .frame(height: 88, alignment: .top)
+            .padding(.horizontal, 7)
+            .padding(.top, 10)
+            .frame(height: screenHeight * 0.1, alignment: .top)
             .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 40, style: .continuous))
             .overlay(
                 HStack {
@@ -103,9 +108,9 @@ struct LoggedUserView: View {
                     
                     Rectangle()
                         .fill(.green)
-                        .frame(width: 40, height: 5)
+                        .frame(width: screenWidth * 0.15, height: screenHeight * 0.007)
                         .cornerRadius(3)
-                        .frame(width: 88)
+                        .frame(width: screenWidth * 0.235)
                         .frame(maxHeight: .infinity, alignment: .top)
                     
                     if selectedTab == .home {
