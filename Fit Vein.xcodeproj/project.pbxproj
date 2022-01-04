@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0A05CF302783183F005432E3 /* RCValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A05CF2F2783183F005432E3 /* RCValues.swift */; };
 		0A05CF33278334B8005432E3 /* PreLaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A05CF32278334B8005432E3 /* PreLaunchView.swift */; };
+		0A05CF3F27846B1D005432E3 /* Fit_Vein_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A05CF3E27846B1D005432E3 /* Fit_Vein_Tests.swift */; };
 		0A20A8A72729FF790058F3DB /* FitVeinIconDark.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A20A8A52729FF790058F3DB /* FitVeinIconDark.png */; };
 		0A20A8A82729FF790058F3DB /* FitVeinIconLight.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A20A8A62729FF790058F3DB /* FitVeinIconLight.png */; };
 		0A4174732725D45A00DF4460 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4174722725D45A00DF4460 /* OnboardingView.swift */; };
@@ -58,12 +59,25 @@
 		0AD3A40727275E0D00396FE7 /* sprint2.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD3A40627275E0C00396FE7 /* sprint2.png */; };
 		0ADC2DF02715AE43003ED144 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0ADC2DEF2715AE43003ED144 /* GoogleService-Info.plist */; };
 		0AE00BA7276CC9B600C876FE /* AddPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE00BA6276CC9B600C876FE /* AddPostView.swift */; };
+		66FED7147794B758A93CA5EB /* Pods_Fit_Vein_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2B0E25E782608E9285D3BBD /* Pods_Fit_Vein_Tests.framework */; };
 		6A4AD7636321007C788C53F4 /* Pods_Fit_Vein.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CED23260406289D2ED2107A /* Pods_Fit_Vein.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0A05CF4027846B1D005432E3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0AC4DD792715A9E4003D5FED /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0AC4DD802715A9E4003D5FED;
+			remoteInfo = "Fit Vein";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		0A05CF2F2783183F005432E3 /* RCValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RCValues.swift; sourceTree = "<group>"; };
 		0A05CF32278334B8005432E3 /* PreLaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreLaunchView.swift; sourceTree = "<group>"; };
+		0A05CF3C27846B1D005432E3 /* Fit Vein Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Fit Vein Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A05CF3E27846B1D005432E3 /* Fit_Vein_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fit_Vein_Tests.swift; sourceTree = "<group>"; };
 		0A20A8A52729FF790058F3DB /* FitVeinIconDark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FitVeinIconDark.png; path = Assets.xcassets/FitVeinIconDark.png; sourceTree = "<group>"; };
 		0A20A8A62729FF790058F3DB /* FitVeinIconLight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FitVeinIconLight.png; path = Assets.xcassets/FitVeinIconLight.png; sourceTree = "<group>"; };
 		0A4174722725D45A00DF4460 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
@@ -116,11 +130,22 @@
 		0ADC2DEF2715AE43003ED144 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0AE00BA6276CC9B600C876FE /* AddPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPostView.swift; sourceTree = "<group>"; };
 		26DAD44A330F476E6C2B2504 /* Pods-Fit Vein.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fit Vein.release.xcconfig"; path = "Target Support Files/Pods-Fit Vein/Pods-Fit Vein.release.xcconfig"; sourceTree = "<group>"; };
+		5B02FB63BC6B71B96A89C619 /* Pods-Fit Vein Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fit Vein Tests.release.xcconfig"; path = "Target Support Files/Pods-Fit Vein Tests/Pods-Fit Vein Tests.release.xcconfig"; sourceTree = "<group>"; };
 		5CED23260406289D2ED2107A /* Pods_Fit_Vein.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fit_Vein.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E0439AB4B27F41559992ECE5 /* Pods-Fit Vein Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fit Vein Tests.debug.xcconfig"; path = "Target Support Files/Pods-Fit Vein Tests/Pods-Fit Vein Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		E0C1C30ACF5CE93B585EC3AC /* Pods-Fit Vein.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fit Vein.debug.xcconfig"; path = "Target Support Files/Pods-Fit Vein/Pods-Fit Vein.debug.xcconfig"; sourceTree = "<group>"; };
+		F2B0E25E782608E9285D3BBD /* Pods_Fit_Vein_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fit_Vein_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0A05CF3927846B1D005432E3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				66FED7147794B758A93CA5EB /* Pods_Fit_Vein_Tests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0AC4DD7E2715A9E4003D5FED /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -138,6 +163,8 @@
 			children = (
 				E0C1C30ACF5CE93B585EC3AC /* Pods-Fit Vein.debug.xcconfig */,
 				26DAD44A330F476E6C2B2504 /* Pods-Fit Vein.release.xcconfig */,
+				E0439AB4B27F41559992ECE5 /* Pods-Fit Vein Tests.debug.xcconfig */,
+				5B02FB63BC6B71B96A89C619 /* Pods-Fit Vein Tests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -148,6 +175,14 @@
 				0A05CF32278334B8005432E3 /* PreLaunchView.swift */,
 			);
 			path = LauchViews;
+			sourceTree = "<group>";
+		};
+		0A05CF3D27846B1D005432E3 /* Fit Vein Tests */ = {
+			isa = PBXGroup;
+			children = (
+				0A05CF3E27846B1D005432E3 /* Fit_Vein_Tests.swift */,
+			);
+			path = "Fit Vein Tests";
 			sourceTree = "<group>";
 		};
 		0A45EC132779D2BB0076660A /* AuthenticationViews */ = {
@@ -267,6 +302,7 @@
 			isa = PBXGroup;
 			children = (
 				0AC4DD832715A9E4003D5FED /* Fit Vein */,
+				0A05CF3D27846B1D005432E3 /* Fit Vein Tests */,
 				0AC4DD822715A9E4003D5FED /* Products */,
 				0671C51B37580929C4CFF801 /* Pods */,
 				8B960227CB1EDB8F07568FC1 /* Frameworks */,
@@ -277,6 +313,7 @@
 			isa = PBXGroup;
 			children = (
 				0AC4DD812715A9E4003D5FED /* Fit Vein.app */,
+				0A05CF3C27846B1D005432E3 /* Fit Vein Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -319,6 +356,7 @@
 			children = (
 				0A57AC2B27453DC600CEC302 /* HealthKit.framework */,
 				5CED23260406289D2ED2107A /* Pods_Fit_Vein.framework */,
+				F2B0E25E782608E9285D3BBD /* Pods_Fit_Vein_Tests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -326,6 +364,26 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0A05CF3B27846B1D005432E3 /* Fit Vein Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0A05CF4227846B1D005432E3 /* Build configuration list for PBXNativeTarget "Fit Vein Tests" */;
+			buildPhases = (
+				0B75DA0A308D6826EE8E4578 /* [CP] Check Pods Manifest.lock */,
+				0A05CF3827846B1D005432E3 /* Sources */,
+				0A05CF3927846B1D005432E3 /* Frameworks */,
+				0A05CF3A27846B1D005432E3 /* Resources */,
+				3DF669C81B73E5FC95364DAB /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0A05CF4127846B1D005432E3 /* PBXTargetDependency */,
+			);
+			name = "Fit Vein Tests";
+			productName = "Fit Vein Tests";
+			productReference = 0A05CF3C27846B1D005432E3 /* Fit Vein Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		0AC4DD802715A9E4003D5FED /* Fit Vein */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0AC4DD8F2715A9E5003D5FED /* Build configuration list for PBXNativeTarget "Fit Vein" */;
@@ -352,9 +410,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1300;
+				LastSwiftUpdateCheck = 1320;
 				LastUpgradeCheck = 1300;
 				TargetAttributes = {
+					0A05CF3B27846B1D005432E3 = {
+						CreatedOnToolsVersion = 13.2.1;
+						TestTargetID = 0AC4DD802715A9E4003D5FED;
+					};
 					0AC4DD802715A9E4003D5FED = {
 						CreatedOnToolsVersion = 13.0;
 					};
@@ -374,11 +436,19 @@
 			projectRoot = "";
 			targets = (
 				0AC4DD802715A9E4003D5FED /* Fit Vein */,
+				0A05CF3B27846B1D005432E3 /* Fit Vein Tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0A05CF3A27846B1D005432E3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0AC4DD7F2715A9E4003D5FED /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -397,6 +467,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0B75DA0A308D6826EE8E4578 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Fit Vein Tests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		242D46432FDFB90EF0BCCD60 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -412,6 +504,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Fit Vein/Pods-Fit Vein-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3DF669C81B73E5FC95364DAB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Fit Vein Tests/Pods-Fit Vein Tests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Fit Vein Tests/Pods-Fit Vein Tests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Fit Vein Tests/Pods-Fit Vein Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C3068487EAF7238DA3CEC7F2 /* [CP] Check Pods Manifest.lock */ = {
@@ -439,6 +548,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0A05CF3827846B1D005432E3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A05CF3F27846B1D005432E3 /* Fit_Vein_Tests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0AC4DD7D2715A9E4003D5FED /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -490,7 +607,55 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		0A05CF4127846B1D005432E3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0AC4DD802715A9E4003D5FED /* Fit Vein */;
+			targetProxy = 0A05CF4027846B1D005432E3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		0A05CF4327846B1D005432E3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E0439AB4B27F41559992ECE5 /* Pods-Fit Vein Tests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = T3SR62DCTW;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ljaniszewski.Fit-Vein-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Fit Vein.app/Fit Vein";
+			};
+			name = Debug;
+		};
+		0A05CF4427846B1D005432E3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5B02FB63BC6B71B96A89C619 /* Pods-Fit Vein Tests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = T3SR62DCTW;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ljaniszewski.Fit-Vein-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Fit Vein.app/Fit Vein";
+			};
+			name = Release;
+		};
 		0AC4DD8D2715A9E5003D5FED /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -682,6 +847,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0A05CF4227846B1D005432E3 /* Build configuration list for PBXNativeTarget "Fit Vein Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0A05CF4327846B1D005432E3 /* Debug */,
+				0A05CF4427846B1D005432E3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		0AC4DD7C2715A9E4003D5FED /* Build configuration list for PBXProject "Fit Vein" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
