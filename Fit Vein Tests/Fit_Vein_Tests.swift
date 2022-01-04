@@ -33,21 +33,4 @@ class Fit_Vein_Tests: XCTestCase {
 //            // Put the code you want to measure the time of here.
 //        }
 //    }
-    
-//    func testGetTextTimeFromDuration() {
-//        let duration = 90
-//        let result = getTextTimeFromDuration(duration: duration)
-//        let minutesRemaining = 1
-//        let secondsRemaining = 30
-//
-//        XCTAssertEqual(result., "0\(minutesRemaining):0\(secondsRemaining)")
-//    }
-    
-    
-    func testGetShortDate() {
-        let date = Date()
-        let result = getShortDate(longDate: date)
-        XCTAssertEqual(result, "4 stycznia 2022 o 1:15 PM")
-    }
-
 }
