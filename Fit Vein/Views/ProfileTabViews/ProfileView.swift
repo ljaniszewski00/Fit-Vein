@@ -75,7 +75,7 @@ struct ProfileView: View {
                             VStack {
                                 HStack {
                                     Text(profileViewModel.profile!.firstName)
-                                        .foregroundColor(appPrimaryColor)
+                                        .foregroundColor(.accentColor)
                                         .font(.system(size: screenHeight * 0.03))
                                         .fontWeight(.bold)
                                     
@@ -88,7 +88,7 @@ struct ProfileView: View {
                                             Image(systemName: "ellipsis")
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fit)
-                                                .foregroundColor(appPrimaryColor)
+                                                .foregroundColor(.accentColor)
                                                 .padding(.trailing, screenWidth * 0.05)
                                         })
                                         .frame(width: screenWidth * 0.12, height: screenHeight * 0.04)
@@ -118,7 +118,7 @@ struct ProfileView: View {
                                 .overlay(
                                     HStack {
                                         RoundedRectangle(cornerRadius: 25)
-                                            .foregroundColor(appPrimaryColor)
+                                            .foregroundColor(.accentColor)
                                             .padding()
                                             .frame(width: screenWidth * CGFloat(getWorkoutsDivider(workoutsCount: self.profileViewModel.workouts != nil ? self.profileViewModel.workouts!.count : 0)) / 10)
                                         
@@ -152,7 +152,7 @@ struct ProfileView: View {
                                             Text("Go to 'Workout' Tab to do your first training!")
                                                 .font(.title)
                                                 .fontWeight(.bold)
-                                                .foregroundColor(appPrimaryColor)
+                                                .foregroundColor(.accentColor)
                                                 .frame(width: screenWidth * 0.8)
                                         }
                                         .padding(.top, screenHeight * 0.1)
@@ -160,7 +160,7 @@ struct ProfileView: View {
                                         Image(systemName: "arrow.down.circle.fill")
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)
-                                            .foregroundColor(appPrimaryColor)
+                                            .foregroundColor(.accentColor)
                                             .frame(width: screenWidth * 0.1, height: screenHeight * 0.1)
                                     }
                                     

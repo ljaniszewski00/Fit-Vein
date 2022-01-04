@@ -26,16 +26,18 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
         
-        Installations.installations().authTokenForcingRefresh(true, completion: { (result, error) in
-          if let error = error {
-            print("Error fetching token: \(error)")
-            return
-          }
-          guard let result = result else { return }
-          print("Installation auth token: \(result.authToken)")
-        })
+//        Only to use along with Firebase A/B Testing (device ID Token / Installation Token)
+//        Installations.installations().authTokenForcingRefresh(true, completion: { (result, error) in
+//          if let error = error {
+//            print("Error fetching token: \(error)")
+//            return
+//          }
+//          guard let result = result else { return }
+//          print("Installation auth token: \(result.authToken)")
+//        })
         
-        _ = RCValues.sharedInstance
+//        Only to use along with Remote Config values in RCValues class
+//        _ = RCValues.sharedInstance
         
         return true
     }

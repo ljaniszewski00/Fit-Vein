@@ -53,7 +53,7 @@ struct WorkoutTimerView: View {
                             
                             Circle()
                                 .trim(from: 0, to: CGFloat(secondsRound) / CGFloat(rest ? workoutViewModel.workout!.restTime! : workoutViewModel.workout!.workTime!))
-                                .stroke(AngularGradient(gradient: Gradient(colors: [.red, .yellow, appPrimaryColor, .blue, .purple, .red]), center: .center), style: StrokeStyle(lineWidth: 15, lineCap: .round))
+                                .stroke(AngularGradient(gradient: Gradient(colors: [.red, .yellow, .accentColor, .blue, .purple, .red]), center: .center), style: StrokeStyle(lineWidth: 15, lineCap: .round))
                                 .shadow(color: Color.black, radius: 5, x: -10, y: 10)
                                 .rotationEffect(.degrees(-90))
                                 .animation(.easeInOut)
@@ -214,7 +214,7 @@ struct WorkoutTimerView: View {
                         }
                     }
                     .background(RoundedRectangle(cornerRadius: 25)
-                                    .fill(LinearGradient(gradient: Gradient(colors: [appPrimaryColor, Color.clear]), startPoint: .top, endPoint: .bottom))
+                                    .fill(LinearGradient(gradient: Gradient(colors: [.accentColor, Color.clear]), startPoint: .top, endPoint: .bottom))
                                     .frame(width: screenWidth, height: screenHeight * 0.4)
                                     .ignoresSafeArea())
                     
@@ -224,7 +224,7 @@ struct WorkoutTimerView: View {
                     dismiss()
                 }
                 .background(RadialGradient(
-                    gradient: Gradient(colors: [appPrimaryColor, Color.black]),
+                    gradient: Gradient(colors: [.accentColor, Color.black]),
                     center: .center,
                     startRadius: 100,
                     endRadius: 500))

@@ -38,7 +38,7 @@ struct FinishedWorkoutView: View {
                             Text("Save")
                                 .foregroundColor(Color(uiColor: .systemGray5))
                         })
-                            .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.35, height: screenHeight * 0.07).foregroundColor(appPrimaryColor))
+                            .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.35, height: screenHeight * 0.07).foregroundColor(.accentColor))
                             .padding()
                         
                         Spacer()

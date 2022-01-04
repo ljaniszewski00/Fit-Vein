@@ -97,7 +97,7 @@ struct HomeView: View {
                                     
                                     HStack {
                                         Text("Your friends activity")
-                                            .foregroundColor(appPrimaryColor)
+                                            .foregroundColor(.accentColor)
                                             .font(.system(size: screenHeight * 0.04, weight: .bold))
                                             .background(Rectangle().foregroundColor(Color(uiColor: .systemGray6)).frame(width: screenWidth, height: screenHeight * 0.08))
                                     }
@@ -172,7 +172,7 @@ struct HomeView: View {
                                                                             self.showPostOptions = true
                                                                         }, label: {
                                                                             Image(systemName: "ellipsis")
-                                                                                .foregroundColor(appPrimaryColor)
+                                                                                .foregroundColor(.accentColor)
                                                                                 .padding(.trailing, screenWidth * 0.05)
                                                                         })
                                                                             
@@ -198,7 +198,7 @@ struct HomeView: View {
                                                         if post.reactionsUsersIDs != nil {
                                                             if post.reactionsUsersIDs!.count != 0 {
                                                                 Image(systemName: post.reactionsUsersIDs!.contains(self.homeViewModel.sessionStore.currentUser!.uid) ? "hand.thumbsup.fill" : "hand.thumbsup")
-                                                                    .foregroundColor(appPrimaryColor)
+                                                                    .foregroundColor(.accentColor)
                                                                     .padding(.leading, screenWidth * 0.05)
                                                                 
                                                                 Text("\(post.reactionsUsersIDs!.count)")
@@ -286,7 +286,7 @@ struct HomeView: View {
                                             }
                                         } else {
                                             Text("Nothing to show")
-                                                .foregroundColor(appPrimaryColor)
+                                                .foregroundColor(.accentColor)
                                         }
                                     } else {
                                         if let followedIDs = self.profileViewModel.profile!.followedIDs {
@@ -295,11 +295,11 @@ struct HomeView: View {
                                                     .frame(width: screenWidth, height: screenHeight)
                                             } else {
                                                 Text("Add friends to see their activity")
-                                                    .foregroundColor(appPrimaryColor)
+                                                    .foregroundColor(.accentColor)
                                             }
                                         } else {
                                             Text("Add friends to see their activity")
-                                                .foregroundColor(appPrimaryColor)
+                                                .foregroundColor(.accentColor)
                                         }
                                     }
                                 }
@@ -319,14 +319,14 @@ struct HomeView: View {
                             ToolbarItem(placement: .navigationBarTrailing) {
                                 NavigationLink(destination: SearchFriendsView().environmentObject(homeViewModel).environmentObject(profileViewModel).environmentObject(sessionStore)) {
                                     Image(systemName: "magnifyingglass")
-                                        .foregroundColor(appPrimaryColor)
+                                        .foregroundColor(.accentColor)
                                 }
                             }
                             
                             ToolbarItem(placement: .navigationBarTrailing) {
                                 NavigationLink(destination: NotificationsView()) {
                                     Image(systemName: "bell")
-                                        .foregroundColor(appPrimaryColor)
+                                        .foregroundColor(.accentColor)
                                 }
                             }
                         }

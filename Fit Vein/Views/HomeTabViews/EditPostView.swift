@@ -56,7 +56,7 @@ struct EditPostView: View {
                         VStack {
                             HStack {
                                 Text(profileViewModel.profile!.firstName)
-                                    .foregroundColor(appPrimaryColor)
+                                    .foregroundColor(.accentColor)
                                     .font(.system(size: screenHeight * 0.03))
                                     .fontWeight(.bold)
                                 Spacer()
@@ -77,7 +77,7 @@ struct EditPostView: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
                             .stroke()
-                            .foregroundColor(appPrimaryColor)
+                            .foregroundColor(.accentColor)
                             .frame(width: screenWidth * 0.95, height: screenHeight * 0.525)
                         
                         ZStack(alignment: .topLeading) {
@@ -97,7 +97,7 @@ struct EditPostView: View {
                     ProgressView("Chars: \(self.postText.count) / 200", value: Double(self.postText.count), total: 200)
                         .frame(width: screenWidth * 0.3, height: screenHeight * 0.04)
                         .padding()
-                        .accentColor(appPrimaryColor)
+                        .accentColor(.accentColor)
                     
                     Spacer()
                 }
@@ -122,7 +122,7 @@ struct EditPostView: View {
                         }, label: {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 10)
-                                    .foregroundColor(self.postText.count <= 200 ? appPrimaryColor : .gray)
+                                    .foregroundColor(self.postText.count <= 200 ? .accentColor : .gray)
                                 Text("Save")
                                     .foregroundColor(Color(uiColor: .systemGray5))
                                     .fontWeight(.bold)

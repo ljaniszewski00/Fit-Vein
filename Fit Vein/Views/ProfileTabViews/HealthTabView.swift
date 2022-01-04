@@ -84,11 +84,11 @@ struct HealthTabView: View {
                     
                 }
                 .padding()
-                .foregroundColor([0, 3, 4].contains(tileNumber) ? Color(UIColor.systemGray5) : appPrimaryColor)
+                .foregroundColor([0, 3, 4].contains(tileNumber) ? Color(UIColor.systemGray5) : .accentColor)
                 .background {
                     RoundedRectangle(cornerRadius: 25)
                         .frame(height: screenHeight * 0.7)
-                        .foregroundColor([0, 3, 4].contains(tileNumber) ? appPrimaryColor : Color(UIColor.systemGray5))
+                        .foregroundColor([0, 3, 4].contains(tileNumber) ? .accentColor : Color(UIColor.systemGray5))
                 }
                 .padding(.horizontal)
             }

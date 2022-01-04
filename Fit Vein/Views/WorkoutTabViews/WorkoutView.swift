@@ -44,7 +44,7 @@ struct WorkoutView: View {
                                             
                                             VStack {
                                                 Text(workout.type)
-                                                    .foregroundColor(appPrimaryColor)
+                                                    .foregroundColor(.accentColor)
                                                     .font(.title3)
                                                     .fontWeight(.bold)
                                             }
@@ -89,7 +89,7 @@ struct WorkoutView: View {
                                         
                                         VStack {
                                             Text(workout.type)
-                                                .foregroundColor(appPrimaryColor)
+                                                .foregroundColor(.accentColor)
                                                 .font(.title3)
                                                 .fontWeight(.bold)
                                         }
@@ -134,7 +134,7 @@ struct WorkoutView: View {
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: screenWidth * 0.07)
-                                    .foregroundColor(appPrimaryColor)
+                                    .foregroundColor(.accentColor)
                             }
                         }
                     }
@@ -176,7 +176,7 @@ struct WorkoutAddView: View {
                             .autocapitalization(.none)
                             .keyboardType(.numberPad)
                         Divider()
-                            .background(appPrimaryColor)
+                            .background(Color.accentColor)
                     }
                 }
                 .padding()
@@ -193,7 +193,7 @@ struct WorkoutAddView: View {
                             .autocapitalization(.none)
                             .keyboardType(.numberPad)
                         Divider()
-                            .background(appPrimaryColor)
+                            .background(Color.accentColor)
                     }
                 }
                 .padding()
@@ -210,7 +210,7 @@ struct WorkoutAddView: View {
                             .autocapitalization(.none)
                             .keyboardType(.numberPad)
                         Divider()
-                            .background(appPrimaryColor)
+                            .background(Color.accentColor)
                     }
                     
                 }
@@ -226,7 +226,7 @@ struct WorkoutAddView: View {
                         .foregroundColor(Color(uiColor: .systemGray5))
                         .fontWeight(.bold)
                 })
-                .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(appPrimaryColor))
+                .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(.accentColor))
                 .padding()
             }
             .padding(.top, screenHeight * 0.10)
@@ -268,13 +268,13 @@ struct WorkoutCountdownView: View {
                             
                             Circle()
                                 .trim(from: 0, to: CGFloat(timeToFinish) / 5)
-                                .stroke(appPrimaryColor, style: StrokeStyle(lineWidth: 15, lineCap: .round))
+                                .stroke(Color.accentColor, style: StrokeStyle(lineWidth: 15, lineCap: .round))
                                 .rotationEffect(.degrees(-90))
                                 .animation(.easeInOut)
                                 .padding()
                             
                             Text("\(timeToFinish)")
-                                .foregroundColor(appPrimaryColor)
+                                .foregroundColor(.accentColor)
                                 .font(.system(size: screenHeight * 0.3, weight: .bold))
                         }
                         

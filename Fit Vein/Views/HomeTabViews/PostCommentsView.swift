@@ -36,7 +36,7 @@ struct PostCommentsView: View {
                     if post.reactionsUsersIDs != nil {
                         if post.reactionsUsersIDs!.count != 0 {
                             Image(systemName: post.reactionsUsersIDs!.contains(self.homeViewModel.sessionStore.currentUser!.uid) ? "hand.thumbsup.fill" : "hand.thumbsup")
-                                .foregroundColor(appPrimaryColor)
+                                .foregroundColor(.accentColor)
                                 .padding(.leading, screenWidth * 0.05)
                             
                             Text("\(post.reactionsUsersIDs!.count)")
@@ -133,7 +133,7 @@ struct PostCommentsView: View {
                                                         Image(systemName: "hand.thumbsup.fill")
                                                         Text("\(comment.reactionsUsersIDs!.count)")
                                                     }
-                                                    .foregroundColor(appPrimaryColor)
+                                                    .foregroundColor(.accentColor)
                                                 }
                                             }
                                         }
@@ -157,7 +157,7 @@ struct PostCommentsView: View {
                                                 Text("Unlike")
                                                     .fontWeight(.bold)
                                             }
-                                            .foregroundColor(appPrimaryColor)
+                                            .foregroundColor(.accentColor)
                                         })
                                         
                                     } else {
@@ -169,7 +169,7 @@ struct PostCommentsView: View {
                                                 Text("Like")
                                                     .fontWeight(.bold)
                                             }
-                                            .foregroundColor(appPrimaryColor)
+                                            .foregroundColor(.accentColor)
                                         })
                                     }
                                 } else {
@@ -181,7 +181,7 @@ struct PostCommentsView: View {
                                             Text("Like")
                                                 .fontWeight(.bold)
                                         }
-                                        .foregroundColor(appPrimaryColor)
+                                        .foregroundColor(.accentColor)
                                     })
                                 }
                                 
@@ -228,12 +228,12 @@ struct PostCommentsView: View {
                                     self.homeViewModel.commentPost(postID: post.id, authorID: self.profileViewModel.profile!.id, authorFirstName: self.profileViewModel.profile!.firstName, authorLastName: self.profileViewModel.profile!.username, authorProfilePictureURL: self.profileViewModel.profile!.profilePictureURL!, text: commentText)
                                 }, label: {
                                     Text("Send")
-                                        .foregroundColor(appPrimaryColor)
+                                        .foregroundColor(.accentColor)
                                 })
                             }
                             
                             Divider()
-                                .background(appPrimaryColor)
+                                .background(Color.accentColor)
                         }
                         
                     }

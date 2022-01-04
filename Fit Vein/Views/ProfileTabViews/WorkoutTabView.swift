@@ -127,7 +127,7 @@ struct SingleWorkoutWindowView: View {
                                 Text("\(workout.type)")
                                     .font(.title)
                                     .fontWeight(.bold)
-                                    .foregroundColor(appPrimaryColor)
+                                    .foregroundColor(.accentColor)
                                 
                                 Text("\(getShortDate(longDate: workout.date))")
                                     .font(.caption)
@@ -135,7 +135,7 @@ struct SingleWorkoutWindowView: View {
                                 
                                 Text("Workout Details")
                                     .font(.title3)
-                                    .foregroundColor(appPrimaryColor)
+                                    .foregroundColor(.accentColor)
                                     .padding(.top, screenHeight * 0.02)
                                     .padding(.bottom, screenHeight * 0.01)
                                 
@@ -150,7 +150,7 @@ struct SingleWorkoutWindowView: View {
                     .padding()
                     
                     ZStack {
-                        RoundedRectangle(cornerRadius: 25).foregroundColor(appPrimaryColor)
+                        RoundedRectangle(cornerRadius: 25).foregroundColor(.accentColor)
                         
                         LazyVGrid(columns: [GridItem(.flexible()),
                                             GridItem(.flexible())], spacing: 0) {

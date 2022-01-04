@@ -83,7 +83,7 @@ struct LoggedUserView: View {
                                 .lineLimit(1)
                         }
                         .frame(maxWidth: .infinity)
-                        .foregroundColor(selectedTab == tabItem.tab ? appPrimaryColor : Color(uiColor: .systemGray))
+                        .foregroundColor(selectedTab == tabItem.tab ? .accentColor : Color(uiColor: .systemGray))
                     }
                     .foregroundStyle(selectedTab == tabItem.tab ? .primary : .secondary)
                     
@@ -107,7 +107,7 @@ struct LoggedUserView: View {
                     }
                     
                     Rectangle()
-                        .fill(appPrimaryColor)
+                        .fill(Color.accentColor)
                         .frame(width: screenWidth * 0.15, height: screenHeight * 0.007)
                         .cornerRadius(3)
                         .frame(width: screenWidth * 0.235)
