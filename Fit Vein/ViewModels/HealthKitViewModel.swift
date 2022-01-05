@@ -56,7 +56,7 @@ class HealthKitViewModel: ObservableObject {
     
     func value(from stat: HKQuantity?) -> (value: Float, units: String) {
         guard let stat = stat else {
-            return (0, "No data")
+            return (0, "-")
         }
         
         measurementFormatter.unitStyle = .short

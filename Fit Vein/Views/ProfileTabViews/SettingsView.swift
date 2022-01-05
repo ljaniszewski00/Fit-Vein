@@ -120,7 +120,7 @@ struct SettingsView: View {
                     
                     NavigationLink("Terms and Conditions", destination: {
                         VStack(alignment: .leading) {
-                            Text("This app is a fully open-source and licence-free product so everyone has right to watch, rewrite, copy and publish every part of that app.")
+                            Text("This app is a fully open-source and licence-free product.")
                             Spacer()
                         }
                         .padding()
