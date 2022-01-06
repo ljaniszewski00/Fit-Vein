@@ -29,44 +29,59 @@ class Fit_Vein_UI_Tests: XCTestCase {
         XCTAssertTrue(notificationsViewTexts.exists)
     }
     
-    func testHomeViewSearchButton() throws {
+    func testHomeViewSearchView() throws {
         let homeViewNotificationsButton = app.navigationBars.buttons["Search"]
         let notificationsViewTexts = app.staticTexts["Follow"]
+        let tablesQuery = app.tables
+        let removeFromFollowedButton = tablesQuery.cells["bi5CrQywyDUb0gknR1zejQ2O7NB3, Remove"].children(matching: .other).element(boundBy: 0).children(matching: .other).element
+        let addToFollowedButton = tablesQuery.cells["bi5CrQywyDUb0gknR1zejQ2O7NB3, Add"].children(matching: .other).element(boundBy: 0).children(matching: .other).element
         
         sleep(3)
                 
         homeViewNotificationsButton.tap()
+        sleep(1)
         XCTAssertTrue(notificationsViewTexts.exists)
+        
+        if (removeFromFollowedButton.exists) {
+            XCTAssertTrue(removeFromFollowedButton.exists)
+            removeFromFollowedButton.tap()
+            sleep(2)
+            XCTAssertTrue(addToFollowedButton.exists)
+        } else {
+            XCTAssertTrue(addToFollowedButton.exists)
+            addToFollowedButton.tap()
+            sleep(2)
+            XCTAssertTrue(removeFromFollowedButton.exists)
+        }
+                
     }
     
     func testHomeViewAddPostTextField() throws {
         let scrollViewsQuery = app.scrollViews
         let homeViewAddPostTextField = scrollViewsQuery.otherElements.staticTexts["What do you want to share?"]
         let addPostViewTexts = app.staticTexts["Add a post"]
+        let addPostClearButton = app.navigationBars["Add a post"].buttons["Clear"]
+        let addPostPostButton = app.navigationBars["Add a post"].buttons["Post"]
+        let addPostTextView = scrollViewsQuery.otherElements.containing(.staticText, identifier:"Łukasz").children(matching: .textView).element
         
         sleep(3)
                 
         homeViewAddPostTextField.tap()
         XCTAssertTrue(addPostViewTexts.exists)
+        XCTAssertTrue(addPostClearButton.exists)
+        XCTAssertTrue(addPostPostButton.exists)
+        XCTAssertTrue(addPostTextView.exists)
     }
     
     func testHomeViewMoreButton() throws {
-        let homeViewModeButton = app.otherElements.buttons["More"]
+        let homeViewMoreButton = app.otherElements.buttons["More"]
         let homeViewSheetEditButton = app.sheets.scrollViews.otherElements.buttons["Edit"]
         
         sleep(3)
         
-        homeViewModeButton.tap()
+        homeViewMoreButton.tap()
         XCTAssertTrue(homeViewSheetEditButton.exists)
     }
-    
-//    func testHomeViewLikeButton() throws {
-//        let homeViewNotificationsButton = app.navigationBars.buttons["Search"]
-//        let notificationsViewTexts = app.staticTexts["Follow"]
-//
-//        homeViewNotificationsButton.tap()
-//        XCTAssertTrue(notificationsViewTexts.exists)
-//    }
     
     func testHomeViewCommentButton() throws {
         let scrollViewsQuery = app.scrollViews
@@ -278,7 +293,76 @@ class Fit_Vein_UI_Tests: XCTestCase {
         }
         backToMainViewWorkoutTabButton.tap()
         XCTAssertTrue(workoutViewTexts.exists)
-
+    }
+    
+    func testHomeTabCommentsViewButtonsExistence() {
+        let scrollViewsQuery = app.scrollViews
+        let homeViewCommentButton = scrollViewsQuery.otherElements.containing(.staticText, identifier:"What do you want to share?").children(matching: .button).matching(identifier: "Comment").element(boundBy: 0)
+        let homeViewCommentViewCommentTextField = scrollViewsQuery.otherElements.containing(.image, identifier:"Like").children(matching: .textField).element
+        let homeViewCommentViewSendButton = scrollViewsQuery.otherElements.buttons["Send"]
+        
+        sleep(3)
+                
+        homeViewCommentButton.tap()
+        
+        sleep(1)
+        
+        XCTAssertTrue(homeViewCommentViewCommentTextField.exists)
+        XCTAssertTrue(homeViewCommentViewSendButton.exists)
+    }
+    
+    func testWorkoutTabWorkoutStart() {
+        let workoutTabButton = app.buttons["Workout"]
+        let firstSampleWorkout = app.tables.children(matching: .cell).matching(identifier: "Work Time: 45, Interval, Rest Time: 15, Series: 8").element(boundBy: 0).children(matching: .other).element(boundBy: 0).children(matching: .other).element
+        
+        let playButton = app.buttons["Play"]
+        let pauseButton = app.buttons["Pause"]
+        let lockButton = app.buttons["Lock"]
+        let stopButton = app.buttons["stop.circle.fill"]
+        
+        let saveButton = app.buttons["Save"]
+        let discardButton = app.buttons["Discard"]
+        
+        let profileTabButton = app.buttons["Profile"]
+        let workoutsCountText = app.staticTexts["6 / 10 Workouts"]
+            
+        sleep(3)
+        
+        workoutTabButton.tap()
+        
+        sleep(1)
+        
+        XCTAssertTrue(firstSampleWorkout.exists)
+        firstSampleWorkout.tap()
+        
+        sleep(7)
+        
+        XCTAssertTrue(playButton.exists)
+        XCTAssertTrue(pauseButton.exists)
+        XCTAssertTrue(lockButton.exists)
+        XCTAssertTrue(stopButton.exists)
+        
+        lockButton.tap()
+        
+        XCTAssertFalse(playButton.isEnabled)
+        XCTAssertFalse(pauseButton.isEnabled)
+        XCTAssertFalse(stopButton.isEnabled)
+        
+        lockButton.tap()
+        sleep(1)
+        stopButton.tap()
+        sleep(1)
+        
+        XCTAssertTrue(saveButton.exists)
+        XCTAssertTrue(discardButton.exists)
+        
+        saveButton.tap()
+        sleep(1)
+        
+        profileTabButton.tap()
+        sleep(1)
+        
+        XCTAssertTrue(workoutsCountText.exists)
                 
     }
 }

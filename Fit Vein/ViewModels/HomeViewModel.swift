@@ -85,8 +85,8 @@ class HomeViewModel: ObservableObject {
     
     func reactToPost(postID: String) {
         if sessionStore.currentUser != nil {
-            self.firestoreManager.postAddReaction(id: postID, userID: sessionStore.currentUser!.uid) {
-                self.firestoreManager.addReactedPostID(userID: self.sessionStore.currentUser!.uid, postID: postID) {
+            self.firestoreManager.postAddReaction(postID: postID, userIDThatReacted: self.sessionStore.currentUser!.uid) {
+                self.firestoreManager.addPostIDToPostsReactedByUser(userID: self.sessionStore.currentUser!.uid, postID: postID) {
                     self.fetchData()
                 }
             }
@@ -95,8 +95,8 @@ class HomeViewModel: ObservableObject {
     
     func removeReactionFromPost(postID: String) {
         if sessionStore.currentUser != nil {
-            self.firestoreManager.removeReactedPostID(userID: self.sessionStore.currentUser!.uid, postID: postID) {
-                self.firestoreManager.removeReactedPostID(userID: self.sessionStore.currentUser!.uid, postID: postID) {
+            self.firestoreManager.postRemoveReaction(postID: postID, userIDThatRemovedReaction: self.sessionStore.currentUser!.uid) {
+                self.firestoreManager.removePostIDFromPostsReactedByUser(userID: self.sessionStore.currentUser!.uid, postID: postID) {
                     self.fetchData()
                 }
             }
@@ -104,16 +104,27 @@ class HomeViewModel: ObservableObject {
     }
     
     func deletePost(postID: String) {
-        self.firestoreManager.postRemoval(id: postID) {
-            self.fetchData()
+        if sessionStore.currentUser != nil {
+            self.firestoreManager.postRemoval(id: postID) {
+                self.firestoreManager.removePostIDFromPostsReactedByUser(userID: self.sessionStore.currentUser!.uid, postID: postID) {
+                    self.firestoreManager.removePostIDFromPostsCommentedByUser(userID: self.sessionStore.currentUser!.uid, postID: postID) {
+                        if let postComments = self.postsComments[postID] {
+                            for comment in postComments {
+                                self.deleteComment(postID: postID, commentID: comment.id)
+                            }
+                        }
+                        self.fetchData()
+                    }
+                }
+            }
         }
     }
     
     func commentPost(postID: String, authorID: String, authorFirstName: String, authorLastName: String, authorProfilePictureURL: String, text: String) {
         if sessionStore.currentUser != nil {
             self.firestoreManager.commentDataCreation(id: UUID().uuidString, authorID: authorID, postID: postID, authorFirstName: authorFirstName, authorUsername: authorLastName, authorProfilePictureURL: authorProfilePictureURL, addDate: Date(), text: text, reactionsUsersIDs: nil) {
-                self.firestoreManager.addCommentedPostID(userID: self.sessionStore.currentUser!.uid, postID: postID) {
-                    self.firestoreManager.postAddCommentingUserID(id: postID, userID: authorID) {
+                self.firestoreManager.addPostIDToPostsCommentedByUser(userID: self.sessionStore.currentUser!.uid, postID: postID) {
+                    self.firestoreManager.postAddCommentingUserID(postID: postID, userIDThatCommented: authorID) {
                         self.fetchData()
                     }
                 }
@@ -131,8 +142,8 @@ class HomeViewModel: ObservableObject {
     
     func reactToComment(userID: String, commentID: String) {
         if sessionStore.currentUser != nil {
-            self.firestoreManager.commentAddReaction(id: commentID, userID: sessionStore.currentUser!.uid) {
-                self.firestoreManager.addReactedCommentID(userID: userID, commentID: commentID) {
+            self.firestoreManager.commentAddReaction(commentID: commentID, userIDThatReacted: userID) {
+                self.firestoreManager.addCommentIDToCommentsReactedByUser(userID: userID, commentID: commentID) {
                     self.fetchData()
                 }
             }
@@ -141,8 +152,8 @@ class HomeViewModel: ObservableObject {
     
     func removeReactionFromComment(userID: String, commentID: String) {
         if sessionStore.currentUser != nil {
-            self.firestoreManager.commentAddReaction(id: commentID, userID: sessionStore.currentUser!.uid) {
-                self.firestoreManager.removeReactedCommentID(userID: userID, commentID: commentID) {
+            self.firestoreManager.commentRemoveReaction(commentID: commentID, userIDThatRemovedReaction: userID) {
+                self.firestoreManager.removeCommentIDFromCommentsReactedByUser(userID: userID, commentID: commentID) {
                     self.fetchData()
                 }
             }
@@ -152,9 +163,17 @@ class HomeViewModel: ObservableObject {
     func deleteComment(postID: String, commentID: String) {
         if sessionStore.currentUser != nil {
             self.firestoreManager.commentRemoval(id: commentID) {
-                self.firestoreManager.removeCommentedPostID(userID: self.sessionStore.currentUser!.uid, postID: postID) {
-                    self.firestoreManager.postRemoveCommentingUserID(id: postID, userID: self.sessionStore.currentUser!.uid) {
-                        self.fetchData()
+                self.firestoreManager.checkForMultipleCommentsOfSameUserToSamePost(postID: postID, userID: self.sessionStore.currentUser!.uid) { multipleCommentsExists in
+                    if !multipleCommentsExists {
+                        self.firestoreManager.postRemoveCommentingUserID(postID: postID, userIDThatRemovedComment: self.sessionStore.currentUser!.uid) {
+                            self.firestoreManager.removeCommentIDFromCommentsReactedByUser(userID: self.sessionStore.currentUser!.uid, commentID: postID) {
+                                self.fetchData()
+                            }
+                        }
+                    } else {
+                        self.firestoreManager.removeCommentIDFromCommentsReactedByUser(userID: self.sessionStore.currentUser!.uid, commentID: postID) {
+                            self.fetchData()
+                        }
                     }
                 }
             }

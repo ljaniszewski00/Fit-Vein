@@ -209,11 +209,9 @@ struct DeleteAccountSheetView: View {
                     
                     Button(action: {
                         withAnimation {
-                            dismiss()
-                            profileViewModel.deleteUserData() {
-                                profileViewModel.sessionStore.deleteUser(email: email, password: password) {
-                                    print("Successfully deleted user.")
-                                }
+                            profileViewModel.deleteUserData(email: email, password: password) {
+                                print("Successfully deleted user.")
+                                dismiss()
                             }
                         }
                     }, label: {

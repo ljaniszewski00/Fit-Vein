@@ -197,7 +197,7 @@ struct HomeView: View {
                                                     HStack {
                                                         if post.reactionsUsersIDs != nil {
                                                             if post.reactionsUsersIDs!.count != 0 {
-                                                                Image(systemName: post.reactionsUsersIDs!.contains(self.homeViewModel.sessionStore.currentUser!.uid) ? "hand.thumbsup.fill" : "hand.thumbsup")
+                                                                Image(systemName: post.reactionsUsersIDs!.contains(self.profileViewModel.profile!.id) ? "hand.thumbsup.fill" : "hand.thumbsup")
                                                                     .foregroundColor(.accentColor)
                                                                     .padding(.leading, screenWidth * 0.05)
                                                                 
@@ -291,8 +291,10 @@ struct HomeView: View {
                                     } else {
                                         if let followedIDs = self.profileViewModel.profile!.followedIDs {
                                             if followedIDs.count != 0 {
-                                                HomeTabPostsFetchingView()
-                                                    .frame(width: screenWidth, height: screenHeight)
+//                                                HomeTabPostsFetchingView()
+//                                                    .frame(width: screenWidth, height: screenHeight)
+                                                Text("Nothing to show")
+                                                    .foregroundColor(.accentColor)
                                             } else {
                                                 Text("Add friends to see their activity")
                                                     .foregroundColor(.accentColor)

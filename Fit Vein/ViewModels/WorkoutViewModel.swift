@@ -46,6 +46,8 @@ class WorkoutViewModel: ObservableObject {
                 self.firestoreManager.workoutDataCreation(id: workout!.id, usersID: workout!.usersID, type: workout!.type, date: workout!.date, isFinished: workout!.isFinished, calories: workout!.calories, series: workout!.series, workTime: workout!.workTime, restTime: workout!.restTime, completedDuration: workout!.completedDuration, completedSeries: workout!.completedSeries) {
                     completion()
                 }
+            } else {
+                print("Current user is nil")
             }
         }
     }

@@ -35,7 +35,7 @@ struct PostCommentsView: View {
                 HStack {
                     if post.reactionsUsersIDs != nil {
                         if post.reactionsUsersIDs!.count != 0 {
-                            Image(systemName: post.reactionsUsersIDs!.contains(self.homeViewModel.sessionStore.currentUser!.uid) ? "hand.thumbsup.fill" : "hand.thumbsup")
+                            Image(systemName: post.reactionsUsersIDs!.contains(self.profileViewModel.profile!.id) ? "hand.thumbsup.fill" : "hand.thumbsup")
                                 .foregroundColor(.accentColor)
                                 .padding(.leading, screenWidth * 0.05)
                             
@@ -130,7 +130,7 @@ struct PostCommentsView: View {
                                             if comment.reactionsUsersIDs != nil {
                                                 if comment.reactionsUsersIDs!.count != 0 {
                                                     HStack {
-                                                        Image(systemName: "hand.thumbsup.fill")
+                                                        Image(systemName: comment.reactionsUsersIDs!.contains(self.profileViewModel.profile!.id) ? "hand.thumbsup.fill" : "hand.thumbsup")
                                                         Text("\(comment.reactionsUsersIDs!.count)")
                                                     }
                                                     .foregroundColor(.accentColor)
@@ -187,19 +187,17 @@ struct PostCommentsView: View {
                                 
                                 Spacer()
                                 
-                                if self.homeViewModel.sessionStore.currentUser != nil {
-                                    if self.profileViewModel.profile!.id == comment.authorID {
-                                        Button(action: {
-                                            self.homeViewModel.deleteComment(postID: post.id, commentID: comment.id)
-                                        }, label: {
-                                            HStack {
-                                                Image(systemName: "trash")
-                                                Text("Delete")
-                                                    .fontWeight(.bold)
-                                            }
-                                            .foregroundColor(.red)
-                                        })
-                                    }
+                                if self.profileViewModel.profile!.id == comment.authorID {
+                                    Button(action: {
+                                        self.homeViewModel.deleteComment(postID: post.id, commentID: comment.id)
+                                    }, label: {
+                                        HStack {
+                                            Image(systemName: "trash")
+                                            Text("Delete")
+                                                .fontWeight(.bold)
+                                        }
+                                        .foregroundColor(.red)
+                                    })
                                 }
                                 
                                 Spacer()
@@ -225,7 +223,7 @@ struct PostCommentsView: View {
                                     .autocapitalization(.none)
                                 
                                 Button(action: {
-                                    self.homeViewModel.commentPost(postID: post.id, authorID: self.profileViewModel.profile!.id, authorFirstName: self.profileViewModel.profile!.firstName, authorLastName: self.profileViewModel.profile!.username, authorProfilePictureURL: self.profileViewModel.profile!.profilePictureURL!, text: commentText)
+                                    self.homeViewModel.commentPost(postID: post.id, authorID: self.profileViewModel.profile!.id, authorFirstName: self.profileViewModel.profile!.firstName, authorLastName: self.profileViewModel.profile!.username, authorProfilePictureURL: self.profileViewModel.profile!.profilePictureURL != nil ? self.profileViewModel.profile!.profilePictureURL! : "User has no profile picture", text: commentText)
                                 }, label: {
                                     Text("Send")
                                         .foregroundColor(.accentColor)

@@ -45,21 +45,11 @@ class ProfileViewModel: ObservableObject {
     
     func fetchData() {
         if sessionStore.currentUser != nil {
-            print()
-            print()
-            print("Starting fetching data")
-            print()
-            print()
             self.firestoreManager.fetchDataForProfileViewModel(userID: self.sessionStore.currentUser!.uid) { [self] fetchedProfile in
                 self.profile = fetchedProfile
                 
                 if profile != nil {
                     if profile!.profilePictureURL != nil {
-                        print()
-                        print()
-                        print("Profile picture URL is not nil while fetching data")
-                        print()
-                        print()
                         if self.sessionStore.currentUser != nil {
                             self.firebaseStorageManager.getDownloadURLForImage(stringURL: profile!.profilePictureURL!, userID: self.sessionStore.currentUser!.uid) { photoURL in
                                 self.profilePicturePhotoURL = photoURL
@@ -68,28 +58,15 @@ class ProfileViewModel: ObservableObject {
                                     self.fetchingData = false
                                 }
                             }
-                        } else {
-                            print()
-                            print()
-                            print("Current user became nil")
-                            print()
-                            print()
                         }
                     } else {
                         self.fetchingData = false
                     }
                 } else {
-                    // "HERE SOMETHING TO DO WHEN DATA IS NOT FETCHED"
-                    
                     self.fetchingData = false
                 }
             }
         } else {
-            print()
-            print()
-            print("Data is not fetching because sessionStore is nil")
-            print()
-            print()
             self.fetchingData = false
         }
     }
@@ -120,19 +97,26 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
-    func deleteUserData(completion: @escaping (() -> ())) {
+    func deleteUserData(email: String, password: String, completion: @escaping (() -> ())) {
         if self.profile != nil {
             if self.profile!.profilePictureURL != nil {
-                self.firebaseStorageManager.deleteImageFromStorage(userPhotoURL: self.profile!.profilePictureURL!, userID: self.sessionStore.currentUser!.uid) {
-                    self.firestoreManager.deleteUserData(userUID: self.sessionStore.currentUser!.uid) {
+                self.firebaseStorageManager.deleteImageFromStorage(userPhotoURL: self.profile!.profilePictureURL!, userID: self.profile!.id) {
+                    print("Successfully deleted user images")
+                    self.firestoreManager.deleteUserData(userID: self.profile!.id) {
                         print("Successfully deleted user data")
-                        completion()
+                        self.sessionStore.deleteUser(email: email, password: password) {
+                            print("Successfully deleted user credentials")
+                            completion()
+                        }
                     }
                 }
             } else {
-                self.firestoreManager.deleteUserData(userUID: self.sessionStore.currentUser!.uid) {
+                self.firestoreManager.deleteUserData(userID: self.profile!.id) {
                     print("Successfully deleted user data")
-                    completion()
+                    self.sessionStore.deleteUser(email: email, password: password) {
+                        print("Successfully deleted user credentials")
+                        completion()
+                    }
                 }
             }
         }
