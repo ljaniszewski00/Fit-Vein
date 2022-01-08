@@ -17,8 +17,10 @@ class HomeViewModel: ObservableObject {
     @Published var posts: [Post]?
     @Published var postsAuthorsProfilePicturesURLs: [String: URL] = [:]
     @Published var postsComments: [String: [Comment]] = [:]
+    @Published var postsCommentsAuthorsProfilePicturesURLs: [String: URL] = [:]
     
     @Published var usersData: [String: [String]] = [:]
+    @Published var usersProfilePicturesURLs: [String: URL] = [:]
     
     @Published var fetchingData = true
     
@@ -54,17 +56,24 @@ class HomeViewModel: ObservableObject {
                 self.posts = fetchedPosts
                 if self.posts != nil {
                     for post in self.posts! {
-                        postsAuthorsProfilePicturesURLs.updateValue(URL(string: "https://firebasestorage.googleapis.com:443/v0/b/fit-vein.appspot.com/o/images%2Fv8gEz7VIpXNUaDUU9ruWvuS3jum2%2F67273137-4B2D-450D-93A6-FE2FEF201CC1?alt=media&token=f23361c7-4660-426b-8a12-0613c5c68c30")!, forKey: post.id)
-                        
-//                        self.firebaseStorageManager.getDownloadURLForImage(stringURL: post.authorProfilePictureURL, userID: post.authorID) { photoURL in
-//                            if let photoURL = photoURL {
-//                                postsAuthorsProfilePicturesURLs.updateValue(URL(string: photoURL)!, forKey: post.id)
-//                            }
-//                        }
+                        self.firebaseStorageManager.getDownloadURLForImage(stringURL: post.authorProfilePictureURL, userID: post.authorID) { photoURL in
+                            if let photoURL = photoURL {
+                                postsAuthorsProfilePicturesURLs.updateValue(photoURL, forKey: post.id)
+                            }
+                        }
                         
                         self.firestoreManager.fetchComments(postID: post.id) { comments in
                             if let fetchedComments = comments {
                                 postsComments.updateValue(fetchedComments, forKey: post.id)
+                                for comment in fetchedComments {
+                                    if self.postsCommentsAuthorsProfilePicturesURLs[comment.authorID] == nil {
+                                        self.firebaseStorageManager.getDownloadURLForImage(stringURL: comment.authorProfilePictureURL, userID: comment.authorID) { photoURL in
+                                            if let photoURL = photoURL {
+                                                self.postsCommentsAuthorsProfilePicturesURLs.updateValue(photoURL, forKey: comment.authorID)
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -198,6 +207,14 @@ class HomeViewModel: ObservableObject {
                         self.firestoreManager.getAllUsersData(userID: userID) { userData in
                             if let userData = userData {
                                 self.usersData.updateValue(userData, forKey: userID)
+                                
+                                if userData[2] != "" {
+                                    self.firebaseStorageManager.getDownloadURLForImage(stringURL: userData[2], userID: userID) { [self] photoDownloadURL in
+                                        if let photoDownloadURL = photoDownloadURL {
+                                            usersProfilePicturesURLs.updateValue(photoDownloadURL, forKey: userID)
+                                        }
+                                    }
+                                }
                             }
                         }
                     }

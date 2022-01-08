@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A0174E3278A010200CD45F9 /* HomeTabSubViewShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0174E2278A010200CD45F9 /* HomeTabSubViewShareView.swift */; };
+		0A0174E5278A011900CD45F9 /* HomeTabSubViewPostsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0174E4278A011900CD45F9 /* HomeTabSubViewPostsView.swift */; };
+		0A0174E7278A023E00CD45F9 /* HomeViewSheetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0174E6278A023E00CD45F9 /* HomeViewSheetManager.swift */; };
+		0A0174E9278A05E400CD45F9 /* HomeTabSubViewPostDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0174E8278A05E400CD45F9 /* HomeTabSubViewPostDetailsView.swift */; };
 		0A05CF302783183F005432E3 /* RCValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A05CF2F2783183F005432E3 /* RCValues.swift */; };
 		0A05CF33278334B8005432E3 /* PreLaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A05CF32278334B8005432E3 /* PreLaunchView.swift */; };
 		0A05CF3F27846B1D005432E3 /* Fit_Vein_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A05CF3E27846B1D005432E3 /* Fit_Vein_Tests.swift */; };
@@ -88,6 +92,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A0174E2278A010200CD45F9 /* HomeTabSubViewShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabSubViewShareView.swift; sourceTree = "<group>"; };
+		0A0174E4278A011900CD45F9 /* HomeTabSubViewPostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabSubViewPostsView.swift; sourceTree = "<group>"; };
+		0A0174E6278A023E00CD45F9 /* HomeViewSheetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewSheetManager.swift; sourceTree = "<group>"; };
+		0A0174E8278A05E400CD45F9 /* HomeTabSubViewPostDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabSubViewPostDetailsView.swift; sourceTree = "<group>"; };
 		0A05CF2F2783183F005432E3 /* RCValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RCValues.swift; sourceTree = "<group>"; };
 		0A05CF32278334B8005432E3 /* PreLaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreLaunchView.swift; sourceTree = "<group>"; };
 		0A05CF3C27846B1D005432E3 /* Fit Vein Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Fit Vein Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -233,6 +241,9 @@
 				0A67B1D7272B0652007F8891 /* EditPostView.swift */,
 				0AE00BA6276CC9B600C876FE /* AddPostView.swift */,
 				0ABEF73227788624007E20FC /* PostCommentsView.swift */,
+				0A0174E2278A010200CD45F9 /* HomeTabSubViewShareView.swift */,
+				0A0174E4278A011900CD45F9 /* HomeTabSubViewPostsView.swift */,
+				0A0174E8278A05E400CD45F9 /* HomeTabSubViewPostDetailsView.swift */,
 			);
 			path = HomeTabViews;
 			sourceTree = "<group>";
@@ -308,6 +319,7 @@
 				0ABE143D27170333009CD67A /* Errors.swift */,
 				0ABE145627204C72009CD67A /* SwiftUIImagePicker.swift */,
 				0A7CA669274E802F00B97EF2 /* HealthKitRepository.swift */,
+				0A0174E6278A023E00CD45F9 /* HomeViewSheetManager.swift */,
 			);
 			path = "Constants&Utils";
 			sourceTree = "<group>";
@@ -695,6 +707,7 @@
 				0ABE145327203E68009CD67A /* Profile.swift in Sources */,
 				0AC41CF627274F6A00DA5491 /* HealthTabView.swift in Sources */,
 				0ABE145727204C72009CD67A /* SwiftUIImagePicker.swift in Sources */,
+				0A0174E5278A011900CD45F9 /* HomeTabSubViewPostsView.swift in Sources */,
 				0ABE145027203DEF009CD67A /* ProfileViewModel.swift in Sources */,
 				0ABE14332716EC3E009CD67A /* FirebaseStorageManager.swift in Sources */,
 				0A67B1D2272AD8AE007F8891 /* Post.swift in Sources */,
@@ -703,7 +716,9 @@
 				0AC41CF827274F7300DA5491 /* WorkoutTabView.swift in Sources */,
 				0AC4DD872715A9E4003D5FED /* ContentView.swift in Sources */,
 				0ABEF73327788624007E20FC /* PostCommentsView.swift in Sources */,
+				0A0174E7278A023E00CD45F9 /* HomeViewSheetManager.swift in Sources */,
 				0A7CA66E274ED88900B97EF2 /* HealthKitViewModel.swift in Sources */,
+				0A0174E9278A05E400CD45F9 /* HomeTabSubViewPostDetailsView.swift in Sources */,
 				0A67B1D6272B04EC007F8891 /* SearchFriendsView.swift in Sources */,
 				0ABE144227203B47009CD67A /* HomeView.swift in Sources */,
 				0ABE143C2716F6BE009CD67A /* SignUpViewModel.swift in Sources */,
@@ -714,6 +729,7 @@
 				0A67B1D8272B0652007F8891 /* EditPostView.swift in Sources */,
 				0ABE144627203BB0009CD67A /* LoggedUserView.swift in Sources */,
 				0A7CA660274D7AC000B97EF2 /* HomeTabFetchingView.swift in Sources */,
+				0A0174E3278A010200CD45F9 /* HomeTabSubViewShareView.swift in Sources */,
 				0A05CF302783183F005432E3 /* RCValues.swift in Sources */,
 				0ABE14312716EC23009CD67A /* FirestoreManager.swift in Sources */,
 				0ABE144A27203D0D009CD67A /* ProfileView.swift in Sources */,

@@ -1094,8 +1094,9 @@ class FirestoreManager: ObservableObject {
                 if let document = document {
                     let firstName = document.get("firstName") as? String ?? ""
                     let username = document.get("username") as? String ?? ""
+                    let profilePictureURL = document.get("profilePictureURL") as? String ?? ""
                     
-                    completion([firstName, username])
+                    completion([firstName, username, profilePictureURL])
                 }
             }
         }

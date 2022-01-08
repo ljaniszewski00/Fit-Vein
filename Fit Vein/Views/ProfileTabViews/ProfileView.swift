@@ -40,35 +40,33 @@ struct ProfileView: View {
                 withAnimation {
                     ScrollView(.vertical) {
                         HStack {
-                            if profileViewModel.profilePicturePhotoURL != nil {
-                                AsyncImage(url: profileViewModel.profilePicturePhotoURL!) { image in
-                                    image
+                            Group {
+                                if let profilePictureURL = profileViewModel.profilePicturePhotoURL {
+                                    AsyncImage(url: profilePictureURL) { phase in
+                                        if let image = phase.image {
+                                            image
+                                                .resizable()
+                                                .onTapGesture {
+                                                    self.shouldPresentAddActionSheet = true
+                                                }
+                                        } else {
+                                            Image(uiImage: UIImage(named: "blank-profile-hi")!)
+                                                .resizable()
+                                                .shadow(color: .gray, radius: 7)
+                                        }
+                                    }
+                                } else {
+                                    Image(uiImage: UIImage(named: "blank-profile-hi")!)
                                         .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .clipShape(RoundedRectangle(cornerRadius: 50))
-                                        .frame(width: screenWidth * 0.4, height: screenHeight * 0.2)
+                                        .shadow(color: .gray, radius: 7)
                                         .onTapGesture {
                                             self.shouldPresentAddActionSheet = true
                                         }
-                                } placeholder: {
-                                    Image(uiImage: UIImage(named: "blank-profile-hi")!)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .clipShape(RoundedRectangle(cornerRadius: 50))
-                                        .shadow(color: .gray, radius: 7)
-                                        .frame(width: screenWidth * 0.4, height: screenHeight * 0.2)
                                 }
-                            } else {
-                                Image(uiImage: UIImage(named: "blank-profile-hi")!)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .clipShape(RoundedRectangle(cornerRadius: 50))
-                                    .shadow(color: .gray, radius: 7)
-                                    .frame(width: screenWidth * 0.4, height: screenHeight * 0.2)
-                                    .onTapGesture {
-                                        self.shouldPresentAddActionSheet = true
-                                    }
                             }
+                            .aspectRatio(contentMode: .fit)
+                            .clipShape(RoundedRectangle(cornerRadius: 50))
+                            .frame(width: screenWidth * 0.4, height: screenHeight * 0.2)
                             
                             Spacer(minLength: screenWidth * 0.05)
                             

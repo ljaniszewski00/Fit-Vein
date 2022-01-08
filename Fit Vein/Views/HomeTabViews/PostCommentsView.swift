@@ -28,7 +28,7 @@ struct PostCommentsView: View {
             ScrollView(.vertical) {
                 Text(post.text)
                     .fixedSize(horizontal: false, vertical: true)
-                    .padding(.top, screenHeight * 0.05)
+                    .padding(.vertical, screenHeight * 0.05)
                 
                 Spacer()
                 
@@ -60,7 +60,9 @@ struct PostCommentsView: View {
                     if let reactionsUsersIDs = profileViewModel.profile!.reactedPostsIDs {
                         if reactionsUsersIDs.contains(post.id) {
                             Button(action: {
-                                self.homeViewModel.removeReactionFromPost(postID: post.id)
+                                withAnimation {
+                                    self.homeViewModel.removeReactionFromPost(postID: post.id)
+                                }
                             }, label: {
                                 HStack {
                                     Image(systemName: "hand.thumbsdown")
@@ -70,7 +72,9 @@ struct PostCommentsView: View {
                             })
                         } else {
                             Button(action: {
-                                self.homeViewModel.reactToPost(postID: post.id)
+                                withAnimation {
+                                    self.homeViewModel.reactToPost(postID: post.id)
+                                }
                             }, label: {
                                 HStack {
                                     Image(systemName: "hand.thumbsup")
@@ -81,7 +85,9 @@ struct PostCommentsView: View {
                         }
                     } else {
                         Button(action: {
-                            self.homeViewModel.reactToPost(postID: post.id)
+                            withAnimation {
+                                self.homeViewModel.reactToPost(postID: post.id)
+                            }
                         }, label: {
                             HStack {
                                 Image(systemName: "hand.thumbsup")
@@ -98,12 +104,26 @@ struct PostCommentsView: View {
                     ForEach(postComments) { comment in
                         VStack(spacing: 0) {
                             HStack {
-                                Image(uiImage: UIImage(named: "blank-profile-hi")!)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .clipShape(RoundedRectangle(cornerRadius: 50))
-                                    .frame(width: screenWidth * 0.15, height: screenHeight * 0.1)
-                                    .padding(.leading, screenWidth * 0.05)
+                                Group {
+                                    if let profilePictureURL = self.homeViewModel.postsCommentsAuthorsProfilePicturesURLs[comment.authorID] {
+                                        AsyncImage(url: profilePictureURL) { phase in
+                                            if let image = phase.image {
+                                                image
+                                                    .resizable()
+                                            } else {
+                                                Image(uiImage: UIImage(named: "blank-profile-hi")!)
+                                                    .resizable()
+                                            }
+                                        }
+                                    } else {
+                                        Image(uiImage: UIImage(named: "blank-profile-hi")!)
+                                            .resizable()
+                                    }
+                                }
+                                .aspectRatio(contentMode: .fit)
+                                .clipShape(RoundedRectangle(cornerRadius: 50))
+                                .frame(width: screenWidth * 0.15, height: screenHeight * 0.1)
+                                .padding(.leading, screenWidth * 0.05)
                                 
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 25)
@@ -243,38 +263,26 @@ struct PostCommentsView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     HStack {
-//                        This causes an error
-//                        if let postAuthorProfilePictureURL = homeViewModel.postsAuthorsProfilePicturesURLs[post.id] {
-//                            AsyncImage(url: postAuthorProfilePictureURL) { phase in
-//                                if let image = phase.image {
-//                                    image
-//                                        .resizable()
-//                                        .aspectRatio(contentMode: .fit)
-//                                        .clipShape(RoundedRectangle(cornerRadius: 50))
-//                                        .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
-//                                } else {
-//                                    Image(uiImage: UIImage(named: "blank-profile-hi")!)
-//                                        .resizable()
-//                                        .aspectRatio(contentMode: .fit)
-//                                        .clipShape(RoundedRectangle(cornerRadius: 50))
-//                                        .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
-//                                }
-//                            }
-//                        } else {
-//                            Image(uiImage: UIImage(named: "blank-profile-hi")!)
-//                                .resizable()
-//                                .aspectRatio(contentMode: .fit)
-//                                .clipShape(RoundedRectangle(cornerRadius: 50))
-//                                .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
-//                        }
-//                        This causes an error
-                        
-                        Image(uiImage: UIImage(named: "blank-profile-hi")!)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .clipShape(RoundedRectangle(cornerRadius: 50))
-                            .frame(width: screenWidth * 0.1, height: screenHeight * 0.1)
-                            .padding(.leading, screenWidth * 0.05)
+                        Group {
+                            if let profilePictureURL = self.homeViewModel.postsAuthorsProfilePicturesURLs[post.id] {
+                                AsyncImage(url: profilePictureURL) { phase in
+                                    if let image = phase.image {
+                                        image
+                                            .resizable()
+                                    } else {
+                                        Image(uiImage: UIImage(named: "blank-profile-hi")!)
+                                            .resizable()
+                                    }
+                                }
+                            } else {
+                                Image(uiImage: UIImage(named: "blank-profile-hi")!)
+                                    .resizable()
+                            }
+                        }
+                        .aspectRatio(contentMode: .fit)
+                        .clipShape(RoundedRectangle(cornerRadius: 50))
+                        .frame(width: screenWidth * 0.1, height: screenHeight * 0.1)
+                        .padding(.leading, screenWidth * 0.05)
                         
                         VStack(spacing: 0) {
                             HStack {

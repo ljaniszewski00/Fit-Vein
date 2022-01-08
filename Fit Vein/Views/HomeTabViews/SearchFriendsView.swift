@@ -26,11 +26,25 @@ struct SearchFriendsView: View {
                         List {
                             ForEach(Array(usersData.keys), id: \.self) { userID in
                                 HStack {
-                                    Image(uiImage: UIImage(named: "blank-profile-hi")!)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .clipShape(RoundedRectangle(cornerRadius: 50))
-                                        .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+                                    Group {
+                                        if let usersProfilePicturesURLs = self.homeViewModel.usersProfilePicturesURLs {
+                                            AsyncImage(url: usersProfilePicturesURLs[userID]) { phase in
+                                                if let image = phase.image {
+                                                    image
+                                                        .resizable()
+                                                } else {
+                                                    Image(uiImage: UIImage(named: "blank-profile-hi")!)
+                                                        .resizable()
+                                                }
+                                            }
+                                        } else {
+                                            Image(uiImage: UIImage(named: "blank-profile-hi")!)
+                                                .resizable()
+                                        }
+                                    }
+                                    .aspectRatio(contentMode: .fit)
+                                    .clipShape(RoundedRectangle(cornerRadius: 50))
+                                    .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
                                     
                                     VStack() {
                                         Spacer()
