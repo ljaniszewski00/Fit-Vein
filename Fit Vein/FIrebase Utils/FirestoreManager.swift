@@ -1086,6 +1086,21 @@ class FirestoreManager: ObservableObject {
         }
     }
     
+    func getAllUsersData(userID: String, completion: @escaping (([String]?) -> ())) {
+        self.db.collection("users").document(userID).getDocument { (document, error) in
+            if let error = error {
+                print("Error fetching user data for getting users firstName and username: \(error.localizedDescription)")
+            } else {
+                if let document = document {
+                    let firstName = document.get("firstName") as? String ?? ""
+                    let username = document.get("username") as? String ?? ""
+                    
+                    completion([firstName, username])
+                }
+            }
+        }
+    }
+    
     private func updateUserData(documentData: [String: Any], completion: @escaping (() -> ())) {
         self.db.collection("users").document(user!.uid).updateData(documentData) { (error) in
             if let error = error {

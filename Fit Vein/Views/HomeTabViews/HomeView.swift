@@ -124,33 +124,35 @@ struct HomeView: View {
                                                         }
                                                     
                                                     HStack {
-                                                        Spacer()
-    //                                                    This causes an error
-    //                                                    if let postAuthorProfilePictureURL = homeViewModel.postsAuthorsProfilePicturesURLs[post.id] {
-    //                                                        AsyncImage(url: postAuthorProfilePictureURL) { phase in
-    //                                                            if let image = phase.image {
-    //                                                                image
-    //                                                                    .resizable()
-    //                                                                    .aspectRatio(contentMode: .fit)
-    //                                                                    .clipShape(RoundedRectangle(cornerRadius: 50))
-    //                                                                    .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
-    //                                                            } else {
-    //                                                                Image(uiImage: UIImage(named: "blank-profile-hi")!)
-    //                                                                    .resizable()
-    //                                                                    .aspectRatio(contentMode: .fit)
-    //                                                                    .clipShape(RoundedRectangle(cornerRadius: 50))
-    //                                                                    .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
-    //                                                            }
-    //                                                        }
-    //                                                    } else {
-    //                                                        Image(uiImage: UIImage(named: "blank-profile-hi")!)
-    //                                                            .resizable()
-    //                                                            .aspectRatio(contentMode: .fit)
-    //                                                            .clipShape(RoundedRectangle(cornerRadius: 50))
-    //                                                            .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
-    //                                                    }
-    //                                                    This causes an error
                                                         
+//                                                        This causes an error
+                                                        
+//                                                        if let profilePictureURL = homeViewModel.postsAuthorsProfilePicturesURLs[post.id] {
+//                                                            AsyncImage(url: profilePictureURL) { phase in
+//                                                                if let image = phase.image {
+//                                                                    image
+//                                                                        .resizable()
+//                                                                        .aspectRatio(contentMode: .fit)
+//                                                                        .clipShape(RoundedRectangle(cornerRadius: 50))
+//                                                                        .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+//                                                                } else {
+//                                                                    Image(uiImage: UIImage(named: "blank-profile-hi")!)
+//                                                                        .resizable()
+//                                                                        .aspectRatio(contentMode: .fit)
+//                                                                        .clipShape(RoundedRectangle(cornerRadius: 50))
+//                                                                        .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+//                                                                }
+//                                                            }
+//                                                        } else {
+//                                                            Image(uiImage: UIImage(named: "blank-profile-hi")!)
+//                                                                .resizable()
+//                                                                .aspectRatio(contentMode: .fit)
+//                                                                .clipShape(RoundedRectangle(cornerRadius: 50))
+//                                                                .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+//                                                        }
+                                                        
+//                                                        This causes an error
+//
                                                         Image(uiImage: UIImage(named: "blank-profile-hi")!)
                                                             .resizable()
                                                             .aspectRatio(contentMode: .fit)

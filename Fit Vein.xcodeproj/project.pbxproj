@@ -203,14 +203,6 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		0A05CF3127833436005432E3 /* LauchViews */ = {
-			isa = PBXGroup;
-			children = (
-				0A05CF32278334B8005432E3 /* PreLaunchView.swift */,
-			);
-			path = LauchViews;
-			sourceTree = "<group>";
-		};
 		0A05CF3D27846B1D005432E3 /* Fit Vein Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -299,7 +291,6 @@
 		0AB808D02715C18300337924 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				0A05CF3127833436005432E3 /* LauchViews */,
 				0A45EC142779D2D50076660A /* HomeTabViews */,
 				0A8F574A2720B6E700183F47 /* HelpViews */,
 				0A45EC132779D2BB0076660A /* AuthenticationViews */,
@@ -379,6 +370,7 @@
 				0AB808CD2715B9C300337924 /* FIrebase Utils */,
 				0ADC2DEF2715AE43003ED144 /* GoogleService-Info.plist */,
 				0AC4DD842715A9E4003D5FED /* Fit_VeinApp.swift */,
+				0A05CF32278334B8005432E3 /* PreLaunchView.swift */,
 				0AC4DD862715A9E4003D5FED /* ContentView.swift */,
 				0ABE144527203BB0009CD67A /* LoggedUserView.swift */,
 				0A4174722725D45A00DF4460 /* OnboardingView.swift */,

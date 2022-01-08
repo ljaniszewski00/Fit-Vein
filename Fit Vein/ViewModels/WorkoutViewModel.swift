@@ -12,7 +12,7 @@ import SwiftUI
 class WorkoutViewModel: ObservableObject {
     var sessionStore = SessionStore(forPreviews: false)
     @Published var workout: IntervalWorkout?
-    @Published var workoutsList: [IntervalWorkout] = [IntervalWorkout(id: UUID().uuidString, usersID: "9999", type: "Interval", date: Date(), isFinished: false, calories: 200, series: 8, workTime: 45, restTime: 15),
+    @Published var workoutsList: [IntervalWorkout] = [IntervalWorkout(id: UUID().uuidString, usersID: "9999", type: "Interval", date: Date(), isFinished: false, calories: 200, series: 8, workTime: 45,                                                        restTime: 15),
                                                        IntervalWorkout(id: UUID().uuidString, usersID: "9999", type: "Interval", date: Date(), isFinished: false, calories: 260, series: 10, workTime: 30, restTime: 15),
                                                        IntervalWorkout(id: UUID().uuidString, usersID: "9999", type: "Interval", date: Date(), isFinished: false, calories: 140, series: 5, workTime: 60, restTime: 30),
                                                        IntervalWorkout(id: UUID().uuidString, usersID: "9999", type: "Interval", date: Date(), isFinished: false, calories: 110, series: 7, workTime: 45, restTime: 20),

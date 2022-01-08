@@ -52,7 +52,9 @@ class ProfileViewModel: ObservableObject {
                     if profile!.profilePictureURL != nil {
                         if self.sessionStore.currentUser != nil {
                             self.firebaseStorageManager.getDownloadURLForImage(stringURL: profile!.profilePictureURL!, userID: self.sessionStore.currentUser!.uid) { photoURL in
-                                self.profilePicturePhotoURL = photoURL
+                                if let photoURL = photoURL {
+                                    self.profilePicturePhotoURL = photoURL
+                                }
                                 self.firestoreManager.fetchWorkouts(userID: self.sessionStore.currentUser!.uid) { fetchedWorkouts in
                                     self.workouts = fetchedWorkouts
                                     self.fetchingData = false

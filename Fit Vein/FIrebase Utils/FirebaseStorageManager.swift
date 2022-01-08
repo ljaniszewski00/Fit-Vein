@@ -46,15 +46,15 @@ class FirebaseStorageManager: ObservableObject {
         }
     }
     
-    func getDownloadURLForImage(stringURL: String, userID: String, completion: @escaping ((URL) -> ())) {
-        let userImagesStorageRef = storageRef.child("images/\(userID)/\(stringURL)")
+    func getDownloadURLForImage(stringURL: String, userID: String, completion: @escaping ((URL?) -> ())) {
+        let path = "images/\(userID)/\(stringURL)"
+        let userImagesStorageRef = storageRef.child(path)
         userImagesStorageRef.downloadURL() { url, error in
-            guard let url = url, error == nil else {
-                print("Error getting download URL: \(error!.localizedDescription)")
-                return
+            if let error = error {
+                print("Error getting download URL: \(error.localizedDescription)")
+            } else {
+                completion(url)
             }
-            
-            completion(url)
         }
     }
     

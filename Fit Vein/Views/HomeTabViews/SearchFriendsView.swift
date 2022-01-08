@@ -22,9 +22,9 @@ struct SearchFriendsView: View {
             
             NavigationView {
                 VStack {
-                    if self.homeViewModel.usersIDs != nil {
+                    if let usersData = self.homeViewModel.usersData {
                         List {
-                            ForEach(self.homeViewModel.usersIDs!, id: \.self) { userID in
+                            ForEach(Array(usersData.keys), id: \.self) { userID in
                                 HStack {
                                     Image(uiImage: UIImage(named: "blank-profile-hi")!)
                                         .resizable()
@@ -32,10 +32,24 @@ struct SearchFriendsView: View {
                                         .clipShape(RoundedRectangle(cornerRadius: 50))
                                         .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
                                     
-                                    VStack {
+                                    VStack() {
                                         Spacer()
                                         
-                                        Text(userID)
+                                        if let userData = usersData[userID] {
+                                            HStack {
+                                                Text(userData[0])
+                                                    .foregroundColor(.accentColor)
+                                                    .font(.system(size: screenHeight * 0.025, weight: .bold))
+                                                    .padding(.bottom, screenHeight * 0.002)
+                                                Spacer()
+                                            }
+                                            
+                                            HStack {
+                                                Text(userData[1])
+                                                    .foregroundColor(Color(uiColor: .systemGray3))
+                                                Spacer()
+                                            }
+                                        }
                                         
                                         Spacer()
                                     }
@@ -50,7 +64,7 @@ struct SearchFriendsView: View {
                                                     self.homeViewModel.fetchData()
                                                 }
                                             }, label: {
-                                                Image(systemName: "minus.circle.fill")
+                                                Image(systemName: "person.crop.circle.badge.minus")
                                                     .resizable()
                                                     .aspectRatio(contentMode: .fit)
                                                     .foregroundColor(.red)
@@ -62,7 +76,7 @@ struct SearchFriendsView: View {
                                                     self.homeViewModel.fetchData()
                                                 }
                                             }, label: {
-                                                Image(systemName: "plus.circle.fill")
+                                                Image(systemName: "person.crop.circle.badge.plus")
                                                     .resizable()
                                                     .aspectRatio(contentMode: .fit)
                                                     .foregroundColor(.accentColor)
@@ -92,7 +106,7 @@ struct SearchFriendsView: View {
                 }
                 .navigationTitle("Follow")
                 .onAppear {
-                    self.homeViewModel.getAllUsersIDs()
+                    self.homeViewModel.getAllUsersData()
                 }
             }
         }
