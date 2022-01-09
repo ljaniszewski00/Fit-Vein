@@ -33,6 +33,8 @@ struct SettingsView: View {
     
     var body: some View {
         GeometryReader { geometry in
+            let screenWidth = geometry.size.width
+            let screenHeight = geometry.size.height
             
             Form {
                 Section(header: Text("App"), footer: Text("Whether FaceID or TouchID is used depends on device hardware capabilities.")) {
@@ -124,24 +126,11 @@ struct SettingsView: View {
                     }
                     
                     NavigationLink("Terms and Conditions", destination: {
-                        VStack(alignment: .leading) {
-                            Text("This app is a fully open-source and licence-free product.")
-                            Spacer()
-                        }
-                        .padding()
-                        .navigationTitle("Terms and Conditions")
+                        TermsAndConditionsView()
                     })
                     
                     NavigationLink("Help", destination: {
-                        VStack(alignment: .leading) {
-                            Text("In case of any problem please write an e-mail to:")
-                            Text("ljaniszewski00@gmail.com")
-                                .foregroundColor(.accentColor)
-                            Text("describing the matter.")
-                            Spacer()
-                        }
-                        .padding()
-                        .navigationTitle("Help")
+                        HelpView()
                     })
                     
                     HStack {
@@ -189,6 +178,93 @@ struct SettingsView: View {
             }
         }
     }
+    
+    struct TermsAndConditionsView: View {
+        var body: some View {
+            GeometryReader { geometry in
+                let screenWidth = geometry.size.width
+                let screenHeight = geometry.size.height
+                
+                VStack(spacing: screenHeight * 0.05) {
+                    HStack {
+                        Spacer()
+                        Text("This app is a fully open-source and licence-free product.")
+                            .font(.system(size: screenHeight * 0.03))
+                        Spacer()
+                    }
+                }
+                .padding()
+                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 40, style: .continuous))
+                .padding(.top, screenHeight * 0.04)
+                
+                VStack {
+                    HStack {
+                        Spacer()
+                        LottieView(name: "termsAndConditions", loopMode: .loop)
+                            .frame(width: screenWidth * 0.9, height: screenHeight * 0.9)
+                        Spacer()
+                    }
+                }
+                .padding()
+                .padding(.top, screenHeight * 0.15)
+                .navigationTitle("Terms and Conditions")
+            }
+        }
+    }
+    
+    struct HelpView: View {
+        var body: some View {
+            GeometryReader { geometry in
+                let screenWidth = geometry.size.width
+                let screenHeight = geometry.size.height
+                
+                VStack(spacing: screenHeight * 0.05) {
+                    HStack {
+                        Spacer()
+                        Text("In case of any problems please write an e-mail to:")
+                            .font(.system(size: screenHeight * 0.03))
+                        Spacer()
+                    }
+                    
+                    HStack {
+                        Spacer()
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 25)
+                                .foregroundColor(Color(uiColor: .systemGray5))
+                                .frame(width: screenWidth * 0.8, height: screenHeight * 0.07)
+                            Text("ljaniszewski00@gmail.com")
+                                .font(.system(size: screenHeight * 0.03, weight: .bold))
+                        }
+                        
+                        Spacer()
+                    }
+                    
+                    HStack {
+                        Spacer()
+                        Text("describing the matter.")
+                            .font(.system(size: screenHeight * 0.03))
+                        Spacer()
+                    }
+                    
+                }
+                .padding()
+                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 40, style: .continuous))
+                .padding(.top, screenHeight * 0.04)
+                
+                VStack {
+                    HStack {
+                        Spacer()
+                        LottieView(name: "help", loopMode: .loop)
+                            .frame(width: screenWidth * 0.9, height: screenHeight * 0.9)
+                        Spacer()
+                    }
+                }
+                .padding()
+                .padding(.top, screenHeight * 0.15)
+                .navigationTitle("Help")
+            }
+        }
+    }
 }
 
 struct DeleteAccountSheetView: View {
@@ -211,6 +287,9 @@ struct DeleteAccountSheetView: View {
                             SecureField("Password", text: $password)
                         }
                     }
+                    
+                    LottieView(name: "delete", loopMode: .loop)
+                        .frame(width: screenWidth, height: screenHeight * 0.4)
                     
                     Button(action: {
                         withAnimation {
@@ -260,6 +339,9 @@ struct ChangeEmailAddressSheetView: View {
                         }
                     }
                     
+                    LottieView(name: "changeArrows", loopMode: .loop)
+                        .frame(width: screenWidth * 0.3, height: screenHeight * 0.3)
+                    
                     Button(action: {
                         withAnimation {
                             dismiss()
@@ -305,6 +387,9 @@ struct ChangePasswordSheetView: View {
                             SecureField("New password", text: $newPassword)
                         }
                     }
+                    
+                    LottieView(name: "changeArrows", loopMode: .loop)
+                        .frame(width: screenWidth * 0.3, height: screenHeight * 0.3)
                     
                     Button(action: {
                         withAnimation {

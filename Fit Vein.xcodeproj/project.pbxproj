@@ -55,6 +55,11 @@
 		0A83A26C278B65F20061973B /* runningMan.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A83A26B278B65F20061973B /* runningMan.json */; };
 		0A83A26E278B69A50061973B /* notifications.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A83A26D278B69A50061973B /* notifications.json */; };
 		0A83A270278B8A190061973B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A83A26F278B8A190061973B /* NetworkManager.swift */; };
+		0A83A274278B99270061973B /* help.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A83A273278B99270061973B /* help.json */; };
+		0A83A276278B9CED0061973B /* termsAndConditions.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A83A275278B9CED0061973B /* termsAndConditions.json */; };
+		0A83A278278B9E650061973B /* success.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A83A277278B9E650061973B /* success.json */; };
+		0A83A27A278BA3280061973B /* changeArrows.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A83A279278BA3280061973B /* changeArrows.json */; };
+		0A83A27C278BA5010061973B /* delete.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A83A27B278BA5010061973B /* delete.json */; };
 		0A8F574C2720B70E00183F47 /* RingProgressViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F574B2720B70E00183F47 /* RingProgressViewStyle.swift */; };
 		0A8F574E2720B8A400183F47 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F574D2720B8A400183F47 /* SettingsView.swift */; };
 		0AB808CF2715B9D700337924 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB808CE2715B9D700337924 /* SessionStore.swift */; };
@@ -162,6 +167,11 @@
 		0A83A26B278B65F20061973B /* runningMan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = runningMan.json; sourceTree = "<group>"; };
 		0A83A26D278B69A50061973B /* notifications.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = notifications.json; sourceTree = "<group>"; };
 		0A83A26F278B8A190061973B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		0A83A273278B99270061973B /* help.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = help.json; sourceTree = "<group>"; };
+		0A83A275278B9CED0061973B /* termsAndConditions.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = termsAndConditions.json; sourceTree = "<group>"; };
+		0A83A277278B9E650061973B /* success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success.json; sourceTree = "<group>"; };
+		0A83A279278BA3280061973B /* changeArrows.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = changeArrows.json; sourceTree = "<group>"; };
+		0A83A27B278BA5010061973B /* delete.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = delete.json; sourceTree = "<group>"; };
 		0A8F574B2720B70E00183F47 /* RingProgressViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingProgressViewStyle.swift; sourceTree = "<group>"; };
 		0A8F574D2720B8A400183F47 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		0AB808CE2715B9D700337924 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
@@ -253,6 +263,11 @@
 		0A0174ED278B110E00CD45F9 /* Lottie */ = {
 			isa = PBXGroup;
 			children = (
+				0A83A27B278BA5010061973B /* delete.json */,
+				0A83A279278BA3280061973B /* changeArrows.json */,
+				0A83A277278B9E650061973B /* success.json */,
+				0A83A275278B9CED0061973B /* termsAndConditions.json */,
+				0A83A273278B99270061973B /* help.json */,
 				0A83A26D278B69A50061973B /* notifications.json */,
 				0A83A26B278B65F20061973B /* runningMan.json */,
 				0A017513278B24A700CD45F9 /* countdown2.json */,
@@ -618,14 +633,19 @@
 				0A017500278B1BA500CD45F9 /* 20022-character-squat-animation.json in Resources */,
 				0A017502278B1BA500CD45F9 /* 53949-runner.json in Resources */,
 				0A017509278B1BA500CD45F9 /* 90747-loading.json in Resources */,
+				0A83A276278B9CED0061973B /* termsAndConditions.json in Resources */,
 				0AC4DD8C2715A9E5003D5FED /* Preview Assets.xcassets in Resources */,
 				0A0174FF278B1BA500CD45F9 /* 49988-the-running-man.json in Resources */,
 				0AC4DD892715A9E5003D5FED /* Assets.xcassets in Resources */,
+				0A83A278278B9E650061973B /* success.json in Resources */,
 				0AB808D82715D77800337924 /* gym.jpg in Resources */,
+				0A83A27A278BA3280061973B /* changeArrows.json in Resources */,
 				0A20A8A72729FF790058F3DB /* FitVeinIconDark.png in Resources */,
 				0ABE145527204ABC009CD67A /* blank-profile-hi.png in Resources */,
+				0A83A27C278BA5010061973B /* delete.json in Resources */,
 				0A20A8A82729FF790058F3DB /* FitVeinIconLight.png in Resources */,
 				0A017506278B1BA500CD45F9 /* 70772-smiley-loader.json in Resources */,
+				0A83A274278B99270061973B /* help.json in Resources */,
 				0A017507278B1BA500CD45F9 /* 88890-loading.json in Resources */,
 				0A017512278B247200CD45F9 /* noInternetConnection.json in Resources */,
 				0ADC2DF02715AE43003ED144 /* GoogleService-Info.plist in Resources */,
