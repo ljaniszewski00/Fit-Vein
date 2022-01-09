@@ -239,7 +239,7 @@ struct WorkoutAddView: View {
 }
 
 struct WorkoutCountdownView: View {
-    @State private var timeToFinish = 5
+    @State private var timeToFinish = 4
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var workoutViewModel: WorkoutViewModel
     
@@ -247,10 +247,11 @@ struct WorkoutCountdownView: View {
     
     var body: some View {
         GeometryReader { geometry in
+            let screenWidth = geometry.size.width
             let screenHeight = geometry.size.height
             
             if timeToFinish == 0 {
-                withAnimation {
+                withAnimation(.linear) {
                     WorkoutTimerView()
                         .environmentObject(workoutViewModel)
                 }
@@ -261,22 +262,26 @@ struct WorkoutCountdownView: View {
                     HStack {
                         Spacer()
                         
-                        ZStack {
-                            Circle()
-                                .stroke(Color.gray.opacity(0.2), style: StrokeStyle(lineWidth: 15, lineCap: .round))
-                                .padding()
-                            
-                            Circle()
-                                .trim(from: 0, to: CGFloat(timeToFinish) / 5)
-                                .stroke(Color.accentColor, style: StrokeStyle(lineWidth: 15, lineCap: .round))
-                                .rotationEffect(.degrees(-90))
-                                .animation(.easeInOut)
-                                .padding()
-                            
-                            Text("\(timeToFinish)")
-                                .foregroundColor(.accentColor)
-                                .font(.system(size: screenHeight * 0.3, weight: .bold))
-                        }
+//                        ZStack {
+//                            Circle()
+//                                .stroke(Color.gray.opacity(0.2), style: StrokeStyle(lineWidth: 15, lineCap: .round))
+//                                .padding()
+//
+//                            Circle()
+//                                .trim(from: 0, to: CGFloat(timeToFinish) / 5)
+//                                .stroke(Color.accentColor, style: StrokeStyle(lineWidth: 15, lineCap: .round))
+//                                .rotationEffect(.degrees(-90))
+//                                .animation(.easeInOut)
+//                                .padding()
+//
+//                            Text("\(timeToFinish)")
+//                                .foregroundColor(.accentColor)
+//                                .font(.system(size: screenHeight * 0.3, weight: .bold))
+//                        }
+                        
+                        LottieView(name: "countdown", loopMode: .loop)
+                            .frame(width: screenWidth * 0.7, height: screenHeight * 0.7)
+                        
                         
                         Spacer()
                     }

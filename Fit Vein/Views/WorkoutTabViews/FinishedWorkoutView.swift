@@ -18,7 +18,7 @@ struct FinishedWorkoutView: View {
             let screenHeight = geometry.size.height
             
             if backToBeginning || workoutViewModel.workout == nil {
-                withAnimation {
+                withAnimation(.linear) {
                     WorkoutView()
                         .environmentObject(workoutViewModel)
                 }

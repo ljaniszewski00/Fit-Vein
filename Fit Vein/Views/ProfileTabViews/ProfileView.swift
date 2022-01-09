@@ -27,6 +27,8 @@ struct ProfileView: View {
     
     @State private var alreadyAppearedOnce = false
     
+    @State private var networkConnection = NetworkMonitor.shared.isConnected
+    
     init(tabBarHidden: Binding<Bool>) {
         self._tabBarHidden = tabBarHidden
     }
@@ -40,33 +42,47 @@ struct ProfileView: View {
                 withAnimation {
                     ScrollView(.vertical) {
                         HStack {
-                            Group {
-                                if let profilePictureURL = profileViewModel.profilePicturePhotoURL {
-                                    AsyncImage(url: profilePictureURL) { phase in
-                                        if let image = phase.image {
-                                            image
-                                                .resizable()
-                                                .onTapGesture {
-                                                    self.shouldPresentAddActionSheet = true
-                                                }
-                                        } else {
-                                            Image(uiImage: UIImage(named: "blank-profile-hi")!)
-                                                .resizable()
-                                                .shadow(color: .gray, radius: 7)
-                                        }
+                            if networkConnection {
+                                VStack {
+                                    Spacer()
+                                    HStack {
+                                        Spacer()
+                                        LottieView(name: "noInternetConnection", loopMode: .loop)
+                                            .frame(width: screenWidth * 0.4, height: screenHeight * 0.2)
+                                        Spacer()
                                     }
-                                } else {
-                                    Image(uiImage: UIImage(named: "blank-profile-hi")!)
-                                        .resizable()
-                                        .shadow(color: .gray, radius: 7)
-                                        .onTapGesture {
-                                            self.shouldPresentAddActionSheet = true
-                                        }
+                                    Spacer()
                                 }
+                            } else {
+                                Group {
+                                    if let profilePictureURL = profileViewModel.profilePicturePhotoURL {
+                                        AsyncImage(url: profilePictureURL) { phase in
+                                            if let image = phase.image {
+                                                image
+                                                    .resizable()
+                                                    .onTapGesture {
+                                                        self.shouldPresentAddActionSheet = true
+                                                    }
+                                            } else {
+                                                Image(uiImage: UIImage(named: "blank-profile-hi")!)
+                                                    .resizable()
+                                                    .shadow(color: .gray, radius: 7)
+                                            }
+                                        }
+                                    } else {
+                                        Image(uiImage: UIImage(named: "blank-profile-hi")!)
+                                            .resizable()
+                                            .shadow(color: .gray, radius: 7)
+                                            .onTapGesture {
+                                                self.shouldPresentAddActionSheet = true
+                                            }
+                                    }
+                                }
+                                .aspectRatio(contentMode: .fit)
+                                .clipShape(RoundedRectangle(cornerRadius: 50))
+                                .frame(width: screenWidth * 0.4, height: screenHeight * 0.2)
                             }
-                            .aspectRatio(contentMode: .fit)
-                            .clipShape(RoundedRectangle(cornerRadius: 50))
-                            .frame(width: screenWidth * 0.4, height: screenHeight * 0.2)
+                            
                             
                             Spacer(minLength: screenWidth * 0.05)
                             

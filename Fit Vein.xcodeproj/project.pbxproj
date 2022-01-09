@@ -17,7 +17,7 @@
 		0A017500278B1BA500CD45F9 /* 20022-character-squat-animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A0174F4278B1BA200CD45F9 /* 20022-character-squat-animation.json */; };
 		0A017501278B1BA500CD45F9 /* skeleton.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A0174F5278B1BA300CD45F9 /* skeleton.json */; };
 		0A017502278B1BA500CD45F9 /* 53949-runner.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A0174F6278B1BA300CD45F9 /* 53949-runner.json */; };
-		0A017503278B1BA500CD45F9 /* 74351-avocado-workout.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A0174F7278B1BA300CD45F9 /* 74351-avocado-workout.json */; };
+		0A017503278B1BA500CD45F9 /* avocadoWorkout.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A0174F7278B1BA300CD45F9 /* avocadoWorkout.json */; };
 		0A017505278B1BA500CD45F9 /* 43323-men-doing-rope-exercise.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A0174F9278B1BA400CD45F9 /* 43323-men-doing-rope-exercise.json */; };
 		0A017506278B1BA500CD45F9 /* 70772-smiley-loader.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A0174FA278B1BA400CD45F9 /* 70772-smiley-loader.json */; };
 		0A017507278B1BA500CD45F9 /* 88890-loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A0174FB278B1BA400CD45F9 /* 88890-loading.json */; };
@@ -53,6 +53,8 @@
 		0A7CA668274E7FAF00B97EF2 /* HealthStat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7CA667274E7FAF00B97EF2 /* HealthStat.swift */; };
 		0A7CA66A274E802F00B97EF2 /* HealthKitRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7CA669274E802F00B97EF2 /* HealthKitRepository.swift */; };
 		0A7CA66E274ED88900B97EF2 /* HealthKitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7CA66D274ED88900B97EF2 /* HealthKitViewModel.swift */; };
+		0A83A26C278B65F20061973B /* runningMan.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A83A26B278B65F20061973B /* runningMan.json */; };
+		0A83A26E278B69A50061973B /* notifications.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A83A26D278B69A50061973B /* notifications.json */; };
 		0A8F574C2720B70E00183F47 /* RingProgressViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F574B2720B70E00183F47 /* RingProgressViewStyle.swift */; };
 		0A8F574E2720B8A400183F47 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F574D2720B8A400183F47 /* SettingsView.swift */; };
 		0AB808CF2715B9D700337924 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB808CE2715B9D700337924 /* SessionStore.swift */; };
@@ -118,7 +120,7 @@
 		0A0174F4278B1BA200CD45F9 /* 20022-character-squat-animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "20022-character-squat-animation.json"; sourceTree = "<group>"; };
 		0A0174F5278B1BA300CD45F9 /* skeleton.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = skeleton.json; sourceTree = "<group>"; };
 		0A0174F6278B1BA300CD45F9 /* 53949-runner.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "53949-runner.json"; sourceTree = "<group>"; };
-		0A0174F7278B1BA300CD45F9 /* 74351-avocado-workout.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "74351-avocado-workout.json"; sourceTree = "<group>"; };
+		0A0174F7278B1BA300CD45F9 /* avocadoWorkout.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = avocadoWorkout.json; sourceTree = "<group>"; };
 		0A0174F9278B1BA400CD45F9 /* 43323-men-doing-rope-exercise.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "43323-men-doing-rope-exercise.json"; sourceTree = "<group>"; };
 		0A0174FA278B1BA400CD45F9 /* 70772-smiley-loader.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "70772-smiley-loader.json"; sourceTree = "<group>"; };
 		0A0174FB278B1BA400CD45F9 /* 88890-loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "88890-loading.json"; sourceTree = "<group>"; };
@@ -157,6 +159,9 @@
 		0A7CA667274E7FAF00B97EF2 /* HealthStat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthStat.swift; sourceTree = "<group>"; };
 		0A7CA669274E802F00B97EF2 /* HealthKitRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitRepository.swift; sourceTree = "<group>"; };
 		0A7CA66D274ED88900B97EF2 /* HealthKitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitViewModel.swift; sourceTree = "<group>"; };
+		0A83A26A278B59E30061973B /* Fit-Vein-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Fit-Vein-Info.plist"; sourceTree = SOURCE_ROOT; };
+		0A83A26B278B65F20061973B /* runningMan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = runningMan.json; sourceTree = "<group>"; };
+		0A83A26D278B69A50061973B /* notifications.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = notifications.json; sourceTree = "<group>"; };
 		0A8F574B2720B70E00183F47 /* RingProgressViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingProgressViewStyle.swift; sourceTree = "<group>"; };
 		0A8F574D2720B8A400183F47 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		0AB808CE2715B9D700337924 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
@@ -248,6 +253,8 @@
 		0A0174ED278B110E00CD45F9 /* Lottie */ = {
 			isa = PBXGroup;
 			children = (
+				0A83A26D278B69A50061973B /* notifications.json */,
+				0A83A26B278B65F20061973B /* runningMan.json */,
 				0A017513278B24A700CD45F9 /* countdown2.json */,
 				0A017511278B247200CD45F9 /* noInternetConnection.json */,
 				0A01750F278B227600CD45F9 /* downArrows.json */,
@@ -256,7 +263,7 @@
 				0A0174F3278B1BA200CD45F9 /* 49988-the-running-man.json */,
 				0A0174F6278B1BA300CD45F9 /* 53949-runner.json */,
 				0A0174FA278B1BA400CD45F9 /* 70772-smiley-loader.json */,
-				0A0174F7278B1BA300CD45F9 /* 74351-avocado-workout.json */,
+				0A0174F7278B1BA300CD45F9 /* avocadoWorkout.json */,
 				0A0174FB278B1BA400CD45F9 /* 88890-loading.json */,
 				0A0174FC278B1BA500CD45F9 /* loading.json */,
 				0A0174FD278B1BA500CD45F9 /* 90747-loading.json */,
@@ -429,6 +436,7 @@
 		0AC4DD832715A9E4003D5FED /* Fit Vein */ = {
 			isa = PBXGroup;
 			children = (
+				0A83A26A278B59E30061973B /* Fit-Vein-Info.plist */,
 				0A0174ED278B110E00CD45F9 /* Lottie */,
 				0A57AC2A27453DC600CEC302 /* Fit Vein.entitlements */,
 				0ABE145427204ABC009CD67A /* blank-profile-hi.png */,
@@ -622,9 +630,11 @@
 				0A017512278B247200CD45F9 /* noInternetConnection.json in Resources */,
 				0ADC2DF02715AE43003ED144 /* GoogleService-Info.plist in Resources */,
 				0A017514278B24A700CD45F9 /* countdown2.json in Resources */,
-				0A017503278B1BA500CD45F9 /* 74351-avocado-workout.json in Resources */,
+				0A017503278B1BA500CD45F9 /* avocadoWorkout.json in Resources */,
+				0A83A26E278B69A50061973B /* notifications.json in Resources */,
 				0AD3A40727275E0D00396FE7 /* sprint2.png in Resources */,
 				0A01750A278B1BA500CD45F9 /* countdown.json in Resources */,
+				0A83A26C278B65F20061973B /* runningMan.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1050,6 +1060,7 @@
 				DEVELOPMENT_TEAM = T3SR62DCTW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Fit-Vein-Info.plist";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Used to take new pictures of the user";
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "Used to authenticate the user during app start";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Used to display current health achievements";
@@ -1086,6 +1097,7 @@
 				DEVELOPMENT_TEAM = T3SR62DCTW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Fit-Vein-Info.plist";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Used to take new pictures of the user";
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "Used to authenticate the user during app start";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Used to display current health achievements";

@@ -8,15 +8,22 @@
 import Foundation
 import Network
 
-class NetworkMonitor {
+final class NetworkMonitor {
     static let shared = NetworkMonitor()
 
+    private let queue = DispatchQueue.global()
     private let monitor: NWPathMonitor
     
-    private let queue = DispatchQueue.global()
-    private var status: NWPath.Status = .requiresConnection
-    var isReachable: Bool { status == .satisfied }
-    var isReachableOnCellular: Bool = true
+    public private(set) var isConnected: Bool = false
+    
+    public private(set) var connectionType: ConnectionType?
+    
+    enum ConnectionType {
+        case wifi
+        case cellurar
+        case ethernet
+        case unknown
+    }
     
     private init() {
         monitor = NWPathMonitor()
@@ -25,20 +32,27 @@ class NetworkMonitor {
     func startMonitoring() {
         monitor.start(queue: queue)
         monitor.pathUpdateHandler = { [weak self] path in
-            self?.status = path.status
-            self?.isReachableOnCellular = path.isExpensive
-
-            if path.status == .satisfied {
-                print("We're connected!")
-                // post connected notification
-            } else {
-                print("No connection.")
-                // post disconnected notification
-            }
+            self?.isConnected = path.status == .satisfied
+            self?.setConnectionType(path)
+            print()
+            print()
+            print(self?.isConnected)
+            print()
+            print()
         }
     }
 
     func stopMonitoring() {
         monitor.cancel()
+    }
+    
+    func setConnectionType(_ path: NWPath) {
+        if path.usesInterfaceType(.wifi) {
+            self.connectionType = .wifi
+        } else if path.usesInterfaceType(.cellular) {
+            self.connectionType = .cellurar
+        } else if path.usesInterfaceType(.wiredEthernet) {
+            self.connectionType = .ethernet
+        }
     }
 }

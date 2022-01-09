@@ -79,6 +79,7 @@ struct ContentView: View {
                     authenticate()
                 }
                 sessionStore.listen()
+                NetworkMonitor.shared.startMonitoring()
             }
             .fullScreenCover(isPresented: $shouldShowOnboarding, onDismiss: {
                 shouldShowOnboarding = false

@@ -36,7 +36,7 @@ struct WorkoutTimerView: View {
             let screenHeight = geometry.size.height
             
             if stopped {
-                withAnimation {
+                withAnimation(.linear) {
                     FinishedWorkoutView()
                         .environmentObject(workoutViewModel)
                         .ignoresSafeArea()
@@ -61,6 +61,11 @@ struct WorkoutTimerView: View {
                             
                             VStack {
                                 Spacer()
+                                
+                                LottieView(name: "avocadoWorkout", loopMode: .loop)
+                                    .frame(width: screenWidth * 0.4, height: screenHeight * 0.17)
+                                    .padding(.top, screenHeight * 0.05)
+                                    .padding(.bottom, -screenHeight * 0.05)
                                 
                                 Group {
                                     if minutesRound < 10 {

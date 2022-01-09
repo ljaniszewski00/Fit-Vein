@@ -37,19 +37,14 @@ struct LoggedUserView: View {
             Group {
                 switch selectedTab {
                 case .home:
-                    if homeViewModel.networkConnection {
-                        withAnimation(.linear) {
-                            HomeView(tabBarHidden: self.$tabBarHidden)
-                                .environmentObject(sessionStore)
-                                .environmentObject(homeViewModel)
-                                .environmentObject(profileViewModel)
-                                .navigationTitle("")
-                                .navigationBarHidden(true)
-                                .ignoresSafeArea(.keyboard)
-                        }
-                    } else {
-                        LottieView(name: "noInternetConnection", loopMode: .loop)
-                            .frame(width: screenWidth * 0.7, height: screenHeight * 0.7)
+                    withAnimation(.linear) {
+                        HomeView(tabBarHidden: self.$tabBarHidden)
+                            .environmentObject(sessionStore)
+                            .environmentObject(homeViewModel)
+                            .environmentObject(profileViewModel)
+                            .navigationTitle("")
+                            .navigationBarHidden(true)
+                            .ignoresSafeArea(.keyboard)
                     }
                 case .workout:
                     withAnimation(.linear) {
@@ -61,18 +56,13 @@ struct LoggedUserView: View {
                             .ignoresSafeArea(.keyboard)
                     }
                 case .profile:
-                    if homeViewModel.networkConnection {
-                        withAnimation(.linear) {
-                            ProfileView(tabBarHidden: self.$tabBarHidden)
-                                .environmentObject(sessionStore)
-                                .environmentObject(profileViewModel)
-                                .navigationTitle("")
-                                .navigationBarHidden(true)
-                                .ignoresSafeArea(.keyboard)
-                        }
-                    } else {
-                        LottieView(name: "noInternetConnection", loopMode: .loop)
-                            .frame(width: screenWidth * 0.7, height: screenHeight * 0.7)
+                    withAnimation(.linear) {
+                        ProfileView(tabBarHidden: self.$tabBarHidden)
+                            .environmentObject(sessionStore)
+                            .environmentObject(profileViewModel)
+                            .navigationTitle("")
+                            .navigationBarHidden(true)
+                            .ignoresSafeArea(.keyboard)
                     }
                 }
             }

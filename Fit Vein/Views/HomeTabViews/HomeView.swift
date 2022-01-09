@@ -22,6 +22,8 @@ struct HomeView: View {
     
     @State private var showCommentsView = false
     
+    @State private var networkConnection = NetworkMonitor.shared.isConnected
+    
     init(tabBarHidden: Binding<Bool>) {
         self._tabBarHidden = tabBarHidden
     }
@@ -30,90 +32,130 @@ struct HomeView: View {
         GeometryReader { geometry in
             let screenWidth = geometry.size.width
             let screenHeight = geometry.size.height
-            
-            if profileViewModel.profile != nil {
-                withAnimation {
-                    NavigationView {
-                        ScrollView(.vertical) {
-                            HomeTabSubViewShareView(sheetManager: sheetManager).environmentObject(profileViewModel)
-                                .frame(height: screenHeight)
-                                .padding(.bottom, -screenHeight * 0.75)
+            if networkConnection {
+                VStack {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        LottieView(name: "noInternetConnection", loopMode: .loop)
+                            .frame(width: screenWidth * 0.7, height: screenHeight * 0.7)
+                        Spacer()
+                    }
+                    Spacer()
+                }
+                .navigationTitle("")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Image(uiImage: UIImage(named: colorScheme == .dark ? "FitVeinIconDark" : "FitVeinIconLight")!)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+                    }
+                    
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        NavigationLink(destination: SearchFriendsView().environmentObject(homeViewModel).environmentObject(profileViewModel).environmentObject(sessionStore)) {
+                            Image(systemName: "magnifyingglass")
+                                .foregroundColor(.accentColor)
+                        }
+                        .disabled(networkConnection)
+                    }
+                    
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        NavigationLink(destination: NotificationsView()) {
+                            Image(systemName: "bell")
+                                .foregroundColor(.accentColor)
+                        }
+                        .disabled(networkConnection)
+                    }
+                }
+            } else {
+                if profileViewModel.profile != nil {
+                    withAnimation {
+                        NavigationView {
+                            ScrollView(.vertical) {
+                                HomeTabSubViewShareView(sheetManager: sheetManager).environmentObject(profileViewModel)
+                                    .frame(height: screenHeight)
+                                    .padding(.bottom, -screenHeight * 0.75)
 
-                            if let posts = homeViewModel.posts {
-                                if posts.count != 0 {
-                                    ForEach(posts) { post in
-                                        HomeTabSubViewPostsView(sheetManager: sheetManager, post: post).environmentObject(homeViewModel).environmentObject(profileViewModel)
-                                            .frame(height: screenHeight)
-                                            .padding(.bottom, -screenHeight * 0.6)
-                                    }
-                                } else {
-                                    Text("Nothing to show")
-                                        .foregroundColor(.accentColor)
-                                }
-                            } else {
-                                if let followedIDs = self.profileViewModel.profile!.followedIDs {
-                                    if followedIDs.count != 0 {
-//                                            HomeTabPostsFetchingView()
-//                                                .frame(width: screenWidth, height: screenHeight)
+                                if let posts = homeViewModel.posts {
+                                    if posts.count != 0 {
+                                        ForEach(posts) { post in
+                                            HomeTabSubViewPostsView(sheetManager: sheetManager, post: post).environmentObject(homeViewModel).environmentObject(profileViewModel)
+                                                .frame(height: screenHeight)
+                                                .padding(.bottom, -screenHeight * 0.6)
+                                        }
+                                    } else {
                                         Text("Nothing to show")
                                             .foregroundColor(.accentColor)
+                                    }
+                                } else {
+                                    if let followedIDs = self.profileViewModel.profile!.followedIDs {
+                                        if followedIDs.count != 0 {
+    //                                            HomeTabPostsFetchingView()
+    //                                                .frame(width: screenWidth, height: screenHeight)
+                                            Text("Nothing to show")
+                                                .foregroundColor(.accentColor)
+                                        } else {
+                                            Text("Add friends to see their activity")
+                                                .foregroundColor(.accentColor)
+                                        }
                                     } else {
                                         Text("Add friends to see their activity")
                                             .foregroundColor(.accentColor)
                                     }
-                                } else {
-                                    Text("Add friends to see their activity")
-                                        .foregroundColor(.accentColor)
+                                }
+                            }
+                            .padding(.bottom, screenHeight * 0.07)
+                            .navigationTitle("")
+                            .navigationBarTitleDisplayMode(.inline)
+                            .toolbar {
+                                ToolbarItem(placement: .navigationBarLeading) {
+                                    Image(uiImage: UIImage(named: colorScheme == .dark ? "FitVeinIconDark" : "FitVeinIconLight")!)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+                                }
+                                
+                                ToolbarItem(placement: .navigationBarTrailing) {
+                                    NavigationLink(destination: SearchFriendsView().environmentObject(homeViewModel).environmentObject(profileViewModel).environmentObject(sessionStore)) {
+                                        Image(systemName: "magnifyingglass")
+                                            .foregroundColor(.accentColor)
+                                    }
+                                    .disabled(networkConnection)
+                                }
+                                
+                                ToolbarItem(placement: .navigationBarTrailing) {
+                                    NavigationLink(destination: NotificationsView()) {
+                                        Image(systemName: "bell")
+                                            .foregroundColor(.accentColor)
+                                    }
+                                    .disabled(networkConnection)
                                 }
                             }
                         }
-                        .padding(.bottom, screenHeight * 0.07)
-                        .navigationTitle("")
-                        .navigationBarTitleDisplayMode(.inline)
-                        .toolbar {
-                            ToolbarItem(placement: .navigationBarLeading) {
-                                Image(uiImage: UIImage(named: colorScheme == .dark ? "FitVeinIconDark" : "FitVeinIconLight")!)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
-                            }
-                            
-                            ToolbarItem(placement: .navigationBarTrailing) {
-                                NavigationLink(destination: SearchFriendsView().environmentObject(homeViewModel).environmentObject(profileViewModel).environmentObject(sessionStore)) {
-                                    Image(systemName: "magnifyingglass")
-                                        .foregroundColor(.accentColor)
-                                }
-                            }
-                            
-                            ToolbarItem(placement: .navigationBarTrailing) {
-                                NavigationLink(destination: NotificationsView()) {
-                                    Image(systemName: "bell")
-                                        .foregroundColor(.accentColor)
-                                }
+                        .sheet(isPresented: $sheetManager.showSheet) {
+                            switch sheetManager.whichSheet {
+                            case .addView:
+                                AddPostView().environmentObject(homeViewModel).environmentObject(profileViewModel).environmentObject(sessionStore)
+                            case .editView:
+                                EditPostView(postID: sheetManager.postID!, postText: sheetManager.postText!).environmentObject(homeViewModel).environmentObject(profileViewModel).environmentObject(sessionStore)
+                            default:
+                                Text("No view")
                             }
                         }
                     }
-                    .sheet(isPresented: $sheetManager.showSheet) {
-                        switch sheetManager.whichSheet {
-                        case .addView:
-                            AddPostView().environmentObject(homeViewModel).environmentObject(profileViewModel).environmentObject(sessionStore)
-                        case .editView:
-                            EditPostView(postID: sheetManager.postID!, postText: sheetManager.postText!).environmentObject(homeViewModel).environmentObject(profileViewModel).environmentObject(sessionStore)
-                        default:
-                            Text("No view")
-                        }
+                } else {
+                    withAnimation {
+                        LottieView(name: "skeleton", loopMode: .loop)
+                            .frame(width: screenWidth, height: screenHeight)
+                            .onAppear() {
+    //                            self.homeViewModel.setup(sessionStore: sessionStore)
+    //                            self.homeViewModel.fetchData()
+    //                            self.profileViewModel.setup(sessionStore: sessionStore)
+    //                            self.profileViewModel.fetchData()
+                            }
                     }
-                }
-            } else {
-                withAnimation {
-                    LottieView(name: "skeleton", loopMode: .loop)
-                        .frame(width: screenWidth, height: screenHeight)
-                        .onAppear() {
-//                            self.homeViewModel.setup(sessionStore: sessionStore)
-//                            self.homeViewModel.fetchData()
-//                            self.profileViewModel.setup(sessionStore: sessionStore)
-//                            self.profileViewModel.fetchData()
-                        }
                 }
             }
         }
