@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @EnvironmentObject private var profileViewModel: ProfileViewModel
+    @EnvironmentObject private var networkManager: NetworkManager
     @StateObject private var sheetManager = SheetManager()
     @State private var shouldPresentActionSheet = false
     @AppStorage("locked") var biometricLock: Bool = false
@@ -70,6 +71,7 @@ struct SettingsView: View {
                                 .foregroundColor(colorScheme == .dark ? .white : .black)
                         }
                     })
+                        .disabled(!networkManager.isConnected)
                     
                     Button(action: {
                         sheetManager.whichSheet = .password
@@ -83,6 +85,7 @@ struct SettingsView: View {
                                 .foregroundColor(colorScheme == .dark ? .white : .black)
                         }
                     })
+                        .disabled(!networkManager.isConnected)
                     
                     Button(action: {
                         sheetManager.whichSheet = .logout
@@ -96,6 +99,7 @@ struct SettingsView: View {
                                 .foregroundColor(.red)
                         }
                     })
+                        .disabled(!networkManager.isConnected)
                     
                     Button(action: {
                         sheetManager.whichSheet = .signout
@@ -109,6 +113,7 @@ struct SettingsView: View {
                                 .foregroundColor(.red)
                         }
                     })
+                        .disabled(!networkManager.isConnected)
                 }
                 
                 Section(header: Text("Help")) {

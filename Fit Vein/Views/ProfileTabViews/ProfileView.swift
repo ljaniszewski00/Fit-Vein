@@ -10,6 +10,7 @@ import SwiftUI
 struct ProfileView: View {
     @EnvironmentObject private var profileViewModel: ProfileViewModel
     @EnvironmentObject private var sessionStore: SessionStore
+    @EnvironmentObject private var networkManager: NetworkManager
     @Environment(\.colorScheme) var colorScheme
     
     @Binding var tabBarHidden: Bool
@@ -27,8 +28,6 @@ struct ProfileView: View {
     
     @State private var alreadyAppearedOnce = false
     
-    @State private var networkConnection = NetworkMonitor.shared.isConnected
-    
     init(tabBarHidden: Binding<Bool>) {
         self._tabBarHidden = tabBarHidden
     }
@@ -42,13 +41,13 @@ struct ProfileView: View {
                 withAnimation {
                     ScrollView(.vertical) {
                         HStack {
-                            if networkConnection {
+                            if !networkManager.isConnected {
                                 VStack {
                                     Spacer()
                                     HStack {
                                         Spacer()
                                         LottieView(name: "noInternetConnection", loopMode: .loop)
-                                            .frame(width: screenWidth * 0.4, height: screenHeight * 0.2)
+                                            .frame(width: screenWidth * 0.3, height: screenHeight * 0.15)
                                         Spacer()
                                     }
                                     Spacer()
@@ -95,9 +94,11 @@ struct ProfileView: View {
                                     
                                     Spacer()
                                     
-                                    NavigationLink(destination: SettingsView().environmentObject(sessionStore).environmentObject(profileViewModel), isActive: $shouldPresentSettings) {
+                                    NavigationLink(destination: SettingsView().environmentObject(sessionStore).environmentObject(profileViewModel).environmentObject(networkManager), isActive: $shouldPresentSettings) {
                                         Button(action: {
-                                            shouldPresentSettings = true
+                                            withAnimation(.linear) {
+                                                shouldPresentSettings = true
+                                            }
                                         }, label: {
                                             Image(systemName: "ellipsis")
                                                 .resizable()

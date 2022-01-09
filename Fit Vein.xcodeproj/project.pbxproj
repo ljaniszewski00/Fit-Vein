@@ -24,7 +24,6 @@
 		0A017508278B1BA500CD45F9 /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A0174FC278B1BA500CD45F9 /* loading.json */; };
 		0A017509278B1BA500CD45F9 /* 90747-loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A0174FD278B1BA500CD45F9 /* 90747-loading.json */; };
 		0A01750A278B1BA500CD45F9 /* countdown.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A0174FE278B1BA500CD45F9 /* countdown.json */; };
-		0A01750E278B210A00CD45F9 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A01750D278B210A00CD45F9 /* NetworkMonitor.swift */; };
 		0A017510278B227600CD45F9 /* downArrows.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A01750F278B227600CD45F9 /* downArrows.json */; };
 		0A017512278B247200CD45F9 /* noInternetConnection.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A017511278B247200CD45F9 /* noInternetConnection.json */; };
 		0A017514278B24A700CD45F9 /* countdown2.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A017513278B24A700CD45F9 /* countdown2.json */; };
@@ -55,6 +54,7 @@
 		0A7CA66E274ED88900B97EF2 /* HealthKitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7CA66D274ED88900B97EF2 /* HealthKitViewModel.swift */; };
 		0A83A26C278B65F20061973B /* runningMan.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A83A26B278B65F20061973B /* runningMan.json */; };
 		0A83A26E278B69A50061973B /* notifications.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A83A26D278B69A50061973B /* notifications.json */; };
+		0A83A270278B8A190061973B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A83A26F278B8A190061973B /* NetworkManager.swift */; };
 		0A8F574C2720B70E00183F47 /* RingProgressViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F574B2720B70E00183F47 /* RingProgressViewStyle.swift */; };
 		0A8F574E2720B8A400183F47 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F574D2720B8A400183F47 /* SettingsView.swift */; };
 		0AB808CF2715B9D700337924 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB808CE2715B9D700337924 /* SessionStore.swift */; };
@@ -127,7 +127,6 @@
 		0A0174FC278B1BA500CD45F9 /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
 		0A0174FD278B1BA500CD45F9 /* 90747-loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "90747-loading.json"; sourceTree = "<group>"; };
 		0A0174FE278B1BA500CD45F9 /* countdown.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = countdown.json; sourceTree = "<group>"; };
-		0A01750D278B210A00CD45F9 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		0A01750F278B227600CD45F9 /* downArrows.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = downArrows.json; sourceTree = "<group>"; };
 		0A017511278B247200CD45F9 /* noInternetConnection.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = noInternetConnection.json; sourceTree = "<group>"; };
 		0A017513278B24A700CD45F9 /* countdown2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = countdown2.json; sourceTree = "<group>"; };
@@ -162,6 +161,7 @@
 		0A83A26A278B59E30061973B /* Fit-Vein-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Fit-Vein-Info.plist"; sourceTree = SOURCE_ROOT; };
 		0A83A26B278B65F20061973B /* runningMan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = runningMan.json; sourceTree = "<group>"; };
 		0A83A26D278B69A50061973B /* notifications.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = notifications.json; sourceTree = "<group>"; };
+		0A83A26F278B8A190061973B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		0A8F574B2720B70E00183F47 /* RingProgressViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingProgressViewStyle.swift; sourceTree = "<group>"; };
 		0A8F574D2720B8A400183F47 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		0AB808CE2715B9D700337924 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
@@ -382,7 +382,7 @@
 				0ABE145627204C72009CD67A /* SwiftUIImagePicker.swift */,
 				0A7CA669274E802F00B97EF2 /* HealthKitRepository.swift */,
 				0A0174E6278A023E00CD45F9 /* HomeViewSheetManager.swift */,
-				0A01750D278B210A00CD45F9 /* NetworkMonitor.swift */,
+				0A83A26F278B8A190061973B /* NetworkManager.swift */,
 			);
 			path = "Constants&Utils";
 			sourceTree = "<group>";
@@ -787,7 +787,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A7CA662274D7AD100B97EF2 /* ProfileTabFetchingView.swift in Sources */,
-				0A01750E278B210A00CD45F9 /* NetworkMonitor.swift in Sources */,
 				0AE00BA7276CC9B600C876FE /* AddPostView.swift in Sources */,
 				0A4174772726CC1A00DF4460 /* IntervalWorkout.swift in Sources */,
 				0A4BF92A2728552100311D24 /* FinishedWorkoutView.swift in Sources */,
@@ -817,6 +816,7 @@
 				0A7CA66A274E802F00B97EF2 /* HealthKitRepository.swift in Sources */,
 				0ABE143A2716F114009CD67A /* Functions.swift in Sources */,
 				0A67B1D8272B0652007F8891 /* EditPostView.swift in Sources */,
+				0A83A270278B8A190061973B /* NetworkManager.swift in Sources */,
 				0ABE144627203BB0009CD67A /* LoggedUserView.swift in Sources */,
 				0A7CA660274D7AC000B97EF2 /* HomeTabFetchingView.swift in Sources */,
 				0A0174E3278A010200CD45F9 /* HomeTabSubViewShareView.swift in Sources */,

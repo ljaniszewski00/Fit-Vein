@@ -9,6 +9,7 @@ import SwiftUI
 
 struct WorkoutTimerView: View {
     @EnvironmentObject var workoutViewModel: WorkoutViewModel
+    @EnvironmentObject private var networkManager: NetworkManager
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -39,6 +40,7 @@ struct WorkoutTimerView: View {
                 withAnimation(.linear) {
                     FinishedWorkoutView()
                         .environmentObject(workoutViewModel)
+                        .environmentObject(networkManager)
                         .ignoresSafeArea()
                 }
             } else {
@@ -326,17 +328,18 @@ struct WorkoutTimerView: View {
 
 struct WorkoutTimerView_Previews: PreviewProvider {
     static var previews: some View {
+        let sessionStore = SessionStore(forPreviews: true)
+        let workoutViewModel = WorkoutViewModel(forPreviews: true)
+        let networkManager = NetworkManager()
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
-                let sessionStore = SessionStore(forPreviews: true)
-                let workoutViewModel = WorkoutViewModel(forPreviews: true)
-                
                 WorkoutTimerView()
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)
                     .environmentObject(sessionStore)
                     .environmentObject(workoutViewModel)
+                    .environmentObject(networkManager)
             }
         }
     }

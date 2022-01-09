@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FinishedWorkoutView: View {
     @EnvironmentObject private var workoutViewModel: WorkoutViewModel
+    @EnvironmentObject private var networkManager: NetworkManager
     @Environment(\.dismiss) var dismiss
     @State private var backToBeginning = false
     
@@ -21,6 +22,7 @@ struct FinishedWorkoutView: View {
                 withAnimation(.linear) {
                     WorkoutView()
                         .environmentObject(workoutViewModel)
+                        .environmentObject(networkManager)
                 }
             } else {
                 VStack(spacing: screenHeight * 0.05) {
@@ -32,19 +34,25 @@ struct FinishedWorkoutView: View {
                         
                         Button(action: {
                             self.workoutViewModel.saveWorkoutToDatabase() {
-                                backToBeginning = true
+                                withAnimation(.linear) {
+                                    backToBeginning = true
+                                }
                             }
                         }, label: {
                             Text("Save")
+                                .fontWeight(.bold)
                                 .foregroundColor(Color(uiColor: .systemGray5))
                         })
                             .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.35, height: screenHeight * 0.07).foregroundColor(.accentColor))
                             .padding()
+                            .disabled(!networkManager.isConnected)
                         
                         Spacer()
                         
                         Button(action: {
-                            backToBeginning = true
+                            withAnimation(.linear) {
+                                backToBeginning = true
+                            }
                         }, label: {
                             Text("Discard")
                                 .foregroundColor(Color(uiColor: .systemGray5))
@@ -66,17 +74,18 @@ struct FinishedWorkoutView: View {
 
 struct FinishedWorkoutView_Previews: PreviewProvider {
     static var previews: some View {
+        let sessionStore = SessionStore(forPreviews: true)
         let workoutViewModel = WorkoutViewModel(forPreviews: true)
+        let networkManager = NetworkManager()
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
-                let sessionStore = SessionStore(forPreviews: true)
-                
                 FinishedWorkoutView()
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)
                     .environmentObject(sessionStore)
                     .environmentObject(workoutViewModel)
+                    .environmentObject(networkManager)
             }
         }
     }

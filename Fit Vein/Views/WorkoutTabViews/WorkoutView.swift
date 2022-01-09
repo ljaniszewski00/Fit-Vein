@@ -9,7 +9,8 @@ import SwiftUI
 
 struct WorkoutView: View {
     @EnvironmentObject private var sessionStore: SessionStore
-    @EnvironmentObject var workoutViewModel: WorkoutViewModel
+    @EnvironmentObject private var workoutViewModel: WorkoutViewModel
+    @EnvironmentObject private var networkManager: NetworkManager
     @State var startWorkout = false
     @AppStorage("showSampleWorkoutsList") var showSampleWorkoutsList: Bool = true
     @AppStorage("showUsersWorkoutsList") var showUsersWorkoutsList: Bool = true
@@ -24,6 +25,7 @@ struct WorkoutView: View {
                 withAnimation {
                     WorkoutCountdownView()
                         .environmentObject(workoutViewModel)
+                        .environmentObject(networkManager)
                 }
             } else {
                 NavigationView {
@@ -242,6 +244,7 @@ struct WorkoutCountdownView: View {
     @State private var timeToFinish = 4
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var workoutViewModel: WorkoutViewModel
+    @EnvironmentObject private var networkManager: NetworkManager
     
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
@@ -254,6 +257,7 @@ struct WorkoutCountdownView: View {
                 withAnimation(.linear) {
                     WorkoutTimerView()
                         .environmentObject(workoutViewModel)
+                        .environmentObject(networkManager)
                 }
             } else {
                 VStack {
@@ -309,6 +313,7 @@ struct WorkoutView_Previews: PreviewProvider {
     static var previews: some View {
         let sessionStore = SessionStore(forPreviews: true)
         let workoutViewModel = WorkoutViewModel(forPreviews: true)
+        let networkManager = NetworkManager()
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
                 WorkoutView()
@@ -317,6 +322,7 @@ struct WorkoutView_Previews: PreviewProvider {
                     .previewDisplayName(deviceName)
                     .environmentObject(sessionStore)
                     .environmentObject(workoutViewModel)
+                    .environmentObject(networkManager)
                 
                 WorkoutAddView()
                     .preferredColorScheme(colorScheme)
@@ -329,6 +335,7 @@ struct WorkoutView_Previews: PreviewProvider {
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)
                     .environmentObject(workoutViewModel)
+                    .environmentObject(networkManager)
             }
         }
     }

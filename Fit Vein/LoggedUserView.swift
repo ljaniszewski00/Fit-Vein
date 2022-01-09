@@ -12,6 +12,7 @@ struct LoggedUserView: View {
     @ObservedObject private var homeViewModel = HomeViewModel()
     @ObservedObject private var workoutViewModel = WorkoutViewModel(forPreviews: false)
     @ObservedObject private var profileViewModel = ProfileViewModel()
+    @ObservedObject private var networkManager = NetworkManager()
     
     @State private var tabBarHidden: Bool = false
     
@@ -42,6 +43,7 @@ struct LoggedUserView: View {
                             .environmentObject(sessionStore)
                             .environmentObject(homeViewModel)
                             .environmentObject(profileViewModel)
+                            .environmentObject(networkManager)
                             .navigationTitle("")
                             .navigationBarHidden(true)
                             .ignoresSafeArea(.keyboard)
@@ -51,6 +53,7 @@ struct LoggedUserView: View {
                         WorkoutView()
                             .environmentObject(sessionStore)
                             .environmentObject(workoutViewModel)
+                            .environmentObject(networkManager)
                             .navigationTitle("")
                             .navigationBarHidden(true)
                             .ignoresSafeArea(.keyboard)
@@ -60,6 +63,7 @@ struct LoggedUserView: View {
                         ProfileView(tabBarHidden: self.$tabBarHidden)
                             .environmentObject(sessionStore)
                             .environmentObject(profileViewModel)
+                            .environmentObject(networkManager)
                             .navigationTitle("")
                             .navigationBarHidden(true)
                             .ignoresSafeArea(.keyboard)
