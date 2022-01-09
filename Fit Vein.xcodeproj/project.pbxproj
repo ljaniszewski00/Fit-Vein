@@ -11,6 +11,9 @@
 		0A0174E5278A011900CD45F9 /* HomeTabSubViewPostsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0174E4278A011900CD45F9 /* HomeTabSubViewPostsView.swift */; };
 		0A0174E7278A023E00CD45F9 /* HomeViewSheetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0174E6278A023E00CD45F9 /* HomeViewSheetManager.swift */; };
 		0A0174E9278A05E400CD45F9 /* HomeTabSubViewPostDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0174E8278A05E400CD45F9 /* HomeTabSubViewPostDetailsView.swift */; };
+		0A0174EC278B106500CD45F9 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 0A0174EB278B106500CD45F9 /* Lottie */; };
+		0A0174EF278B111F00CD45F9 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0174EE278B111F00CD45F9 /* LottieView.swift */; };
+		0A0174F2278B16D500CD45F9 /* blender.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A0174F1278B16D500CD45F9 /* blender.json */; };
 		0A05CF302783183F005432E3 /* RCValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A05CF2F2783183F005432E3 /* RCValues.swift */; };
 		0A05CF33278334B8005432E3 /* PreLaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A05CF32278334B8005432E3 /* PreLaunchView.swift */; };
 		0A05CF3F27846B1D005432E3 /* Fit_Vein_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A05CF3E27846B1D005432E3 /* Fit_Vein_Tests.swift */; };
@@ -96,6 +99,8 @@
 		0A0174E4278A011900CD45F9 /* HomeTabSubViewPostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabSubViewPostsView.swift; sourceTree = "<group>"; };
 		0A0174E6278A023E00CD45F9 /* HomeViewSheetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewSheetManager.swift; sourceTree = "<group>"; };
 		0A0174E8278A05E400CD45F9 /* HomeTabSubViewPostDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabSubViewPostDetailsView.swift; sourceTree = "<group>"; };
+		0A0174EE278B111F00CD45F9 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
+		0A0174F1278B16D500CD45F9 /* blender.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = blender.json; sourceTree = "<group>"; };
 		0A05CF2F2783183F005432E3 /* RCValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RCValues.swift; sourceTree = "<group>"; };
 		0A05CF32278334B8005432E3 /* PreLaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreLaunchView.swift; sourceTree = "<group>"; };
 		0A05CF3C27846B1D005432E3 /* Fit Vein Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Fit Vein Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -192,6 +197,7 @@
 			files = (
 				6A4AD7636321007C788C53F4 /* Pods_Fit_Vein.framework in Frameworks */,
 				0A57AC2C27453DC600CEC302 /* HealthKit.framework in Frameworks */,
+				0A0174EC278B106500CD45F9 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,6 +215,14 @@
 				0C2E961B1423F530440ECB7F /* Pods-Fit Vein UI Tests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		0A0174ED278B110E00CD45F9 /* Lottie */ = {
+			isa = PBXGroup;
+			children = (
+				0A0174F1278B16D500CD45F9 /* blender.json */,
+			);
+			path = Lottie;
 			sourceTree = "<group>";
 		};
 		0A05CF3D27846B1D005432E3 /* Fit Vein Tests */ = {
@@ -373,6 +387,7 @@
 		0AC4DD832715A9E4003D5FED /* Fit Vein */ = {
 			isa = PBXGroup;
 			children = (
+				0A0174ED278B110E00CD45F9 /* Lottie */,
 				0A57AC2A27453DC600CEC302 /* Fit Vein.entitlements */,
 				0ABE145427204ABC009CD67A /* blank-profile-hi.png */,
 				0ABE145127203E5C009CD67A /* Models */,
@@ -381,6 +396,7 @@
 				0AB808D02715C18300337924 /* Views */,
 				0AB808CD2715B9C300337924 /* FIrebase Utils */,
 				0ADC2DEF2715AE43003ED144 /* GoogleService-Info.plist */,
+				0A0174EE278B111F00CD45F9 /* LottieView.swift */,
 				0AC4DD842715A9E4003D5FED /* Fit_VeinApp.swift */,
 				0A05CF32278334B8005432E3 /* PreLaunchView.swift */,
 				0AC4DD862715A9E4003D5FED /* ContentView.swift */,
@@ -473,6 +489,9 @@
 			dependencies = (
 			);
 			name = "Fit Vein";
+			packageProductDependencies = (
+				0A0174EB278B106500CD45F9 /* Lottie */,
+			);
 			productName = "Fit Vein";
 			productReference = 0AC4DD812715A9E4003D5FED /* Fit Vein.app */;
 			productType = "com.apple.product-type.application";
@@ -509,6 +528,9 @@
 				Base,
 			);
 			mainGroup = 0AC4DD782715A9E4003D5FED;
+			packageReferences = (
+				0A0174EA278B106500CD45F9 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+			);
 			productRefGroup = 0AC4DD822715A9E4003D5FED /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -540,6 +562,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AC4DD8C2715A9E5003D5FED /* Preview Assets.xcassets in Resources */,
+				0A0174F2278B16D500CD45F9 /* blender.json in Resources */,
 				0AC4DD892715A9E5003D5FED /* Assets.xcassets in Resources */,
 				0AB808D82715D77800337924 /* gym.jpg in Resources */,
 				0A20A8A72729FF790058F3DB /* FitVeinIconDark.png in Resources */,
@@ -708,6 +731,7 @@
 				0AC41CF627274F6A00DA5491 /* HealthTabView.swift in Sources */,
 				0ABE145727204C72009CD67A /* SwiftUIImagePicker.swift in Sources */,
 				0A0174E5278A011900CD45F9 /* HomeTabSubViewPostsView.swift in Sources */,
+				0A0174EF278B111F00CD45F9 /* LottieView.swift in Sources */,
 				0ABE145027203DEF009CD67A /* ProfileViewModel.swift in Sources */,
 				0ABE14332716EC3E009CD67A /* FirebaseStorageManager.swift in Sources */,
 				0A67B1D2272AD8AE007F8891 /* Post.swift in Sources */,
@@ -1069,6 +1093,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0A0174EA278B106500CD45F9 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0A0174EB278B106500CD45F9 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0A0174EA278B106500CD45F9 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0AC4DD792715A9E4003D5FED /* Project object */;
 }

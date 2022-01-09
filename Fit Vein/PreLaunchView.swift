@@ -12,9 +12,9 @@ struct PreLaunchView: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var showContentView: Bool = false
     
-    @State private var angle: Double = 360
-    @State private var opacity: Double = 1
-    @State private var scale: CGFloat = 1
+//    @State private var angle: Double = 360
+//    @State private var opacity: Double = 1
+//    @State private var scale: CGFloat = 1
     
     var body: some View {
         GeometryReader { geometry in
@@ -45,16 +45,19 @@ struct PreLaunchView: View {
                         .font(.system(size: screenHeight * 0.1))
                         
                         HStack {
-                            Spacer()
                             
-                            Image(uiImage: UIImage(named: colorScheme == .dark ? "FitVeinIconDark" : "FitVeinIconLight")!)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: screenWidth * 0.2, height: screenHeight * 0.2)
-                                .padding(.horizontal, screenWidth * 0.05)
-                                .rotation3DEffect(.degrees(angle), axis: (x: 0.0, y: 1.0, z: 0.0))
-                                .opacity(opacity)
-                                .scaleEffect(scale)
+//                            Image(uiImage: UIImage(named: colorScheme == .dark ? "FitVeinIconDark" : "FitVeinIconLight")!)
+//                                .resizable()
+//                                .scaledToFill()
+//                                .frame(width: screenWidth * 0.2, height: screenHeight * 0.2)
+//                                .padding(.horizontal, screenWidth * 0.05)
+//                                .rotation3DEffect(.degrees(angle), axis: (x: 0.0, y: 1.0, z: 0.0))
+//                                .opacity(opacity)
+//                                .scaleEffect(scale)
+                            
+                            LottieView(name: "blender", loopMode: .loop)
+                                .foregroundColor(.green)
+                                .frame(width: screenWidth * 0.5, height: screenHeight * 0.5)
                             
                             Spacer()
                         }
@@ -65,11 +68,11 @@ struct PreLaunchView: View {
                 }
             }
             .onAppear {
-                withAnimation(.linear(duration: 1.5).delay(0.5)) {
-                    angle = 0
-                    scale = 2
-                    opacity = 0
-                }
+//                withAnimation(.linear(duration: 1.5).delay(0.5)) {
+//                    angle = 0
+//                    scale = 2
+//                    opacity = 0
+//                }
                 withAnimation(.linear.delay(2)) {
                     showContentView = true
                 }
