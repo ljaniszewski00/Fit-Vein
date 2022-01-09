@@ -13,7 +13,21 @@
 		0A0174E9278A05E400CD45F9 /* HomeTabSubViewPostDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0174E8278A05E400CD45F9 /* HomeTabSubViewPostDetailsView.swift */; };
 		0A0174EC278B106500CD45F9 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 0A0174EB278B106500CD45F9 /* Lottie */; };
 		0A0174EF278B111F00CD45F9 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0174EE278B111F00CD45F9 /* LottieView.swift */; };
-		0A0174F2278B16D500CD45F9 /* blender.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A0174F1278B16D500CD45F9 /* blender.json */; };
+		0A0174FF278B1BA500CD45F9 /* 49988-the-running-man.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A0174F3278B1BA200CD45F9 /* 49988-the-running-man.json */; };
+		0A017500278B1BA500CD45F9 /* 20022-character-squat-animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A0174F4278B1BA200CD45F9 /* 20022-character-squat-animation.json */; };
+		0A017501278B1BA500CD45F9 /* skeleton.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A0174F5278B1BA300CD45F9 /* skeleton.json */; };
+		0A017502278B1BA500CD45F9 /* 53949-runner.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A0174F6278B1BA300CD45F9 /* 53949-runner.json */; };
+		0A017503278B1BA500CD45F9 /* 74351-avocado-workout.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A0174F7278B1BA300CD45F9 /* 74351-avocado-workout.json */; };
+		0A017505278B1BA500CD45F9 /* 43323-men-doing-rope-exercise.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A0174F9278B1BA400CD45F9 /* 43323-men-doing-rope-exercise.json */; };
+		0A017506278B1BA500CD45F9 /* 70772-smiley-loader.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A0174FA278B1BA400CD45F9 /* 70772-smiley-loader.json */; };
+		0A017507278B1BA500CD45F9 /* 88890-loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A0174FB278B1BA400CD45F9 /* 88890-loading.json */; };
+		0A017508278B1BA500CD45F9 /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A0174FC278B1BA500CD45F9 /* loading.json */; };
+		0A017509278B1BA500CD45F9 /* 90747-loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A0174FD278B1BA500CD45F9 /* 90747-loading.json */; };
+		0A01750A278B1BA500CD45F9 /* countdown.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A0174FE278B1BA500CD45F9 /* countdown.json */; };
+		0A01750E278B210A00CD45F9 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A01750D278B210A00CD45F9 /* NetworkMonitor.swift */; };
+		0A017510278B227600CD45F9 /* downArrows.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A01750F278B227600CD45F9 /* downArrows.json */; };
+		0A017512278B247200CD45F9 /* noInternetConnection.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A017511278B247200CD45F9 /* noInternetConnection.json */; };
+		0A017514278B24A700CD45F9 /* countdown2.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A017513278B24A700CD45F9 /* countdown2.json */; };
 		0A05CF302783183F005432E3 /* RCValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A05CF2F2783183F005432E3 /* RCValues.swift */; };
 		0A05CF33278334B8005432E3 /* PreLaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A05CF32278334B8005432E3 /* PreLaunchView.swift */; };
 		0A05CF3F27846B1D005432E3 /* Fit_Vein_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A05CF3E27846B1D005432E3 /* Fit_Vein_Tests.swift */; };
@@ -100,7 +114,21 @@
 		0A0174E6278A023E00CD45F9 /* HomeViewSheetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewSheetManager.swift; sourceTree = "<group>"; };
 		0A0174E8278A05E400CD45F9 /* HomeTabSubViewPostDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabSubViewPostDetailsView.swift; sourceTree = "<group>"; };
 		0A0174EE278B111F00CD45F9 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
-		0A0174F1278B16D500CD45F9 /* blender.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = blender.json; sourceTree = "<group>"; };
+		0A0174F3278B1BA200CD45F9 /* 49988-the-running-man.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "49988-the-running-man.json"; sourceTree = "<group>"; };
+		0A0174F4278B1BA200CD45F9 /* 20022-character-squat-animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "20022-character-squat-animation.json"; sourceTree = "<group>"; };
+		0A0174F5278B1BA300CD45F9 /* skeleton.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = skeleton.json; sourceTree = "<group>"; };
+		0A0174F6278B1BA300CD45F9 /* 53949-runner.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "53949-runner.json"; sourceTree = "<group>"; };
+		0A0174F7278B1BA300CD45F9 /* 74351-avocado-workout.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "74351-avocado-workout.json"; sourceTree = "<group>"; };
+		0A0174F9278B1BA400CD45F9 /* 43323-men-doing-rope-exercise.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "43323-men-doing-rope-exercise.json"; sourceTree = "<group>"; };
+		0A0174FA278B1BA400CD45F9 /* 70772-smiley-loader.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "70772-smiley-loader.json"; sourceTree = "<group>"; };
+		0A0174FB278B1BA400CD45F9 /* 88890-loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "88890-loading.json"; sourceTree = "<group>"; };
+		0A0174FC278B1BA500CD45F9 /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
+		0A0174FD278B1BA500CD45F9 /* 90747-loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "90747-loading.json"; sourceTree = "<group>"; };
+		0A0174FE278B1BA500CD45F9 /* countdown.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = countdown.json; sourceTree = "<group>"; };
+		0A01750D278B210A00CD45F9 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		0A01750F278B227600CD45F9 /* downArrows.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = downArrows.json; sourceTree = "<group>"; };
+		0A017511278B247200CD45F9 /* noInternetConnection.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = noInternetConnection.json; sourceTree = "<group>"; };
+		0A017513278B24A700CD45F9 /* countdown2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = countdown2.json; sourceTree = "<group>"; };
 		0A05CF2F2783183F005432E3 /* RCValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RCValues.swift; sourceTree = "<group>"; };
 		0A05CF32278334B8005432E3 /* PreLaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreLaunchView.swift; sourceTree = "<group>"; };
 		0A05CF3C27846B1D005432E3 /* Fit Vein Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Fit Vein Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -220,7 +248,20 @@
 		0A0174ED278B110E00CD45F9 /* Lottie */ = {
 			isa = PBXGroup;
 			children = (
-				0A0174F1278B16D500CD45F9 /* blender.json */,
+				0A017513278B24A700CD45F9 /* countdown2.json */,
+				0A017511278B247200CD45F9 /* noInternetConnection.json */,
+				0A01750F278B227600CD45F9 /* downArrows.json */,
+				0A0174F4278B1BA200CD45F9 /* 20022-character-squat-animation.json */,
+				0A0174F9278B1BA400CD45F9 /* 43323-men-doing-rope-exercise.json */,
+				0A0174F3278B1BA200CD45F9 /* 49988-the-running-man.json */,
+				0A0174F6278B1BA300CD45F9 /* 53949-runner.json */,
+				0A0174FA278B1BA400CD45F9 /* 70772-smiley-loader.json */,
+				0A0174F7278B1BA300CD45F9 /* 74351-avocado-workout.json */,
+				0A0174FB278B1BA400CD45F9 /* 88890-loading.json */,
+				0A0174FC278B1BA500CD45F9 /* loading.json */,
+				0A0174FD278B1BA500CD45F9 /* 90747-loading.json */,
+				0A0174F5278B1BA300CD45F9 /* skeleton.json */,
+				0A0174FE278B1BA500CD45F9 /* countdown.json */,
 			);
 			path = Lottie;
 			sourceTree = "<group>";
@@ -334,6 +375,7 @@
 				0ABE145627204C72009CD67A /* SwiftUIImagePicker.swift */,
 				0A7CA669274E802F00B97EF2 /* HealthKitRepository.swift */,
 				0A0174E6278A023E00CD45F9 /* HomeViewSheetManager.swift */,
+				0A01750D278B210A00CD45F9 /* NetworkMonitor.swift */,
 			);
 			path = "Constants&Utils";
 			sourceTree = "<group>";
@@ -561,15 +603,28 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A017501278B1BA500CD45F9 /* skeleton.json in Resources */,
+				0A017510278B227600CD45F9 /* downArrows.json in Resources */,
+				0A017508278B1BA500CD45F9 /* loading.json in Resources */,
+				0A017505278B1BA500CD45F9 /* 43323-men-doing-rope-exercise.json in Resources */,
+				0A017500278B1BA500CD45F9 /* 20022-character-squat-animation.json in Resources */,
+				0A017502278B1BA500CD45F9 /* 53949-runner.json in Resources */,
+				0A017509278B1BA500CD45F9 /* 90747-loading.json in Resources */,
 				0AC4DD8C2715A9E5003D5FED /* Preview Assets.xcassets in Resources */,
-				0A0174F2278B16D500CD45F9 /* blender.json in Resources */,
+				0A0174FF278B1BA500CD45F9 /* 49988-the-running-man.json in Resources */,
 				0AC4DD892715A9E5003D5FED /* Assets.xcassets in Resources */,
 				0AB808D82715D77800337924 /* gym.jpg in Resources */,
 				0A20A8A72729FF790058F3DB /* FitVeinIconDark.png in Resources */,
 				0ABE145527204ABC009CD67A /* blank-profile-hi.png in Resources */,
 				0A20A8A82729FF790058F3DB /* FitVeinIconLight.png in Resources */,
+				0A017506278B1BA500CD45F9 /* 70772-smiley-loader.json in Resources */,
+				0A017507278B1BA500CD45F9 /* 88890-loading.json in Resources */,
+				0A017512278B247200CD45F9 /* noInternetConnection.json in Resources */,
 				0ADC2DF02715AE43003ED144 /* GoogleService-Info.plist in Resources */,
+				0A017514278B24A700CD45F9 /* countdown2.json in Resources */,
+				0A017503278B1BA500CD45F9 /* 74351-avocado-workout.json in Resources */,
 				0AD3A40727275E0D00396FE7 /* sprint2.png in Resources */,
+				0A01750A278B1BA500CD45F9 /* countdown.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -722,6 +777,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A7CA662274D7AD100B97EF2 /* ProfileTabFetchingView.swift in Sources */,
+				0A01750E278B210A00CD45F9 /* NetworkMonitor.swift in Sources */,
 				0AE00BA7276CC9B600C876FE /* AddPostView.swift in Sources */,
 				0A4174772726CC1A00DF4460 /* IntervalWorkout.swift in Sources */,
 				0A4BF92A2728552100311D24 /* FinishedWorkoutView.swift in Sources */,

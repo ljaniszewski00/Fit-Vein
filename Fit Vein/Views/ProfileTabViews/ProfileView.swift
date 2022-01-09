@@ -141,7 +141,7 @@ struct ProfileView: View {
                                     .frame(height: screenHeight)
                             } else {
                                 if self.profileViewModel.workouts == nil {
-                                    VStack(spacing: screenHeight * 0.05) {
+                                    VStack() {
                                         ZStack {
                                             RoundedRectangle(cornerRadius: 30)
                                                 .foregroundColor(Color(UIColor.systemGray5))
@@ -155,11 +155,10 @@ struct ProfileView: View {
                                         }
                                         .padding(.top, screenHeight * 0.1)
                                         
-                                        Image(systemName: "arrow.down.circle.fill")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .foregroundColor(.accentColor)
-                                            .frame(width: screenWidth * 0.1, height: screenHeight * 0.1)
+                                        LottieView(name: "downArrows", loopMode: .loop)
+                                            .frame(width: screenWidth * 0.25, height: screenHeight * 0.2)
+                                        
+                                        Spacer()
                                     }
                                     
                                 } else {
@@ -202,7 +201,8 @@ struct ProfileView: View {
                 }
             } else {
                 withAnimation {
-                    ProfileTabFetchingView()
+                    LottieView(name: "skeleton", loopMode: .loop)
+                        .frame(width: screenWidth, height: screenHeight)
                         .onAppear() {
 //                            self.profileViewModel.setup(sessionStore: sessionStore)
 //                            self.profileViewModel.fetchData()

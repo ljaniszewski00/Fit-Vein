@@ -106,7 +106,8 @@ struct HomeView: View {
                 }
             } else {
                 withAnimation {
-                    HomeTabFetchingView()
+                    LottieView(name: "skeleton", loopMode: .loop)
+                        .frame(width: screenWidth, height: screenHeight)
                         .onAppear() {
 //                            self.homeViewModel.setup(sessionStore: sessionStore)
 //                            self.homeViewModel.fetchData()

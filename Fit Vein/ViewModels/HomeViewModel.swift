@@ -14,6 +14,11 @@ class HomeViewModel: ObservableObject {
     private let firestoreManager = FirestoreManager()
     private let firebaseStorageManager = FirebaseStorageManager()
     
+    var networkConnection: Bool {
+        print(NetworkMonitor.shared.isReachable)
+        return NetworkMonitor.shared.isReachable
+    }
+    
     @Published var posts: [Post]?
     @Published var postsAuthorsProfilePicturesURLs: [String: URL] = [:]
     @Published var postsComments: [String: [Comment]] = [:]
