@@ -26,8 +26,15 @@ struct SignUpView: View {
     
     @State private var usernameTaken = false
     
-    @FocusState private var isFirstNameTextFieldFocused: Bool
-    @FocusState private var isUsernameTextFieldFocused: Bool
+//    @FocusState private var isFirstNameTextFieldFocused: Bool
+//    @FocusState private var isUsernameTextFieldFocused: Bool
+    
+    enum Field: Hashable {
+        case firstNameTextField
+        case usernameTextField
+    }
+    
+    @FocusState private var focusedField: Field?
     
     private let dateRange: ClosedRange<Date> = {
         let calendar = Calendar.current
@@ -71,10 +78,9 @@ struct SignUpView: View {
                                 TextField("First Name", text: $firstName)
                                     .disableAutocorrection(true)
                                     .autocapitalization(.none)
-                                    .focused($isFirstNameTextFieldFocused)
+                                    .focused($focusedField, equals: .firstNameTextField)
                                     .onSubmit {
-                                        isFirstNameTextFieldFocused = false
-                                        isUsernameTextFieldFocused = true
+                                        focusedField = .usernameTextField
                                     }
                                 
                                 Divider()
@@ -99,11 +105,7 @@ struct SignUpView: View {
                                 })
                                     .disableAutocorrection(true)
                                     .autocapitalization(.none)
-                                    .focused($isUsernameTextFieldFocused)
-                                    .onSubmit {
-                                        isFirstNameTextFieldFocused = false
-                                        isUsernameTextFieldFocused = false
-                                    }
+                                    .focused($focusedField, equals: .usernameTextField)
                                 
                                 Divider()
                                     .background(Color.accentColor)
@@ -233,9 +235,13 @@ struct SecondSignUpView: View {
     
     @State private var correctData = false
     
-//    @FocusState private var isEmailTextFieldFocused: Bool
-//    @FocusState private var isPasswordTextFieldFocused: Bool
-//    @FocusState private var isRepeatedPasswordTextFieldFocused: Bool
+//    enum Field: Hashable {
+//        case emailTextField
+//        case passwordTextField
+//        case repeatedPasswordTextField
+//    }
+//
+//    @FocusState private var focusedField: Field?
     
     init(firstName: String, username: String, gender: String, birthDate: Date, country: Country, language: Language) {
         self.firstName = firstName
@@ -281,30 +287,38 @@ struct SecondSignUpView: View {
                         })
                             .disableAutocorrection(true)
                             .autocapitalization(.none)
-//                            .focused($isEmailTextFieldFocused)
+//                            .focused($focusedField, equals: .emailTextField)
 //                            .onSubmit {
-//                                isEmailTextFieldFocused = false
-//                                isPasswordTextFieldFocused = true
-//                                isRepeatedPasswordTextFieldFocused = false
+//                                focusedField = .passwordTextField
 //                            }
+                            .onSubmit {
+                                Task {
+                                    self.emailTaken = try await signUpViewModel.checkEmailDuplicate(email: email)
+                                }
+                            }
                         
                         Divider()
                             .background(Color.accentColor)
                     }
                     
                     HStack {
-                        Image(systemName: "envelope")
-                        Text("Please make sure you provide valid e-mail address.\n").font(.system(size: screenWidth * 0.04))
+                        LottieView(name: "envelope", loopMode: .loop, contentMode: .scaleAspectFill)
+                            .frame(width: screenWidth * 0.15, height: screenHeight * 0.12)
+                        Text("Please make sure you provide valid e-mail address.\n").font(.system(size: screenWidth * 0.04, weight: .bold))
+                            .frame(height: screenHeight * 0.12)
                         Spacer()
                     }
                     
                     HStack {
-                        Text("The account associated with this e-mail address has already been created.\n")
+                        LottieView(name: "wrongData", loopMode: .loop, contentMode: .scaleAspectFill)
+                            .frame(width: screenWidth * 0.15, height: screenHeight * 0.07)
+                        Text("This e-mail addres has already been used.\n")
                             .foregroundColor(.red)
-                            .font(.system(size: screenHeight * 0.02))
+                            .font(.system(size: screenWidth * 0.04, weight: .bold))
                         Spacer()
                     }
                     .opacity(emailTaken ? 100 : 0)
+                    .offset(y: -screenHeight * 0.05)
                 }
                 .padding(.top)
                 .padding(.horizontal)
@@ -319,11 +333,9 @@ struct SecondSignUpView: View {
                         SecureField("Password", text: $password)
                             .disableAutocorrection(true)
                             .autocapitalization(.none)
-//                            .focused($isPasswordTextFieldFocused)
+//                            .focused($focusedField, equals: .passwordTextField)
 //                            .onSubmit {
-//                                isEmailTextFieldFocused = false
-//                                isPasswordTextFieldFocused = false
-//                                isRepeatedPasswordTextFieldFocused = true
+//                                focusedField = .repeatedPasswordTextField
 //                            }
                         
                         Divider()
@@ -331,13 +343,15 @@ struct SecondSignUpView: View {
                     }
                     
                     HStack {
-                        Image(systemName: "lock.open")
-                        Text("Password should be at least 8 characters long and should contain a number.\n").font(.system(size: screenWidth * 0.04))
+                        LottieView(name: "passwordLock", loopMode: .loop, contentMode: .scaleAspectFit)
+                            .frame(width: screenWidth * 0.15, height: screenHeight * 0.04)
+                        Text("Password should be at least 8 characters long and should contain a number.\n").font(.system(size: screenWidth * 0.04, weight: .bold))
                         Spacer()
                     }
                 }
                 .padding(.top)
                 .padding(.horizontal)
+                .offset(y: -screenHeight * 0.07)
                 
                 VStack {
                     HStack {
@@ -349,25 +363,17 @@ struct SecondSignUpView: View {
                         SecureField("Confirm Password", text: $repeatedPassword)
                             .disableAutocorrection(true)
                             .autocapitalization(.none)
-//                            .focused($isRepeatedPasswordTextFieldFocused)
-//                            .onSubmit {
-//                                isEmailTextFieldFocused = false
-//                                isPasswordTextFieldFocused = false
-//                                isRepeatedPasswordTextFieldFocused = false
-//                            }
+//                            .focused($focusedField, equals: .repeatedPasswordTextField)
                         
                         Divider()
                             .background(Color.accentColor)
                     }
-                    
-                    HStack {
-                        Image(systemName: "arrow.up.square")
-                        Text("Both passwords must be identical.\n").font(.system(size: screenWidth * 0.04))
-                        Spacer()
-                    }
                 }
                 .padding(.top)
                 .padding(.horizontal)
+                .offset(y: -screenHeight * 0.07)
+                
+                Spacer()
                 
                 Button(action: {
                     signUpViewModel.signUp(firstName: firstName, userName: username, birthDate: birthDate, country: country.rawValue, language: language.rawValue, email: email, password: password, gender: gender)
@@ -378,6 +384,7 @@ struct SecondSignUpView: View {
                 .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor((!checkDataIsCorrect()) ? .gray : .accentColor))
                 .padding()
                 .disabled(!checkDataIsCorrect())
+                .offset(y: -screenHeight * 0.07)
                 
                 Spacer()
             }
