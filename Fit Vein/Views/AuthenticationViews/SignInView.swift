@@ -15,11 +15,12 @@ struct SignInView: View {
     @State var email: String = ""
     @State var password: String = ""
     
-    @State private var forgotPasswordEmail = ""
     @State private var wrongCredentials = false
     @State private var showForgotPasswordSheet = false
-    @State private var sendRecoveryEmailButtonPressed = false
-    @State private var recoveryEmailSent = false
+    
+    @FocusState private var isEmailTextFieldFocused: Bool
+    @FocusState private var isPasswordTextFieldFocused: Bool
+
     
     var body: some View {
         GeometryReader { geometry in
@@ -55,6 +56,11 @@ struct SignInView: View {
                             TextField("E-mail", text: $email)
                                 .disableAutocorrection(true)
                                 .autocapitalization(.none)
+                                .focused($isEmailTextFieldFocused)
+                                .onSubmit {
+                                    isEmailTextFieldFocused = false
+                                    isPasswordTextFieldFocused = true
+                                }
                             Divider()
                                 .background(Color.accentColor)
                         }
@@ -70,8 +76,12 @@ struct SignInView: View {
                         
                         VStack {
                             SecureField("Password", text: $password)
-                                .disableAutocorrection(true)
-                                .autocapitalization(.none)
+.disableAutocorrection(true)
+.autocapitalization(.none)
+.focused($isPasswordTextFieldFocused)
+.onSubmit {
+    isPasswordTextFieldFocused = false
+}
                             Divider()
                                 .background(Color.accentColor)
                         }
@@ -95,8 +105,16 @@ struct SignInView: View {
                 
 
                 Button(action: {
-                    if checkDataIsCorrect() {
-                        signInViewModel.signIn(email: email, password: password)
+                    if email.isEmpty {
+                        isEmailTextFieldFocused = true
+                    } else if password.isEmpty {
+                        isPasswordTextFieldFocused = true
+                    } else {
+                        isEmailTextFieldFocused = false
+                        isPasswordTextFieldFocused = false
+                        if checkDataIsCorrect() {
+                            signInViewModel.signIn(email: email, password: password)
+                        }
                     }
                 }, label: {
                     Text("Sign In")
@@ -117,43 +135,66 @@ struct SignInView: View {
             .onAppear {
                 self.signInViewModel.setup(sessionStore: sessionStore)
             }
+            .offset(y: isEmailTextFieldFocused ? -screenHeight * 0.25 : (isPasswordTextFieldFocused ? -screenHeight * 0.25 : 0))
             .foregroundColor(.white)
             .background(Image("SignUpBackgroundImage")
                             .resizable()
                             .ignoresSafeArea()
                             .scaledToFill())
             .sheet(isPresented: $showForgotPasswordSheet, content: {
+                forgotPasswordSheetView().environmentObject(signInViewModel).ignoresSafeArea(.keyboard)
+            })
+        }
+    }
+    
+    struct forgotPasswordSheetView: View {
+        @EnvironmentObject private var signInViewModel: SignInViewModel
+        
+        @State private var forgotPasswordEmail = ""
+        @State private var sendRecoveryEmailButtonPressed = false
+        @State private var recoveryEmailSent = false
+        
+        @FocusState private var isTextFieldFocused: Bool
+        
+        var body: some View {
+            GeometryReader { geometry in
+                let screenWidth = geometry.size.width
+                let screenHeight = geometry.size.height
+                
                 NavigationView {
                     ScrollView(.vertical) {
                         Form {
                             Section(header: Text("Forgot Password"), footer: sendRecoveryEmailButtonPressed ? (recoveryEmailSent ? Text("Recovery e-mail has been sent! Please check your inbox.").foregroundColor(.accentColor) : Text("Please provide correct e-mail address.").foregroundColor(.red)) : Text("Please provide your e-mail address so that we could send you recovery e-mail with instructions how to reset the password.")) {
                                 TextField("E-mail", text: $forgotPasswordEmail)
+                                    .focused($isTextFieldFocused)
                             }
                         }
                         .frame(width: screenWidth, height: screenHeight * 0.80)
                         
-                        HStack {
-                            Button(action: {
-                                withAnimation {
-                                    sendRecoveryEmailButtonPressed = true
-                                    if checkEmail(email: forgotPasswordEmail) {
-                                        signInViewModel.sendRecoveryEmail(email: forgotPasswordEmail)
-                                        recoveryEmailSent = true
-                                    }
+                        Button(action: {
+                            withAnimation {
+                                sendRecoveryEmailButtonPressed = true
+                                if checkEmail(email: forgotPasswordEmail) {
+                                    signInViewModel.sendRecoveryEmail(email: forgotPasswordEmail)
+                                    recoveryEmailSent = true
                                 }
-                            }, label: {
-                                Text("Send Recovery E-mail")
-                                    .foregroundColor(.white)
-                            })
-                            .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(.accentColor))
-                            .padding()
-                        }
-                        .frame(width: screenWidth * 0.6, height: screenHeight * 0.07)
+                            }
+                        }, label: {
+                            Text("Send Recovery E-mail")
+                                .foregroundColor(.white)
+                        })
+                        .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(.accentColor))
+                        .padding()
+                        .offset(y: isTextFieldFocused ? -screenHeight * 0.35 : -screenHeight * 0.1)
                     }
                     .navigationBarTitle("Forgot Password Form", displayMode: .inline)
                 }
-                .ignoresSafeArea(.keyboard)
-            })
+            }
+        }
+        
+        private func checkEmail(email: String) -> Bool {
+            let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+            return NSPredicate(format:"SELF MATCHES %@", emailRegEx).evaluate(with: email)
         }
     }
     
@@ -162,16 +203,8 @@ struct SignInView: View {
         return NSPredicate(format:"SELF MATCHES %@", emailRegEx).evaluate(with: email)
     }
     
-    private func checkFieldsNotEmpty() -> Bool {
-        if email.isEmpty || password.isEmpty {
-            return false
-        } else {
-            return true
-        }
-    }
-    
     private func checkDataIsCorrect() -> Bool {
-        return checkEmail(email: email) && checkFieldsNotEmpty()
+        return checkEmail(email: email)
     }
 }
 

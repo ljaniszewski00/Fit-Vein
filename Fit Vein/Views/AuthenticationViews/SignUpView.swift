@@ -4,7 +4,6 @@
 //
 //  Created by Łukasz Janiszewski on 12/10/2021.
 //
-
 import SwiftUI
 
 struct SignUpView: View {
@@ -26,6 +25,9 @@ struct SignUpView: View {
     @State private var correctData = false
     
     @State private var usernameTaken = false
+    
+    @FocusState private var isFirstNameTextFieldFocused: Bool
+    @FocusState private var isUsernameTextFieldFocused: Bool
     
     private let dateRange: ClosedRange<Date> = {
         let calendar = Calendar.current
@@ -69,6 +71,11 @@ struct SignUpView: View {
                                 TextField("First Name", text: $firstName)
                                     .disableAutocorrection(true)
                                     .autocapitalization(.none)
+                                    .focused($isFirstNameTextFieldFocused)
+                                    .onSubmit {
+                                        isFirstNameTextFieldFocused = false
+                                        isUsernameTextFieldFocused = true
+                                    }
                                 
                                 Divider()
                                     .background(Color.accentColor)
@@ -92,6 +99,11 @@ struct SignUpView: View {
                                 })
                                     .disableAutocorrection(true)
                                     .autocapitalization(.none)
+                                    .focused($isUsernameTextFieldFocused)
+                                    .onSubmit {
+                                        isFirstNameTextFieldFocused = false
+                                        isUsernameTextFieldFocused = false
+                                    }
                                 
                                 Divider()
                                     .background(Color.accentColor)
@@ -221,6 +233,10 @@ struct SecondSignUpView: View {
     
     @State private var correctData = false
     
+//    @FocusState private var isEmailTextFieldFocused: Bool
+//    @FocusState private var isPasswordTextFieldFocused: Bool
+//    @FocusState private var isRepeatedPasswordTextFieldFocused: Bool
+    
     init(firstName: String, username: String, gender: String, birthDate: Date, country: Country, language: Language) {
         self.firstName = firstName
         self.username = username
@@ -265,6 +281,12 @@ struct SecondSignUpView: View {
                         })
                             .disableAutocorrection(true)
                             .autocapitalization(.none)
+//                            .focused($isEmailTextFieldFocused)
+//                            .onSubmit {
+//                                isEmailTextFieldFocused = false
+//                                isPasswordTextFieldFocused = true
+//                                isRepeatedPasswordTextFieldFocused = false
+//                            }
                         
                         Divider()
                             .background(Color.accentColor)
@@ -297,6 +319,12 @@ struct SecondSignUpView: View {
                         SecureField("Password", text: $password)
                             .disableAutocorrection(true)
                             .autocapitalization(.none)
+//                            .focused($isPasswordTextFieldFocused)
+//                            .onSubmit {
+//                                isEmailTextFieldFocused = false
+//                                isPasswordTextFieldFocused = false
+//                                isRepeatedPasswordTextFieldFocused = true
+//                            }
                         
                         Divider()
                             .background(Color.accentColor)
@@ -321,6 +349,12 @@ struct SecondSignUpView: View {
                         SecureField("Confirm Password", text: $repeatedPassword)
                             .disableAutocorrection(true)
                             .autocapitalization(.none)
+//                            .focused($isRepeatedPasswordTextFieldFocused)
+//                            .onSubmit {
+//                                isEmailTextFieldFocused = false
+//                                isPasswordTextFieldFocused = false
+//                                isRepeatedPasswordTextFieldFocused = false
+//                            }
                         
                         Divider()
                             .background(Color.accentColor)
