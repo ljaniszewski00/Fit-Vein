@@ -131,7 +131,7 @@ struct WorkoutView: View {
                     .navigationBarHidden(false)
                     .toolbar {
                         ToolbarItem(placement: .navigationBarTrailing) {
-                            NavigationLink(destination: WorkoutAddView().environmentObject(workoutViewModel).navigationTitle("Add Workout").navigationBarHidden(false)) {
+                            NavigationLink(destination: WorkoutAddView().environmentObject(workoutViewModel).navigationTitle("Add Workout").navigationBarHidden(false).ignoresSafeArea(.keyboard)) {
                                 Image(systemName: "plus.circle.fill")
                                     .resizable()
                                     .scaledToFit()
@@ -160,65 +160,81 @@ struct WorkoutAddView: View {
     @State var workTime: String = ""
     @State var restTime: String = ""
     
+    @FocusState private var isTextFieldFocused: Bool
+    
     var body: some View {
         GeometryReader { geometry in
             let screenWidth = geometry.size.width
             let screenHeight = geometry.size.height
             
-            VStack {
-                VStack {
-                    HStack {
-                        Text("Rounds Number")
-                        Spacer()
-                    }
-                    
-                    VStack {
-                        TextField("number", text: $series)
-                            .disableAutocorrection(true)
-                            .autocapitalization(.none)
-                            .keyboardType(.numberPad)
-                        Divider()
-                            .background(Color.accentColor)
-                    }
+            ScrollView(.vertical) {
+                HStack {
+                    Spacer()
+                    LottieView(name: "53949-runner", loopMode: .loop)
+                        .frame(height: screenHeight * 0.25)
+                        .offset(x: screenWidth * 0.25, y: -screenHeight * 0.1)
                 }
-                .padding()
+                .isHidden(isTextFieldFocused)
                 
                 VStack {
-                    HStack {
-                        Text("Work Time")
-                        Spacer()
+                    VStack {
+                        HStack {
+                            Text("Rounds Number")
+                            Spacer()
+                        }
+                        
+                        VStack {
+                            TextField("", text: $series)
+                                .disableAutocorrection(true)
+                                .autocapitalization(.none)
+                                .keyboardType(.numberPad)
+                                .focused($isTextFieldFocused)
+                            Divider()
+                                .background(Color.accentColor)
+                        }
                     }
+                    .padding()
                     
                     VStack {
-                        TextField("seconds", text: $workTime)
-                            .disableAutocorrection(true)
-                            .autocapitalization(.none)
-                            .keyboardType(.numberPad)
-                        Divider()
-                            .background(Color.accentColor)
+                        HStack {
+                            Text("Work Time")
+                            Spacer()
+                        }
+                        
+                        VStack {
+                            TextField("seconds", text: $workTime)
+                                .disableAutocorrection(true)
+                                .autocapitalization(.none)
+                                .keyboardType(.numberPad)
+                                .focused($isTextFieldFocused)
+                            Divider()
+                                .background(Color.accentColor)
+                        }
                     }
-                }
-                .padding()
-                
-                VStack {
-                    HStack {
-                        Text("Rest Time")
-                        Spacer()
-                    }
+                    .padding()
                     
                     VStack {
-                        TextField("seconds", text: $restTime)
-                            .disableAutocorrection(true)
-                            .autocapitalization(.none)
-                            .keyboardType(.numberPad)
-                        Divider()
-                            .background(Color.accentColor)
+                        HStack {
+                            Text("Rest Time")
+                            Spacer()
+                        }
+                        
+                        VStack {
+                            TextField("seconds", text: $restTime)
+                                .disableAutocorrection(true)
+                                .autocapitalization(.none)
+                                .keyboardType(.numberPad)
+                                .focused($isTextFieldFocused)
+                            Divider()
+                                .background(Color.accentColor)
+                        }
                     }
-                    
+                    .padding()
                 }
+                .padding(.horizontal)
+                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 40, style: .continuous))
+                .offset(y: isTextFieldFocused ? -screenHeight * 0.25 : -screenHeight * 0.1)
                 .padding()
-                
-                Spacer()
                 
                 Button(action: {
                     workoutViewModel.addUserWorkout(series: Int(self.series) ?? 8, workTime: Int(self.workTime) ?? 45, restTime: Int(self.restTime) ?? 15)
@@ -228,14 +244,15 @@ struct WorkoutAddView: View {
                         .foregroundColor(Color(uiColor: .systemGray5))
                         .fontWeight(.bold)
                 })
-                .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(.accentColor))
-                .padding()
+                    .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(.accentColor))
+                    .padding()
+                    .offset(y: isTextFieldFocused ? -screenHeight * 0.2 : 0)
+                    .disabled(series.isEmpty || workTime.isEmpty || restTime.isEmpty)
             }
-            .padding(.top, screenHeight * 0.10)
-            .padding(.bottom, screenHeight * 0.15)
             .onDisappear {
                 dismiss()
             }
+            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 40, style: .continuous))
         }
     }
 }
