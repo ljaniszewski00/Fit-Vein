@@ -152,11 +152,11 @@ struct SettingsView: View {
             .sheet(isPresented: $sheetManager.showSheet) {
                 switch sheetManager.whichSheet {
                 case .email:
-                    ChangeEmailAddressSheetView().environmentObject(profileViewModel)
+                    ChangeEmailAddressSheetView().environmentObject(profileViewModel).ignoresSafeArea(.keyboard)
                 case .password:
-                    ChangePasswordSheetView().environmentObject(profileViewModel)
+                    ChangePasswordSheetView().environmentObject(profileViewModel).ignoresSafeArea(.keyboard)
                 case .signout:
-                    DeleteAccountSheetView().environmentObject(profileViewModel)
+                    DeleteAccountSheetView().environmentObject(profileViewModel).ignoresSafeArea(.keyboard)
                 default:
                     Text("No view")
                 }
@@ -196,6 +196,7 @@ struct SettingsView: View {
                 .padding()
                 .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 40, style: .continuous))
                 .padding(.top, screenHeight * 0.04)
+                .padding(.horizontal)
                 
                 VStack {
                     HStack {
@@ -250,6 +251,7 @@ struct SettingsView: View {
                 .padding()
                 .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 40, style: .continuous))
                 .padding(.top, screenHeight * 0.04)
+                .padding(.horizontal)
                 
                 VStack {
                     HStack {
@@ -274,6 +276,8 @@ struct DeleteAccountSheetView: View {
     @State private var email = ""
     @State private var password = ""
     
+    @FocusState private var isTextFieldFocused: Bool
+    
     var body: some View {
         GeometryReader { geometry in
             let screenWidth = geometry.size.width
@@ -284,12 +288,15 @@ struct DeleteAccountSheetView: View {
                     Form {
                         Section(footer: Text("Before you delete your account please provide your login credentials to confirm it is really you.")) {
                             TextField("E-mail", text: $email)
+                                .focused($isTextFieldFocused)
                             SecureField("Password", text: $password)
+                                .focused($isTextFieldFocused)
                         }
                     }
                     
                     LottieView(name: "delete", loopMode: .loop)
                         .frame(width: screenWidth, height: screenHeight * 0.4)
+                        .offset(y: isTextFieldFocused ? -screenHeight * 0.3 : 0)
                     
                     Button(action: {
                         withAnimation {
@@ -307,6 +314,7 @@ struct DeleteAccountSheetView: View {
                     .font(.system(size: screenHeight * 0.026))
                     .foregroundColor(.white)
                     .padding()
+                    .offset(y: isTextFieldFocused ? -screenHeight * 0.4 : 0)
                 }
                 .navigationBarHidden(true)
                 .ignoresSafeArea(.keyboard)
@@ -324,6 +332,8 @@ struct ChangeEmailAddressSheetView: View {
     @State private var password = ""
     @State private var newEmail = ""
     
+    @FocusState private var isTextFieldFocused: Bool
+    
     var body: some View {
         GeometryReader { geometry in
             let screenWidth = geometry.size.width
@@ -334,13 +344,17 @@ struct ChangeEmailAddressSheetView: View {
                     Form {
                         Section(footer: Text("Before you change your e-mail address please provide your login credentials to confirm it is really you.")) {
                             TextField("Old e-mail address", text: $oldEmail)
+                                .focused($isTextFieldFocused)
                             SecureField("Password", text: $password)
+                                .focused($isTextFieldFocused)
                             TextField("New e-mail address", text: $newEmail)
+                                .focused($isTextFieldFocused)
                         }
                     }
                     
                     LottieView(name: "changeArrows", loopMode: .loop)
                         .frame(width: screenWidth * 0.3, height: screenHeight * 0.3)
+                        .offset(y: isTextFieldFocused ? -screenHeight * 0.35 : 0)
                     
                     Button(action: {
                         withAnimation {
@@ -356,6 +370,7 @@ struct ChangeEmailAddressSheetView: View {
                     .font(.system(size: screenHeight * 0.026))
                     .foregroundColor(.white)
                     .padding()
+                    .offset(y: isTextFieldFocused ? -screenHeight * 0.4 : 0)
                 }
                 .navigationBarHidden(true)
                 .ignoresSafeArea(.keyboard)
@@ -373,6 +388,8 @@ struct ChangePasswordSheetView: View {
     @State private var oldPassword = ""
     @State private var newPassword = ""
     
+    @FocusState private var isTextFieldFocused: Bool
+    
     var body: some View {
         GeometryReader { geometry in
             let screenWidth = geometry.size.width
@@ -383,13 +400,17 @@ struct ChangePasswordSheetView: View {
                     Form {
                         Section(footer: Text("Before you change your password please provide your login credentials to confirm it is really you.")) {
                             TextField("E-mail", text: $email)
+                                .focused($isTextFieldFocused)
                             SecureField("Old password", text: $oldPassword)
+                                .focused($isTextFieldFocused)
                             SecureField("New password", text: $newPassword)
+                                .focused($isTextFieldFocused)
                         }
                     }
                     
                     LottieView(name: "changeArrows", loopMode: .loop)
                         .frame(width: screenWidth * 0.3, height: screenHeight * 0.3)
+                        .offset(y: isTextFieldFocused ? -screenHeight * 0.35 : 0)
                     
                     Button(action: {
                         withAnimation {
@@ -405,6 +426,7 @@ struct ChangePasswordSheetView: View {
                     .font(.system(size: screenHeight * 0.026))
                     .foregroundColor(.white)
                     .padding()
+                    .offset(y: isTextFieldFocused ? -screenHeight * 0.4 : 0)
                 }
                 .navigationBarHidden(true)
                 .ignoresSafeArea(.keyboard)
