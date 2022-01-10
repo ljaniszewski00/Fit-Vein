@@ -57,6 +57,7 @@ struct HomeView: View {
                                             ForEach(posts) { post in
                                                 HomeTabSubViewPostsView(sheetManager: sheetManager, post: post).environmentObject(homeViewModel).environmentObject(profileViewModel)
                                                     .frame(height: screenHeight)
+                                                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 40, style: .continuous))
                                                     .padding(.bottom, -screenHeight * 0.6)
                                             }
                                         } else {

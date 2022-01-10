@@ -23,27 +23,25 @@ struct AddPostView: View {
             NavigationView {
                 ScrollView(.vertical) {
                     HStack {
-                        if profileViewModel.profilePicturePhotoURL != nil {
-                            AsyncImage(url: profileViewModel.profilePicturePhotoURL!) { image in
-                                image
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .clipShape(RoundedRectangle(cornerRadius: 50))
-                                    .frame(width: screenWidth * 0.2, height: screenHeight * 0.1)
-                            } placeholder: {
+                        Group {
+                            if let profilePictureURL = profileViewModel.profilePicturePhotoURL {
+                                AsyncImage(url: profilePictureURL) { phase in
+                                    if let image = phase.image {
+                                        image
+                                            .resizable()
+                                    } else {
+                                        Image(uiImage: UIImage(named: "blank-profile-hi")!)
+                                            .resizable()
+                                    }
+                                }
+                            } else {
                                 Image(uiImage: UIImage(named: "blank-profile-hi")!)
                                     .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .clipShape(RoundedRectangle(cornerRadius: 50))
-                                    .frame(width: screenWidth * 0.2, height: screenHeight * 0.1)
                             }
-                        } else {
-                            Image(uiImage: UIImage(named: "blank-profile-hi")!)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .clipShape(RoundedRectangle(cornerRadius: 50))
-                                .frame(width: screenWidth * 0.2, height: screenHeight * 0.1)
                         }
+                        .aspectRatio(contentMode: .fit)
+                        .clipShape(RoundedRectangle(cornerRadius: 50))
+                        .frame(width: screenWidth * 0.2, height: screenHeight * 0.1)
                         
                         Spacer(minLength: screenWidth * 0.05)
                         
@@ -68,30 +66,46 @@ struct AddPostView: View {
                     }
                     .padding()
                     
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke()
-                            .foregroundColor(.accentColor)
-                            .frame(width: screenWidth * 0.95, height: screenHeight * 0.525)
-                        
-                        ZStack(alignment: .topLeading) {
-                            TextEditor(text: $postText)
-                                .padding()
-                                .frame(width: screenWidth * 0.9, height: screenHeight * 0.5)
-                                .cornerRadius(25)
-                            
-                            Text("What's up?")
-                                .foregroundColor(Color(uiColor: .systemGray3))
-                                .isHidden(!self.postText.isEmpty)
-                        }
+//                    ZStack {
+//                        RoundedRectangle(cornerRadius: 10)
+//                            .stroke()
+//                            .foregroundColor(.accentColor)
+//                            .frame(width: screenWidth * 0.95, height: screenHeight * 0.525)
+//
+//                        ZStack(alignment: .topLeading) {
+//                            TextEditor(text: $postText)
+//                                .padding()
+//                                .frame(width: screenWidth * 0.9, height: screenHeight * 0.5)
+//                                .cornerRadius(25)
+//
+//                            Text("What's up?")
+//                                .foregroundColor(Color(uiColor: .systemGray3))
+//                                .isHidden(!self.postText.isEmpty)
+//                        }
+//                    }
+                    
+                    HStack {
+                        Text("What's up?")
+                            .foregroundColor(Color(uiColor: .systemGray3))
+                            .padding()
+                        Spacer()
                     }
                     
+                    TextEditor(text: $postText)
+                        .padding()
+                        .frame(width: screenWidth * 0.9, height: screenHeight * 0.5)
+                        .overlay(RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.secondary).opacity(0.5))
                     
-                    
-                    ProgressView("Chars: \(self.postText.count) / 200", value: Double(self.postText.count), total: 200)
+                    ProgressView("", value: Double(self.postText.count), total: 200)
                         .frame(width: screenWidth * 0.3, height: screenHeight * 0.04)
                         .padding()
                         .accentColor(.accentColor)
+                    
+                    if !postText.isEmpty {
+                        LottieView(name: "chat", loopMode: .loop)
+                            .frame(width: screenWidth, height: screenHeight * 0.1)
+                    }
                     
                     Spacer()
                 }

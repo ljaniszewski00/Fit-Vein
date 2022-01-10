@@ -60,6 +60,7 @@
 		0A83A278278B9E650061973B /* success.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A83A277278B9E650061973B /* success.json */; };
 		0A83A27A278BA3280061973B /* changeArrows.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A83A279278BA3280061973B /* changeArrows.json */; };
 		0A83A27C278BA5010061973B /* delete.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A83A27B278BA5010061973B /* delete.json */; };
+		0A83A27E278BAA0F0061973B /* chat.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A83A27D278BAA0F0061973B /* chat.json */; };
 		0A8F574C2720B70E00183F47 /* RingProgressViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F574B2720B70E00183F47 /* RingProgressViewStyle.swift */; };
 		0A8F574E2720B8A400183F47 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F574D2720B8A400183F47 /* SettingsView.swift */; };
 		0AB808CF2715B9D700337924 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB808CE2715B9D700337924 /* SessionStore.swift */; };
@@ -172,6 +173,7 @@
 		0A83A277278B9E650061973B /* success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success.json; sourceTree = "<group>"; };
 		0A83A279278BA3280061973B /* changeArrows.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = changeArrows.json; sourceTree = "<group>"; };
 		0A83A27B278BA5010061973B /* delete.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = delete.json; sourceTree = "<group>"; };
+		0A83A27D278BAA0F0061973B /* chat.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = chat.json; sourceTree = "<group>"; };
 		0A8F574B2720B70E00183F47 /* RingProgressViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingProgressViewStyle.swift; sourceTree = "<group>"; };
 		0A8F574D2720B8A400183F47 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		0AB808CE2715B9D700337924 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
@@ -263,6 +265,7 @@
 		0A0174ED278B110E00CD45F9 /* Lottie */ = {
 			isa = PBXGroup;
 			children = (
+				0A83A27D278BAA0F0061973B /* chat.json */,
 				0A83A27B278BA5010061973B /* delete.json */,
 				0A83A279278BA3280061973B /* changeArrows.json */,
 				0A83A277278B9E650061973B /* success.json */,
@@ -647,6 +650,7 @@
 				0A017506278B1BA500CD45F9 /* 70772-smiley-loader.json in Resources */,
 				0A83A274278B99270061973B /* help.json in Resources */,
 				0A017507278B1BA500CD45F9 /* 88890-loading.json in Resources */,
+				0A83A27E278BAA0F0061973B /* chat.json in Resources */,
 				0A017512278B247200CD45F9 /* noInternetConnection.json in Resources */,
 				0ADC2DF02715AE43003ED144 /* GoogleService-Info.plist in Resources */,
 				0A017514278B24A700CD45F9 /* countdown2.json in Resources */,

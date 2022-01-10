@@ -26,10 +26,6 @@ struct HomeTabSubViewPostsView: View {
             let screenHeight = geometry.size.height
             
             VStack {
-                Rectangle()
-                    .foregroundColor(Color(uiColor: .systemGray6))
-                    .frame(width: screenWidth, height: screenHeight * 0.02)
-                
                 HomeTabSubViewPostDetailsView(sheetManager: sheetManager, currentUserID: self.profileViewModel.profile!.id, postID: post.id, postAuthorUserID: post.authorID, postAuthorProfilePictureURL: self.homeViewModel.postsAuthorsProfilePicturesURLs[post.id], postAuthorFirstName: post.authorFirstName, postAuthorUsername: post.authorUsername, postAddDate: post.addDate, postText: post.text)
                     .environmentObject(homeViewModel)
                     .frame(height: screenHeight)
