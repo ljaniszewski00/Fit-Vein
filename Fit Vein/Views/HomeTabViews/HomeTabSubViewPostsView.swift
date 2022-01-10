@@ -39,7 +39,6 @@ struct HomeTabSubViewPostsView: View {
                                     .padding(.leading, screenWidth * 0.05)
 
                                 Text("\(post.reactionsUsersIDs!.count)")
-                                    .foregroundColor(Color(uiColor: .systemGray5))
                             }
 
                         }
@@ -49,7 +48,6 @@ struct HomeTabSubViewPostsView: View {
                         if let postComments = homeViewModel.postsComments[post.id] {
                             Text("\(postComments.count) comments")
                                 .padding(.trailing, screenWidth * 0.05)
-                                .foregroundColor(Color(uiColor: .systemGray5))
                         }
                     }
 

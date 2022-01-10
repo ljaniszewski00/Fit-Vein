@@ -40,7 +40,6 @@ struct PostCommentsView: View {
                                 .padding(.leading, screenWidth * 0.05)
                             
                             Text("\(post.reactionsUsersIDs!.count)")
-                                .foregroundColor(Color(uiColor: .systemGray5))
                         }
                         
                     }
@@ -50,7 +49,6 @@ struct PostCommentsView: View {
                     if let postComments = homeViewModel.postsComments[post.id] {
                         Text("\(postComments.count) comments")
                             .padding(.trailing, screenWidth * 0.05)
-                            .foregroundColor(Color(uiColor: .systemGray5))
                     }
                 }
                 
@@ -102,7 +100,7 @@ struct PostCommentsView: View {
                 
                 if let postComments = homeViewModel.postsComments[post.id] {
                     ForEach(postComments) { comment in
-                        VStack(spacing: 0) {
+                        VStack(spacing: screenHeight * 0.01) {
                             HStack {
                                 Group {
                                     if let profilePictureURL = self.homeViewModel.postsCommentsAuthorsProfilePicturesURLs[comment.authorID] {
@@ -125,43 +123,39 @@ struct PostCommentsView: View {
                                 .frame(width: screenWidth * 0.15, height: screenHeight * 0.1)
                                 .padding(.leading, screenWidth * 0.05)
                                 
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 25)
-                                        .foregroundColor(Color(uiColor: .systemGray6))
+                                VStack(spacing: screenHeight * 0.03) {
+                                    HStack {
+                                        Text(comment.authorFirstName)
+                                            .fontWeight(.bold)
+                                        Text("•")
+                                        Text(comment.authorUsername)
+                                        Spacer()
+                                    }
                                     
-                                    VStack(spacing: screenHeight * 0.03) {
-                                        HStack {
-                                            Text(comment.authorFirstName)
-                                                .fontWeight(.bold)
-                                            Text("•")
-                                            Text(comment.authorUsername)
-                                            Spacer()
-                                        }
+                                    Text(comment.text)
+                                        .font(.system(size: screenHeight * 0.025))
+                                        .fixedSize(horizontal: false, vertical: true)
+                                    
+                                    HStack {
+                                        Text(getShortDate(longDate: comment.addDate))
+                                            .foregroundColor(Color(uiColor: .systemGray2))
+                                        Spacer()
                                         
-                                        Text(comment.text)
-                                            .font(.system(size: screenHeight * 0.025))
-                                            .fixedSize(horizontal: false, vertical: true)
-                                        
-                                        HStack {
-                                            Text(getShortDate(longDate: comment.addDate))
-                                                .foregroundColor(Color(uiColor: .systemGray2))
-                                            Spacer()
-                                            
-                                            if comment.reactionsUsersIDs != nil {
-                                                if comment.reactionsUsersIDs!.count != 0 {
-                                                    HStack {
-                                                        Image(systemName: comment.reactionsUsersIDs!.contains(self.profileViewModel.profile!.id) ? "hand.thumbsup.fill" : "hand.thumbsup")
-                                                        Text("\(comment.reactionsUsersIDs!.count)")
-                                                    }
-                                                    .foregroundColor(.accentColor)
+                                        if comment.reactionsUsersIDs != nil {
+                                            if comment.reactionsUsersIDs!.count != 0 {
+                                                HStack {
+                                                    Image(systemName: comment.reactionsUsersIDs!.contains(self.profileViewModel.profile!.id) ? "hand.thumbsup.fill" : "hand.thumbsup")
+                                                        .foregroundColor(.accentColor)
+                                                    Text("\(comment.reactionsUsersIDs!.count)")
                                                 }
                                             }
                                         }
                                     }
-                                    .padding()
-                                    .font(.system(size: screenHeight * 0.02))
                                 }
                                 .padding()
+                                .font(.system(size: screenHeight * 0.02))
+                                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 40, style: .continuous))
+                                .padding(.trailing)
                             }
                             
                             HStack {
@@ -224,10 +218,9 @@ struct PostCommentsView: View {
                                 
                             }
                         }
+                        .padding(.bottom, screenHeight * 0.02)
                     }
                 }
-                
-                Spacer(minLength: screenHeight * 0.1)
                 
                 HStack {
                     VStack {
@@ -244,10 +237,12 @@ struct PostCommentsView: View {
                                 
                                 Button(action: {
                                     self.homeViewModel.commentPost(postID: post.id, authorID: self.profileViewModel.profile!.id, authorFirstName: self.profileViewModel.profile!.firstName, authorLastName: self.profileViewModel.profile!.username, authorProfilePictureURL: self.profileViewModel.profile!.profilePictureURL != nil ? self.profileViewModel.profile!.profilePictureURL! : "User has no profile picture", text: commentText)
+                                    self.commentText = ""
                                 }, label: {
                                     Text("Send")
                                         .foregroundColor(.accentColor)
                                 })
+                                    .disabled(self.commentText.count > 200)
                             }
                             
                             Divider()
@@ -257,6 +252,7 @@ struct PostCommentsView: View {
                     }
                     .padding(.horizontal)
                 }
+                .padding(.bottom, screenHeight * 0.1)
             }
             .navigationTitle("")
             .navigationBarTitleDisplayMode(.inline)
@@ -303,6 +299,7 @@ struct PostCommentsView: View {
                     }
                 }
             }
+            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 40, style: .continuous))
         }
     }
 }

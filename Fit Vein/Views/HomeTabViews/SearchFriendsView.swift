@@ -15,6 +15,8 @@ struct SearchFriendsView: View {
     @State var searching = false
     @State var searchText = ""
     
+    @State private var success = false
+    
     var body: some View {
         GeometryReader { geometry in
             let screenWidth = geometry.size.width
@@ -24,7 +26,7 @@ struct SearchFriendsView: View {
                 VStack {
                     if let usersData = self.homeViewModel.usersData {
                         List {
-                            ForEach(Array(usersData.keys), id: \.self) { userID in
+                            ForEach(Array(usersData.keys).sorted(), id: \.self) { userID in
                                 HStack {
                                     Group {
                                         if let usersProfilePicturesURLs = self.homeViewModel.usersProfilePicturesURLs {
@@ -75,6 +77,7 @@ struct SearchFriendsView: View {
                                         if self.profileViewModel.profile!.followedIDs!.contains(userID) {
                                             Button(action: {
                                                 self.profileViewModel.unfollowUser(userID: userID) {
+                                                    self.success = true
                                                     self.homeViewModel.fetchData()
                                                 }
                                             }, label: {
@@ -87,6 +90,7 @@ struct SearchFriendsView: View {
                                         } else {
                                             Button(action: {
                                                 self.profileViewModel.followUser(userID: userID) {
+                                                    self.success = true
                                                     self.homeViewModel.fetchData()
                                                 }
                                             }, label: {
@@ -100,6 +104,7 @@ struct SearchFriendsView: View {
                                     } else {
                                         Button(action: {
                                             self.profileViewModel.followUser(userID: userID) {
+                                                self.success = true
                                                 self.homeViewModel.fetchData()
                                             }
                                         }, label: {
@@ -116,6 +121,20 @@ struct SearchFriendsView: View {
                         }
                         .searchable(text: $searchText)
                         .listStyle(GroupedListStyle())
+                    }
+                    
+                    if success {
+                        withAnimation(.linear) {
+                            LottieView(name: "success", loopMode: .playOnce)
+                                .frame(width: screenWidth * 0.5, height: screenHeight * 0.5)
+                                .onAppear {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        withAnimation(.linear) {
+                                            success = false
+                                        }
+                                    }
+                                }
+                        }
                     }
                 }
                 .navigationTitle("Follow")
