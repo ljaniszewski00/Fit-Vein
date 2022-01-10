@@ -291,11 +291,6 @@ struct SecondSignUpView: View {
 //                            .onSubmit {
 //                                focusedField = .passwordTextField
 //                            }
-                            .onSubmit {
-                                Task {
-                                    self.emailTaken = try await signUpViewModel.checkEmailDuplicate(email: email)
-                                }
-                            }
                         
                         Divider()
                             .background(Color.accentColor)
@@ -312,12 +307,13 @@ struct SecondSignUpView: View {
                     HStack {
                         LottieView(name: "wrongData", loopMode: .loop, contentMode: .scaleAspectFill)
                             .frame(width: screenWidth * 0.15, height: screenHeight * 0.07)
-                        Text("This e-mail addres has already been used.\n")
+                        Text("This e-mail address has already been used.\n")
                             .foregroundColor(.red)
                             .font(.system(size: screenWidth * 0.04, weight: .bold))
+                            .frame(height: screenHeight * 0.07)
                         Spacer()
                     }
-                    .opacity(emailTaken ? 100 : 0)
+                    .isHidden(!emailTaken)
                     .offset(y: -screenHeight * 0.05)
                 }
                 .padding(.top)
@@ -344,7 +340,7 @@ struct SecondSignUpView: View {
                     
                     HStack {
                         LottieView(name: "passwordLock", loopMode: .loop, contentMode: .scaleAspectFit)
-                            .frame(width: screenWidth * 0.15, height: screenHeight * 0.04)
+                            .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                         Text("Password should be at least 8 characters long and should contain a number.\n").font(.system(size: screenWidth * 0.04, weight: .bold))
                         Spacer()
                     }
