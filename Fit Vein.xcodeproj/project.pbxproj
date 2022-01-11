@@ -29,6 +29,7 @@
 		0A14B8A4278CB402009E194B /* envelope.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A14B8A3278CB402009E194B /* envelope.json */; };
 		0A14B8A6278CB782009E194B /* passwordLock.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A14B8A5278CB782009E194B /* passwordLock.json */; };
 		0A14B8A8278CB8B2009E194B /* wrongData.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A14B8A7278CB8B2009E194B /* wrongData.json */; };
+		0A14B8AA278D92BE009E194B /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A14B8A9278D92BE009E194B /* CustomTextField.swift */; };
 		0A20A8A72729FF790058F3DB /* FitVeinIconDark.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A20A8A52729FF790058F3DB /* FitVeinIconDark.png */; };
 		0A20A8A82729FF790058F3DB /* FitVeinIconLight.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A20A8A62729FF790058F3DB /* FitVeinIconLight.png */; };
 		0A4174732725D45A00DF4460 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4174722725D45A00DF4460 /* OnboardingView.swift */; };
@@ -90,12 +91,13 @@
 		0AC4DD872715A9E4003D5FED /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC4DD862715A9E4003D5FED /* ContentView.swift */; };
 		0AC4DD892715A9E5003D5FED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AC4DD882715A9E5003D5FED /* Assets.xcassets */; };
 		0AC4DD8C2715A9E5003D5FED /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AC4DD8B2715A9E5003D5FED /* Preview Assets.xcassets */; };
+		0ACE50A0278DA688006EC2C9 /* FBLPromises.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ACE509F278DA688006EC2C9 /* FBLPromises.framework */; };
 		0AD3A40727275E0D00396FE7 /* sprint2.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD3A40627275E0C00396FE7 /* sprint2.png */; };
 		0ADC2DF02715AE43003ED144 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0ADC2DEF2715AE43003ED144 /* GoogleService-Info.plist */; };
 		0AE00BA7276CC9B600C876FE /* AddPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE00BA6276CC9B600C876FE /* AddPostView.swift */; };
-		66FED7147794B758A93CA5EB /* Pods_Fit_Vein_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2B0E25E782608E9285D3BBD /* Pods_Fit_Vein_Tests.framework */; };
-		6A4AD7636321007C788C53F4 /* Pods_Fit_Vein.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CED23260406289D2ED2107A /* Pods_Fit_Vein.framework */; };
-		B7C89F7FE74B6BD9A74165C4 /* Pods_Fit_Vein_UI_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 743D6606A659D83B693E5ACD /* Pods_Fit_Vein_UI_Tests.framework */; };
+		1AA90AA5D92CCD45D2C1C1BE /* Pods_Fit_Vein_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2FD1DE140E6607B357827C7 /* Pods_Fit_Vein_Tests.framework */; };
+		212778242CC031E90AE55FEB /* Pods_Fit_Vein.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E30F0E3DFD56F0A337BDF4 /* Pods_Fit_Vein.framework */; };
+		248B30CA0363E1B761EFD755 /* Pods_Fit_Vein_Fit_Vein_UI_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C7BC3382F4CE04450C494F7 /* Pods_Fit_Vein_Fit_Vein_UI_Tests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,6 +140,7 @@
 		0A14B8A3278CB402009E194B /* envelope.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = envelope.json; sourceTree = "<group>"; };
 		0A14B8A5278CB782009E194B /* passwordLock.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = passwordLock.json; sourceTree = "<group>"; };
 		0A14B8A7278CB8B2009E194B /* wrongData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = wrongData.json; sourceTree = "<group>"; };
+		0A14B8A9278D92BE009E194B /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		0A20A8A52729FF790058F3DB /* FitVeinIconDark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FitVeinIconDark.png; path = Assets.xcassets/FitVeinIconDark.png; sourceTree = "<group>"; };
 		0A20A8A62729FF790058F3DB /* FitVeinIconLight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FitVeinIconLight.png; path = Assets.xcassets/FitVeinIconLight.png; sourceTree = "<group>"; };
 		0A4174722725D45A00DF4460 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
@@ -203,18 +206,19 @@
 		0AC4DD862715A9E4003D5FED /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		0AC4DD882715A9E5003D5FED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0AC4DD8B2715A9E5003D5FED /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		0ACE509F278DA688006EC2C9 /* FBLPromises.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FBLPromises.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AD3A40627275E0C00396FE7 /* sprint2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sprint2.png; path = Assets.xcassets/sprint2.png; sourceTree = "<group>"; };
 		0ADC2DEF2715AE43003ED144 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0AE00BA6276CC9B600C876FE /* AddPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPostView.swift; sourceTree = "<group>"; };
-		0C2E961B1423F530440ECB7F /* Pods-Fit Vein UI Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fit Vein UI Tests.release.xcconfig"; path = "Target Support Files/Pods-Fit Vein UI Tests/Pods-Fit Vein UI Tests.release.xcconfig"; sourceTree = "<group>"; };
-		26DAD44A330F476E6C2B2504 /* Pods-Fit Vein.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fit Vein.release.xcconfig"; path = "Target Support Files/Pods-Fit Vein/Pods-Fit Vein.release.xcconfig"; sourceTree = "<group>"; };
-		5B02FB63BC6B71B96A89C619 /* Pods-Fit Vein Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fit Vein Tests.release.xcconfig"; path = "Target Support Files/Pods-Fit Vein Tests/Pods-Fit Vein Tests.release.xcconfig"; sourceTree = "<group>"; };
-		5CED23260406289D2ED2107A /* Pods_Fit_Vein.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fit_Vein.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7241D52AD211827CDBD73F2A /* Pods-Fit Vein UI Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fit Vein UI Tests.debug.xcconfig"; path = "Target Support Files/Pods-Fit Vein UI Tests/Pods-Fit Vein UI Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		743D6606A659D83B693E5ACD /* Pods_Fit_Vein_UI_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fit_Vein_UI_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E0439AB4B27F41559992ECE5 /* Pods-Fit Vein Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fit Vein Tests.debug.xcconfig"; path = "Target Support Files/Pods-Fit Vein Tests/Pods-Fit Vein Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		E0C1C30ACF5CE93B585EC3AC /* Pods-Fit Vein.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fit Vein.debug.xcconfig"; path = "Target Support Files/Pods-Fit Vein/Pods-Fit Vein.debug.xcconfig"; sourceTree = "<group>"; };
-		F2B0E25E782608E9285D3BBD /* Pods_Fit_Vein_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fit_Vein_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		18E30F0E3DFD56F0A337BDF4 /* Pods_Fit_Vein.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fit_Vein.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		34E3988C1F745245EC9454B6 /* Pods-Fit Vein-Fit Vein UI Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fit Vein-Fit Vein UI Tests.debug.xcconfig"; path = "Target Support Files/Pods-Fit Vein-Fit Vein UI Tests/Pods-Fit Vein-Fit Vein UI Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		4C7BC3382F4CE04450C494F7 /* Pods_Fit_Vein_Fit_Vein_UI_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fit_Vein_Fit_Vein_UI_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D4651C857448F54FE10D9BA /* Pods-Fit Vein Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fit Vein Tests.debug.xcconfig"; path = "Target Support Files/Pods-Fit Vein Tests/Pods-Fit Vein Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		4F2AA3A7CAC0F9635B7034A1 /* Pods-Fit Vein.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fit Vein.release.xcconfig"; path = "Target Support Files/Pods-Fit Vein/Pods-Fit Vein.release.xcconfig"; sourceTree = "<group>"; };
+		5B04EB0A4D61564D98BEF5AE /* Pods-Fit Vein-Fit Vein UI Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fit Vein-Fit Vein UI Tests.release.xcconfig"; path = "Target Support Files/Pods-Fit Vein-Fit Vein UI Tests/Pods-Fit Vein-Fit Vein UI Tests.release.xcconfig"; sourceTree = "<group>"; };
+		817822F5C8A15E74B172705C /* Pods-Fit Vein.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fit Vein.debug.xcconfig"; path = "Target Support Files/Pods-Fit Vein/Pods-Fit Vein.debug.xcconfig"; sourceTree = "<group>"; };
+		A2FD1DE140E6607B357827C7 /* Pods_Fit_Vein_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fit_Vein_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F61C5B9D60247F4A97B34D60 /* Pods-Fit Vein Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fit Vein Tests.release.xcconfig"; path = "Target Support Files/Pods-Fit Vein Tests/Pods-Fit Vein Tests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -222,7 +226,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66FED7147794B758A93CA5EB /* Pods_Fit_Vein_Tests.framework in Frameworks */,
+				1AA90AA5D92CCD45D2C1C1BE /* Pods_Fit_Vein_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,7 +234,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7C89F7FE74B6BD9A74165C4 /* Pods_Fit_Vein_UI_Tests.framework in Frameworks */,
+				248B30CA0363E1B761EFD755 /* Pods_Fit_Vein_Fit_Vein_UI_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,9 +242,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A4AD7636321007C788C53F4 /* Pods_Fit_Vein.framework in Frameworks */,
+				0ACE50A0278DA688006EC2C9 /* FBLPromises.framework in Frameworks */,
 				0A57AC2C27453DC600CEC302 /* HealthKit.framework in Frameworks */,
 				0A0174EC278B106500CD45F9 /* Lottie in Frameworks */,
+				212778242CC031E90AE55FEB /* Pods_Fit_Vein.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,12 +255,12 @@
 		0671C51B37580929C4CFF801 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				E0C1C30ACF5CE93B585EC3AC /* Pods-Fit Vein.debug.xcconfig */,
-				26DAD44A330F476E6C2B2504 /* Pods-Fit Vein.release.xcconfig */,
-				E0439AB4B27F41559992ECE5 /* Pods-Fit Vein Tests.debug.xcconfig */,
-				5B02FB63BC6B71B96A89C619 /* Pods-Fit Vein Tests.release.xcconfig */,
-				7241D52AD211827CDBD73F2A /* Pods-Fit Vein UI Tests.debug.xcconfig */,
-				0C2E961B1423F530440ECB7F /* Pods-Fit Vein UI Tests.release.xcconfig */,
+				817822F5C8A15E74B172705C /* Pods-Fit Vein.debug.xcconfig */,
+				4F2AA3A7CAC0F9635B7034A1 /* Pods-Fit Vein.release.xcconfig */,
+				4D4651C857448F54FE10D9BA /* Pods-Fit Vein Tests.debug.xcconfig */,
+				F61C5B9D60247F4A97B34D60 /* Pods-Fit Vein Tests.release.xcconfig */,
+				34E3988C1F745245EC9454B6 /* Pods-Fit Vein-Fit Vein UI Tests.debug.xcconfig */,
+				5B04EB0A4D61564D98BEF5AE /* Pods-Fit Vein-Fit Vein UI Tests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -361,6 +366,7 @@
 				0A8F574B2720B70E00183F47 /* RingProgressViewStyle.swift */,
 				0A7CA65F274D7AC000B97EF2 /* HomeTabFetchingView.swift */,
 				0A7CA661274D7AD100B97EF2 /* ProfileTabFetchingView.swift */,
+				0A14B8A9278D92BE009E194B /* CustomTextField.swift */,
 			);
 			path = HelpViews;
 			sourceTree = "<group>";
@@ -488,10 +494,11 @@
 		8B960227CB1EDB8F07568FC1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0ACE509F278DA688006EC2C9 /* FBLPromises.framework */,
 				0A57AC2B27453DC600CEC302 /* HealthKit.framework */,
-				5CED23260406289D2ED2107A /* Pods_Fit_Vein.framework */,
-				F2B0E25E782608E9285D3BBD /* Pods_Fit_Vein_Tests.framework */,
-				743D6606A659D83B693E5ACD /* Pods_Fit_Vein_UI_Tests.framework */,
+				18E30F0E3DFD56F0A337BDF4 /* Pods_Fit_Vein.framework */,
+				A2FD1DE140E6607B357827C7 /* Pods_Fit_Vein_Tests.framework */,
+				4C7BC3382F4CE04450C494F7 /* Pods_Fit_Vein_Fit_Vein_UI_Tests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -503,11 +510,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0A05CF4227846B1D005432E3 /* Build configuration list for PBXNativeTarget "Fit Vein Tests" */;
 			buildPhases = (
-				0B75DA0A308D6826EE8E4578 /* [CP] Check Pods Manifest.lock */,
+				E46D56C14B43452D3DC46296 /* [CP] Check Pods Manifest.lock */,
 				0A05CF3827846B1D005432E3 /* Sources */,
 				0A05CF3927846B1D005432E3 /* Frameworks */,
 				0A05CF3A27846B1D005432E3 /* Resources */,
-				3DF669C81B73E5FC95364DAB /* [CP] Embed Pods Frameworks */,
+				6F0A4894AB66E3D9F15C163F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -523,11 +530,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0A61E1AF2784C7A300A7FD34 /* Build configuration list for PBXNativeTarget "Fit Vein UI Tests" */;
 			buildPhases = (
-				14D6063009EFE529A3BC47CA /* [CP] Check Pods Manifest.lock */,
+				3A7E881BBA69A6B7DFDFFB81 /* [CP] Check Pods Manifest.lock */,
 				0A61E1A32784C7A300A7FD34 /* Sources */,
 				0A61E1A42784C7A300A7FD34 /* Frameworks */,
 				0A61E1A52784C7A300A7FD34 /* Resources */,
-				49D820DA940220AA4386D42C /* [CP] Embed Pods Frameworks */,
+				12A606EF26580AC0EA97850B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -543,11 +550,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0AC4DD8F2715A9E5003D5FED /* Build configuration list for PBXNativeTarget "Fit Vein" */;
 			buildPhases = (
-				C3068487EAF7238DA3CEC7F2 /* [CP] Check Pods Manifest.lock */,
+				6D22F87EEE8840F0181B1AF4 /* [CP] Check Pods Manifest.lock */,
 				0AC4DD7D2715A9E4003D5FED /* Sources */,
 				0AC4DD7E2715A9E4003D5FED /* Frameworks */,
 				0AC4DD7F2715A9E4003D5FED /* Resources */,
-				242D46432FDFB90EF0BCCD60 /* [CP] Embed Pods Frameworks */,
+				0E682E42E6A935BCBC32EE8E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -661,7 +668,41 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0B75DA0A308D6826EE8E4578 /* [CP] Check Pods Manifest.lock */ = {
+		0E682E42E6A935BCBC32EE8E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Fit Vein/Pods-Fit Vein-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Fit Vein/Pods-Fit Vein-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Fit Vein/Pods-Fit Vein-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		12A606EF26580AC0EA97850B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Fit Vein-Fit Vein UI Tests/Pods-Fit Vein-Fit Vein UI Tests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Fit Vein-Fit Vein UI Tests/Pods-Fit Vein-Fit Vein UI Tests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Fit Vein-Fit Vein UI Tests/Pods-Fit Vein-Fit Vein UI Tests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3A7E881BBA69A6B7DFDFFB81 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -676,87 +717,14 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Fit Vein Tests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Fit Vein-Fit Vein UI Tests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		14D6063009EFE529A3BC47CA /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Fit Vein UI Tests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		242D46432FDFB90EF0BCCD60 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Fit Vein/Pods-Fit Vein-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Fit Vein/Pods-Fit Vein-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Fit Vein/Pods-Fit Vein-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		3DF669C81B73E5FC95364DAB /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Fit Vein Tests/Pods-Fit Vein Tests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Fit Vein Tests/Pods-Fit Vein Tests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Fit Vein Tests/Pods-Fit Vein Tests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		49D820DA940220AA4386D42C /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Fit Vein UI Tests/Pods-Fit Vein UI Tests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Fit Vein UI Tests/Pods-Fit Vein UI Tests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Fit Vein UI Tests/Pods-Fit Vein UI Tests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C3068487EAF7238DA3CEC7F2 /* [CP] Check Pods Manifest.lock */ = {
+		6D22F87EEE8840F0181B1AF4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -772,6 +740,45 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-Fit Vein-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6F0A4894AB66E3D9F15C163F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Fit Vein Tests/Pods-Fit Vein Tests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Fit Vein Tests/Pods-Fit Vein Tests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Fit Vein Tests/Pods-Fit Vein Tests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E46D56C14B43452D3DC46296 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Fit Vein Tests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -841,6 +848,7 @@
 				0A7CA660274D7AC000B97EF2 /* HomeTabFetchingView.swift in Sources */,
 				0A0174E3278A010200CD45F9 /* HomeTabSubViewShareView.swift in Sources */,
 				0A05CF302783183F005432E3 /* RCValues.swift in Sources */,
+				0A14B8AA278D92BE009E194B /* CustomTextField.swift in Sources */,
 				0ABE14312716EC23009CD67A /* FirestoreManager.swift in Sources */,
 				0ABE144A27203D0D009CD67A /* ProfileView.swift in Sources */,
 				0ABE144E27203DE7009CD67A /* WorkoutViewModel.swift in Sources */,
@@ -875,12 +883,29 @@
 /* Begin XCBuildConfiguration section */
 		0A05CF4327846B1D005432E3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E0439AB4B27F41559992ECE5 /* Pods-Fit Vein Tests.debug.xcconfig */;
+			baseConfigurationReference = 4D4651C857448F54FE10D9BA /* Pods-Fit Vein Tests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = T3SR62DCTW;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/BoringSSL-GRPC\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseAuth\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCore\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreDiagnostics\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseFirestore\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseStorage\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GTMSessionFetcher\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleDataTransport\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/abseil\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-C++\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-Core\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/leveldb-library\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/nanopb\"",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MARKETING_VERSION = 1.0;
@@ -895,12 +920,29 @@
 		};
 		0A05CF4427846B1D005432E3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B02FB63BC6B71B96A89C619 /* Pods-Fit Vein Tests.release.xcconfig */;
+			baseConfigurationReference = F61C5B9D60247F4A97B34D60 /* Pods-Fit Vein Tests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = T3SR62DCTW;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/BoringSSL-GRPC\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseAuth\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCore\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreDiagnostics\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseFirestore\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseStorage\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GTMSessionFetcher\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleDataTransport\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/abseil\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-C++\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-Core\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/leveldb-library\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/nanopb\"",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MARKETING_VERSION = 1.0;
@@ -915,11 +957,28 @@
 		};
 		0A61E1B02784C7A300A7FD34 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7241D52AD211827CDBD73F2A /* Pods-Fit Vein UI Tests.debug.xcconfig */;
+			baseConfigurationReference = 34E3988C1F745245EC9454B6 /* Pods-Fit Vein-Fit Vein UI Tests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = T3SR62DCTW;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/BoringSSL-GRPC\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseAuth\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCore\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreDiagnostics\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseFirestore\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseStorage\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GTMSessionFetcher\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleDataTransport\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/abseil\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-C++\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-Core\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/leveldb-library\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/nanopb\"",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MARKETING_VERSION = 1.0;
@@ -934,11 +993,28 @@
 		};
 		0A61E1B12784C7A300A7FD34 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0C2E961B1423F530440ECB7F /* Pods-Fit Vein UI Tests.release.xcconfig */;
+			baseConfigurationReference = 5B04EB0A4D61564D98BEF5AE /* Pods-Fit Vein-Fit Vein UI Tests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = T3SR62DCTW;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/BoringSSL-GRPC\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseAuth\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCore\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreDiagnostics\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseFirestore\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseStorage\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GTMSessionFetcher\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleDataTransport\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/abseil\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-C++\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-Core\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/leveldb-library\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/nanopb\"",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MARKETING_VERSION = 1.0;
@@ -1069,7 +1145,7 @@
 		};
 		0AC4DD902715A9E5003D5FED /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E0C1C30ACF5CE93B585EC3AC /* Pods-Fit Vein.debug.xcconfig */;
+			baseConfigurationReference = 817822F5C8A15E74B172705C /* Pods-Fit Vein.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1079,7 +1155,47 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Fit Vein/Preview Content\"";
 				DEVELOPMENT_TEAM = T3SR62DCTW;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/BoringSSL-GRPC\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseAuth\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCore\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreDiagnostics\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseFirestore\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseStorage\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GTMSessionFetcher\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleDataTransport\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/abseil\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-C++\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-Core\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/nanopb\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/leveldb-library\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/PromisesObjC\"",
+					"$(inherited)",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/BoringSSL-GRPC/openssl_grpc.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseAuth/FirebaseAuth.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCore/FirebaseCore.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreDiagnostics/FirebaseCoreDiagnostics.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseFirestore/FirebaseFirestore.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseStorage/FirebaseStorage.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleDataTransport/GoogleDataTransport.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities/GoogleUtilities.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/abseil/absl.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-C++/grpcpp.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-Core/grpc.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/leveldb-library/leveldb.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/nanopb/nanopb.framework/Headers\"",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/Firebase\"",
+					"${PODS_ROOT}/Firebase/CoreOnly/Sources",
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/PromisesObjC/FBLPromises.framework/Headers\"",
+					"\"${PODS_TARGET_SRCROOT}/Sources/FBLPromises/include\"",
+				);
 				INFOPLIST_FILE = "Fit-Vein-Info.plist";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Used to take new pictures of the user";
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "Used to authenticate the user during app start";
@@ -1088,13 +1204,14 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				"LD_RUNPATH_SEARCH_PATHS[arch=*]" = "$(inherited)";
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "ljaniszewski.Fit-Vein";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1106,7 +1223,7 @@
 		};
 		0AC4DD912715A9E5003D5FED /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 26DAD44A330F476E6C2B2504 /* Pods-Fit Vein.release.xcconfig */;
+			baseConfigurationReference = 4F2AA3A7CAC0F9635B7034A1 /* Pods-Fit Vein.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1116,7 +1233,47 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Fit Vein/Preview Content\"";
 				DEVELOPMENT_TEAM = T3SR62DCTW;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/BoringSSL-GRPC\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseAuth\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCore\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreDiagnostics\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseFirestore\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseStorage\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GTMSessionFetcher\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleDataTransport\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/abseil\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-C++\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-Core\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/nanopb\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/leveldb-library\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/PromisesObjC\"",
+					"$(inherited)",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/BoringSSL-GRPC/openssl_grpc.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseAuth/FirebaseAuth.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCore/FirebaseCore.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreDiagnostics/FirebaseCoreDiagnostics.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseFirestore/FirebaseFirestore.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseStorage/FirebaseStorage.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleDataTransport/GoogleDataTransport.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities/GoogleUtilities.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/abseil/absl.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-C++/grpcpp.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-Core/grpc.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/leveldb-library/leveldb.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/nanopb/nanopb.framework/Headers\"",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/Firebase\"",
+					"${PODS_ROOT}/Firebase/CoreOnly/Sources",
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/PromisesObjC/FBLPromises.framework/Headers\"",
+					"\"${PODS_TARGET_SRCROOT}/Sources/FBLPromises/include\"",
+				);
 				INFOPLIST_FILE = "Fit-Vein-Info.plist";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Used to take new pictures of the user";
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "Used to authenticate the user during app start";
@@ -1125,13 +1282,14 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				"LD_RUNPATH_SEARCH_PATHS[arch=*]" = "$(inherited)";
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "ljaniszewski.Fit-Vein";
 				PRODUCT_NAME = "$(TARGET_NAME)";

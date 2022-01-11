@@ -18,9 +18,8 @@ struct SignInView: View {
     @State private var wrongCredentials = false
     @State private var showForgotPasswordSheet = false
     
-    @FocusState private var isEmailTextFieldFocused: Bool
-    @FocusState private var isPasswordTextFieldFocused: Bool
-
+    @State private var isEmailTextFieldFocused: Bool = false
+    @State private var isPasswordTextFieldFocused: Bool = false
     
     var body: some View {
         GeometryReader { geometry in
@@ -46,45 +45,10 @@ struct SignInView: View {
                         Spacer()
                     }
                     
-                    VStack {
-                        HStack {
-                            Text("E-mail")
-                            Spacer()
-                        }
-                        
-                        VStack {
-                            TextField("E-mail", text: $email)
-                                .disableAutocorrection(true)
-                                .autocapitalization(.none)
-                                .focused($isEmailTextFieldFocused)
-                                .onSubmit {
-                                    isEmailTextFieldFocused = false
-                                    isPasswordTextFieldFocused = true
-                                }
-                            Divider()
-                                .background(Color.accentColor)
-                        }
-                        
-                    }
-                    .padding()
+                    CustomTextField(textFieldProperty: "E-mail", textFieldImageName: "envelope", textFieldSignsLimit: 0, text: $email, isFocusedParentView: $isEmailTextFieldFocused)
                     
                     VStack {
-                        HStack {
-                            Text("Password")
-                            Spacer()
-                        }
-                        
-                        VStack {
-                            SecureField("Password", text: $password)
-.disableAutocorrection(true)
-.autocapitalization(.none)
-.focused($isPasswordTextFieldFocused)
-.onSubmit {
-    isPasswordTextFieldFocused = false
-}
-                            Divider()
-                                .background(Color.accentColor)
-                        }
+                        CustomTextField(fieldIsSecureField: true, textFieldProperty: "Password", textFieldImageName: "lock", textFieldSignsLimit: 0, text: $password, isFocusedParentView: $isPasswordTextFieldFocused)
                         
                         HStack {
                             Text("Forgot Password?")
@@ -95,9 +59,9 @@ struct SignInView: View {
                                 }
                             Spacer()
                         }
-                        
+                        .padding()
+                        .offset(y: -screenHeight * 0.06)
                     }
-                    .padding()
                 }
                 .background(RoundedRectangle(cornerRadius: 25)
                                 .foregroundColor(.black.opacity(0.7))
@@ -122,6 +86,8 @@ struct SignInView: View {
                 .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(.accentColor))
                 .padding()
                 .padding(.top, screenHeight * 0.05)
+                .disabled(email.isEmpty ? true : (password.isEmpty ? true : false))
+                .offset(y: isEmailTextFieldFocused ? -screenHeight * 0.02 : (isPasswordTextFieldFocused ? -screenHeight * 0.02 : 0))
                 
                 Spacer()
                 
@@ -131,6 +97,7 @@ struct SignInView: View {
                         .foregroundColor(.accentColor)
                 }
                 .padding(.bottom, screenHeight * 0.05)
+                .offset(y: isEmailTextFieldFocused ? -screenHeight * 0.1 : (isPasswordTextFieldFocused ? -screenHeight * 0.1 : 0))
             }
             .onAppear {
                 self.signInViewModel.setup(sessionStore: sessionStore)
