@@ -291,8 +291,12 @@ struct DeleteAccountSheetView: View {
                         Section(footer: Text("Before you delete your account please provide your login credentials to confirm it is really you.")) {
                             TextField("E-mail", text: $email)
                                 .focused($isTextFieldFocused)
+                                .disableAutocorrection(true)
+                                .autocapitalization(.none)
                             SecureField("Password", text: $password)
                                 .focused($isTextFieldFocused)
+                                .disableAutocorrection(true)
+                                .autocapitalization(.none)
                         }
                     }
                     
@@ -318,7 +322,7 @@ struct DeleteAccountSheetView: View {
                     Button(action: {
                         withAnimation {
                             error = false
-                            profileViewModel.deleteUserData(email: email, password: password) { success in
+                            profileViewModel.deleteUserData(email: email.lowercased(), password: password) { success in
                                 if success {
                                     print("Successfully deleted user.")
                                     dismiss()
@@ -357,6 +361,7 @@ struct ChangeEmailAddressSheetView: View {
     @FocusState private var isTextFieldFocused: Bool
     
     @State private var error = false
+    @State private var success = false
     
     var body: some View {
         GeometryReader { geometry in
@@ -369,10 +374,16 @@ struct ChangeEmailAddressSheetView: View {
                         Section(footer: Text("Before you change your e-mail address please provide your login credentials to confirm it is really you.")) {
                             TextField("Old e-mail address", text: $oldEmail)
                                 .focused($isTextFieldFocused)
+                                .disableAutocorrection(true)
+                                .autocapitalization(.none)
                             SecureField("Password", text: $password)
                                 .focused($isTextFieldFocused)
+                                .disableAutocorrection(true)
+                                .autocapitalization(.none)
                             TextField("New e-mail address", text: $newEmail)
                                 .focused($isTextFieldFocused)
+                                .disableAutocorrection(true)
+                                .autocapitalization(.none)
                         }
                     }
                     
@@ -391,6 +402,21 @@ struct ChangeEmailAddressSheetView: View {
                         .offset(y: -screenHeight * 0.05)
                     }
                     
+                    if success {
+                        HStack {
+                            LottieView(name: "success2", loopMode: .loop, contentMode: .scaleAspectFit)
+                                .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
+                                .padding(.leading)
+                                .offset(y: -screenHeight * 0.013)
+                            Text("E-mail has been changed successfully.")
+                                .foregroundColor(.green)
+                                .font(.system(size: screenWidth * 0.035, weight: .bold))
+                                .offset(y: -screenHeight * 0.01)
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                    }
+                    
                     LottieView(name: "changeArrows", loopMode: .loop)
                         .frame(width: screenWidth * 0.3, height: screenHeight * 0.3)
                         .offset(y: isTextFieldFocused ? -screenHeight * 0.35 : 0)
@@ -398,10 +424,14 @@ struct ChangeEmailAddressSheetView: View {
                     Button(action: {
                         withAnimation {
                             error = false
-                            profileViewModel.emailAddressChange(oldEmailAddress: oldEmail, password: password, newEmailAddress: newEmail) { success in
+                            success = false
+                            profileViewModel.emailAddressChange(oldEmailAddress: oldEmail.lowercased(), password: password, newEmailAddress: newEmail.lowercased()) { success in
                                 if success {
                                     print("Successfully changed e-mail address.")
-                                    dismiss()
+                                    self.success = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        dismiss()
+                                    }
                                 } else {
                                     error = true
                                 }
@@ -437,6 +467,7 @@ struct ChangePasswordSheetView: View {
     @FocusState private var isTextFieldFocused: Bool
     
     @State private var error = false
+    @State private var success = false
     
     var body: some View {
         GeometryReader { geometry in
@@ -449,10 +480,16 @@ struct ChangePasswordSheetView: View {
                         Section(footer: Text("Before you change your password please provide your login credentials to confirm it is really you.")) {
                             TextField("E-mail", text: $email)
                                 .focused($isTextFieldFocused)
+                                .disableAutocorrection(true)
+                                .autocapitalization(.none)
                             SecureField("Old password", text: $oldPassword)
                                 .focused($isTextFieldFocused)
+                                .disableAutocorrection(true)
+                                .autocapitalization(.none)
                             SecureField("New password", text: $newPassword)
                                 .focused($isTextFieldFocused)
+                                .disableAutocorrection(true)
+                                .autocapitalization(.none)
                         }
                     }
                     
@@ -471,6 +508,21 @@ struct ChangePasswordSheetView: View {
                         .offset(y: -screenHeight * 0.05)
                     }
                     
+                    if success {
+                        HStack {
+                            LottieView(name: "success2", loopMode: .loop, contentMode: .scaleAspectFit)
+                                .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
+                                .padding(.leading)
+                                .offset(y: -screenHeight * 0.013)
+                            Text("Password has been changed successfully.")
+                                .foregroundColor(.green)
+                                .font(.system(size: screenWidth * 0.035, weight: .bold))
+                                .offset(y: -screenHeight * 0.01)
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                    }
+                    
                     LottieView(name: "changeArrows", loopMode: .loop)
                         .frame(width: screenWidth * 0.3, height: screenHeight * 0.3)
                         .offset(y: isTextFieldFocused ? -screenHeight * 0.35 : 0)
@@ -478,10 +530,14 @@ struct ChangePasswordSheetView: View {
                     Button(action: {
                         withAnimation {
                             error = false
-                            profileViewModel.passwordChange(emailAddress: email, oldPassword: oldPassword, newPassword: newPassword) { success in
+                            success = false
+                            profileViewModel.passwordChange(emailAddress: email.lowercased(), oldPassword: oldPassword, newPassword: newPassword) { success in
                                 if success {
                                     print("Successfully changed password.")
-                                    dismiss()
+                                    self.success = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        dismiss()
+                                    }
                                 } else {
                                     error = true
                                 }

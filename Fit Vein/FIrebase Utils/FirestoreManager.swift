@@ -118,7 +118,6 @@ class FirestoreManager: ObservableObject {
             } else {
                 print("Error adding new profile picture URL to database.")
             }
-            
             completion(success)
         }
     }
@@ -134,6 +133,7 @@ class FirestoreManager: ObservableObject {
             } else {
                 print("Error editing user's e-mail in database.")
             }
+            completion(success)
         }
     }
     
