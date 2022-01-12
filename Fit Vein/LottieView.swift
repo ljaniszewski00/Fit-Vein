@@ -12,6 +12,7 @@ struct LottieView: UIViewRepresentable {
     var name: String
     var loopMode: LottieLoopMode = .loop
     var contentMode: UIView.ContentMode = .scaleAspectFit
+    var paused: Bool = false
     
     var animationView = AnimationView()
     
@@ -34,5 +35,14 @@ struct LottieView: UIViewRepresentable {
         return view
     }
     
-    func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<LottieView>) {}
+    func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<LottieView>) {
+    }
+    
+    func changeAnimationState(pause: Bool) {
+        if pause {
+            self.animationView.pause()
+        } else {
+            self.animationView.play()
+        }
+    }
 }

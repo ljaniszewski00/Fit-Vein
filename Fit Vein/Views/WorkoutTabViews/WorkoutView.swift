@@ -170,7 +170,7 @@ struct WorkoutAddView: View {
             ScrollView(.vertical) {
                 HStack {
                     Spacer()
-                    LottieView(name: "53949-runner", loopMode: .loop)
+                    LottieView(name: "runnerAddWorkout", loopMode: .loop)
                         .frame(height: screenHeight * 0.25)
                         .offset(x: screenWidth * 0.25, y: -screenHeight * 0.1)
                 }
@@ -301,7 +301,7 @@ struct WorkoutCountdownView: View {
 //                        }
                         
                         LottieView(name: "countdown", loopMode: .loop)
-                            .frame(width: screenWidth * 0.7, height: screenHeight * 0.7)
+                            .frame(width: screenWidth * 0.9, height: screenHeight * 0.8)
                         
                         
                         Spacer()

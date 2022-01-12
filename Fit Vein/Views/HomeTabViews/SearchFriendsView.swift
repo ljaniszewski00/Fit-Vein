@@ -124,23 +124,27 @@ struct SearchFriendsView: View {
                                 }
                                 .frame(width: screenWidth * 0.8, height: screenHeight * 0.1)
                             }
+                            
+                            if success {
+                                withAnimation(.linear) {
+                                    HStack {
+                                        Spacer()
+                                        LottieView(name: "success", loopMode: .playOnce, contentMode: .scaleAspectFill)
+                                            .frame(width: screenWidth * 0.1, height: screenHeight * 0.07)
+                                            .onAppear {
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                                    withAnimation(.linear) {
+                                                        success = false
+                                                    }
+                                                }
+                                            }
+                                        Spacer()
+                                    }
+                                }
+                            }
                         }
                         .searchable(text: $searchText)
                         .listStyle(GroupedListStyle())
-                    }
-                    
-                    if success {
-                        withAnimation(.linear) {
-                            LottieView(name: "success", loopMode: .playOnce)
-                                .frame(width: screenWidth * 0.5, height: screenHeight * 0.5)
-                                .onAppear {
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                        withAnimation(.linear) {
-                                            success = false
-                                        }
-                                    }
-                                }
-                        }
                     }
                 }
                 .navigationTitle("Follow")

@@ -64,7 +64,7 @@ struct WorkoutTimerView: View {
                             VStack {
                                 Spacer()
                                 
-                                LottieView(name: "avocadoWorkout", loopMode: .loop)
+                                LottieView(name: "avocadoWorkout", loopMode: .loop, paused: paused)
                                     .frame(width: screenWidth * 0.4, height: screenHeight * 0.17)
                                     .padding(.top, screenHeight * 0.05)
                                     .padding(.bottom, -screenHeight * 0.05)
@@ -193,7 +193,9 @@ struct WorkoutTimerView: View {
                                 .frame(width: screenWidth * (!paused ? 0.16 : 0.24), height: screenHeight * (!paused ? 0.08 : 0.12))
                             
                             Button(action: {
-                                paused = true
+                                withAnimation {
+                                    paused = true
+                                }
                             }, label: {
                                 Image(systemName: "pause.circle.fill")
                                     .resizable()
@@ -205,8 +207,10 @@ struct WorkoutTimerView: View {
                                 .frame(width: screenWidth * (paused ? 0.16 : 0.24), height: screenHeight * (paused ? 0.08 : 0.12))
                             
                             Button(action: {
-                                self.workoutViewModel.stopWorkout(calories: 200, completedDuration: (minutesElapsed != 0 ? secondsElapsed * minutesElapsed : secondsElapsed), completedSeries: currentRound)
-                                stopped = true
+                                withAnimation {
+                                    self.workoutViewModel.stopWorkout(calories: 200, completedDuration: (minutesElapsed != 0 ? secondsElapsed * minutesElapsed : secondsElapsed), completedSeries: currentRound)
+                                    stopped = true
+                                }
                             }, label: {
                                 Image(systemName: "stop.circle.fill")
                                     .resizable()
@@ -219,6 +223,7 @@ struct WorkoutTimerView: View {
                             
                             Spacer()
                         }
+                        .offset(y: -screenHeight * 0.04)
                     }
                     .background(RoundedRectangle(cornerRadius: 25)
                                     .fill(LinearGradient(gradient: Gradient(colors: [.accentColor, Color.clear]), startPoint: .top, endPoint: .bottom))
