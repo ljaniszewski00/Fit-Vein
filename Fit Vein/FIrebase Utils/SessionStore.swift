@@ -41,24 +41,26 @@ class SessionStore: ObservableObject {
         })
     }
     
-    func signIn(email: String, password: String, completion: @escaping (() -> ())) {
+    func signIn(email: String, password: String, completion: @escaping ((Bool) -> ())) {
         authRef.signIn(withEmail: email, password: password) { (result, error) in
             if let error = error {
                 print("Error signing in: \(error.localizedDescription)")
+                completion(false)
             } else {
                 print("Successfully signed in")
-                completion()
+                completion(true)
             }
         }
     }
     
-    func signUp(email: String, password: String, completion: @escaping ((String) -> ())) {
+    func signUp(email: String, password: String, completion: @escaping ((String?, Bool) -> ())) {
         authRef.createUser(withEmail: email, password: password) { (result, error) in
             if let error = error {
                 print("Error signing up: \(error.localizedDescription)")
+                completion(nil, false)
             } else {
                 print("Successfully signed up")
-                completion(result!.user.uid)
+                completion(result!.user.uid, true)
             }
         }
     }
@@ -83,13 +85,14 @@ class SessionStore: ObservableObject {
 //        }
 //    }
     
-    func sendRecoveryEmail(email: String, completion: @escaping (() -> ())) {
+    func sendRecoveryEmail(email: String, completion: @escaping ((Bool) -> ())) {
         authRef.sendPasswordReset(withEmail: email) { (error) in
             if let error = error {
                 print("Error sending recovery email: \(error.localizedDescription)")
+                completion(false)
             } else {
                 print("Recovery email has been sent")
-                completion()
+                completion(true)
             }
         }
     }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CustomTextField: View {
-    var fieldIsSecureField: Bool = false
+    var isSecureField: Bool = false
     var textFieldProperty: String
     var textFieldImageName: String
     var textFieldSignsLimit: Int = 0
@@ -20,57 +20,40 @@ struct CustomTextField: View {
         VStack {
             VStack(alignment: .leading, spacing: 4) {
                 HStack(spacing: 15) {
-                    if !fieldIsSecureField {
-//                        TextField("", text: $text) { (status) in
-//                            if status {
-//                                withAnimation(.easeIn) {
-//                                    hasStoppedFocusing = false
-//                                    isFocusedParentView = true
-//                                    isFocused = true
-//                                }
-//                            }
-//                        } onCommit: {
-//                            withAnimation(.easeOut) {
-//                                isFocused = false
-//                                isFocusedParentView = false
-//                                hasStoppedFocusing = true
-//                            }
-//                        }
-//                        .onAppear {
-//                            isFocused = isFocusedParentView
-//                        }
-//                        .focused($isFocused)
-                        
-                        TextField("", text: $text)
-                            .onTapGesture {
-                                withAnimation(.easeIn) {
-                                    isFocusedParentView = true
-                                    isFocused = true
+                    Group {
+                        if !isSecureField {
+                            TextField("", text: $text)
+                                .onTapGesture {
+                                    withAnimation(.easeIn) {
+                                        isFocusedParentView = true
+                                        isFocused = true
+                                    }
                                 }
-                            }
-                            .onSubmit {
-                                withAnimation(.easeOut) {
-                                    isFocused = false
-                                    isFocusedParentView = false
+                                .onSubmit {
+                                    withAnimation(.easeOut) {
+                                        isFocused = false
+                                        isFocusedParentView = false
+                                    }
                                 }
-                            }
-                            .focused($isFocused)
-                    } else {
-                        SecureField("", text: $text)
-                            .onTapGesture {
-                                withAnimation(.easeIn) {
-                                    isFocusedParentView = true
-                                    isFocused = true
+                        } else {
+                            SecureField("", text: $text)
+                                .onTapGesture {
+                                    withAnimation(.easeIn) {
+                                        isFocusedParentView = true
+                                        isFocused = true
+                                    }
                                 }
-                            }
-                            .onSubmit {
-                                withAnimation(.easeOut) {
-                                    isFocused = false
-                                    isFocusedParentView = false
+                                .onSubmit {
+                                    withAnimation(.easeOut) {
+                                        isFocused = false
+                                        isFocusedParentView = false
+                                    }
                                 }
-                            }
-                            .focused($isFocused)
+                        }
                     }
+                    .focused($isFocused)
+                    .disableAutocorrection(true)
+                    .autocapitalization(.none)
                     
                     Image(systemName: textFieldImageName)
                         .foregroundColor(.gray)

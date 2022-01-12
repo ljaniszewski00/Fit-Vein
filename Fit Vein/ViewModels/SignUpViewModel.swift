@@ -11,18 +11,22 @@ import SwiftUI
 
 @MainActor
 class SignUpViewModel: ObservableObject {
-    @Published private var sessionStore: SessionStore?
+    var sessionStore = SessionStore(forPreviews: false)
     private let firestoreManager = FirestoreManager()
     private let firebaseStorageManager = FirebaseStorageManager()
     
-    func setup(sessionStore: SessionStore) {
-        self.sessionStore = sessionStore
-    }
-    
-    func signUp(firstName: String, userName: String, birthDate: Date, country: String, language: String, email: String, password: String, gender: String) {
-        self.sessionStore!.signUp(email: email, password: password) { userID in
-            self.firestoreManager.signUpDataCreation(id: userID, firstName: firstName, username: userName, birthDate: birthDate, country: country, language: language, email: email, gender: gender) { profile in
-                
+    func signUp(firstName: String, userName: String, birthDate: Date, country: String, language: String, email: String, password: String, gender: String, completion: @escaping ((Bool) -> ())) {
+        self.sessionStore.signUp(email: email, password: password) { (userID, success) in
+            if success {
+                if let userID = userID {
+                    self.firestoreManager.signUpDataCreation(id: userID, firstName: firstName, username: userName, birthDate: birthDate, country: country, language: language, email: email, gender: gender) { profile, success in
+                        completion(success)
+                    }
+                } else {
+                    completion(false)
+                }
+            } else {
+                completion(false)
             }
         }
     }

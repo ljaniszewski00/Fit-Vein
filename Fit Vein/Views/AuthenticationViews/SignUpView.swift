@@ -26,15 +26,8 @@ struct SignUpView: View {
     
     @State private var usernameTaken = false
     
-//    @FocusState private var isFirstNameTextFieldFocused: Bool
-//    @FocusState private var isUsernameTextFieldFocused: Bool
-    
-    enum Field: Hashable {
-        case firstNameTextField
-        case usernameTextField
-    }
-    
-    @FocusState private var focusedField: Field?
+    @State private var isFirstNameTextFieldFocused: Bool = false
+    @State private var isUsernameTextFieldFocused: Bool = false
     
     private let dateRange: ClosedRange<Date> = {
         let calendar = Calendar.current
@@ -68,59 +61,29 @@ struct SignUpView: View {
                             Spacer()
                         }
                         
-                        VStack {
-                            HStack {
-                                Text("First Name")
-                                Spacer()
-                            }
-                            
-                            VStack {
-                                TextField("First Name", text: $firstName)
-                                    .disableAutocorrection(true)
-                                    .autocapitalization(.none)
-                                    .focused($focusedField, equals: .firstNameTextField)
-                                    .onSubmit {
-                                        focusedField = .usernameTextField
-                                    }
-                                
-                                Divider()
-                                    .background(Color.accentColor)
-                            }
-                            
-                        }
-                        .padding(.top)
-                        .padding(.horizontal)
+                        CustomTextField(textFieldProperty: "First Name", textFieldImageName: "person", text: $firstName, isFocusedParentView: $isFirstNameTextFieldFocused)
+                            .padding(.bottom, -screenHeight * 0.04)
                         
-                        VStack {
-                            HStack {
-                                Text("Username")
-                                Spacer()
+                        CustomTextField(textFieldProperty: "Username", textFieldImageName: "person", text: $username, isFocusedParentView: $isUsernameTextFieldFocused)
+                            .onChange(of: username) { [signUpViewModel] newValue in
+                                Task {
+                                    self.usernameTaken = try await signUpViewModel.checkUsernameDuplicate(username: newValue)
+                                }
                             }
-                            
-                            VStack {
-                                TextField("Username", text: $username, onCommit: {
-                                    Task {
-                                        self.usernameTaken = try await signUpViewModel.checkUsernameDuplicate(username: username)
-                                    }
-                                })
-                                    .disableAutocorrection(true)
-                                    .autocapitalization(.none)
-                                    .focused($focusedField, equals: .usernameTextField)
-                                
-                                Divider()
-                                    .background(Color.accentColor)
-                            }
-                            
+                        
+                        if usernameTaken {
                             HStack {
-                                Text("This username has already been taken")
+                                LottieView(name: "wrongData", loopMode: .loop, contentMode: .scaleAspectFill)
+                                    .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
+                                    .padding(.leading)
+                                    .offset(y: -screenHeight * 0.013)
+                                Text("This username has already been used.\n")
                                     .foregroundColor(.red)
-                                    .font(.system(size: screenHeight * 0.02))
+                                    .font(.system(size: screenWidth * 0.04, weight: .bold))
                                 Spacer()
                             }
-                            .opacity(usernameTaken ? 100 : 0)
+                            .padding(.bottom, -screenHeight * 0.022)
                         }
-                        .padding(.top)
-                        .padding(.horizontal)
                         
                         VStack {
                             HStack {
@@ -193,9 +156,6 @@ struct SignUpView: View {
                                 .frame(width: screenWidth * 0.98, height: screenHeight * 0.96))
                 
             }
-            .onAppear {
-                self.signUpViewModel.setup(sessionStore: sessionStore)
-            }
             .foregroundColor(.white)
             .background(Image("SignUpBackgroundImage")
                             .resizable()
@@ -219,6 +179,10 @@ struct SecondSignUpView: View {
     @StateObject private var signUpViewModel = SignUpViewModel()
     @Environment(\.colorScheme) var colorScheme
     
+    @State private var isEmailTextFieldFocused: Bool = false
+    @State private var isPasswordTextFieldFocused: Bool = false
+    @State private var isRepeatedPasswordTextFieldFocused: Bool = false
+    
     private var firstName: String
     private var username: String
     private var gender: String
@@ -235,13 +199,9 @@ struct SecondSignUpView: View {
     
     @State private var correctData = false
     
-//    enum Field: Hashable {
-//        case emailTextField
-//        case passwordTextField
-//        case repeatedPasswordTextField
-//    }
-//
-//    @FocusState private var focusedField: Field?
+    @State private var errorSigningUp = false
+    
+    @State private var showPasswordHelp = false
     
     init(firstName: String, username: String, gender: String, birthDate: Date, country: Country, language: Language) {
         self.firstName = firstName
@@ -273,106 +233,71 @@ struct SecondSignUpView: View {
                     Spacer()
                 }
                 
-                VStack {
-                    HStack {
-                        Text("E-mail")
-                        Spacer()
+                CustomTextField(textFieldProperty: "E-Mail", textFieldImageName: "envelope", text: $email, isFocusedParentView: $isEmailTextFieldFocused)
+                    .onChange(of: email) { [signUpViewModel] newValue in
+                        Task {
+                            self.emailTaken = try await signUpViewModel.checkEmailDuplicate(email: newValue)
+                        }
                     }
-                    
-                    VStack {
-                        TextField("E-mail", text: $email, onCommit: {
-                            Task {
-                                self.emailTaken = try await signUpViewModel.checkEmailDuplicate(email: email)
-                            }
-                        })
-                            .disableAutocorrection(true)
-                            .autocapitalization(.none)
-//                            .focused($focusedField, equals: .emailTextField)
-//                            .onSubmit {
-//                                focusedField = .passwordTextField
-//                            }
-                        
-                        Divider()
-                            .background(Color.accentColor)
-                    }
-                    
-                    HStack {
-                        LottieView(name: "envelope", loopMode: .loop, contentMode: .scaleAspectFill)
-                            .frame(width: screenWidth * 0.15, height: screenHeight * 0.12)
-                        Text("Please make sure you provide valid e-mail address.\n").font(.system(size: screenWidth * 0.04, weight: .bold))
-                            .frame(height: screenHeight * 0.12)
-                        Spacer()
-                    }
-                    
+                
+                if emailTaken {
                     HStack {
                         LottieView(name: "wrongData", loopMode: .loop, contentMode: .scaleAspectFill)
-                            .frame(width: screenWidth * 0.15, height: screenHeight * 0.07)
-                        Text("This e-mail address has already been used.\n")
+                            .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
+                            .padding(.leading)
+                            .offset(y: -screenHeight * 0.013)
+                        Text("This email has already been used.\n")
                             .foregroundColor(.red)
                             .font(.system(size: screenWidth * 0.04, weight: .bold))
-                            .frame(height: screenHeight * 0.07)
                         Spacer()
                     }
-                    .isHidden(!emailTaken)
-                    .offset(y: -screenHeight * 0.05)
+                    .padding(.bottom, -screenHeight * 0.022)
                 }
-                .padding(.top)
-                .padding(.horizontal)
                 
-                VStack {
+                CustomTextField(isSecureField: true, textFieldProperty: "Password", textFieldImageName: "lock", text: $password, isFocusedParentView: $isPasswordTextFieldFocused)
+                
+                HStack {
+                    Button(action: {
+                        withAnimation(.linear) {
+                            showPasswordHelp.toggle()
+                        }
+                    }, label: {
+                        Image(systemName: "questionmark.circle")
+                            .padding()
+                            .offset(y: -screenHeight * 0.01)
+                    })
+                
+                    Text("Password should be at least 8 characters long and should contain a number.\n").font(.caption).fontWeight(.bold)
+                        .isHidden(!showPasswordHelp)
+                    Spacer()
+                }
+                .foregroundColor(checkPassword() ? .green : .red)
+                .padding()
+                .offset(y: -screenHeight * 0.03)
+                
+                CustomTextField(isSecureField: true, textFieldProperty: "Repeat Password", textFieldImageName: "lock", text: $repeatedPassword, isFocusedParentView: $isRepeatedPasswordTextFieldFocused)
+                    .offset(y: -screenHeight * 0.07)
+                
+                if errorSigningUp {
                     HStack {
-                        Text("Password")
-                        Spacer()
-                    }
-                    
-                    VStack {
-                        SecureField("Password", text: $password)
-                            .disableAutocorrection(true)
-                            .autocapitalization(.none)
-//                            .focused($focusedField, equals: .passwordTextField)
-//                            .onSubmit {
-//                                focusedField = .repeatedPasswordTextField
-//                            }
-                        
-                        Divider()
-                            .background(Color.accentColor)
-                    }
-                    
-                    HStack {
-                        LottieView(name: "passwordLock", loopMode: .loop, contentMode: .scaleAspectFit)
+                        LottieView(name: "wrongData", loopMode: .loop, contentMode: .scaleAspectFill)
                             .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
-                        Text("Password should be at least 8 characters long and should contain a number.\n").font(.system(size: screenWidth * 0.04, weight: .bold))
+                            .padding(.leading)
+                            .offset(y: -screenHeight * 0.013)
+                        Text("Error signing up. Please try again later.\n")
+                            .foregroundColor(.red)
+                            .font(.system(size: screenWidth * 0.04, weight: .bold))
                         Spacer()
                     }
+                    .padding(.bottom, -screenHeight * 0.022)
                 }
-                .padding(.top)
-                .padding(.horizontal)
-                .offset(y: -screenHeight * 0.07)
-                
-                VStack {
-                    HStack {
-                        Text("Confirm Password")
-                        Spacer()
-                    }
-                    
-                    VStack {
-                        SecureField("Confirm Password", text: $repeatedPassword)
-                            .disableAutocorrection(true)
-                            .autocapitalization(.none)
-//                            .focused($focusedField, equals: .repeatedPasswordTextField)
-                        
-                        Divider()
-                            .background(Color.accentColor)
-                    }
-                }
-                .padding(.top)
-                .padding(.horizontal)
-                .offset(y: -screenHeight * 0.07)
                 
                 Spacer()
                 
                 Button(action: {
-                    signUpViewModel.signUp(firstName: firstName, userName: username, birthDate: birthDate, country: country.rawValue, language: language.rawValue, email: email, password: password, gender: gender)
+                    signUpViewModel.signUp(firstName: firstName, userName: username, birthDate: birthDate, country: country.rawValue, language: language.rawValue, email: email, password: password, gender: gender) { success in
+                        self.errorSigningUp = !success
+                    }
                 }, label: {
                     Text("Sign Up")
                         .fontWeight(.bold)
@@ -387,9 +312,6 @@ struct SecondSignUpView: View {
             .background(RoundedRectangle(cornerRadius: 25)
                             .foregroundColor(.black.opacity(0.7))
                             .frame(width: screenWidth * 0.98, height: screenHeight * 0.95))
-            .onAppear {
-                self.signUpViewModel.setup(sessionStore: sessionStore)
-            }
             .foregroundColor(.white)
             .background(Image("SignUpBackgroundImage")
                             .resizable()

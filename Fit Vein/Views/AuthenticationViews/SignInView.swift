@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct SignInView: View {
-    @EnvironmentObject var sessionStore: SessionStore
     @StateObject private var signInViewModel = SignInViewModel()
     @Environment(\.colorScheme) var colorScheme
     
@@ -45,10 +44,11 @@ struct SignInView: View {
                         Spacer()
                     }
                     
-                    CustomTextField(textFieldProperty: "E-mail", textFieldImageName: "envelope", textFieldSignsLimit: 0, text: $email, isFocusedParentView: $isEmailTextFieldFocused)
+                    CustomTextField(textFieldProperty: "E-Mail", textFieldImageName: "envelope", textFieldSignsLimit: 0, text: $email, isFocusedParentView: $isEmailTextFieldFocused)
+                        .padding(.bottom, -screenHeight * 0.02)
                     
                     VStack {
-                        CustomTextField(fieldIsSecureField: true, textFieldProperty: "Password", textFieldImageName: "lock", textFieldSignsLimit: 0, text: $password, isFocusedParentView: $isPasswordTextFieldFocused)
+                        CustomTextField(isSecureField: true, textFieldProperty: "Password", textFieldImageName: "lock", text: $password, isFocusedParentView: $isPasswordTextFieldFocused)
                         
                         HStack {
                             Text("Forgot Password?")
@@ -60,7 +60,22 @@ struct SignInView: View {
                             Spacer()
                         }
                         .padding()
-                        .offset(y: -screenHeight * 0.06)
+                        .offset(y: -screenHeight * 0.045)
+                    }
+                    
+                    if wrongCredentials {
+                        HStack {
+                            LottieView(name: "wrongData", loopMode: .loop, contentMode: .scaleAspectFill)
+                                .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
+                                .padding(.leading)
+                                .offset(y: -screenHeight * 0.013)
+                            Text("Provided e-mail and/or password is incorrect or the account does not exists.\n")
+                                .foregroundColor(.red)
+                                .font(.system(size: screenWidth * 0.035, weight: .bold))
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                        .offset(y: -screenHeight * 0.05)
                     }
                 }
                 .background(RoundedRectangle(cornerRadius: 25)
@@ -69,23 +84,18 @@ struct SignInView: View {
                 
 
                 Button(action: {
-                    if email.isEmpty {
-                        isEmailTextFieldFocused = true
-                    } else if password.isEmpty {
-                        isPasswordTextFieldFocused = true
-                    } else {
-                        isEmailTextFieldFocused = false
-                        isPasswordTextFieldFocused = false
-                        if checkDataIsCorrect() {
-                            signInViewModel.signIn(email: email, password: password)
-                        }
+                    isEmailTextFieldFocused = false
+                    isPasswordTextFieldFocused = false
+                    wrongCredentials = false
+                    signInViewModel.signIn(email: email, password: password) { success in
+                        self.wrongCredentials = !success
                     }
                 }, label: {
                     Text("Sign In")
                 })
                 .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(.accentColor))
                 .padding()
-                .padding(.top, screenHeight * 0.05)
+                .padding(.top, screenHeight * 0.037)
                 .disabled(email.isEmpty ? true : (password.isEmpty ? true : false))
                 .offset(y: isEmailTextFieldFocused ? -screenHeight * 0.02 : (isPasswordTextFieldFocused ? -screenHeight * 0.02 : 0))
                 
@@ -93,14 +103,11 @@ struct SignInView: View {
                 
                 HStack {
                     Text("Don't have an account?")
-                    NavigationLink("Create One", destination: SignUpView().environmentObject(sessionStore).ignoresSafeArea(.keyboard))
+                    NavigationLink("Create One", destination: SignUpView().ignoresSafeArea(.keyboard))
                         .foregroundColor(.accentColor)
                 }
                 .padding(.bottom, screenHeight * 0.05)
                 .offset(y: isEmailTextFieldFocused ? -screenHeight * 0.1 : (isPasswordTextFieldFocused ? -screenHeight * 0.1 : 0))
-            }
-            .onAppear {
-                self.signInViewModel.setup(sessionStore: sessionStore)
             }
             .offset(y: isEmailTextFieldFocused ? -screenHeight * 0.25 : (isPasswordTextFieldFocused ? -screenHeight * 0.25 : 0))
             .foregroundColor(.white)
@@ -118,10 +125,10 @@ struct SignInView: View {
         @EnvironmentObject private var signInViewModel: SignInViewModel
         
         @State private var forgotPasswordEmail = ""
-        @State private var sendRecoveryEmailButtonPressed = false
         @State private var recoveryEmailSent = false
+        @State private var errorSendingEmail = false
         
-        @FocusState private var isTextFieldFocused: Bool
+        @State private var isTextFieldFocused: Bool = false
         
         var body: some View {
             GeometryReader { geometry in
@@ -129,49 +136,78 @@ struct SignInView: View {
                 let screenHeight = geometry.size.height
                 
                 NavigationView {
-                    ScrollView(.vertical) {
-                        Form {
-                            Section(header: Text("Forgot Password"), footer: sendRecoveryEmailButtonPressed ? (recoveryEmailSent ? Text("Recovery e-mail has been sent! Please check your inbox.").foregroundColor(.accentColor) : Text("Please provide correct e-mail address.").foregroundColor(.red)) : Text("Please provide your e-mail address so that we could send you recovery e-mail with instructions how to reset the password.")) {
-                                TextField("E-mail", text: $forgotPasswordEmail)
-                                    .focused($isTextFieldFocused)
-                            }
+                    VStack {
+                        VStack {
+                            CustomTextField(isSecureField: false, textFieldProperty: "E-Mail", textFieldImageName: "envelope", text: $forgotPasswordEmail, isFocusedParentView: $isTextFieldFocused)
+                            
+                            Text("Please provide your e-mail address so that we could send you recovery e-mail with instructions how to reset the password.")
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                                .padding(.horizontal)
                         }
-                        .frame(width: screenWidth, height: screenHeight * 0.80)
+                        .padding(.bottom, screenHeight * 0.03)
+                        
+                        if errorSendingEmail {
+                            HStack {
+                                LottieView(name: "wrongData", loopMode: .loop, contentMode: .scaleAspectFill)
+                                    .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
+                                    .padding(.leading)
+                                    .offset(y: -screenHeight * 0.013)
+                                Text("Error sending recovery e-mail. Please check provided e-mail address.\n")
+                                    .foregroundColor(.red)
+                                    .font(.system(size: screenWidth * 0.035, weight: .bold))
+                                Spacer()
+                            }
+                            .padding(.horizontal)
+                            .offset(x: -screenWidth * 0.006, y: -screenHeight * 0.01)
+                        }
+                        
+                        if recoveryEmailSent {
+                            HStack {
+                                LottieView(name: "success2", loopMode: .loop, contentMode: .scaleAspectFit)
+                                    .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
+                                    .padding(.leading)
+                                    .offset(y: -screenHeight * 0.013)
+                                Text("Recovery e-mail has been sent. Please check your e-mail inbox.")
+                                    .foregroundColor(.green)
+                                    .font(.system(size: screenWidth * 0.035, weight: .bold))
+                                    .offset(y: -screenHeight * 0.01)
+                                Spacer()
+                            }
+                            .padding(.horizontal)
+                        }
+                        
+                        Spacer()
                         
                         Button(action: {
                             withAnimation {
-                                sendRecoveryEmailButtonPressed = true
-                                if checkEmail(email: forgotPasswordEmail) {
-                                    signInViewModel.sendRecoveryEmail(email: forgotPasswordEmail)
-                                    recoveryEmailSent = true
+                                errorSendingEmail = false
+                                recoveryEmailSent = false
+                                signInViewModel.sendRecoveryEmail(email: forgotPasswordEmail) { success in
+                                    if success {
+                                        errorSendingEmail = false
+                                        recoveryEmailSent = true
+                                    } else {
+                                        recoveryEmailSent = false
+                                        errorSendingEmail = true
+                                    }
                                 }
+                                
                             }
                         }, label: {
-                            Text("Send Recovery E-mail")
+                            Text("Send Recovery E-Mail")
                                 .foregroundColor(.white)
                         })
                         .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(.accentColor))
                         .padding()
-                        .offset(y: isTextFieldFocused ? -screenHeight * 0.35 : -screenHeight * 0.1)
+                        .disabled(forgotPasswordEmail.isEmpty)
+                        .padding(.bottom, screenHeight * 0.02)
+                        .offset(y: -screenHeight * 0.05)
                     }
                     .navigationBarTitle("Forgot Password Form", displayMode: .inline)
                 }
             }
         }
-        
-        private func checkEmail(email: String) -> Bool {
-            let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-            return NSPredicate(format:"SELF MATCHES %@", emailRegEx).evaluate(with: email)
-        }
-    }
-    
-    private func checkEmail(email: String) -> Bool {
-        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-        return NSPredicate(format:"SELF MATCHES %@", emailRegEx).evaluate(with: email)
-    }
-    
-    private func checkDataIsCorrect() -> Bool {
-        return checkEmail(email: email)
     }
 }
 

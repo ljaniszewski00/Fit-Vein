@@ -9,19 +9,19 @@ import Foundation
 
 @MainActor
 class SignInViewModel: ObservableObject {
-    @Published private var sessionStore: SessionStore?
+    var sessionStore = SessionStore(forPreviews: false)
     private let firestoreManager = FirestoreManager()
     private let firebaseStorageManager = FirebaseStorageManager()
     
-    func setup(sessionStore: SessionStore) {
-        self.sessionStore = sessionStore
+    func signIn(email: String, password: String, completion: @escaping ((Bool) -> ())) {
+        self.sessionStore.signIn(email: email, password: password) { success in
+            completion(success)
+        }
     }
     
-    func signIn(email: String, password: String) {
-        self.sessionStore!.signIn(email: email, password: password) {}
-    }
-    
-    func sendRecoveryEmail(email: String) {
-        self.sessionStore!.sendRecoveryEmail(email: email) {}
+    func sendRecoveryEmail(email: String, completion: @escaping ((Bool) -> ())) {
+        self.sessionStore.sendRecoveryEmail(email: email) { success in
+            completion(success)
+        }
     }
 }

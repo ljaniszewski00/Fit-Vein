@@ -19,16 +19,16 @@ class FirestoreManager: ObservableObject {
     
     // Registration
     
-    func signUpDataCreation(id: String, firstName: String, username: String, birthDate: Date, country: String, language: String, email: String, gender: String, completion: @escaping ((Profile) -> ())) {
+    func signUpDataCreation(id: String, firstName: String, username: String, birthDate: Date, country: String, language: String, email: String, gender: String, completion: @escaping ((Profile?, Bool) -> ())) {
         let documentData: [String: Any] = [
             "id": id,
             "firstName": firstName,
-            "username": username,
+            "username": username.lowercased(),
             "birthDate": birthDate,
             "age": yearsBetweenDate(startDate: birthDate, endDate: Date()) == 0 ? 18 : yearsBetweenDate(startDate: birthDate, endDate: Date()),
             "country": country,
             "language": language,
-            "email": email,
+            "email": email.lowercased(),
             "gender": gender,
             "followedUsers": [String](),
             "reactedPostsIDs": [String](),
@@ -39,16 +39,16 @@ class FirestoreManager: ObservableObject {
         self.db.collection("users").document(id).setData(documentData) { (error) in
             if let error = error {
                 print("Error creating user's data: \(error.localizedDescription)")
+                completion(nil, false)
             } else {
                 print("Successfully created data for user: \(username) identifying with id: \(id) in database")
-                completion(Profile(id: id, firstName: firstName, username: username, birthDate: birthDate, age: yearsBetweenDate(startDate: birthDate, endDate: Date()) == 0 ? 18 : yearsBetweenDate(startDate: birthDate, endDate: Date()), country: country,
-                                   language: language, gender: gender, email: email, profilePictureURL: nil, followedIDs: nil, reactedPostsIDs: nil, commentedPostsIDs: nil))
+                completion(Profile(id: id, firstName: firstName, username: username, birthDate: birthDate, age: yearsBetweenDate(startDate: birthDate, endDate: Date()) == 0 ? 18 : yearsBetweenDate(startDate: birthDate, endDate: Date()), country: country, language: language, gender: gender, email: email, profilePictureURL: nil, followedIDs: nil, reactedPostsIDs: nil, commentedPostsIDs: nil), true)
             }
         }
     }
     
     func checkUsernameDuplicate(username: String) async throws -> Bool {
-        let querySnapshot = try await self.db.collection("users").whereField("username", isEqualTo: username).getDocuments()
+        let querySnapshot = try await self.db.collection("users").whereField("username", isEqualTo: username.lowercased()).getDocuments()
         
         if querySnapshot.documents.count != 0 {
             return true
@@ -58,7 +58,7 @@ class FirestoreManager: ObservableObject {
     }
     
     func checkEmailDuplicate(email: String) async throws -> Bool {
-        let querySnapshot = try await self.db.collection("users").whereField("email", isEqualTo: email).getDocuments()
+        let querySnapshot = try await self.db.collection("users").whereField("email", isEqualTo: email.lowercased()).getDocuments()
         
         if querySnapshot.documents.count != 0 {
             return true

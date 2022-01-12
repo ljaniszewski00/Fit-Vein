@@ -36,6 +36,7 @@
 		0A4174772726CC1A00DF4460 /* IntervalWorkout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4174762726CC1A00DF4460 /* IntervalWorkout.swift */; };
 		0A4BF9242728500800311D24 /* WorkoutTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4BF9232728500800311D24 /* WorkoutTimerView.swift */; };
 		0A4BF92A2728552100311D24 /* FinishedWorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4BF9292728552000311D24 /* FinishedWorkoutView.swift */; };
+		0A4CC5F3278E4D5E0012630F /* success2.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A4CC5F2278E4D5E0012630F /* success2.json */; };
 		0A57AC2C27453DC600CEC302 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A57AC2B27453DC600CEC302 /* HealthKit.framework */; };
 		0A61E19C2784AB3900A7FD34 /* FunctionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A61E19B2784AB3900A7FD34 /* FunctionsTests.swift */; };
 		0A61E19E2784AFA700A7FD34 /* HealthStatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A61E19D2784AFA700A7FD34 /* HealthStatTests.swift */; };
@@ -147,6 +148,7 @@
 		0A4174762726CC1A00DF4460 /* IntervalWorkout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntervalWorkout.swift; sourceTree = "<group>"; };
 		0A4BF9232728500800311D24 /* WorkoutTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutTimerView.swift; sourceTree = "<group>"; };
 		0A4BF9292728552000311D24 /* FinishedWorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishedWorkoutView.swift; sourceTree = "<group>"; };
+		0A4CC5F2278E4D5E0012630F /* success2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success2.json; sourceTree = "<group>"; };
 		0A57AC2A27453DC600CEC302 /* Fit Vein.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Fit Vein.entitlements"; sourceTree = "<group>"; };
 		0A57AC2B27453DC600CEC302 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		0A61E19B2784AB3900A7FD34 /* FunctionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionsTests.swift; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 		0A0174ED278B110E00CD45F9 /* Lottie */ = {
 			isa = PBXGroup;
 			children = (
+				0A4CC5F2278E4D5E0012630F /* success2.json */,
 				0A14B8A7278CB8B2009E194B /* wrongData.json */,
 				0A14B8A5278CB782009E194B /* passwordLock.json */,
 				0A14B8A3278CB402009E194B /* envelope.json */,
@@ -659,6 +662,7 @@
 				0A017514278B24A700CD45F9 /* countdown2.json in Resources */,
 				0A017503278B1BA500CD45F9 /* avocadoWorkout.json in Resources */,
 				0A83A26E278B69A50061973B /* notifications.json in Resources */,
+				0A4CC5F3278E4D5E0012630F /* success2.json in Resources */,
 				0AD3A40727275E0D00396FE7 /* sprint2.png in Resources */,
 				0A01750A278B1BA500CD45F9 /* countdown.json in Resources */,
 				0A83A26C278B65F20061973B /* runningMan.json in Resources */,
