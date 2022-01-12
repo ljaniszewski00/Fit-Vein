@@ -144,7 +144,9 @@ struct SignUpView: View {
                     
                     Spacer()
                     
-                    NavigationLink("Next", destination: SecondSignUpView(firstName: firstName, username: username, gender: gender, birthDate: birthDate, country: country, language: language).environmentObject(sessionStore).ignoresSafeArea(.keyboard))
+                    NavigationLink("Next", destination: withAnimation {
+                        SecondSignUpView(firstName: firstName, username: username, gender: gender, birthDate: birthDate, country: country, language: language).environmentObject(sessionStore).ignoresSafeArea(.keyboard)
+                    })
                         .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor((!checkFieldsNotEmpty() || usernameTaken) ? .gray : .accentColor))
                         .padding()
                         .disabled(!checkFieldsNotEmpty() || usernameTaken)
@@ -295,8 +297,10 @@ struct SecondSignUpView: View {
                 Spacer()
                 
                 Button(action: {
-                    signUpViewModel.signUp(firstName: firstName, userName: username, birthDate: birthDate, country: country.rawValue, language: language.rawValue, email: email, password: password, gender: gender) { success in
-                        self.errorSigningUp = !success
+                    withAnimation {
+                        signUpViewModel.signUp(firstName: firstName, userName: username, birthDate: birthDate, country: country.rawValue, language: language.rawValue, email: email, password: password, gender: gender) { success in
+                            self.errorSigningUp = !success
+                        }
                     }
                 }, label: {
                     Text("Sign Up")

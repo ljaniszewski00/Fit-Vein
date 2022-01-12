@@ -87,40 +87,76 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
-    func emailAddressChange(oldEmailAddress: String, password: String, newEmailAddress: String, completion: @escaping (() -> ())) {
-        self.sessionStore.changeEmailAddress(oldEmailAddress: oldEmailAddress, password: password, newEmailAddress: newEmailAddress) {
-            print("Successfully changed user's e-mail address")
+    func emailAddressChange(oldEmailAddress: String, password: String, newEmailAddress: String, completion: @escaping ((Bool) -> ())) {
+        self.sessionStore.changeEmailAddress(oldEmailAddress: oldEmailAddress, password: password, newEmailAddress: newEmailAddress) { success in
+            if success {
+                print("Successfully changed user's e-mail address")
+            } else {
+                print("Error changing user's e-mail address")
+                completion(success)
+            }
+            self.firestoreManager.editUserEmailInDatabase(email: newEmailAddress)
         }
     }
     
-    func passwordChange(emailAddress: String, oldPassword: String, newPassword: String, completion: @escaping (() -> ())) {
-        self.sessionStore.changePassword(emailAddress: emailAddress, oldPassword: oldPassword, newPassword: newPassword) {
-            print("Successfully changed user's password")
+    func passwordChange(emailAddress: String, oldPassword: String, newPassword: String, completion: @escaping ((Bool) -> ())) {
+        self.sessionStore.changePassword(emailAddress: emailAddress, oldPassword: oldPassword, newPassword: newPassword) { success in
+            if success {
+                print("Successfully changed user's password")
+            } else {
+                print("Error changing user's password")
+            }
+            completion(success)
         }
     }
     
-    func deleteUserData(email: String, password: String, completion: @escaping (() -> ())) {
+    func deleteUserData(email: String, password: String, completion: @escaping ((Bool) -> ())) {
         if self.profile != nil {
             if self.profile!.profilePictureURL != nil {
-                self.firebaseStorageManager.deleteImageFromStorage(userPhotoURL: self.profile!.profilePictureURL!, userID: self.profile!.id) {
-                    print("Successfully deleted user images")
-                    self.firestoreManager.deleteUserData(userID: self.profile!.id) {
-                        print("Successfully deleted user data")
-                        self.sessionStore.deleteUser(email: email, password: password) {
-                            print("Successfully deleted user credentials")
-                            completion()
+                self.firebaseStorageManager.deleteImageFromStorage(userPhotoURL: self.profile!.profilePictureURL!, userID: self.profile!.id) { success in
+                    if success {
+                        print("Successfully deleted user's images")
+                    } else {
+                        print("Could not delete user's images")
+                        completion(success)
+                    }
+                    self.firestoreManager.deleteUserData(userID: self.profile!.id) { success in
+                        if success {
+                            print("Successfully deleted user's data")
+                        } else {
+                            print("Could not delete user's data")
+                            completion(success)
+                        }
+                        self.sessionStore.deleteUser(email: email, password: password) { success in
+                            if success {
+                                print("Successfully deleted user's credentials")
+                            } else {
+                                print("Could not delete user's credentials")
+                            }
+                            completion(success)
                         }
                     }
                 }
             } else {
-                self.firestoreManager.deleteUserData(userID: self.profile!.id) {
-                    print("Successfully deleted user data")
-                    self.sessionStore.deleteUser(email: email, password: password) {
-                        print("Successfully deleted user credentials")
-                        completion()
+                self.firestoreManager.deleteUserData(userID: self.profile!.id) { success in
+                    if success {
+                        print("Successfully deleted user's data")
+                    } else {
+                        print("Could not delete user's data")
+                        completion(success)
+                    }
+                    self.sessionStore.deleteUser(email: email, password: password) { success in
+                        if success {
+                            print("Successfully deleted user's credentials")
+                        } else {
+                            print("Could not delete user's credentials")
+                        }
+                        completion(success)
                     }
                 }
             }
+        } else {
+            completion(false)
         }
     }
     

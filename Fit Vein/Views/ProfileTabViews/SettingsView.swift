@@ -278,6 +278,8 @@ struct DeleteAccountSheetView: View {
     
     @FocusState private var isTextFieldFocused: Bool
     
+    @State private var error = false
+    
     var body: some View {
         GeometryReader { geometry in
             let screenWidth = geometry.size.width
@@ -294,15 +296,35 @@ struct DeleteAccountSheetView: View {
                         }
                     }
                     
+                    if error {
+                        HStack {
+                            LottieView(name: "wrongData", loopMode: .loop, contentMode: .scaleAspectFill)
+                                .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
+                                .padding(.leading)
+                                .offset(y: -screenHeight * 0.013)
+                            Text("Error deleting the user's account. Please, try again later.\n")
+                                .foregroundColor(.red)
+                                .font(.system(size: screenWidth * 0.035, weight: .bold))
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                        .offset(y: -screenHeight * 0.05)
+                    }
+                    
                     LottieView(name: "delete", loopMode: .loop)
                         .frame(width: screenWidth, height: screenHeight * 0.4)
                         .offset(y: isTextFieldFocused ? -screenHeight * 0.3 : 0)
                     
                     Button(action: {
                         withAnimation {
-                            profileViewModel.deleteUserData(email: email, password: password) {
-                                print("Successfully deleted user.")
-                                dismiss()
+                            error = false
+                            profileViewModel.deleteUserData(email: email, password: password) { success in
+                                if success {
+                                    print("Successfully deleted user.")
+                                    dismiss()
+                                } else {
+                                    error = true
+                                }
                             }
                         }
                     }, label: {
@@ -334,6 +356,8 @@ struct ChangeEmailAddressSheetView: View {
     
     @FocusState private var isTextFieldFocused: Bool
     
+    @State private var error = false
+    
     var body: some View {
         GeometryReader { geometry in
             let screenWidth = geometry.size.width
@@ -352,14 +376,36 @@ struct ChangeEmailAddressSheetView: View {
                         }
                     }
                     
+                    if error {
+                        HStack {
+                            LottieView(name: "wrongData", loopMode: .loop, contentMode: .scaleAspectFill)
+                                .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
+                                .padding(.leading)
+                                .offset(y: -screenHeight * 0.013)
+                            Text("Error changing user's e-mail address. Please, try again later.\n")
+                                .foregroundColor(.red)
+                                .font(.system(size: screenWidth * 0.035, weight: .bold))
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                        .offset(y: -screenHeight * 0.05)
+                    }
+                    
                     LottieView(name: "changeArrows", loopMode: .loop)
                         .frame(width: screenWidth * 0.3, height: screenHeight * 0.3)
                         .offset(y: isTextFieldFocused ? -screenHeight * 0.35 : 0)
                     
                     Button(action: {
                         withAnimation {
-                            dismiss()
-                            profileViewModel.emailAddressChange(oldEmailAddress: oldEmail, password: password, newEmailAddress: newEmail) {}
+                            error = false
+                            profileViewModel.emailAddressChange(oldEmailAddress: oldEmail, password: password, newEmailAddress: newEmail) { success in
+                                if success {
+                                    print("Successfully changed e-mail address.")
+                                    dismiss()
+                                } else {
+                                    error = true
+                                }
+                            }
                         }
                     }, label: {
                         Text("Change e-mail address")
@@ -390,6 +436,8 @@ struct ChangePasswordSheetView: View {
     
     @FocusState private var isTextFieldFocused: Bool
     
+    @State private var error = false
+    
     var body: some View {
         GeometryReader { geometry in
             let screenWidth = geometry.size.width
@@ -408,14 +456,36 @@ struct ChangePasswordSheetView: View {
                         }
                     }
                     
+                    if error {
+                        HStack {
+                            LottieView(name: "wrongData", loopMode: .loop, contentMode: .scaleAspectFill)
+                                .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
+                                .padding(.leading)
+                                .offset(y: -screenHeight * 0.013)
+                            Text("Error changing user's password. Please, try again later.\n")
+                                .foregroundColor(.red)
+                                .font(.system(size: screenWidth * 0.035, weight: .bold))
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                        .offset(y: -screenHeight * 0.05)
+                    }
+                    
                     LottieView(name: "changeArrows", loopMode: .loop)
                         .frame(width: screenWidth * 0.3, height: screenHeight * 0.3)
                         .offset(y: isTextFieldFocused ? -screenHeight * 0.35 : 0)
                     
                     Button(action: {
                         withAnimation {
-                            dismiss()
-                            profileViewModel.passwordChange(emailAddress: email, oldPassword: oldPassword, newPassword: newPassword) {}
+                            error = false
+                            profileViewModel.passwordChange(emailAddress: email, oldPassword: oldPassword, newPassword: newPassword) { success in
+                                if success {
+                                    print("Successfully changed password.")
+                                    dismiss()
+                                } else {
+                                    error = true
+                                }
+                            }
                         }
                     }, label: {
                         Text("Change password")

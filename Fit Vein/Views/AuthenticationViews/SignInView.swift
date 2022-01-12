@@ -84,18 +84,20 @@ struct SignInView: View {
                 
 
                 Button(action: {
-                    isEmailTextFieldFocused = false
-                    isPasswordTextFieldFocused = false
-                    wrongCredentials = false
-                    signInViewModel.signIn(email: email, password: password) { success in
-                        self.wrongCredentials = !success
+                    withAnimation {
+                        isEmailTextFieldFocused = false
+                        isPasswordTextFieldFocused = false
+                        wrongCredentials = false
+                        signInViewModel.signIn(email: email, password: password) { success in
+                            self.wrongCredentials = !success
+                        }
                     }
                 }, label: {
                     Text("Sign In")
                 })
                 .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(.accentColor))
                 .padding()
-                .padding(.top, screenHeight * 0.037)
+                .padding(.top, screenHeight * 0.05)
                 .disabled(email.isEmpty ? true : (password.isEmpty ? true : false))
                 .offset(y: isEmailTextFieldFocused ? -screenHeight * 0.02 : (isPasswordTextFieldFocused ? -screenHeight * 0.02 : 0))
                 
