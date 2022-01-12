@@ -198,7 +198,7 @@ struct ProfileView: View {
                             .onDisappear {
                                 if !self.image.isEqual(self.oldImage) {
                                     self.oldImage = image
-                                    profileViewModel.uploadPhoto(image: image)
+                                    profileViewModel.uploadPhoto(image: image) { success in }
                                 }
                             }
                     }

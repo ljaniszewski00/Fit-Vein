@@ -39,15 +39,22 @@ class WorkoutViewModel: ObservableObject {
         self.workout?.setDataOnEnd(calories: calories, completedDuration: completedDuration, completedSeries: completedSeries)
     }
     
-    func saveWorkoutToDatabase(completion: @escaping (() -> ())) {
+    func saveWorkoutToDatabase(completion: @escaping ((Bool) -> ())) {
         if self.workout != nil {
             if self.sessionStore.currentUser != nil {
                 self.workout!.setUsersID(usersID: self.sessionStore.currentUser!.uid)
-                self.firestoreManager.workoutDataCreation(id: workout!.id, usersID: workout!.usersID, type: workout!.type, date: workout!.date, isFinished: workout!.isFinished, calories: workout!.calories, series: workout!.series, workTime: workout!.workTime, restTime: workout!.restTime, completedDuration: workout!.completedDuration, completedSeries: workout!.completedSeries) {
-                    completion()
+                self.firestoreManager.workoutDataCreation(id: workout!.id, usersID: workout!.usersID, type: workout!.type, date: workout!.date, isFinished: workout!.isFinished, calories: workout!.calories, series: workout!.series, workTime: workout!.workTime, restTime: workout!.restTime, completedDuration: workout!.completedDuration, completedSeries: workout!.completedSeries) { success in
+                    if success {
+                        print("Successfully saved workout to the database.")
+                        completion(true)
+                    } else {
+                        print("Error saving workout to the database.")
+                        completion(false)
+                    }
                 }
             } else {
-                print("Current user is nil")
+                completion(false)
+                print("Error saving workout to the database: current user is nil")
             }
         }
     }

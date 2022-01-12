@@ -76,9 +76,11 @@ struct SearchFriendsView: View {
                                     if self.profileViewModel.profile!.followedIDs != nil {
                                         if self.profileViewModel.profile!.followedIDs!.contains(userID) {
                                             Button(action: {
-                                                self.profileViewModel.unfollowUser(userID: userID) {
-                                                    self.success = true
-                                                    self.homeViewModel.fetchData()
+                                                self.profileViewModel.unfollowUser(userID: userID) { success in
+                                                    if success {
+                                                        self.homeViewModel.fetchData()
+                                                    }
+                                                    self.success = success
                                                 }
                                             }, label: {
                                                 Image(systemName: "person.crop.circle.badge.minus")
@@ -89,9 +91,11 @@ struct SearchFriendsView: View {
                                             })
                                         } else {
                                             Button(action: {
-                                                self.profileViewModel.followUser(userID: userID) {
-                                                    self.success = true
-                                                    self.homeViewModel.fetchData()
+                                                self.profileViewModel.followUser(userID: userID) { success in
+                                                    if success {
+                                                        self.homeViewModel.fetchData()
+                                                    }
+                                                    self.success = success
                                                 }
                                             }, label: {
                                                 Image(systemName: "person.crop.circle.badge.plus")
@@ -103,9 +107,11 @@ struct SearchFriendsView: View {
                                         }
                                     } else {
                                         Button(action: {
-                                            self.profileViewModel.followUser(userID: userID) {
-                                                self.success = true
-                                                self.homeViewModel.fetchData()
+                                            self.profileViewModel.followUser(userID: userID) { success in
+                                                if success {
+                                                    self.homeViewModel.fetchData()
+                                                }
+                                                self.success = success
                                             }
                                         }, label: {
                                             Image(systemName: "plus.circle.fill")

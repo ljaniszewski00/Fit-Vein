@@ -13,6 +13,8 @@ struct FinishedWorkoutView: View {
     @Environment(\.dismiss) var dismiss
     @State private var backToBeginning = false
     
+    @State private var error = false
+    
     var body: some View {
         GeometryReader { geometry in
             let screenWidth = geometry.size.width
@@ -29,13 +31,33 @@ struct FinishedWorkoutView: View {
                     SingleWorkoutWindowView(workout: workoutViewModel.workout!)
                         .frame(height: screenHeight * 0.75)
                     
+                    if error {
+                        HStack {
+                            LottieView(name: "wrongData", loopMode: .loop, contentMode: .scaleAspectFill)
+                                .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
+                                .padding(.leading)
+                                .offset(y: -screenHeight * 0.013)
+                            Text("Cannot save the workout right now. Please try again later.\n")
+                                .foregroundColor(.red)
+                                .font(.system(size: screenWidth * 0.035, weight: .bold))
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                        .offset(y: -screenHeight * 0.05)
+                    }
+                    
                     HStack {
                         Spacer()
                         
                         Button(action: {
-                            self.workoutViewModel.saveWorkoutToDatabase() {
-                                withAnimation(.linear) {
-                                    backToBeginning = true
+                            error = false
+                            self.workoutViewModel.saveWorkoutToDatabase() { success in
+                                withAnimation {
+                                    if success {
+                                        backToBeginning = true
+                                    } else {
+                                        error = true
+                                    }
                                 }
                             }
                         }, label: {

@@ -51,13 +51,15 @@ class ProfileViewModel: ObservableObject {
                 if profile != nil {
                     if profile!.profilePictureURL != nil {
                         if self.sessionStore.currentUser != nil {
-                            self.firebaseStorageManager.getDownloadURLForImage(stringURL: profile!.profilePictureURL!, userID: self.sessionStore.currentUser!.uid) { photoURL in
+                            self.firebaseStorageManager.getDownloadURLForImage(stringURL: profile!.profilePictureURL!, userID: self.sessionStore.currentUser!.uid) { photoURL, success in
                                 if let photoURL = photoURL {
                                     self.profilePicturePhotoURL = photoURL
                                 }
-                                self.firestoreManager.fetchWorkouts(userID: self.sessionStore.currentUser!.uid) { fetchedWorkouts in
-                                    self.workouts = fetchedWorkouts
-                                    self.fetchingData = false
+                                self.firestoreManager.fetchWorkouts(userID: self.sessionStore.currentUser!.uid) { fetchedWorkouts, success in
+                                    if success {
+                                        self.workouts = fetchedWorkouts
+                                        self.fetchingData = false
+                                    }
                                 }
                             }
                         }
@@ -73,29 +75,63 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
-    func uploadPhoto(image: UIImage) {
-        if self.profile!.profilePictureURL != nil {
-            self.firebaseStorageManager.deleteImageFromStorage(userPhotoURL: self.profile!.profilePictureURL!, userID: self.sessionStore.currentUser!.uid) {}
-        }
-        
-        print("Uploading photo for user ID: \(self.sessionStore.currentUser!.uid)")
-        
-        self.firebaseStorageManager.uploadImageToStorage(image: image, userID: self.sessionStore.currentUser!.uid) { photoURL in
-            self.firestoreManager.addProfilePictureURLToUsersData(photoURL: photoURL) {
-                self.fetchData()
+    func uploadPhoto(image: UIImage, completion: @escaping ((Bool) -> ())) {
+        if let profile = self.profile {
+            if let profilePictureURL = profile.profilePictureURL {
+                self.firebaseStorageManager.deleteImageFromStorage(userPhotoURL: profile.profilePictureURL!, userID: profile.id) { success in }
+            }
+            
+            print("Uploading photo for user ID: \(self.sessionStore.currentUser!.uid)")
+            
+            self.firebaseStorageManager.uploadImageToStorage(image: image, userID: profile.id) { photoURL, success in
+                if success {
+                    if let photoURL = photoURL {
+                        self.firestoreManager.addProfilePictureURLToUsersData(photoURL: photoURL) { success in
+                            if success {
+                                self.firestoreManager.postChangeAuthorProfilePictureURL(authorID: profile.id, authorProfilePictureURL: photoURL) { success in
+                                    if success {
+                                        self.firestoreManager.commentChangeAuthorProfilePictureURL(authorID: profile.id, authorProfilePictureURL: photoURL) { success in
+                                            self.fetchData()
+                                            completion(success)
+                                        }
+                                    } else {
+                                        self.fetchData()
+                                        completion(false)
+                                    }
+                                }
+                            } else {
+                                print("Error uploading photo for user ID: \(self.sessionStore.currentUser!.uid)")
+                                completion(false)
+                            }
+                        }
+                    } else {
+                        completion(false)
+                    }
+                } else {
+                    completion(false)
+                }
             }
         }
     }
     
     func emailAddressChange(oldEmailAddress: String, password: String, newEmailAddress: String, completion: @escaping ((Bool) -> ())) {
-        self.sessionStore.changeEmailAddress(oldEmailAddress: oldEmailAddress, password: password, newEmailAddress: newEmailAddress) { success in
-            if success {
-                print("Successfully changed user's e-mail address")
-            } else {
-                print("Error changing user's e-mail address")
-                completion(success)
+        if self.profile != nil {
+            self.sessionStore.changeEmailAddress(userID: self.profile!.id, oldEmailAddress: oldEmailAddress, password: password, newEmailAddress: newEmailAddress) { success in
+                if success {
+                    print("Successfully changed user's e-mail address in authentication panel")
+                    self.firestoreManager.editUserEmailInDatabase(userID: self.profile!.id, email: newEmailAddress) { sucess in
+                        if success {
+                            print("Successfully changed user's e-mail address in firestore database")
+                        } else {
+                            print("Error changing user's e-mail address in firestore database")
+                        }
+                        completion(success)
+                    }
+                } else {
+                    print("Error changing user's e-mail address in authentication panel")
+                    completion(false)
+                }
             }
-            self.firestoreManager.editUserEmailInDatabase(email: newEmailAddress)
         }
     }
     
@@ -118,14 +154,14 @@ class ProfileViewModel: ObservableObject {
                         print("Successfully deleted user's images")
                     } else {
                         print("Could not delete user's images")
-                        completion(success)
+                        completion(false)
                     }
                     self.firestoreManager.deleteUserData(userID: self.profile!.id) { success in
                         if success {
                             print("Successfully deleted user's data")
                         } else {
                             print("Could not delete user's data")
-                            completion(success)
+                            completion(false)
                         }
                         self.sessionStore.deleteUser(email: email, password: password) { success in
                             if success {
@@ -160,20 +196,24 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
-    func followUser(userID: String, completion: @escaping (() -> ())) {
+    func followUser(userID: String, completion: @escaping ((Bool) -> ())) {
         if sessionStore.currentUser != nil {
-            self.firestoreManager.addUserToFollowed(userID: self.sessionStore.currentUser!.uid, userIDToFollow: userID) {
-                self.fetchData()
-                completion()
+            self.firestoreManager.addUserToFollowed(userID: self.sessionStore.currentUser!.uid, userIDToFollow: userID) { success in
+                if success {
+                    self.fetchData()
+                }
+                completion(success)
             }
         }
     }
     
-    func unfollowUser(userID: String, completion: @escaping (() -> ())) {
+    func unfollowUser(userID: String, completion: @escaping ((Bool) -> ())) {
         if sessionStore.currentUser != nil {
-            self.firestoreManager.removeUserFromFollowed(userID: self.sessionStore.currentUser!.uid, userIDToStopFollow: userID) {
-                self.fetchData()
-                completion()
+            self.firestoreManager.removeUserFromFollowed(userID: self.sessionStore.currentUser!.uid, userIDToStopFollow: userID) { success in
+                if success {
+                    self.fetchData()
+                }
+                completion(success)
             }
         }
     }

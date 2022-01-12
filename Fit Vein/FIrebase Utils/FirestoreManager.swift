@@ -123,7 +123,7 @@ class FirestoreManager: ObservableObject {
         }
     }
     
-    func editUserEmailInDatabase(email: String, completion: @escaping ((Bool) -> ())) {
+    func editUserEmailInDatabase(userID: String, email: String, completion: @escaping ((Bool) -> ())) {
         let documentData: [String: Any] = [
             "email": email
         ]
@@ -137,7 +137,7 @@ class FirestoreManager: ObservableObject {
         }
     }
     
-    func deleteUserData(userID: String, completion: @escaping (() -> ())) {
+    func deleteUserData(userID: String, completion: @escaping ((Bool) -> ())) {
         let queue = DispatchQueue(label: "SerialQueue")
         
         queue.async {
@@ -151,8 +151,12 @@ class FirestoreManager: ObservableObject {
                         print("Teraz printuje dokument, w którym usunę followedID")
                         print(userDocument.documentID)
                         print()
-                        self.removeUserFromFollowed(userID: userDocument.documentID, userIDToStopFollow: userID) {
-                            print("Successfully removed user's id from users ids followed by user \(userDocument.documentID)")
+                        self.removeUserFromFollowed(userID: userDocument.documentID, userIDToStopFollow: userID) { success in
+                            if success {
+                                print("Successfully removed user's id from users ids followed by user \(userDocument.documentID)")
+                            } else {
+                                print("Error removing user's id from users ids followed by user \(userDocument.documentID)")
+                            }
                         }
                     }
                 }
@@ -198,8 +202,13 @@ class FirestoreManager: ObservableObject {
                                                 print("Error getting users for reacted comments modify upon comment removal when user deletes his account: \(error.localizedDescription)")
                                             } else {
                                                 for userDocument in querySnapshot!.documents {
-                                                    self.removeCommentIDFromCommentsReactedByUser(userID: userDocument.documentID, commentID: document.documentID) {
-                                                        print("Successfully removed comment's id from comments ids reacted by user: \(userDocument.documentID)")
+                                                    self.removeCommentIDFromCommentsReactedByUser(userID: userDocument.documentID, commentID: document.documentID) { success in
+                                                        if success {
+                                                            print("Successfully removed comment's id from comments ids reacted by user: \(userDocument.documentID)")
+                                                        } else {
+                                                            print("Error removing comment's id from comments ids reacted by user: \(userDocument.documentID)")
+                                                        }
+                                                        
                                                     }
                                                 }
                                             }
@@ -211,8 +220,12 @@ class FirestoreManager: ObservableObject {
                                                 print("Error getting users for reacted posts modify upon comment removal when user deletes his account: \(error.localizedDescription)")
                                             } else {
                                                 for userDocument in querySnapshot!.documents {
-                                                    self.removePostIDFromPostsReactedByUser(userID: userDocument.documentID, postID: document.documentID) {
-                                                        print("Successfully removed post id from post ids reacted by user: \(userDocument.documentID)")
+                                                    self.removePostIDFromPostsReactedByUser(userID: userDocument.documentID, postID: document.documentID) { success in
+                                                        if success {
+                                                            print("Successfully removed post id from post ids reacted by user: \(userDocument.documentID)")
+                                                        } else {
+                                                            print("Error removing post id from post ids reacted by user: \(userDocument.documentID)")
+                                                        }
                                                     }
                                                 }
                                             }
@@ -224,8 +237,12 @@ class FirestoreManager: ObservableObject {
                                                 print("Error getting users for commented posts modify upon comment removal when user deletes his account: \(error.localizedDescription)")
                                             } else {
                                                 for userDocument in querySnapshot!.documents {
-                                                    self.removePostIDFromPostsCommentedByUser(userID: userDocument.documentID, postID: document.documentID) {
-                                                        print("Successfully removed post id from post ids commented by user: \(userDocument.documentID)")
+                                                    self.removePostIDFromPostsCommentedByUser(userID: userDocument.documentID, postID: document.documentID) { success in
+                                                        if success {
+                                                            print("Successfully removed post id from post ids commented by user: \(userDocument.documentID)")
+                                                        } else {
+                                                            print("Error removing post id from post ids commented by user: \(userDocument.documentID)")
+                                                        }
                                                     }
                                                 }
                                             }
@@ -257,10 +274,12 @@ class FirestoreManager: ObservableObject {
                         for document in querySnapshot!.documents {
                             switch collection {
                             case "comments":
-                                self.commentRemoveReaction(commentID: document.documentID, userIDThatRemovedReaction: userID) {}
+                                self.commentRemoveReaction(commentID: document.documentID, userIDThatRemovedReaction: userID) { _ in }
                             case "posts":
-                                self.postRemoveCommentingUserID(postID: document.documentID, userIDThatRemovedComment: userID) {
-                                    self.postRemoveReaction(postID: document.documentID, userIDThatRemovedReaction: userID) {}
+                                self.postRemoveCommentingUserID(postID: document.documentID, userIDThatRemovedComment: userID) { success in
+                                    if success {
+                                        self.postRemoveReaction(postID: document.documentID, userIDThatRemovedReaction: userID) { _ in }
+                                    }
                                 }
                             default:
                                 print()
@@ -273,18 +292,24 @@ class FirestoreManager: ObservableObject {
         
         queue.async {
             //Finally, delete user from 'users' collection
-            self.deleteUserExistence(userID: userID) {
-                completion()
+            self.deleteUserExistence(userID: userID) { success in
+                if success {
+                    completion(true)
+                } else {
+                    completion(false)
+                }
             }
         }
     }
     
-    private func deleteUserExistence(userID: String, completion: @escaping (() -> ())) {
+    private func deleteUserExistence(userID: String, completion: @escaping ((Bool) -> ())) {
         self.db.collection("users").document(userID).delete() { (error) in
             if let error = error {
                 print("Error deleting user's data: \(error)")
+                completion(false)
             } else {
-                completion()
+                print("Successfully deleted user's data: \(error)")
+                completion(true)
             }
         }
     }
@@ -522,13 +547,13 @@ class FirestoreManager: ObservableObject {
         self.db.collection("users").document(userID).getDocument { (document, error) in
             if let error = error {
                 print("Error fetching followed users data: \(error.localizedDescription)")
-                completion(false)
+                completion(nil, false)
             } else {
                 if let document = document {
                     let followedUsers = document.get("followedUsers") as? [String] ?? nil
                     completion(followedUsers, true)
                 } else {
-                    completion(false)
+                    completion(nil, false)
                 }
             }
         }
@@ -812,9 +837,9 @@ class FirestoreManager: ObservableObject {
                             ]
                             updatePostData(postID: postID, documentData: documentData) { success in
                                 if success {
-                                    print("Successfully removed reaction of \(userIDThatReacted) to post \(postID)")
+                                    print("Successfully removed reaction of \(userIDThatRemovedReaction) to post \(postID)")
                                 } else {
-                                    print("Error removing reaction of \(userIDThatReacted) to post \(postID)")
+                                    print("Error removing reaction of \(userIDThatRemovedReaction) to post \(postID)")
                                 }
                                 completion(success)
                             }
@@ -906,9 +931,9 @@ class FirestoreManager: ObservableObject {
                             ]
                             updatePostData(postID: postID, documentData: documentData) { success in
                                 if success {
-                                    print("Successfully removed user \(userIDThatCommented) from post's \(postID) commented users ids")
+                                    print("Successfully removed user \(userIDThatRemovedComment) from post's \(postID) commented users ids")
                                 } else {
-                                    print("Error removing user \(userIDThatCommented) from post's \(postID) commented users ids")
+                                    print("Error removing user \(userIDThatRemovedComment) from post's \(postID) commented users ids")
                                 }
                                 completion(success)
                             }
@@ -926,15 +951,46 @@ class FirestoreManager: ObservableObject {
         }
     }
     
+    func postChangeAuthorProfilePictureURL(authorID: String, authorProfilePictureURL: String, completion: @escaping ((Bool) -> ())) {
+        self.db.collection("posts").whereField("authorID", isEqualTo: authorID).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting documents in posts collection for profilePictureURL change: \(error.localizedDescription)")
+                completion(false)
+            } else {
+                if let querySnapshot = querySnapshot {
+                    for document in querySnapshot.documents {
+                        let data = document.data()
+                        let documentID = data["id"] as? String ?? ""
+                        
+                        let documentData: [String: Any] = [
+                            "authorProfilePictureURL": authorProfilePictureURL
+                        ]
+                        self.updatePostData(postID: documentID, documentData: documentData) { success in
+                            if success {
+                                print("Successfully added user's \(authorID) new profile picture url to post's \(documentID) data")
+                            } else {
+                                print("Error adding user's \(authorID) new profile picture url to post's \(documentID) data")
+                            }
+                            completion(success)
+                        }
+                    }
+                } else {
+                    completion(false)
+                }
+            }
+        }
+    }
+    
     
     // Comments
     
-    func fetchComments(postID: String, completion: @escaping (([Comment]?) -> ())) {
+    func fetchComments(postID: String, completion: @escaping (([Comment]?, Bool) -> ())) {
         var fetchedComments: [Comment] = [Comment]()
 
         self.db.collection("comments").whereField("postID", isEqualTo: postID).addSnapshotListener { (querySnapshot, error) in
             if let error = error {
                 print("Error fetching comments data: \(error.localizedDescription)")
+                completion(nil, false)
             } else {
                 fetchedComments = querySnapshot!.documents.map { (queryDocumentSnapshot) -> Comment in
                     let data = queryDocumentSnapshot.data()
@@ -957,16 +1013,16 @@ class FirestoreManager: ObservableObject {
                         fetchedComments.sort() {
                             $0.addDate > $1.addDate
                         }
-                        completion(fetchedComments)
+                        completion(fetchedComments, true)
                     } else {
-                        completion(nil)
+                        completion(nil, false)
                     }
                 }
             }
         }
     }
     
-    func commentDataCreation(id: String, authorID: String, postID: String, authorFirstName: String, authorUsername: String, authorProfilePictureURL: String, addDate: Date, text: String, reactionsUsersIDs: [String]?, completion: @escaping (() -> ())) {
+    func commentDataCreation(id: String, authorID: String, postID: String, authorFirstName: String, authorUsername: String, authorProfilePictureURL: String, addDate: Date, text: String, reactionsUsersIDs: [String]?, completion: @escaping ((Bool) -> ())) {
         let documentData: [String: Any] = [
             "id": id,
             "authorID": authorID,
@@ -982,39 +1038,47 @@ class FirestoreManager: ObservableObject {
         self.db.collection("comments").document(id).setData(documentData) { (error) in
             if let error = error {
                 print("Error creating comment's data: \(error.localizedDescription)")
+                completion(false)
             } else {
                 print("Successfully created comment: \(id) by user: \(authorID)")
+                completion(true)
             }
-            completion()
         }
     }
     
-    func commentRemoval(id: String, completion: @escaping (() -> ())) {
+    func commentRemoval(id: String, completion: @escaping ((Bool) -> ())) {
         self.db.collection("comments").document(id).delete() { (error) in
             if let error = error {
                 print("Error deleting post: \(error.localizedDescription)")
+                completion(false)
             } else {
                 print("Successfully deleted comment: \(id)")
+                completion(true)
             }
-            completion()
         }
     }
     
-    func commentEdit(id: String, text: String, completion: @escaping (() -> ())) {
+    func commentEdit(id: String, text: String, completion: @escaping ((Bool) -> ())) {
         let documentData: [String: Any] = [
             "text": text
         ]
-        updateCommentData(commentID: id, documentData: documentData) {
-            print("Successfully changed comment \(id) data.")
-            completion()
+        updateCommentData(commentID: id, documentData: documentData) { success in
+            if success {
+                print("Successfully editing comment \(id) data.")
+                completion(true)
+            } else {
+                print("Error editing comment \(id) data.")
+                completion(false)
+            }
+            
         }
     }
     
-    func commentAddReaction(commentID: String, userIDThatReacted: String, completion: @escaping (() -> ())) {
+    func commentAddReaction(commentID: String, userIDThatReacted: String, completion: @escaping ((Bool) -> ())) {
         self.db.collection("comments").document(commentID).getDocument() { [self] (document, error) in
             if let error = error {
                 print("Error getting document for comment add reaction: \(error.localizedDescription)")
-                completion()
+                completion(false)
             } else {
                 if let document = document {
                     let reactionsUsersIDs = document.get("reactionsUsersIDs") as? [String]? ?? nil
@@ -1026,13 +1090,17 @@ class FirestoreManager: ObservableObject {
                             let documentData: [String: Any] = [
                                 "reactionsUsersIDs": newReactionsUsersIDs
                             ]
-                            updateCommentData(commentID: commentID, documentData: documentData) {
-                                print("Successfully added reaction of \(userIDThatReacted) to comment \(commentID)")
-                                completion()
+                            updateCommentData(commentID: commentID, documentData: documentData) { success in
+                                if success {
+                                    print("Successfully added reaction of \(userIDThatReacted) to comment \(commentID)")
+                                } else {
+                                    print("Error adding reaction of \(userIDThatReacted) to comment \(commentID)")
+                                }
+                                completion(success)
                             }
                         } else {
                             print("Reaction of user \(userIDThatReacted) could not be added to comment's \(commentID) reactions because this user has already reacted to this comment before")
-                            completion()
+                            completion(false)
                         }
                     } else {
                         let newReactionsUsersIDs = [userIDThatReacted]
@@ -1040,21 +1108,27 @@ class FirestoreManager: ObservableObject {
                         let documentData: [String: Any] = [
                             "reactionsUsersIDs": newReactionsUsersIDs
                         ]
-                        updateCommentData(commentID: commentID, documentData: documentData) {
-                            print("Successfully added reaction of \(userIDThatReacted) to comment \(commentID)")
-                            completion()
+                        updateCommentData(commentID: commentID, documentData: documentData) { success in
+                            if success {
+                                print("Successfully added reaction of \(userIDThatReacted) to comment \(commentID)")
+                            } else {
+                                print("Error adding reaction of \(userIDThatReacted) to comment \(commentID)")
+                            }
+                            completion(success)
                         }
                     }
+                } else {
+                    completion(false)
                 }
             }
         }
     }
     
-    func commentRemoveReaction(commentID: String, userIDThatRemovedReaction: String, completion: @escaping (() -> ())) {
+    func commentRemoveReaction(commentID: String, userIDThatRemovedReaction: String, completion: @escaping ((Bool) -> ())) {
         self.db.collection("comments").document(commentID).getDocument() { [self] (document, error) in
             if let error = error {
                 print("Error getting document for comment remove reaction: \(error.localizedDescription)")
-                completion()
+                completion(false)
             } else {
                 if let document = document {
                     let reactionsUsersIDs = document.get("reactionsUsersIDs") as? [String]? ?? nil
@@ -1071,15 +1145,21 @@ class FirestoreManager: ObservableObject {
                             let documentData: [String: Any] = [
                                 "reactionsUsersIDs": newReactionsUsersIDs
                             ]
-                            updateCommentData(commentID: commentID, documentData: documentData) {
-                                print("Successfully removed reaction of \(userIDThatRemovedReaction) from comment \(commentID)")
-                                completion()
+                            updateCommentData(commentID: commentID, documentData: documentData) { success in
+                                if success {
+                                    print("Successfully removed reaction of \(userIDThatRemovedReaction) to comment \(commentID)")
+                                } else {
+                                    print("Error removing reaction of \(userIDThatRemovedReaction) to comment \(commentID)")
+                                }
+                                completion(success)
                             }
                         } else {
                             print("Reaction of user \(userIDThatRemovedReaction) could not be removed from comment's \(commentID) reactions because this user hasn't reacted to this comment before")
-                            completion()
+                            completion(false)
                         }
                     }
+                } else {
+                    completion(false)
                 }
             }
         }
@@ -1088,13 +1168,15 @@ class FirestoreManager: ObservableObject {
     func checkForMultipleCommentsOfSameUserToSamePost(postID: String, userID: String, completion: @escaping ((Bool) -> ())) {
         self.db.collection("comments").whereField("authorID", isEqualTo: userID).whereField("postID", isEqualTo: postID).getDocuments() { (querySnapshot, error) in
             if let error = error {
-                print("Error getting documents for checking for multiple comments of same user to same post.")
+                print("Error getting documents for checking for multiple comments of same user to same post: \(error.localizedDescription)")
                 completion(false)
             } else {
                 if let querySnapshot = querySnapshot {
                     if querySnapshot.documents.count != 0 {
+                        print("The user \(userID) has added \(querySnapshot.documents.count) comments to the post \(postID).")
                         completion(true)
                     } else {
+                        print("The user \(userID) has not added any comments to the post \(postID)")
                         completion(false)
                     }
                 } else {
@@ -1104,15 +1186,47 @@ class FirestoreManager: ObservableObject {
         }
     }
     
+    func commentChangeAuthorProfilePictureURL(authorID: String, authorProfilePictureURL: String, completion: @escaping ((Bool) -> ())) {
+        self.db.collection("comments").whereField("authorID", isEqualTo: authorID).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting documents in comments collection for profilePictureURL change: \(error.localizedDescription)")
+                completion(false)
+            } else {
+                if let querySnapshot = querySnapshot {
+                    for document in querySnapshot.documents {
+                        let data = document.data()
+                        let documentID = data["id"] as? String ?? ""
+                        
+                        let documentData: [String: Any] = [
+                            "authorProfilePictureURL": authorProfilePictureURL
+                        ]
+                        self.updateCommentData(commentID: documentID, documentData: documentData) { success in
+                            if success {
+                                print("Successfully added user's \(authorID) new profile picture url to comment's \(documentID) data")
+                            } else {
+                                print("Error adding user's \(authorID) new profile picture url to comment's \(documentID) data")
+                            }
+                            completion(success)
+                        }
+                    }
+                } else {
+                    completion(false)
+                }
+            }
+        }
+            
+    }
+    
     
     //Workouts
     
-    func fetchWorkouts(userID: String, completion: @escaping (([IntervalWorkout]?) -> ())) {
+    func fetchWorkouts(userID: String, completion: @escaping (([IntervalWorkout]?, Bool) -> ())) {
         var fetchedWorkouts: [IntervalWorkout] = [IntervalWorkout]()
 
         self.db.collection("workouts").whereField("usersID", isEqualTo: userID).addSnapshotListener { (querySnapshot, error) in
             if let error = error {
                 print("Error fetching workouts data: \(error.localizedDescription)")
+                completion(nil, false)
             } else {
                 fetchedWorkouts = querySnapshot!.documents.map { (queryDocumentSnapshot) -> IntervalWorkout in
                     let data = queryDocumentSnapshot.data()
@@ -1137,16 +1251,16 @@ class FirestoreManager: ObservableObject {
                         fetchedWorkouts.sort() {
                             $0.date < $1.date
                         }
-                        completion(fetchedWorkouts)
+                        completion(fetchedWorkouts, true)
                     } else {
-                        completion(nil)
+                        completion(nil, false)
                     }
                 }
             }
         }
     }
     
-    func workoutDataCreation(id: String, usersID: String, type: String, date: Date, isFinished: Bool, calories: Int?, series: Int?, workTime: Int?, restTime: Int?, completedDuration: Int?, completedSeries: Int?, completion: @escaping (() -> ())) {
+    func workoutDataCreation(id: String, usersID: String, type: String, date: Date, isFinished: Bool, calories: Int?, series: Int?, workTime: Int?, restTime: Int?, completedDuration: Int?, completedSeries: Int?, completion: @escaping ((Bool) -> ())) {
         let documentData: [String: Any] = [
             "id": id,
             "usersID": usersID,
@@ -1164,10 +1278,11 @@ class FirestoreManager: ObservableObject {
         self.db.collection("workouts").document(id).setData(documentData) { (error) in
             if let error = error {
                 print("Error creating workout's data: \(error.localizedDescription)")
+                completion(false)
             } else {
                 print("Successfully created data for workout: \(id) finished by user: \(usersID)")
+                completion(true)
             }
-            completion()
         }
     }
     
