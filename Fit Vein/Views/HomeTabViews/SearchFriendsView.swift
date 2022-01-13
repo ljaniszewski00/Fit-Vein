@@ -26,7 +26,7 @@ struct SearchFriendsView: View {
                 VStack {
                     if let usersData = self.homeViewModel.usersData {
                         List {
-                            ForEach(Array(usersData.keys).sorted(), id: \.self) { userID in
+                            ForEach(searchResults, id: \.self) { userID in
                                 HStack {
                                     Group {
                                         if let usersProfilePicturesURLs = self.homeViewModel.usersProfilePicturesURLs {
@@ -154,6 +154,26 @@ struct SearchFriendsView: View {
             }
         }
         .ignoresSafeArea(.keyboard)
+    }
+    
+    var searchResults: [String] {
+        if !self.homeViewModel.usersData.isEmpty {
+            if searchText.isEmpty {
+                return Array(self.homeViewModel.usersData.keys).sorted()
+            } else {
+                var searchResults = [String]()
+                for key in self.homeViewModel.usersData.keys {
+                    if let value = self.homeViewModel.usersData[key] {
+                        if value[0].lowercased().contains(searchText.lowercased()) || value[1].lowercased().contains(searchText.lowercased()) {
+                            searchResults.append(key)
+                        }
+                    }
+                }
+                return searchResults
+            }
+        } else {
+            return [String]()
+        }
     }
 }
 
