@@ -51,7 +51,6 @@ struct HomeTabSubViewPostsView: View {
                     }
 
                     VStack {
-                        
                         HStack(spacing: 0) {
                             Spacer()
 

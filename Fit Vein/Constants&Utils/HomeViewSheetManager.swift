@@ -15,6 +15,8 @@ class SheetManager: ObservableObject {
     
     var postID: String?
     var postText: String?
+    var commentID: String?
+    var commentText: String?
     @Published var showSheet = false
     @Published var whichSheet: Sheet? = nil
 }
