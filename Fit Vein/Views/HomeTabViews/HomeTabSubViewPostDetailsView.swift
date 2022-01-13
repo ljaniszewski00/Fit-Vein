@@ -56,16 +56,15 @@ struct HomeTabSubViewPostDetailsView: View {
                                 .resizable()
                         }
                     }
-                    .aspectRatio(contentMode: .fit)
+                    .aspectRatio(contentMode: .fill)
                     .clipShape(RoundedRectangle(cornerRadius: 50))
-                    .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
-                    .padding()
+                    .frame(width: screenWidth * 0.12, height: screenHeight * 0.12)
+                    
                     
                     VStack {
                         HStack {
                             Text(postAuthorFirstName)
                                 .fontWeight(.bold)
-
                             Text("•")
                             Text(postAuthorUsername)
                             Spacer()
@@ -91,11 +90,18 @@ struct HomeTabSubViewPostDetailsView: View {
                             Spacer()
                         }
                     }
+                    .padding(.horizontal)
                 }
+                
+                Spacer()
                 
                 Text(postText)
                     .fixedSize(horizontal: false, vertical: true)
+                
+                Spacer()
             }
+            .padding()
+            .frame(width: screenWidth, height: screenHeight)
             .confirmationDialog("What do you want to do with the selected post?", isPresented: $showPostOptions, titleVisibility: .visible) {
                 Button("Edit") {
                     sheetManager.postID = postID

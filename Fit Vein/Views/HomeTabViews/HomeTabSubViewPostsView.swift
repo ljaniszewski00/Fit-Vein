@@ -28,9 +28,10 @@ struct HomeTabSubViewPostsView: View {
             VStack {
                 HomeTabSubViewPostDetailsView(sheetManager: sheetManager, currentUserID: self.profileViewModel.profile!.id, postID: post.id, postAuthorUserID: post.authorID, postAuthorProfilePictureURL: self.homeViewModel.postsAuthorsProfilePicturesURLs[post.id], postAuthorFirstName: post.authorFirstName, postAuthorUsername: post.authorUsername, postAddDate: post.addDate, postText: post.text)
                     .environmentObject(homeViewModel)
-                    .frame(height: screenHeight)
                 
                 VStack {
+                    Spacer()
+                    
                     HStack {
                         if post.reactionsUsersIDs != nil {
                             if post.reactionsUsersIDs!.count != 0 {
@@ -51,24 +52,37 @@ struct HomeTabSubViewPostsView: View {
                         }
                     }
 
-                    Divider()
+                    VStack {
+                        
+                        HStack(spacing: 0) {
+                            Spacer()
 
-                    HStack(spacing: 0) {
-                        Spacer()
-
-                        if let reactionsUsersIDs = profileViewModel.profile!.reactedPostsIDs {
-                            if reactionsUsersIDs.contains(post.id) {
-                                Button(action: {
-                                    withAnimation {
-                                        self.homeViewModel.removeReactionFromPost(postID: post.id)
-                                    }
-                                }, label: {
-                                    HStack {
-                                        Image(systemName: "hand.thumbsdown")
-                                        Text("Unlike")
-                                    }
-                                    .foregroundColor(colorScheme == .dark ? .white : .black)
-                                })
+                            if let reactionsUsersIDs = profileViewModel.profile!.reactedPostsIDs {
+                                if reactionsUsersIDs.contains(post.id) {
+                                    Button(action: {
+                                        withAnimation {
+                                            self.homeViewModel.removeReactionFromPost(postID: post.id)
+                                        }
+                                    }, label: {
+                                        HStack {
+                                            Image(systemName: "hand.thumbsdown")
+                                            Text("Unlike")
+                                        }
+                                        .foregroundColor(colorScheme == .dark ? .white : .black)
+                                    })
+                                } else {
+                                    Button(action: {
+                                        withAnimation {
+                                            self.homeViewModel.reactToPost(postID: post.id)
+                                        }
+                                    }, label: {
+                                        HStack {
+                                            Image(systemName: "hand.thumbsup")
+                                            Text("Like")
+                                        }
+                                        .foregroundColor(colorScheme == .dark ? .white : .black)
+                                    })
+                                }
                             } else {
                                 Button(action: {
                                     withAnimation {
@@ -82,52 +96,41 @@ struct HomeTabSubViewPostsView: View {
                                     .foregroundColor(colorScheme == .dark ? .white : .black)
                                 })
                             }
-                        } else {
-                            Button(action: {
-                                withAnimation {
-                                    self.homeViewModel.reactToPost(postID: post.id)
-                                }
-                            }, label: {
+                            
+                            Spacer()
+
+                            Divider()
+                            
+                            Spacer()
+
+                            NavigationLink(destination:
+                                            PostCommentsView(post: post)
+                                            .environmentObject(homeViewModel)
+                                            .environmentObject(profileViewModel)
+                                            .onAppear {
+    //                                    self.tabBarHidden = true
+                            }.onDisappear {
+    //                                    self.tabBarHidden = false
+                            }) {
                                 HStack {
-                                    Image(systemName: "hand.thumbsup")
-                                    Text("Like")
+                                    Image(systemName: "bubble.left")
+                                    Text("Comment")
                                 }
                                 .foregroundColor(colorScheme == .dark ? .white : .black)
-                            })
-                        }
-
-                        Spacer()
-
-                        Divider()
-
-                        Spacer()
-
-                        NavigationLink(destination:
-                                        PostCommentsView(post: post)
-                                        .environmentObject(homeViewModel)
-                                        .environmentObject(profileViewModel)
-                                        .onAppear {
-//                                    self.tabBarHidden = true
-                        }.onDisappear {
-//                                    self.tabBarHidden = false
-                        }) {
-                            HStack {
-                                Image(systemName: "bubble.left")
-                                Text("Comment")
                             }
-                            .foregroundColor(colorScheme == .dark ? .white : .black)
+                            
+                            Spacer()
                         }
-
-                        Spacer()
                     }
                     .frame(height: screenHeight * 0.035)
-                    
-                    Divider()
-                    
-                    Spacer()
+                    .padding(.vertical)
+                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
                 }
-                .padding(.top, -screenHeight * 0.75)
+                
+                Spacer()
             }
+            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 5))
+            .frame(width: screenWidth, height: screenHeight)
         }
     }
 }

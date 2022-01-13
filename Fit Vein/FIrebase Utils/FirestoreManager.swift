@@ -305,10 +305,10 @@ class FirestoreManager: ObservableObject {
     private func deleteUserExistence(userID: String, completion: @escaping ((Bool) -> ())) {
         self.db.collection("users").document(userID).delete() { (error) in
             if let error = error {
-                print("Error deleting user's data: \(error)")
+                print("Error deleting user's data: \(error.localizedDescription)")
                 completion(false)
             } else {
-                print("Successfully deleted user's data: \(error)")
+                print("Successfully deleted user's data")
                 completion(true)
             }
         }

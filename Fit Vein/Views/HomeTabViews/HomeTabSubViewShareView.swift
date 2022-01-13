@@ -21,6 +21,8 @@ struct HomeTabSubViewShareView: View {
             let screenHeight = geometry.size.height
             
             VStack {
+                Spacer()
+                
                 HStack {
                     Group {
                         if let profilePictureURL = profileViewModel.profilePicturePhotoURL {
@@ -38,15 +40,14 @@ struct HomeTabSubViewShareView: View {
                                 .resizable()
                         }
                     }
-                    .aspectRatio(contentMode: .fit)
+                    .aspectRatio(contentMode: .fill)
                     .clipShape(RoundedRectangle(cornerRadius: 50))
-                    .frame(width: screenWidth * 0.2, height: screenHeight * 0.2)
+                    .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
 
                     Text("What do you want to share?")
                         .frame(width: screenWidth * 0.6, height: screenHeight * 0.1)
                 }
                 .padding(.leading, screenWidth * 0.05)
-                .frame(width: screenWidth, height: screenHeight * 0.15)
                 .onTapGesture {
                     withAnimation {
                         sheetManager.whichSheet = .addView
@@ -55,21 +56,17 @@ struct HomeTabSubViewShareView: View {
                 }
 
                 Divider()
+                
+                Spacer()
 
-                HStack(spacing: 0) {
-
-                }
-
-                Divider()
-
-                HStack {
-                    Text("Your friends activity")
-                        .foregroundColor(.accentColor)
-                        .font(.system(size: screenHeight * 0.04, weight: .bold))
-                        .background(Rectangle().foregroundColor(Color(uiColor: .systemGray6)).frame(width: screenWidth, height: screenHeight * 0.08))
-                }
-                .padding()
+                Text("Your friends activity")
+                    .foregroundColor(.accentColor)
+                    .font(.system(size: screenHeight * 0.13, weight: .bold))
+                    .padding()
+                    .background(Rectangle().foregroundColor(Color(uiColor: .systemGray6)).frame(width: screenWidth))
+                    
             }
+            .frame(width: screenWidth, height: screenHeight)
         }
         
     }

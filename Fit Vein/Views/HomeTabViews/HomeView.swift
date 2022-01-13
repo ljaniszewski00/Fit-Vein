@@ -49,16 +49,13 @@ struct HomeView: View {
                             withAnimation {
                                 ScrollView(.vertical) {
                                     HomeTabSubViewShareView(sheetManager: sheetManager).environmentObject(profileViewModel)
-                                        .frame(height: screenHeight)
-                                        .padding(.bottom, -screenHeight * 0.75)
+                                        .frame(height: screenHeight * 0.25)
 
                                     if let posts = homeViewModel.posts {
                                         if posts.count != 0 {
                                             ForEach(posts) { post in
                                                 HomeTabSubViewPostsView(sheetManager: sheetManager, post: post).environmentObject(homeViewModel).environmentObject(profileViewModel)
-                                                    .frame(height: screenHeight)
-                                                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 40, style: .continuous))
-                                                    .padding(.bottom, -screenHeight * 0.6)
+                                                    .frame(height: screenHeight * 0.5)
                                             }
                                         } else {
                                             Text("Nothing to show")
