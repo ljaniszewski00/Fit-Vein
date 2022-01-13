@@ -14,7 +14,11 @@ struct EditPostView: View {
     @Environment(\.dismiss) var dismiss
     
     private var postID: String
-    @State private var postText = ""
+    private var postText: String
+    @State private var postTextEdited = ""
+    
+    @State private var success = false
+    @State private var error = false
     
     init(postID: String, postText: String) {
         self.postID = postID
@@ -72,30 +76,61 @@ struct EditPostView: View {
                     }
                     .padding()
                     
-                    HStack {
-                        Text("What's up?")
-                            .foregroundColor(Color(uiColor: .systemGray3))
-                            .padding()
-                        Spacer()
+                    if success {
+                        HStack {
+                            LottieView(name: "success2", loopMode: .loop, contentMode: .scaleAspectFit)
+                                .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
+                                .padding(.leading)
+                                .offset(y: -screenHeight * 0.013)
+                            Text("Post has been edited successfully.")
+                                .foregroundColor(.green)
+                                .font(.system(size: screenWidth * 0.035, weight: .bold))
+                                .offset(y: -screenHeight * 0.01)
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                    } else if error {
+                        HStack {
+                            LottieView(name: "wrongData", loopMode: .loop, contentMode: .scaleAspectFill)
+                                .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
+                                .padding(.leading)
+                                .offset(y: -screenHeight * 0.013)
+                            Text("Error editing post. Please, try again later.\n")
+                                .foregroundColor(.red)
+                                .font(.system(size: screenWidth * 0.035, weight: .bold))
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                        .offset(y: -screenHeight * 0.05)
+                    } else {
+                        HStack {
+                            Text("What do you want to share?")
+                                .foregroundColor(Color(uiColor: .systemGray3))
+                                .padding()
+                            Spacer()
+                        }
                     }
                     
-                    TextEditor(text: $postText)
+                    TextEditor(text: $postTextEdited)
                         .padding()
                         .frame(width: screenWidth * 0.9, height: screenHeight * 0.5)
                         .overlay(RoundedRectangle(cornerRadius: 8)
                                 .stroke(Color.secondary).opacity(0.5))
                     
-                    ProgressView("", value: Double(self.postText.count), total: 200)
+                    ProgressView("", value: Double(self.postTextEdited.count), total: 200)
                         .frame(width: screenWidth * 0.3, height: screenHeight * 0.04)
                         .padding()
                         .accentColor(.accentColor)
                     
-                    if !postText.isEmpty {
+                    if !postTextEdited.isEmpty {
                         LottieView(name: "chat", loopMode: .loop)
                             .frame(width: screenWidth, height: screenHeight * 0.1)
                     }
                     
                     Spacer()
+                }
+                .onAppear {
+                    self.postTextEdited = self.postText
                 }
                 .navigationBarTitle("Edit a post", displayMode: .inline)
                 .toolbar {
@@ -113,19 +148,33 @@ struct EditPostView: View {
                     
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(action: {
-                            self.homeViewModel.editPost(postID: postID, text: postText)
-                            dismiss()
+                            withAnimation {
+                                self.error = false
+                                self.success = false
+                            }
+                            self.homeViewModel.editPost(postID: postID, text: postTextEdited) { success in
+                                withAnimation {
+                                    if success {
+                                        self.success = true
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                            dismiss()
+                                        }
+                                    } else {
+                                        self.error = true
+                                    }
+                                }
+                            }
                         }, label: {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 10)
-                                    .foregroundColor(self.postText.count <= 200 ? .accentColor : .gray)
+                                    .foregroundColor(self.postTextEdited.count <= 200 ? .accentColor : .gray)
                                 Text("Save")
                                     .foregroundColor(Color(uiColor: .systemGray5))
                                     .fontWeight(.bold)
                             }
                             .frame(width: screenWidth * 0.2, height: screenHeight * 0.04)
                         })
-                            .disabled(self.postText.count > 200)
+                            .disabled(self.postTextEdited.count > 200)
                     }
                 }
             }

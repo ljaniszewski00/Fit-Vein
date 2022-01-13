@@ -111,7 +111,7 @@ struct HomeTabSubViewPostDetailsView: View {
                 }
                 
                 Button("Delete", role: .destructive) {
-                    self.homeViewModel.deletePost(postID: postID)
+                    self.homeViewModel.deletePost(postID: postID) { success in }
                 }
             }
         }

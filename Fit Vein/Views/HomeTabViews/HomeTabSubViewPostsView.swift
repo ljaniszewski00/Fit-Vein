@@ -59,7 +59,7 @@ struct HomeTabSubViewPostsView: View {
                                 if reactionsUsersIDs.contains(post.id) {
                                     Button(action: {
                                         withAnimation {
-                                            self.homeViewModel.removeReactionFromPost(postID: post.id)
+                                            self.homeViewModel.removeReactionFromPost(postID: post.id)  { success in }
                                         }
                                     }, label: {
                                         HStack {
@@ -71,7 +71,7 @@ struct HomeTabSubViewPostsView: View {
                                 } else {
                                     Button(action: {
                                         withAnimation {
-                                            self.homeViewModel.reactToPost(postID: post.id)
+                                            self.homeViewModel.reactToPost(postID: post.id)  { success in }
                                         }
                                     }, label: {
                                         HStack {
@@ -84,7 +84,7 @@ struct HomeTabSubViewPostsView: View {
                             } else {
                                 Button(action: {
                                     withAnimation {
-                                        self.homeViewModel.reactToPost(postID: post.id)
+                                        self.homeViewModel.reactToPost(postID: post.id)  { success in }
                                     }
                                 }, label: {
                                     HStack {

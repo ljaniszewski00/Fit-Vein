@@ -59,7 +59,7 @@ struct PostCommentsView: View {
                         if reactionsUsersIDs.contains(post.id) {
                             Button(action: {
                                 withAnimation {
-                                    self.homeViewModel.removeReactionFromPost(postID: post.id)
+                                    self.homeViewModel.removeReactionFromPost(postID: post.id) { success in }
                                 }
                             }, label: {
                                 HStack {
@@ -71,7 +71,7 @@ struct PostCommentsView: View {
                         } else {
                             Button(action: {
                                 withAnimation {
-                                    self.homeViewModel.reactToPost(postID: post.id)
+                                    self.homeViewModel.reactToPost(postID: post.id) { success in }
                                 }
                             }, label: {
                                 HStack {
@@ -84,7 +84,7 @@ struct PostCommentsView: View {
                     } else {
                         Button(action: {
                             withAnimation {
-                                self.homeViewModel.reactToPost(postID: post.id)
+                                self.homeViewModel.reactToPost(postID: post.id) { success in }
                             }
                         }, label: {
                             HStack {
@@ -164,7 +164,7 @@ struct PostCommentsView: View {
                                 if let reactionsUsersIDs = comment.reactionsUsersIDs {
                                     if reactionsUsersIDs.contains(self.profileViewModel.profile!.id) {
                                         Button(action: {
-                                            self.homeViewModel.removeReactionFromComment(userID: self.profileViewModel.profile!.id, commentID: comment.id)
+                                            self.homeViewModel.removeReactionFromComment(userID: self.profileViewModel.profile!.id, commentID: comment.id) { success in }
                                         }, label: {
                                             HStack {
                                                 Image(systemName: "hand.thumbsdown")
@@ -176,7 +176,7 @@ struct PostCommentsView: View {
                                         
                                     } else {
                                         Button(action: {
-                                            self.homeViewModel.reactToComment(userID: self.profileViewModel.profile!.id, commentID: comment.id)
+                                            self.homeViewModel.reactToComment(userID: self.profileViewModel.profile!.id, commentID: comment.id) { success in }
                                         }, label: {
                                             HStack {
                                                 Image(systemName: "hand.thumbsup")
@@ -188,7 +188,7 @@ struct PostCommentsView: View {
                                     }
                                 } else {
                                     Button(action: {
-                                        self.homeViewModel.reactToComment(userID: self.profileViewModel.profile!.id, commentID: comment.id)
+                                        self.homeViewModel.reactToComment(userID: self.profileViewModel.profile!.id, commentID: comment.id) { success in }
                                     }, label: {
                                         HStack {
                                             Image(systemName: "hand.thumbsup")
@@ -203,7 +203,7 @@ struct PostCommentsView: View {
                                 
                                 if self.profileViewModel.profile!.id == comment.authorID {
                                     Button(action: {
-                                        self.homeViewModel.deleteComment(postID: post.id, commentID: comment.id)
+                                        self.homeViewModel.deleteComment(postID: post.id, commentID: comment.id) { success in }
                                     }, label: {
                                         HStack {
                                             Image(systemName: "trash")
@@ -236,7 +236,7 @@ struct PostCommentsView: View {
                                     .autocapitalization(.none)
                                 
                                 Button(action: {
-                                    self.homeViewModel.commentPost(postID: post.id, authorID: self.profileViewModel.profile!.id, authorFirstName: self.profileViewModel.profile!.firstName, authorLastName: self.profileViewModel.profile!.username, authorProfilePictureURL: self.profileViewModel.profile!.profilePictureURL != nil ? self.profileViewModel.profile!.profilePictureURL! : "User has no profile picture", text: commentText)
+                                    self.homeViewModel.commentPost(postID: post.id, authorID: self.profileViewModel.profile!.id, authorFirstName: self.profileViewModel.profile!.firstName, authorLastName: self.profileViewModel.profile!.username, authorProfilePictureURL: self.profileViewModel.profile!.profilePictureURL != nil ? self.profileViewModel.profile!.profilePictureURL! : "User has no profile picture", text: commentText)  { success in }
                                     self.commentText = ""
                                 }, label: {
                                     Text("Send")

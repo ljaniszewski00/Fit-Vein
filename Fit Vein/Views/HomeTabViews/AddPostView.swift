@@ -15,6 +15,9 @@ struct AddPostView: View {
     
     @State private var postText = ""
     
+    @State private var success = false
+    @State private var error = false
+    
     var body: some View {
         GeometryReader { geometry in
             let screenWidth = geometry.size.width
@@ -66,29 +69,39 @@ struct AddPostView: View {
                     }
                     .padding()
                     
-//                    ZStack {
-//                        RoundedRectangle(cornerRadius: 10)
-//                            .stroke()
-//                            .foregroundColor(.accentColor)
-//                            .frame(width: screenWidth * 0.95, height: screenHeight * 0.525)
-//
-//                        ZStack(alignment: .topLeading) {
-//                            TextEditor(text: $postText)
-//                                .padding()
-//                                .frame(width: screenWidth * 0.9, height: screenHeight * 0.5)
-//                                .cornerRadius(25)
-//
-//                            Text("What's up?")
-//                                .foregroundColor(Color(uiColor: .systemGray3))
-//                                .isHidden(!self.postText.isEmpty)
-//                        }
-//                    }
-                    
-                    HStack {
-                        Text("What's up?")
-                            .foregroundColor(Color(uiColor: .systemGray3))
-                            .padding()
-                        Spacer()
+                    if success {
+                        HStack {
+                            LottieView(name: "success2", loopMode: .loop, contentMode: .scaleAspectFit)
+                                .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
+                                .padding(.leading)
+                                .offset(y: -screenHeight * 0.013)
+                            Text("Post has been added successfully.")
+                                .foregroundColor(.green)
+                                .font(.system(size: screenWidth * 0.035, weight: .bold))
+                                .offset(y: -screenHeight * 0.01)
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                    } else if error {
+                        HStack {
+                            LottieView(name: "wrongData", loopMode: .loop, contentMode: .scaleAspectFill)
+                                .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
+                                .padding(.leading)
+                                .offset(y: -screenHeight * 0.013)
+                            Text("Error adding post. Please, try again later.\n")
+                                .foregroundColor(.red)
+                                .font(.system(size: screenWidth * 0.035, weight: .bold))
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                        .offset(y: -screenHeight * 0.05)
+                    } else {
+                        HStack {
+                            Text("What do you want to share?")
+                                .foregroundColor(Color(uiColor: .systemGray3))
+                                .padding()
+                            Spacer()
+                        }
                     }
                     
                     TextEditor(text: $postText)
@@ -125,8 +138,23 @@ struct AddPostView: View {
                     
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(action: {
-                            self.homeViewModel.addPost(authorID: self.profileViewModel.profile!.id, authorFirstName: self.profileViewModel.profile!.firstName, authorUsername: self.profileViewModel.profile!.username, authorProfilePictureURL: self.profileViewModel.profile!.profilePictureURL == nil ? "" : self.profileViewModel.profile!.profilePictureURL!, text: self.postText)
-                            dismiss()
+                            withAnimation {
+                                self.error = false
+                                self.success = false
+                            }
+                            self.homeViewModel.addPost(authorID: self.profileViewModel.profile!.id, authorFirstName: self.profileViewModel.profile!.firstName, authorUsername: self.profileViewModel.profile!.username, authorProfilePictureURL: self.profileViewModel.profile!.profilePictureURL == nil ? "" : self.profileViewModel.profile!.profilePictureURL!, text: self.postText) { success in
+                                withAnimation {
+                                    if success {
+                                        self.success = true
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                            dismiss()
+                                        }
+                                    } else {
+                                        self.error = true
+                                    }
+                                }
+                            }
+                            
                         }, label: {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 10)
