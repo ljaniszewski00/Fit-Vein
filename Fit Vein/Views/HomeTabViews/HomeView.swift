@@ -50,35 +50,40 @@ struct HomeView: View {
                                 ScrollView(.vertical) {
                                     HomeTabSubViewShareView(sheetManager: sheetManager).environmentObject(profileViewModel)
                                         .frame(height: screenHeight * 0.25)
+                                        .padding(.bottom, screenHeight * 0.05)
+                                        .offset(y: -screenHeight * 0.02)
 
-                                    if let posts = homeViewModel.posts {
-                                        if posts.count != 0 {
-                                            ForEach(posts) { post in
-                                                HomeTabSubViewPostsView(sheetManager: sheetManager, post: post).environmentObject(homeViewModel).environmentObject(profileViewModel)
-                                                    .frame(height: screenHeight * 0.5)
-                                            }
-                                        } else {
-                                            Text("Nothing to show")
-                                                .foregroundColor(.accentColor)
-                                        }
-                                    } else {
-                                        if let followedIDs = self.profileViewModel.profile!.followedIDs {
-                                            if followedIDs.count != 0 {
-        //                                            HomeTabPostsFetchingView()
-        //                                                .frame(width: screenWidth, height: screenHeight)
+                                    Group {
+                                        if let posts = homeViewModel.posts {
+                                            if posts.count != 0 {
+                                                ForEach(posts) { post in
+                                                    HomeTabSubViewPostsView(sheetManager: sheetManager, post: post).environmentObject(homeViewModel).environmentObject(profileViewModel)
+                                                        .frame(minHeight: screenHeight * 0.2, idealHeight: screenHeight * 0.3, maxHeight: screenHeight * 0.5)
+                                                        .padding(.bottom)
+                                                }
+                                            } else {
                                                 Text("Nothing to show")
                                                     .foregroundColor(.accentColor)
+                                            }
+                                        } else {
+                                            if let followedIDs = self.profileViewModel.profile!.followedIDs {
+                                                if followedIDs.count != 0 {
+            //                                            HomeTabPostsFetchingView()
+            //                                                .frame(width: screenWidth, height: screenHeight)
+                                                    Text("Nothing to show")
+                                                        .foregroundColor(.accentColor)
+                                                } else {
+                                                    Text("Add friends to see their activity")
+                                                        .foregroundColor(.accentColor)
+                                                }
                                             } else {
                                                 Text("Add friends to see their activity")
                                                     .foregroundColor(.accentColor)
                                             }
-                                        } else {
-                                            Text("Add friends to see their activity")
-                                                .foregroundColor(.accentColor)
                                         }
                                     }
+                                    .offset(y: -screenHeight * 0.12)
                                 }
-                                .padding(.bottom, screenHeight * 0.07)
                                 .sheet(isPresented: $sheetManager.showSheet) {
                                     switch sheetManager.whichSheet {
                                     case .addView:

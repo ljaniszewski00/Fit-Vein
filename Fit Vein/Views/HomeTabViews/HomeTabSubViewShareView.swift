@@ -21,8 +21,6 @@ struct HomeTabSubViewShareView: View {
             let screenHeight = geometry.size.height
             
             VStack {
-                Spacer()
-                
                 HStack {
                     Group {
                         if let profilePictureURL = profileViewModel.profilePicturePhotoURL {
@@ -42,22 +40,25 @@ struct HomeTabSubViewShareView: View {
                     }
                     .aspectRatio(contentMode: .fill)
                     .clipShape(RoundedRectangle(cornerRadius: 50))
-                    .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+                    .frame(width: screenWidth * 0.1, height: screenHeight * 0.1)
+                    .padding(.trailing, screenWidth * 0.02)
 
                     Text("What do you want to share?")
-                        .frame(width: screenWidth * 0.6, height: screenHeight * 0.1)
+                        .foregroundColor(Color(uiColor: .systemGray))
+                        .font(.system(size: screenHeight * 0.06))
+                    
+                    Spacer()
                 }
-                .padding(.leading, screenWidth * 0.05)
+                .padding()
+                .padding(.leading)
                 .onTapGesture {
                     withAnimation {
                         sheetManager.whichSheet = .addView
                         sheetManager.showSheet.toggle()
                     }
                 }
-
-                Divider()
                 
-                Spacer()
+                Divider()
 
                 Text("Your friends activity")
                     .foregroundColor(.accentColor)

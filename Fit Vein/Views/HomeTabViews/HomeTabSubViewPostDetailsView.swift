@@ -92,11 +92,11 @@ struct HomeTabSubViewPostDetailsView: View {
                     }
                     .padding(.horizontal)
                 }
-                
-                Spacer()
+                .padding(.bottom, screenHeight * 0.03)
                 
                 Text(postText)
-                    .fixedSize(horizontal: false, vertical: true)
+                    .fixedSize(horizontal: false, vertical: false)
+                    .padding()
                 
                 Spacer()
             }

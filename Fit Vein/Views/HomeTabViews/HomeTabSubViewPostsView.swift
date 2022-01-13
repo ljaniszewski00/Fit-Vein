@@ -30,8 +30,6 @@ struct HomeTabSubViewPostsView: View {
                     .environmentObject(homeViewModel)
                 
                 VStack {
-                    Spacer()
-                    
                     HStack {
                         if post.reactionsUsersIDs != nil {
                             if post.reactionsUsersIDs!.count != 0 {
@@ -122,10 +120,11 @@ struct HomeTabSubViewPostsView: View {
                             Spacer()
                         }
                     }
-                    .frame(height: screenHeight * 0.035)
+                    .frame(height: screenHeight * 0.06)
                     .padding(.vertical)
                     .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
                 }
+                .frame(height: screenHeight * 0.04)
                 
                 Spacer()
             }
