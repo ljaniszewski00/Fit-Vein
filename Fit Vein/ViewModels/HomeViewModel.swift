@@ -195,7 +195,9 @@ class HomeViewModel: ObservableObject {
     func editComment(commentID: String, text: String, completion: @escaping ((Bool) -> ())) {
         if sessionStore.currentUser != nil {
             self.firestoreManager.commentEdit(id: commentID, text: text) { success in
-                self.fetchData()
+                if success {
+                    self.fetchData()
+                }
                 completion(success)
             }
         }

@@ -14,7 +14,11 @@ struct HomeTabCommentsView: View {
     @State private var showCommentOptions = false
     @State private var showEditView = false
     
-    @StateObject private var sheetManager = SheetManager()
+    @State private var commentEditMode = false
+    
+    @State private var commentNewText = ""
+    
+    @State private var error = false
     
     private var post: Post
     private var comment: Comment
@@ -29,7 +33,7 @@ struct HomeTabCommentsView: View {
             let screenWidth = geometry.size.width
             let screenHeight = geometry.size.height
             
-            VStack() {
+            VStack {
                 HStack {
                     Group {
                         if let profilePictureURL = self.homeViewModel.postsCommentsAuthorsProfilePicturesURLs[comment.authorID] {
@@ -79,58 +83,114 @@ struct HomeTabCommentsView: View {
                             }
                         }
                         
-                        Text(comment.text)
-                            .font(.system(size: screenHeight * 0.1))
-                            .fixedSize(horizontal: false, vertical: false)
+                        if commentEditMode {
+                            TextField("", text: $commentNewText)
+                                .textFieldStyle(.roundedBorder)
+                        } else {
+                            Text(comment.text)
+                                .font(.system(size: screenHeight * 0.1))
+                                .fixedSize(horizontal: false, vertical: false)
+                        }
                         
                         HStack {
-                            Group {
-                                Text(getShortDate(longDate: comment.addDate))
-                                    .foregroundColor(Color(uiColor: .systemGray2))
-                                Spacer()
-                            }
-
-                            HStack {
-                                if let reactionsUsersIDs = comment.reactionsUsersIDs {
-                                    if reactionsUsersIDs.contains(self.profileViewModel.profile!.id) {
-                                        Button(action: {
-                                            self.homeViewModel.removeReactionFromComment(userID: self.profileViewModel.profile!.id, commentID: comment.id) { success in }
-                                        }, label: {
-                                            HStack {
-                                                Image(systemName: "hand.thumbsup.fill")
-                                            }
-                                            .foregroundColor(.accentColor)
-                                            .frame(width: screenWidth * 0.05, height: screenHeight * 0.05)
-                                        })
-
-                                    } else {
-                                        Button(action: {
-                                            self.homeViewModel.reactToComment(userID: self.profileViewModel.profile!.id, commentID: comment.id) { success in }
-                                        }, label: {
-                                            HStack {
-                                                Image(systemName: "hand.thumbsup")
-                                            }
-                                            .foregroundColor(.accentColor)
-                                        })
-                                    }
-                                } else {
+                            if error {
+                                HStack(spacing: 0) {
+                                    LottieView(name: "wrongData", loopMode: .loop, contentMode: .scaleAspectFill)
+                                        .frame(width: screenWidth * 0.05, height: screenHeight * 0.15)
+                                    Text("Error editing comment. Please, try again later.\n")
+                                        .foregroundColor(.red)
+                                        .font(.system(size: screenWidth * 0.025, weight: .bold))
+                                        .frame(width: screenWidth * 0.5, height: screenHeight * 0.2)
+                                }
+                            } else {
+                                Group {
+                                    Text(getShortDate(longDate: comment.addDate))
+                                        .foregroundColor(Color(uiColor: .systemGray2))
+                                    Spacer()
+                                }
+                                
+                                if commentEditMode {
                                     Button(action: {
-                                        self.homeViewModel.reactToComment(userID: self.profileViewModel.profile!.id, commentID: comment.id) { success in }
-                                    }, label: {
-                                        HStack {
-                                            Image(systemName: "hand.thumbsup")
+                                        withAnimation {
+                                            self.commentEditMode = false
                                         }
-                                        .foregroundColor(.accentColor)
+                                    }, label: {
+                                        Text("Cancel")
+                                            .font(.system(size: screenHeight * 0.07))
+                                            .frame(width: screenWidth * 0.12, height: screenHeight * 0.1)
+                                            .background(RoundedRectangle(cornerRadius: 20, style: .continuous).stroke())
                                     })
-                                }
+                                    
+                                    Button(action: {
+                                        self.error = false
+                                        withAnimation {
+                                            self.homeViewModel.editComment(commentID: comment.id, text: commentNewText) { success in
+                                                if success {
+                                                    self.commentEditMode = false
+                                                } else {
+                                                    withAnimation {
+                                                        self.error = true
+                                                    }
+                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                                        withAnimation {
+                                                            self.error = false
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }, label: {
+                                        Text("Update")
+                                            .foregroundColor(.white)
+                                            .font(.system(size: screenHeight * 0.07))
+                                            .frame(width: screenWidth * 0.12, height: screenHeight * 0.1)
+                                            .background(RoundedRectangle(cornerRadius: 20, style: .continuous).foregroundColor(.accentColor))
+                                            .disabled(commentNewText.count > 200)
+                                    })
+                                } else {
+                                    HStack {
+                                        if let reactionsUsersIDs = comment.reactionsUsersIDs {
+                                            if reactionsUsersIDs.contains(self.profileViewModel.profile!.id) {
+                                                Button(action: {
+                                                    self.homeViewModel.removeReactionFromComment(userID: self.profileViewModel.profile!.id, commentID: comment.id) { success in }
+                                                }, label: {
+                                                    HStack {
+                                                        Image(systemName: "hand.thumbsup.fill")
+                                                    }
+                                                    .foregroundColor(.accentColor)
+                                                    .frame(width: screenWidth * 0.05, height: screenHeight * 0.05)
+                                                })
 
-                                if comment.reactionsUsersIDs != nil {
-                                    if comment.reactionsUsersIDs!.count != 0 {
-                                        Text("\(comment.reactionsUsersIDs!.count)")
+                                            } else {
+                                                Button(action: {
+                                                    self.homeViewModel.reactToComment(userID: self.profileViewModel.profile!.id, commentID: comment.id) { success in }
+                                                }, label: {
+                                                    HStack {
+                                                        Image(systemName: "hand.thumbsup")
+                                                    }
+                                                    .foregroundColor(.accentColor)
+                                                })
+                                            }
+                                        } else {
+                                            Button(action: {
+                                                self.homeViewModel.reactToComment(userID: self.profileViewModel.profile!.id, commentID: comment.id) { success in }
+                                            }, label: {
+                                                HStack {
+                                                    Image(systemName: "hand.thumbsup")
+                                                }
+                                                .foregroundColor(.accentColor)
+                                            })
+                                        }
+
+                                        if comment.reactionsUsersIDs != nil {
+                                            if comment.reactionsUsersIDs!.count != 0 {
+                                                Text("\(comment.reactionsUsersIDs!.count)")
+                                            }
+                                        }
                                     }
+                                    .padding(.trailing, screenWidth * 0.05)
                                 }
                             }
-                            .padding(.trailing, screenWidth * 0.05)
                         }
                     }
                     .padding()
@@ -142,22 +202,14 @@ struct HomeTabCommentsView: View {
             .frame(width: screenWidth, height: screenHeight)
             .confirmationDialog("What do you want to do with the selected comment?", isPresented: $showCommentOptions, titleVisibility: .visible) {
                 Button("Edit") {
-                    sheetManager.commentID = comment.id
-                    sheetManager.commentText = comment.text
-                    sheetManager.whichSheet = .editView
-                    sheetManager.showSheet.toggle()
+                    withAnimation {
+                        self.commentNewText = self.comment.text
+                        self.commentEditMode = true
+                    }
                 }
 
                 Button("Delete", role: .destructive) {
                     self.homeViewModel.deleteComment(postID: post.id, commentID: comment.id) { success in }
-                }
-            }
-            .sheet(isPresented: $sheetManager.showSheet) {
-                switch sheetManager.whichSheet {
-//                case .editView:
-//                    EditCommentView(postID: sheetManager.commentID!, postText: sheetManager.commentText!).environmentObject(homeViewModel).environmentObject(profileViewModel).environmentObject(sessionStore)
-                default:
-                    Text("No view")
                 }
             }
         }

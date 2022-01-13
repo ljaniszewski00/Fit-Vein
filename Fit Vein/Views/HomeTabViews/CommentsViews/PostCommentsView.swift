@@ -42,39 +42,30 @@ struct PostCommentsView: View {
                 .padding(.top, screenHeight * 0.001)
                 
                 HStack {
-                    VStack {
-                        HStack {
-                            Text("Add Comment")
-                            Spacer()
-                        }
+                    TextField("Comment", text: $commentText)
+                        .disableAutocorrection(true)
+                        .autocapitalization(.none)
+                        .focused($isCommentTextFieldFocused)
+                        .padding(.leading)
+                    
+                    Spacer()
 
-                        VStack {
-                            HStack {
-                                TextField("", text: $commentText)
-                                    .disableAutocorrection(true)
-                                    .autocapitalization(.none)
-                                    .focused($isCommentTextFieldFocused)
-
-                                Button(action: {
-                                    withAnimation {
-                                        self.homeViewModel.commentPost(postID: post.id, authorID: self.profileViewModel.profile!.id, authorFirstName: self.profileViewModel.profile!.firstName, authorLastName: self.profileViewModel.profile!.username, authorProfilePictureURL: self.profileViewModel.profile!.profilePictureURL != nil ? self.profileViewModel.profile!.profilePictureURL! : "User has no profile picture", text: commentText)  { success in
-                                            self.commentText = ""
-                                        }
-                                    }
-                                }, label: {
-                                    Text("Send")
-                                        .foregroundColor(.accentColor)
-                                })
-                                    .disabled(self.commentText.count > 200)
+                    Button(action: {
+                        withAnimation {
+                            self.homeViewModel.commentPost(postID: post.id, authorID: self.profileViewModel.profile!.id, authorFirstName: self.profileViewModel.profile!.firstName, authorLastName: self.profileViewModel.profile!.username, authorProfilePictureURL: self.profileViewModel.profile!.profilePictureURL != nil ? self.profileViewModel.profile!.profilePictureURL! : "User has no profile picture", text: commentText)  { success in
+                                self.commentText = ""
                             }
-
-                            Divider()
-                                .background(Color.accentColor)
                         }
-
-                    }
-                    .padding(.horizontal)
+                    }, label: {
+                        Text("Send")
+                            .foregroundColor(.white)
+                    })
+                        .disabled(self.commentText.count > 200)
+                        .frame(width: screenWidth * 0.18, height: screenHeight * 0.05)
+                        .background(RoundedRectangle(cornerRadius: 25, style: .continuous).foregroundColor(self.commentText.count > 200 ? .gray : .accentColor))
                 }
+                .frame(width: screenWidth * 0.95, height: screenHeight * 0.05)
+                .background(RoundedRectangle(cornerRadius: 25, style: .continuous).stroke().foregroundColor(.accentColor))
                 .padding(.bottom, screenHeight * 0.1)
             }
             .navigationTitle("")
