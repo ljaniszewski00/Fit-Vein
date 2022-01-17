@@ -50,6 +50,7 @@
 		0A67B1D4272AF359007F8891 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A67B1D3272AF359007F8891 /* NotificationsView.swift */; };
 		0A67B1D6272B04EC007F8891 /* SearchFriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A67B1D5272B04EC007F8891 /* SearchFriendsView.swift */; };
 		0A67B1D8272B0652007F8891 /* EditPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A67B1D7272B0652007F8891 /* EditPostView.swift */; };
+		0A7817032795DBDB00E4C424 /* levelUp.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A7817022795DBDB00E4C424 /* levelUp.json */; };
 		0A7CA660274D7AC000B97EF2 /* HomeTabFetchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7CA65F274D7AC000B97EF2 /* HomeTabFetchingView.swift */; };
 		0A7CA662274D7AD100B97EF2 /* ProfileTabFetchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7CA661274D7AD100B97EF2 /* ProfileTabFetchingView.swift */; };
 		0A7CA668274E7FAF00B97EF2 /* HealthStat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7CA667274E7FAF00B97EF2 /* HealthStat.swift */; };
@@ -167,6 +168,7 @@
 		0A67B1D3272AF359007F8891 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		0A67B1D5272B04EC007F8891 /* SearchFriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFriendsView.swift; sourceTree = "<group>"; };
 		0A67B1D7272B0652007F8891 /* EditPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostView.swift; sourceTree = "<group>"; };
+		0A7817022795DBDB00E4C424 /* levelUp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = levelUp.json; sourceTree = "<group>"; };
 		0A7CA65F274D7AC000B97EF2 /* HomeTabFetchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabFetchingView.swift; sourceTree = "<group>"; };
 		0A7CA661274D7AD100B97EF2 /* ProfileTabFetchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTabFetchingView.swift; sourceTree = "<group>"; };
 		0A7CA667274E7FAF00B97EF2 /* HealthStat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthStat.swift; sourceTree = "<group>"; };
@@ -276,6 +278,7 @@
 		0A0174ED278B110E00CD45F9 /* Lottie */ = {
 			isa = PBXGroup;
 			children = (
+				0A7817022795DBDB00E4C424 /* levelUp.json */,
 				0A86D1E9278F559D00AF6F87 /* runnerAddWorkout.json */,
 				0A4CC5F2278E4D5E0012630F /* success2.json */,
 				0A14B8A7278CB8B2009E194B /* wrongData.json */,
@@ -678,6 +681,7 @@
 				0A20A8A72729FF790058F3DB /* FitVeinIconDark.png in Resources */,
 				0ABE145527204ABC009CD67A /* blank-profile-hi.png in Resources */,
 				0A83A27C278BA5010061973B /* delete.json in Resources */,
+				0A7817032795DBDB00E4C424 /* levelUp.json in Resources */,
 				0A20A8A82729FF790058F3DB /* FitVeinIconLight.png in Resources */,
 				0A017506278B1BA500CD45F9 /* 70772-smiley-loader.json in Resources */,
 				0A83A274278B99270061973B /* help.json in Resources */,

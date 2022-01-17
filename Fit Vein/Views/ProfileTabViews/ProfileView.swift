@@ -12,6 +12,8 @@ struct ProfileView: View {
     @EnvironmentObject private var sessionStore: SessionStore
     @EnvironmentObject private var networkManager: NetworkManager
     @Environment(\.colorScheme) var colorScheme
+    @AppStorage("shouldShowLevelUpAnimation") var shouldShowLevelUpAnimationTrigger: Bool = false
+    @State private var shouldShowLevelUpAnimation: Bool = false
     
     @Binding var tabBarHidden: Bool
     
@@ -123,7 +125,7 @@ struct ProfileView: View {
                         .padding()
                         
                         VStack {
-                            Text("Level 1")
+                            Text("Level \(self.profileViewModel.profile!.level)")
                                 .font(.system(size: screenHeight * 0.03))
                                 .fontWeight(.bold)
                             
@@ -135,7 +137,7 @@ struct ProfileView: View {
                                         RoundedRectangle(cornerRadius: 25)
                                             .foregroundColor(.accentColor)
                                             .padding()
-                                            .frame(width: screenWidth * CGFloat(getWorkoutsDivider(workoutsCount: self.profileViewModel.workouts != nil ? self.profileViewModel.workouts!.count : 0)) / 10)
+                                            .frame(width: screenWidth * CGFloat(getWorkoutsDivider(workoutsCount: self.profileViewModel.calculateUserCompletedWorkoutsForCurrentLevel())) / CGFloat(self.profileViewModel.calculateUserMaxWorkoutsForLevel()))
                                         
                                         Spacer()
                                     }
@@ -143,7 +145,7 @@ struct ProfileView: View {
                                 .foregroundColor(Color(UIColor.systemGray5))
                                 .shadow(color: .gray, radius: 7)
                             
-                            Text("\(self.profileViewModel.workouts != nil ? self.profileViewModel.workouts!.count : 0) / 10 Workouts")
+                            Text("\(self.profileViewModel.calculateUserCompletedWorkoutsForCurrentLevel()) / \(self.profileViewModel.calculateUserMaxWorkoutsForLevel()) Workouts")
                             
                             Spacer(minLength: screenHeight * 0.05)
                             
@@ -185,10 +187,44 @@ struct ProfileView: View {
                             }
                         }
                     }
+                    .if(shouldShowLevelUpAnimation) {
+                        $0
+                            .blur(radius: 5)
+                            .overlay(
+                                VStack(spacing: 0) {
+                                    Spacer()
+                                    LottieView(name: "levelUp", loopMode: .playOnce, contentMode: .scaleAspectFill)
+                                        .frame(width: screenWidth * 0.5, height: screenHeight * 0.5)
+                                        .padding(.top, -screenHeight * 0.2)
+                                    Text("Level Up!")
+                                        .font(.system(size: screenHeight * 0.1, weight: .bold))
+                                        .foregroundColor(.green)
+                                        .offset(y: -screenHeight * 0.14)
+                                    Spacer()
+                                }
+                                .onAppear {
+                                    withAnimation {
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                            UserDefaults.standard.set(false, forKey: "shouldShowLevelUpAnimation")
+                                            self.shouldShowLevelUpAnimation = false
+                                        }
+                                    }
+                                }
+                                .onTapGesture {
+                                    withAnimation {
+                                        UserDefaults.standard.set(false, forKey: "shouldShowLevelUpAnimation")
+                                        self.shouldShowLevelUpAnimation = false
+                                    }
+                                }
+                            )
+                    }
                     .onAppear {
-                        if !alreadyAppearedOnce {
-                            self.profileViewModel.fetchData()
-                            self.alreadyAppearedOnce = true
+                        withAnimation {
+                            self.shouldShowLevelUpAnimation = self.shouldShowLevelUpAnimationTrigger
+                            if !alreadyAppearedOnce {
+                                self.profileViewModel.fetchData()
+                                self.alreadyAppearedOnce = true
+                            }
                         }
                     }
                     .navigationTitle("")

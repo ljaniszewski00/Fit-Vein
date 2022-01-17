@@ -33,7 +33,9 @@ class FirestoreManager: ObservableObject {
             "followedUsers": [String](),
             "reactedPostsIDs": [String](),
             "commentedPostsIDs": [String](),
-            "reactedCommentsIDs": [String]()
+            "reactedCommentsIDs": [String](),
+            "completedWorkouts": 0,
+            "level": 1
         ]
         
         self.db.collection("users").document(id).setData(documentData) { (error) in
@@ -42,7 +44,7 @@ class FirestoreManager: ObservableObject {
                 completion(nil, false)
             } else {
                 print("Successfully created data for user: \(username) identifying with id: \(id) in database")
-                completion(Profile(id: id, firstName: firstName, username: username, birthDate: birthDate, age: yearsBetweenDate(startDate: birthDate, endDate: Date()) == 0 ? 18 : yearsBetweenDate(startDate: birthDate, endDate: Date()), country: country, language: language, gender: gender, email: email, profilePictureURL: nil, followedIDs: nil, reactedPostsIDs: nil, commentedPostsIDs: nil), true)
+                completion(Profile(id: id, firstName: firstName, username: username, birthDate: birthDate, age: yearsBetweenDate(startDate: birthDate, endDate: Date()) == 0 ? 18 : yearsBetweenDate(startDate: birthDate, endDate: Date()), country: country, language: language, gender: gender, email: email, profilePictureURL: nil, followedIDs: nil, reactedPostsIDs: nil, commentedPostsIDs: nil, completedWorkouts: 0, level: 0), true)
             }
         }
     }
@@ -92,8 +94,10 @@ class FirestoreManager: ObservableObject {
                     let reactedPostsIDs = data["reactedPostsIDs"] as? [String]? ?? nil
                     let commentedPostsIDs = data["commentedPostsIDs"] as? [String]? ?? nil
                     let reactedCommentsIDs = data["reactedCommentsIDs"] as? [String]? ?? nil
+                    let completedWorkouts = data["completedWorkouts"] as? Int ?? 0
+                    let level = data["level"] as? Int ?? 1
 
-                    return Profile(id: userID, firstName: firstName, username: username, birthDate: birthDate, age: age, country: country, language: language, gender: gender, email: email, profilePictureURL: profilePictureURL, followedIDs: followedIDs, reactedPostsIDs: reactedPostsIDs, commentedPostsIDs: commentedPostsIDs, reactedCommentsIDs: reactedCommentsIDs)
+                    return Profile(id: userID, firstName: firstName, username: username, birthDate: birthDate, age: age, country: country, language: language, gender: gender, email: email, profilePictureURL: profilePictureURL, followedIDs: followedIDs, reactedPostsIDs: reactedPostsIDs, commentedPostsIDs: commentedPostsIDs, reactedCommentsIDs: reactedCommentsIDs, completedWorkouts: completedWorkouts, level: level)
                 }
                 
                 DispatchQueue.main.async {
@@ -535,6 +539,87 @@ class FirestoreManager: ObservableObject {
                             completion(false)
                         }
                     }
+                }
+            }
+        }
+    }
+    
+    func addCompletedWorkout(userID: String, completion: @escaping ((Bool) -> ())) {
+        self.db.collection("users").document(userID).getDocument() { [self] (document, error) in
+            if let error = error {
+                print("Error getting document for adding completed workout: \(error.localizedDescription)")
+                completion(false)
+            } else {
+                if let document = document {
+                    var completedWorkouts = document.get("completedWorkouts") as? Int ?? 0
+                    completedWorkouts += 1
+                    
+                    // User levels up in the following scheme:
+                    // levels 1-5
+                    // new level every each 5 workouts: 5 workouts - level up to level 2,
+                    //                                  10 workouts - level up to level 3,
+                    //                                  15 workouts - level up to level 4,
+                    //                                  20 workouts - level up to level 5,
+                    // levels 5-10
+                    // new level every each 10 workouts:
+                    //                                  30 workouts - level up to level 6,
+                    //                                  40 workouts - level up to level 7,
+                    //                                  50 workouts - level up to level 8,
+                    //                                  60 workouts - level up to level 9,
+                    //                                  70 workouts - level up to level 10,
+                    // level 10 is maximum level for now.
+                    
+                    let documentData: [String: Any] = [
+                        "completedWorkouts": completedWorkouts
+                    ]
+                    updateUserData(documentData: documentData) { success in
+                        if success {
+                            print("Successfully added completed workout for user \(userID)")
+                            
+                            if [5, 10, 15, 20, 30, 40, 50, 60, 70].contains(completedWorkouts) {
+                                self.levelUpUser(userID: userID) { success in
+                                    completion(success)
+                                }
+                            } else {
+                                completion(true)
+                            }
+                        } else {
+                            print("Error adding completed workout for user \(userID)")
+                            completion(false)
+                        }
+                    }
+                } else {
+                    completion(false)
+                }
+            }
+        }
+    }
+    
+    func levelUpUser(userID: String, completion: @escaping ((Bool) -> ())) {
+        self.db.collection("users").document(userID).getDocument() { [self] (document, error) in
+            if let error = error {
+                print("Error getting document for leveling up the user: \(error.localizedDescription)")
+                completion(false)
+            } else {
+                if let document = document {
+                    var userLevel = document.get("level") as? Int ?? 1
+                    userLevel += 1
+                    
+                    let documentData: [String: Any] = [
+                        "level": userLevel
+                    ]
+                    updateUserData(documentData: documentData) { success in
+                        if success {
+                            print("Successfully leveled up user \(userID)")
+                            UserDefaults.standard.set(true, forKey: "shouldShowLevelUpAnimation")
+                            completion(true)
+                        } else {
+                            print("Error leveling up user \(userID)")
+                            completion(false)
+                        }
+                    }
+                } else {
+                    completion(false)
                 }
             }
         }
@@ -1281,7 +1366,10 @@ class FirestoreManager: ObservableObject {
                 completion(false)
             } else {
                 print("Successfully created data for workout: \(id) finished by user: \(usersID)")
-                completion(true)
+                
+                self.addCompletedWorkout(userID: usersID) { success in
+                    completion(success)
+                }
             }
         }
     }

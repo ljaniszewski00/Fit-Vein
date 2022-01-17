@@ -22,6 +22,8 @@ struct Profile: Codable, Identifiable {
     var reactedPostsIDs: [String]?
     var commentedPostsIDs: [String]?
     var reactedCommentsIDs: [String]?
+    var completedWorkouts: Int = 0
+    var level: Int = 1
 }
 
 

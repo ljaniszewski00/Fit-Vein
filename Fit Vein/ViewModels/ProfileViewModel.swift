@@ -217,4 +217,34 @@ class ProfileViewModel: ObservableObject {
             }
         }
     }
+    
+    func calculateUserCompletedWorkoutsForCurrentLevel() -> Int {
+        if let profile = self.profile {
+            switch profile.level {
+            case 1...4:
+                return profile.completedWorkouts % 5
+            case 5...10:
+                return profile.completedWorkouts % 10
+            default:
+                return 0
+            }
+        } else {
+            return 0
+        }
+    }
+    
+    func calculateUserMaxWorkoutsForLevel() -> Int {
+        if let profile = self.profile {
+            switch profile.level {
+            case 1...4:
+                return 5
+            case 5...10:
+                return 10
+            default:
+                return 10
+            }
+        } else {
+            return 10
+        }
+    }
 }
