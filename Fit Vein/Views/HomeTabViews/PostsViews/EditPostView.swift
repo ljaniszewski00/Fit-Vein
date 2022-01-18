@@ -82,7 +82,7 @@ struct EditPostView: View {
                                 .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                                 .padding(.leading)
                                 .offset(y: -screenHeight * 0.013)
-                            Text("Post has been edited successfully.")
+                            Text(String(localized: "EditPostView_success"))
                                 .foregroundColor(.green)
                                 .font(.system(size: screenWidth * 0.035, weight: .bold))
                                 .offset(y: -screenHeight * 0.01)
@@ -95,7 +95,7 @@ struct EditPostView: View {
                                 .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                                 .padding(.leading)
                                 .offset(y: -screenHeight * 0.013)
-                            Text("Error editing post. Please, try again later.\n")
+                            Text(String(localized: "EditdPostView_error"))
                                 .foregroundColor(.red)
                                 .font(.system(size: screenWidth * 0.035, weight: .bold))
                             Spacer()
@@ -104,7 +104,7 @@ struct EditPostView: View {
                         .offset(y: -screenHeight * 0.05)
                     } else {
                         HStack {
-                            Text("What do you want to share?")
+                            Text(String(localized: "EditPostView_share"))
                                 .foregroundColor(Color(uiColor: .systemGray3))
                                 .padding()
                             Spacer()
@@ -132,7 +132,7 @@ struct EditPostView: View {
                 .onAppear {
                     self.postTextEdited = self.postText
                 }
-                .navigationBarTitle("Edit a post", displayMode: .inline)
+                .navigationBarTitle(String(localized: "EditPostView_navigation_title"), displayMode: .inline)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button(action: {
@@ -168,7 +168,7 @@ struct EditPostView: View {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 10)
                                     .foregroundColor(self.postTextEdited.count <= 200 ? .accentColor : .gray)
-                                Text("Save")
+                                Text(String(localized: "EditPostView_save_button"))
                                     .foregroundColor(Color(uiColor: .systemGray5))
                                     .fontWeight(.bold)
                             }

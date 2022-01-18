@@ -45,7 +45,7 @@ struct HomeTabSubViewPostsView: View {
                         Spacer()
 
                         if let postComments = homeViewModel.postsComments[post.id] {
-                            Text("\(postComments.count) comments")
+                            Text("\(postComments.count) \(String(localized: "HomeView_post_comments_number"))")
                                 .padding(.trailing, screenWidth * 0.05)
                         }
                     }
@@ -67,7 +67,7 @@ struct HomeTabSubViewPostsView: View {
                                     HStack {
                                         Image(systemName: "hand.thumbsup")
                                             .symbolVariant(reactionsUsersIDs.contains(post.id) ? .fill : .none)
-                                        Text("Like")
+                                        Text(String(localized: "HomeView_like_button"))
                                     }
                                     .foregroundColor(reactionsUsersIDs.contains(post.id) ? .green : (colorScheme == .dark ? .white : .black))
                                 })
@@ -79,7 +79,7 @@ struct HomeTabSubViewPostsView: View {
                                 }, label: {
                                     HStack {
                                         Image(systemName: "hand.thumbsup")
-                                        Text("Like")
+                                        Text(String(localized: "HomeView_like_button"))
                                     }
                                     .foregroundColor(colorScheme == .dark ? .white : .black)
                                 })
@@ -102,7 +102,7 @@ struct HomeTabSubViewPostsView: View {
                             }) {
                                 HStack {
                                     Image(systemName: "bubble.left")
-                                    Text("Comment")
+                                    Text(String(localized: "HomeView_comment_button"))
                                 }
                                 .foregroundColor(colorScheme == .dark ? .white : .black)
                             }

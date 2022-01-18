@@ -88,7 +88,7 @@ struct WorkoutTimerView: View {
                                 .font(.system(size: screenHeight * 0.1, weight: .bold))
                                 .padding(.bottom, screenHeight * 0.02)
                                 
-                                Text(rest ? "REST" : "WORK")
+                                Text(String(localized: rest ? "WorkoutTimerView_rest_label" : "WorkoutTimerView_work_label"))
                                     .font(.title)
                                     .background(RoundedRectangle(cornerRadius: 25).foregroundColor(rest ? .yellow : .red).frame(width: screenWidth * 0.3, height: screenHeight * 0.06))
                                     .shadow(color: Color.black, radius: 7, x: 10, y: 10)
@@ -103,11 +103,11 @@ struct WorkoutTimerView: View {
                     
                     VStack {
                         HStack {
-                            Text("Elapsed")
+                            Text(String(localized: "WorkoutTimerView_elapsed_time"))
                             Spacer()
-                            Text("Rounds").padding(.leading, screenWidth * 0.045)
+                            Text(String(localized: "WorkoutTimerView_rounds")).padding(.leading, screenWidth * 0.045)
                             Spacer()
-                            Text("Remaining")
+                            Text(String(localized: "WorkoutTimerView_remaining"))
                         }
                         .padding(.horizontal)
                         

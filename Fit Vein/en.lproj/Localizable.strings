@@ -77,10 +77,15 @@
 "HomeView_confirmation_dialog_delete" = "Delete";
 "HomeView_confirmation_dialog_cancel" = "Cancel";
 
+"HomeView_nothing_to_present" = "Nothing new to present.";
+"HomeView_add_friends_label" = "Follow other users to see their news.";
+
 // AddPostView
 "AddPostView_navigation_title" = "Add a post";
 "AddPostView_post_button" = "Post";
 "AddPostView_share" = "What do you want to share?";
+"AddPostView_success" = "Post has been added successfully.";
+"AddPostView_error" = "Error adding post. Please, try again later.";
 
 // EditPostView
 "EditPostView_navigation_title" = "Edit a post";
@@ -89,14 +94,13 @@
 
 // SearchFriendsView
 "SearchFriendsView_navigation_title" = "Follow";
-"SearchFriendsView_search" = "Search";
 
 // NotificationsView
-"SearchFriendsView_navigation_title" = "Notifications";
+"NotificationsView_navigation_title" = "Notifications";
 
 // CommentsView
 "CommentView_post_like_button" = "Like";
-"HomeView_confirmation_dialog_text" = "What do you want to do with the selected comment?";
+"CommentView_confirmation_dialog_text" = "What do you want to do with the selected comment?";
 "CommentView_confirmation_dialog_edit" = "Edit";
 "CommentView_confirmation_dialog_delete" = "Delete";
 "CommentView_confirmation_dialog_cancel" = "Cancel";
@@ -104,6 +108,8 @@
 "CommentView_send_comment_button" = "Send";
 "CommentView_edit_comment_cancel_button" = "Cancel";
 "CommentView_send_comment_update_button" = "Update";
+"CommentView_edit_comment_error" = "Error editing comment. Please, try again later.";
+"CommentView_comment_number_label" = "comments";
 
 
 
@@ -121,8 +127,11 @@
 // WorkoutAddView
 "WorkoutAddView_navigation_title" = "Add Workout";
 "WorkoutAddView_interval_rounds_number" = "Rounds Number";
+"WorkoutAddView_interval_rounds_unit" = "number";
 "WorkoutAddView_interval_work_time" = "Work Time";
+"WorkoutAddView_interval_work_time_unit" = "seconds";
 "WorkoutAddView_interval_rest_time" = "Rest Time";
+"WorkoutAddView_interval_rest_time_unit" = "seconds";
 "WorkoutAddView_save_workout_button" = "Save Workout";
 
 // WorkoutTimerView
@@ -135,6 +144,7 @@
 //FinishedWorkoutView
 "FinishedWorkoutView_save_button" = "Save";
 "FinishedWorkoutView_discard_button" = "Discard";
+"FinisehdWorkoutView_saving_error" = "Cannot save the workout right now. Please try again later.";
 
 //SingleWorkoutWindowView
 "SingleWorkoutWindowsView_interval_training_type" = "Interval";
@@ -159,6 +169,8 @@
 "ProfileView_change_photo_confirmation_dialog_cancel_button" = "Cancel";
 "ProfileView_level_label" = "Level";
 "ProfileView_workouts_label" = "Workouts";
+"ProfileView_no_workouts_message" = "Go to 'Workout' Tab to do your first training!";
+"ProfileView_level_up" = "Level Up!";
 
 // SettingsView
 "SettingsView_navigation_title" = "Settings";
@@ -177,6 +189,8 @@
 "ChangeEmailSheet_new_email_address" = "New e-mail address";
 "ChangeEmailSheet_info" = "Before you change your e-mail address please provide your login credentials to confirm it is really you";
 "ChangeEmailSheet_change_email_address_button" = "Change e-mail address";
+"ChangeEmailSheet_change_email_error" = "Error changing e-mail address. Please, try again later.";
+"ChangeEmailSheet_change_email_success" = "Successfully changed e-mail address.";
 
 "SettingsView_change_password_button" = "Change password";
 "ChangePasswordSheet_email_address" = "E-mail address";
@@ -184,6 +198,8 @@
 "ChangePasswordSheet_new_password" = "New password";
 "ChangePasswordSheet_info" = "Before you change your password please provide your login credentials to confirm it is really you";
 "ChangePasswordSheet_change_password_button" = "Change password";
+"ChangePasswordSheet_change_password_error" = "Error changing password. Please, try again later.";
+"ChangePasswordSheet_change_password_success" = "Successfully changed password.";
 
 "SettingsView_logout" = "Logout";
 "SettingsView_logout_confirmation_dialog_text" = "Are you sure you want to logout?";
@@ -198,6 +214,7 @@
 "DeleteAccountSheet_password" = "Password";
 "DeleteAccountSheet_info" = "Before you delete your account please provide your login credentials to confirm it is really you";
 "DeleteAccountSheet_delete_account_button" = "Delete account permanently";
+"DeleteAccountSheet_delete_account_error" = "Error deleting the user's account. Please, try again later.";
 
 "SettingsView_help_settings_section" = "Help";
 "SettingsView_version_label" = "Version (build)";
@@ -208,14 +225,21 @@
 "SettingsView_help_navigation_title" = "Help";
 "SettingsView_help_text" = "In case of any problems please write an e-mail to";
 "SettingsView_help_text2" = "describing the issue.";
-"SettingsView_github_author_following" = "Follow me on GitHub";
-
+"SettingsView_github_author_following" = "Follow me on GitHub: ";
 
 // HealthTabView
 "HealthTabView_navigation_title" = "Health Data";
 "HealthTabView_steps" = "Steps";
 "HealthTabView_calories" = "Calories";
 "HealthTabView_calories_unit" = "kcal";
+"HealthTabView_distance" = "Distance";
 "HealthTabView_distance_unit" = "km";
 "HealthTabView_workout_time" = "Workout Time";
 "HealthTabView_pulse" = "Pulse";
+
+
+// WorkoutTabView
+"WorkoutTabView_windows_navigation_title" = "Workout";
+"WorkoutTabView_list_single_workout_navigation_title" = "Workout";
+"WorkoutTabView_list_navigation_title" = "Workouts";
+"WorkoutTabView_list_workout_type_name" = "Interval";

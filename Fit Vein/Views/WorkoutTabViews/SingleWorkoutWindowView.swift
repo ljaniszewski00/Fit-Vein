@@ -12,8 +12,8 @@ struct SingleWorkoutWindowView: View {
     
     private var dataImagesNames: [String] = ["timer", "flame.fill", "play.circle.fill", "pause.circle.fill", "123.rectangle.fill"]
     private var coloursForDataImages: [Color] = [Color.purple, Color.red, Color.blue, Color.yellow, Color.brown]
-    private var dataNames: [String] = ["Duration", "Calories", "Work Time", "Rest Time", "Series"]
-    private var dataValuesUnits: [String] = ["", "cal", "seconds", "seconds", ""]
+    private var dataValuesUnits: [String] = ["", String(localized: "SingleWorkoutWindowsView_calories_unit"), String(localized: "SingleWorkoutWindowsView_work_time_unit"), String(localized: "SingleWorkoutWindowsView_rest_time_unit"), ""]
+    private var dataNames: [String] = [String(localized: "SingleWorkoutWindowsView_duration"), String(localized: "SingleWorkoutWindowsView_calories"), String(localized: "SingleWorkoutWindowsView_work_time"), String(localized: "SingleWorkoutWindowsView_rest_time"), String(localized: "SingleWorkoutWindowsView_series")]
     
     @Environment(\.colorScheme) var colorScheme
     
@@ -43,7 +43,7 @@ struct SingleWorkoutWindowView: View {
                             Spacer()
                             
                             VStack {
-                                Text("\(workout.type)")
+                                Text(String(localized: "SingleWorkoutWindowsView_interval_training_type"))
                                     .font(.title)
                                     .fontWeight(.bold)
                                     .foregroundColor(.accentColor)
@@ -52,7 +52,7 @@ struct SingleWorkoutWindowView: View {
                                     .font(.caption)
                                     .foregroundColor(colorScheme == .dark ? .white : .black)
                                 
-                                Text("Workout Details")
+                                Text(String(localized: "SingleWorkoutWindowsView_workout_details"))
                                     .font(.title3)
                                     .foregroundColor(.accentColor)
                                     .padding(.top, screenHeight * 0.02)

@@ -75,7 +75,7 @@ struct AddPostView: View {
                                 .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                                 .padding(.leading)
                                 .offset(y: -screenHeight * 0.013)
-                            Text("Post has been added successfully.")
+                            Text(String(localized: "AddPostView_success"))
                                 .foregroundColor(.green)
                                 .font(.system(size: screenWidth * 0.035, weight: .bold))
                                 .offset(y: -screenHeight * 0.01)
@@ -88,7 +88,7 @@ struct AddPostView: View {
                                 .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                                 .padding(.leading)
                                 .offset(y: -screenHeight * 0.013)
-                            Text("Error adding post. Please, try again later.\n")
+                            Text(String(localized: "AddPostView_error"))
                                 .foregroundColor(.red)
                                 .font(.system(size: screenWidth * 0.035, weight: .bold))
                             Spacer()
@@ -97,7 +97,7 @@ struct AddPostView: View {
                         .offset(y: -screenHeight * 0.05)
                     } else {
                         HStack {
-                            Text("What do you want to share?")
+                            Text(String(localized: "AddPostView_share"))
                                 .foregroundColor(Color(uiColor: .systemGray3))
                                 .padding()
                             Spacer()
@@ -122,7 +122,7 @@ struct AddPostView: View {
                     
                     Spacer()
                 }
-                .navigationBarTitle("Add a post", displayMode: .inline)
+                .navigationBarTitle(String(localized: "AddPostView_navigation_title"), displayMode: .inline)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button(action: {
@@ -159,7 +159,7 @@ struct AddPostView: View {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 10)
                                     .foregroundColor(self.postText.count <= 200 ? .accentColor : .gray)
-                                Text("Post")
+                                Text(String(localized: "AddPostView_post_button"))
                                     .foregroundColor(Color(uiColor: .systemGray5))
                                     .fontWeight(.bold)
                             }

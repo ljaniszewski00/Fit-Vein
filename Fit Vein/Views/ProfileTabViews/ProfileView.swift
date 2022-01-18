@@ -125,7 +125,7 @@ struct ProfileView: View {
                         .padding()
                         
                         VStack {
-                            Text("Level \(self.profileViewModel.profile!.level)")
+                            Text("\(String(localized: "ProfileView_level_label")) \(self.profileViewModel.profile!.level)")
                                 .font(.system(size: screenHeight * 0.03))
                                 .fontWeight(.bold)
                             
@@ -145,7 +145,7 @@ struct ProfileView: View {
                                 .foregroundColor(Color(UIColor.systemGray5))
                                 .shadow(color: .gray, radius: 7)
                             
-                            Text("\(self.profileViewModel.calculateUserCompletedWorkoutsForCurrentLevel()) / \(self.profileViewModel.calculateUserMaxWorkoutsForLevel()) Workouts")
+                            Text("\(self.profileViewModel.calculateUserCompletedWorkoutsForCurrentLevel()) / \(self.profileViewModel.calculateUserMaxWorkoutsForLevel()) \(String(localized: "ProfileView_workouts_label"))")
                             
                             Spacer(minLength: screenHeight * 0.05)
                             
@@ -196,7 +196,7 @@ struct ProfileView: View {
                                     LottieView(name: "levelUp", loopMode: .playOnce, contentMode: .scaleAspectFill)
                                         .frame(width: screenWidth * 0.5, height: screenHeight * 0.5)
                                         .padding(.top, -screenHeight * 0.2)
-                                    Text("Level Up!")
+                                    Text(String(localized: "ProfileView_level_up"))
                                         .font(.system(size: screenHeight * 0.1, weight: .bold))
                                         .foregroundColor(.green)
                                         .offset(y: -screenHeight * 0.14)
@@ -239,16 +239,16 @@ struct ProfileView: View {
                             }
                     }
                     .actionSheet(isPresented: $shouldPresentAddActionSheet) {
-                        ActionSheet(title: Text("Add a new photo"), message: nil, buttons: [
-                            .default(Text("Take a new photo"), action: {
+                        ActionSheet(title: Text(String(localized: "ProfileView_change_photo_confirmation_dialog_text")), message: nil, buttons: [
+                            .default(Text(String(localized: "ProfileView_change_photo_confirmation_dialog_take_photo_button")), action: {
                                  self.shouldPresentImagePicker = true
                                  self.shouldPresentCamera = true
                              }),
-                            .default(Text("Upload a new photo"), action: {
+                            .default(Text(String(localized: "ProfileView_change_photo_confirmation_dialog_upload_photo_button")), action: {
                                  self.shouldPresentImagePicker = true
                                  self.shouldPresentCamera = false
                              }),
-                            ActionSheet.Button.cancel()
+                            .cancel(Text(String(localized: "ProfileView_change_photo_confirmation_dialog_cancel_button")))
                         ])
                     }
                 }

@@ -32,7 +32,7 @@ struct NotificationsView: View {
                     }
                     Spacer()
                 }
-                .navigationTitle("Notifications")
+                .navigationTitle(String(localized: "NotificationsView_navigation_title"))
             }
         }
     }

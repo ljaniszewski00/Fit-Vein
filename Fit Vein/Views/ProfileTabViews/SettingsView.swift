@@ -37,30 +37,30 @@ struct SettingsView: View {
             let screenHeight = geometry.size.height
             
             Form {
-                Section(header: Text("App"), footer: Text("Whether FaceID or TouchID is used depends on device hardware capabilities.")) {
+                Section(header: Text(String(localized: "SettingsView_app_settings_section")), footer: Text(String(localized: "SettingsView_faceID_touchID_info_label"))) {
                     Toggle(isOn: $notifications, label: {
                         Image(systemName: "bell.circle.fill")
                             .font(.title)
                             .foregroundColor(.accentColor)
-                        Text("Notifications")
+                        Text(String(localized: "SettingsView_notifications_toggle_label"))
                     })
                     
                     Toggle(isOn: $showSampleWorkoutsListFromSettings, label: {
                         Image(systemName: "list.bullet.circle.fill")
                             .font(.title)
                             .foregroundColor(.accentColor)
-                        Text("Show 'Sample Workouts' in Workouts Tab")
+                        Text(String(localized: "SettingsView_sample_workouts_toggle_label"))
                     })
                     
                     Toggle(isOn: $biometricLock, label: {
                         Image(systemName: "faceid")
                             .font(.title)
                             .foregroundColor(.accentColor)
-                        Text("Use FaceID / TouchID")
+                        Text(String(localized: "SettingsView_faceID_touchID_toggle_label"))
                     })
                 }
                 
-                Section(header: Text("Account")) {
+                Section(header: Text(String(localized: "SettingsView_account_settings_section"))) {
                     Button(action: {
                         sheetManager.whichSheet = .email
                         sheetManager.showSheet.toggle()
@@ -69,7 +69,7 @@ struct SettingsView: View {
                             Image(systemName: "envelope.circle.fill")
                                 .font(.title)
                                 .foregroundColor(.accentColor)
-                            Text("Change e-mail address")
+                            Text(String(localized: "SettingsView_change_email_address_button"))
                                 .foregroundColor(colorScheme == .dark ? .white : .black)
                         }
                     })
@@ -83,7 +83,7 @@ struct SettingsView: View {
                             Image(systemName: "lock.circle.fill")
                                 .font(.title)
                                 .foregroundColor(.accentColor)
-                            Text("Change password")
+                            Text(String(localized: "SettingsView_change_password_button"))
                                 .foregroundColor(colorScheme == .dark ? .white : .black)
                         }
                     })
@@ -97,7 +97,7 @@ struct SettingsView: View {
                             Image(systemName: "person.crop.circle.fill.badge.minus")
                                 .font(.title)
                                 .foregroundColor(.accentColor)
-                            Text("Logout")
+                            Text(String(localized: "SettingsView_logout"))
                                 .foregroundColor(.red)
                         }
                     })
@@ -111,25 +111,25 @@ struct SettingsView: View {
                             Image(systemName: "trash.circle.fill")
                                 .font(.title)
                                 .foregroundColor(.accentColor)
-                            Text("Delete account")
+                            Text(String(localized: "SettingsView_delete_account"))
                                 .foregroundColor(.red)
                         }
                     })
                         .disabled(!networkManager.isConnected)
                 }
                 
-                Section(header: Text("Help")) {
+                Section(header: Text(String(localized: "SettingsView_help_settings_section"))) {
                     HStack {
-                        Text("Version (Build)")
+                        Text(String(localized: "SettingsView_version_label"))
                         Spacer()
                         Text(UIApplication.versionBuild())
                     }
                     
-                    NavigationLink("Terms and Conditions", destination: {
+                    NavigationLink(String(localized: "SettingsView_terms_and_conditions_settings_label"), destination: {
                         TermsAndConditionsView()
                     })
                     
-                    NavigationLink("Help", destination: {
+                    NavigationLink(String(localized: "SettingsView_help_settings_label"), destination: {
                         HelpView()
                     })
                     
@@ -138,7 +138,7 @@ struct SettingsView: View {
                             Image(systemName: "link.circle.fill")
                                 .font(.title)
                                 .foregroundColor(.accentColor)
-                            Text("Follow me on GitHub:")
+                            Text(String(localized: "SettingsView_github_author_following"))
                             Link("Vader20FF", destination: URL(string: "https://github.com/Vader20FF")!)
                                 .foregroundColor(.accentColor)
                                 .font(.system(size: 18, weight: .bold))
@@ -146,7 +146,7 @@ struct SettingsView: View {
                     }
                 }
             }
-            .navigationBarTitle("Settings")
+            .navigationBarTitle(String(localized: "SettingsView_navigation_title"))
             .navigationBarTitleDisplayMode(.large)
             
             .sheet(isPresented: $sheetManager.showSheet) {
@@ -161,19 +161,19 @@ struct SettingsView: View {
                     Text("No view")
                 }
             }
-            .confirmationDialog(sheetManager.whichSheet == .logout ? "Are you sure you want to logout?" : "Are you sure you want to delete your account? All data will be lost.", isPresented: $shouldPresentActionSheet, titleVisibility: .visible) {
+            .confirmationDialog(sheetManager.whichSheet == .logout ? String(localized: "SettingsView_logout_confirmation_dialog_text") : String(localized: "SettingsView_delete_account_confirmation_dialog_text"), isPresented: $shouldPresentActionSheet, titleVisibility: .visible) {
                 if sheetManager.whichSheet == .logout {
-                    Button("Logout", role: .destructive) {
+                    Button(String(localized: "SettingsView_logout_confirmation_dialog_logout_button"), role: .destructive) {
                         profileViewModel.sessionStore.signOut()
                         profileViewModel.detachCurrentProfile()
                         dismiss()
                     }
-                    Button("Cancel", role: .cancel) {}
+                    Button(String(localized: "SettingsView_logout_confirmation_dialog_cancel_button"), role: .cancel) {}
                 } else {
-                    Button("Delete Account", role: .destructive) {
+                    Button(String(localized: "SettingsView_delete_account_confirmation_dialog_delete_account_button"), role: .destructive) {
                         sheetManager.showSheet.toggle()
                     }
-                    Button("Cancel", role: .cancel) {}
+                    Button(String(localized: "SettingsView_delete_account_confirmation_dialog_cancel_button"), role: .cancel) {}
                 }
             }
         }
@@ -188,7 +188,7 @@ struct SettingsView: View {
                 VStack(spacing: screenHeight * 0.05) {
                     HStack {
                         Spacer()
-                        Text("This app is a fully open-source and licence-free product.")
+                        Text(String(localized: "SettingsView_terms_and_conditions_text"))
                             .font(.system(size: screenHeight * 0.03))
                         Spacer()
                     }
@@ -208,7 +208,7 @@ struct SettingsView: View {
                 }
                 .padding()
                 .padding(.top, screenHeight * 0.15)
-                .navigationTitle("Terms and Conditions")
+                .navigationTitle(String(localized: "SettingsView_terms_and_conditions_navigation_title"))
             }
         }
     }
@@ -222,7 +222,7 @@ struct SettingsView: View {
                 VStack(spacing: screenHeight * 0.05) {
                     HStack {
                         Spacer()
-                        Text("In case of any problems please write an e-mail to:")
+                        Text(String(localized: "SettingsView_help_text"))
                             .font(.system(size: screenHeight * 0.03))
                         Spacer()
                     }
@@ -242,7 +242,7 @@ struct SettingsView: View {
                     
                     HStack {
                         Spacer()
-                        Text("describing the matter.")
+                        Text(String(localized: "SettingsView_help_text2"))
                             .font(.system(size: screenHeight * 0.03))
                         Spacer()
                     }
@@ -263,7 +263,7 @@ struct SettingsView: View {
                 }
                 .padding()
                 .padding(.top, screenHeight * 0.15)
-                .navigationTitle("Help")
+                .navigationTitle(String(localized: "SettingsView_help_navigation_title"))
             }
         }
     }
@@ -288,12 +288,12 @@ struct DeleteAccountSheetView: View {
             NavigationView {
                 VStack {
                     Form {
-                        Section(footer: Text("Before you delete your account please provide your login credentials to confirm it is really you.")) {
-                            TextField("E-mail", text: $email)
+                        Section(footer: Text(String(localized: "DeleteAccountSheet_info"))) {
+                            TextField(String(localized: "DeleteAccountSheet_email_address"), text: $email)
                                 .focused($isTextFieldFocused)
                                 .disableAutocorrection(true)
                                 .autocapitalization(.none)
-                            SecureField("Password", text: $password)
+                            SecureField(String(localized: "DeleteAccountSheet_password"), text: $password)
                                 .focused($isTextFieldFocused)
                                 .disableAutocorrection(true)
                                 .autocapitalization(.none)
@@ -306,7 +306,7 @@ struct DeleteAccountSheetView: View {
                                 .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                                 .padding(.leading)
                                 .offset(y: -screenHeight * 0.013)
-                            Text("Error deleting the user's account. Please, try again later.\n")
+                            Text(String(localized: "DeleteAccountSheet_delete_account_error"))
                                 .foregroundColor(.red)
                                 .font(.system(size: screenWidth * 0.035, weight: .bold))
                             Spacer()
@@ -332,7 +332,7 @@ struct DeleteAccountSheetView: View {
                             }
                         }
                     }, label: {
-                        Text("Delete account permanently")
+                        Text(String(localized: "DeleteAccountSheet_delete_account_button"))
                     })
                     .frame(width: screenWidth * 0.7, height: screenHeight * 0.08)
                     .background(Color.accentColor)
@@ -371,16 +371,16 @@ struct ChangeEmailAddressSheetView: View {
             NavigationView {
                 VStack {
                     Form {
-                        Section(footer: Text("Before you change your e-mail address please provide your login credentials to confirm it is really you.")) {
-                            TextField("Old e-mail address", text: $oldEmail)
+                        Section(footer: Text(String(localized: "ChangeEmailSheet_info"))) {
+                            TextField(String(localized: "ChangeEmailSheet_old_email_address"), text: $oldEmail)
                                 .focused($isTextFieldFocused)
                                 .disableAutocorrection(true)
                                 .autocapitalization(.none)
-                            SecureField("Password", text: $password)
+                            SecureField(String(localized: "ChangeEmailSheet_password"), text: $password)
                                 .focused($isTextFieldFocused)
                                 .disableAutocorrection(true)
                                 .autocapitalization(.none)
-                            TextField("New e-mail address", text: $newEmail)
+                            TextField(String(localized: "ChangeEmailSheet_new_email_address"), text: $newEmail)
                                 .focused($isTextFieldFocused)
                                 .disableAutocorrection(true)
                                 .autocapitalization(.none)
@@ -393,7 +393,7 @@ struct ChangeEmailAddressSheetView: View {
                                 .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                                 .padding(.leading)
                                 .offset(y: -screenHeight * 0.013)
-                            Text("Error changing user's e-mail address. Please, try again later.\n")
+                            Text(String(localized: "ChangeEmailSheet_change_email_error"))
                                 .foregroundColor(.red)
                                 .font(.system(size: screenWidth * 0.035, weight: .bold))
                             Spacer()
@@ -408,7 +408,7 @@ struct ChangeEmailAddressSheetView: View {
                                 .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                                 .padding(.leading)
                                 .offset(y: -screenHeight * 0.013)
-                            Text("E-mail has been changed successfully.")
+                            Text(String(localized: "ChangeEmailSheet_change_email_success"))
                                 .foregroundColor(.green)
                                 .font(.system(size: screenWidth * 0.035, weight: .bold))
                                 .offset(y: -screenHeight * 0.01)
@@ -438,7 +438,7 @@ struct ChangeEmailAddressSheetView: View {
                             }
                         }
                     }, label: {
-                        Text("Change e-mail address")
+                        Text(String(localized: "ChangeEmailSheet_change_email_address_button"))
                     })
                     .frame(width: screenWidth * 0.7, height: screenHeight * 0.08)
                     .background(Color.accentColor)
@@ -477,16 +477,16 @@ struct ChangePasswordSheetView: View {
             NavigationView {
                 VStack {
                     Form {
-                        Section(footer: Text("Before you change your password please provide your login credentials to confirm it is really you.")) {
-                            TextField("E-mail", text: $email)
+                        Section(footer: Text(String(localized: "ChangePasswordSheet_info"))) {
+                            TextField(String(localized: "ChangePasswordSheet_email_address"), text: $email)
                                 .focused($isTextFieldFocused)
                                 .disableAutocorrection(true)
                                 .autocapitalization(.none)
-                            SecureField("Old password", text: $oldPassword)
+                            SecureField(String(localized: "ChangePasswordSheet_old_password"), text: $oldPassword)
                                 .focused($isTextFieldFocused)
                                 .disableAutocorrection(true)
                                 .autocapitalization(.none)
-                            SecureField("New password", text: $newPassword)
+                            SecureField(String(localized: "ChangePasswordSheet_new_password"), text: $newPassword)
                                 .focused($isTextFieldFocused)
                                 .disableAutocorrection(true)
                                 .autocapitalization(.none)
@@ -499,7 +499,7 @@ struct ChangePasswordSheetView: View {
                                 .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                                 .padding(.leading)
                                 .offset(y: -screenHeight * 0.013)
-                            Text("Error changing user's password. Please, try again later.\n")
+                            Text(String(localized: "ChangePasswordSheet_change_password_error"))
                                 .foregroundColor(.red)
                                 .font(.system(size: screenWidth * 0.035, weight: .bold))
                             Spacer()
@@ -514,7 +514,7 @@ struct ChangePasswordSheetView: View {
                                 .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                                 .padding(.leading)
                                 .offset(y: -screenHeight * 0.013)
-                            Text("Password has been changed successfully.")
+                            Text(String(localized: "ChangePasswordSheet_change_password_success"))
                                 .foregroundColor(.green)
                                 .font(.system(size: screenWidth * 0.035, weight: .bold))
                                 .offset(y: -screenHeight * 0.01)
@@ -544,7 +544,7 @@ struct ChangePasswordSheetView: View {
                             }
                         }
                     }, label: {
-                        Text("Change password")
+                        Text(String(localized: "ChangePasswordSheet_change_password_button"))
                     })
                     .frame(width: screenWidth * 0.7, height: screenHeight * 0.08)
                     .background(Color.accentColor)

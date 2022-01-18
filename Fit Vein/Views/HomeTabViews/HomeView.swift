@@ -62,7 +62,7 @@ struct HomeView: View {
                                                         .padding(.bottom, screenHeight * 0.03)
                                                 }
                                             } else {
-                                                Text("Nothing to show")
+                                                Text(String(localized: "HomeView_nothing_to_present"))
                                                     .foregroundColor(.accentColor)
                                             }
                                         } else {
@@ -70,14 +70,14 @@ struct HomeView: View {
                                                 if followedIDs.count != 0 {
             //                                            HomeTabPostsFetchingView()
             //                                                .frame(width: screenWidth, height: screenHeight)
-                                                    Text("Nothing to show")
+                                                    Text(String(localized: "HomeView_nothing_to_present"))
                                                         .foregroundColor(.accentColor)
                                                 } else {
-                                                    Text("Add friends to see their activity")
+                                                    Text(String(localized: "HomeView_add_friends_label"))
                                                         .foregroundColor(.accentColor)
                                                 }
                                             } else {
-                                                Text("Add friends to see their activity")
+                                                Text(String(localized: "HomeView_add_friends_label"))
                                                     .foregroundColor(.accentColor)
                                             }
                                         }

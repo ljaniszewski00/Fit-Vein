@@ -47,7 +47,7 @@ struct HomeTabCommentsViewPostView: View {
                     Spacer()
 
                     if let postComments = homeViewModel.postsComments[post.id] {
-                        Text("\(postComments.count) comments")
+                        Text("\(postComments.count) \(String(localized: "CommentView_comment_number_label"))")
                             .padding(.trailing, screenWidth * 0.05)
                     }
                 }
@@ -69,9 +69,9 @@ struct HomeTabCommentsViewPostView: View {
                                 HStack {
                                     Image(systemName: "hand.thumbsup")
                                         .symbolVariant(reactionsUsersIDs.contains(post.id) ? .fill : .none)
-                                    Text("Like")
+                                    Text(String(localized: "CommentView_post_like_button"))
                                 }
-                                .foregroundColor(reactionsUsersIDs.contains(post.id) ? .green : (colorScheme == .dark ? .white : .black))
+                                .foregroundColor(reactionsUsersIDs.contains(post.id) ? .accentColor : (colorScheme == .dark ? .white : .black))
                             })
                         } else {
                             Button(action: {
@@ -81,7 +81,7 @@ struct HomeTabCommentsViewPostView: View {
                             }, label: {
                                 HStack {
                                     Image(systemName: "hand.thumbsup")
-                                    Text("Like")
+                                    Text(String(localized: "CommentView_post_like_button"))
                                 }
                                 .foregroundColor(colorScheme == .dark ? .white : .black)
                             })

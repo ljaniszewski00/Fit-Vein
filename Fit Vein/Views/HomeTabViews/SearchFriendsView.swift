@@ -147,7 +147,7 @@ struct SearchFriendsView: View {
                         .listStyle(GroupedListStyle())
                     }
                 }
-                .navigationTitle("Follow")
+                .navigationTitle(String(localized: "SearchFriendsView_navigation_title"))
                 .onAppear {
                     self.homeViewModel.getAllUsersData()
                 }

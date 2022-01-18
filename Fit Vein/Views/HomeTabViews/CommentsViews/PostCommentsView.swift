@@ -42,7 +42,7 @@ struct PostCommentsView: View {
                 .padding(.top, screenHeight * 0.001)
                 
                 HStack {
-                    TextField("Comment", text: $commentText)
+                    TextField(String(localized: "CommentView_comment_text_field_label"), text: $commentText)
                         .disableAutocorrection(true)
                         .autocapitalization(.none)
                         .focused($isCommentTextFieldFocused)
@@ -57,7 +57,7 @@ struct PostCommentsView: View {
                             }
                         }
                     }, label: {
-                        Text("Send")
+                        Text(String(localized: "CommentView_send_comment_button"))
                             .foregroundColor(.white)
                     })
                         .disabled(self.commentText.count > 200)

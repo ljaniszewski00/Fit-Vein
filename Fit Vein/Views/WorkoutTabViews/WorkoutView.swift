@@ -45,7 +45,7 @@ struct WorkoutView: View {
                                             Spacer()
                                             
                                             VStack {
-                                                Text(workout.type)
+                                                Text(String(localized: "WorkoutView_interval_training_type"))
                                                     .foregroundColor(.accentColor)
                                                     .font(.title3)
                                                     .fontWeight(.bold)
@@ -57,10 +57,10 @@ struct WorkoutView: View {
                                             
                                             Spacer()
                                             
-                                            VStack {
-                                                Text("Work Time: \(workout.workTime!)")
-                                                Text("Rest Time: \(workout.restTime!)")
-                                                Text("Series: \(workout.series!)")
+                                            VStack(alignment: .leading, spacing: screenHeight * 0.005) {
+                                                Text("\(String(localized: "WorkoutView_interval_series")): \(workout.series!)")
+                                                Text("\(String(localized: "WorkoutView_interval_work_time")): \(workout.workTime!)")
+                                                Text("\(String(localized: "WorkoutView_interval_rest_time")): \(workout.restTime!)")
                                             }
                                             
                                             Spacer()
@@ -73,7 +73,7 @@ struct WorkoutView: View {
                                         }
                                     }
                                 }, label: {
-                                    Text("Sample Workouts")
+                                    Text(String(localized: "WorkoutView_sample_workouts"))
                                         .font(.title3)
                                         .fontWeight(.bold)
                                 })
@@ -90,7 +90,7 @@ struct WorkoutView: View {
                                         Spacer()
                                         
                                         VStack {
-                                            Text(workout.type)
+                                            Text(String(localized: "WorkoutView_interval_training_type"))
                                                 .foregroundColor(.accentColor)
                                                 .font(.title3)
                                                 .fontWeight(.bold)
@@ -102,10 +102,10 @@ struct WorkoutView: View {
                                         
                                         Spacer()
                                         
-                                        VStack {
-                                            Text("Work Time: \(workout.workTime!)")
-                                            Text("Rest Time: \(workout.restTime!)")
-                                            Text("Series: \(workout.series!)")
+                                        VStack(alignment: .leading, spacing: screenHeight * 0.005) {
+                                            Text("\(String(localized: "WorkoutView_interval_series")): \(workout.series!)")
+                                            Text("\(String(localized: "WorkoutView_interval_work_time")): \(workout.workTime!)")
+                                            Text("\(String(localized: "WorkoutView_interval_rest_time")): \(workout.restTime!)")
                                         }
                                         
                                         Spacer()
@@ -121,17 +121,17 @@ struct WorkoutView: View {
                                     workoutViewModel.deleteUserWorkout(indexSet: indexSet)
                                 }
                             }, label: {
-                                Text("User's Workouts")
+                                Text(String(localized: "WorkoutView_users_workouts"))
                                     .font(.title3)
                                     .fontWeight(.bold)
                             })
                         }
                     }
-                    .navigationTitle("Workouts")
+                    .navigationTitle(String(localized: "WorkoutView_navigation_title"))
                     .navigationBarHidden(false)
                     .toolbar {
                         ToolbarItem(placement: .navigationBarTrailing) {
-                            NavigationLink(destination: WorkoutAddView().environmentObject(workoutViewModel).navigationTitle("Add Workout").navigationBarHidden(false).ignoresSafeArea(.keyboard)) {
+                            NavigationLink(destination: WorkoutAddView().environmentObject(workoutViewModel).navigationTitle(String(localized: "WorkoutAddView_navigation_title")).navigationBarHidden(false).ignoresSafeArea(.keyboard)) {
                                 Image(systemName: "plus.circle.fill")
                                     .resizable()
                                     .scaledToFit()
@@ -179,12 +179,12 @@ struct WorkoutAddView: View {
                 VStack {
                     VStack {
                         HStack {
-                            Text("Rounds Number")
+                            Text(String(localized: "WorkoutAddView_interval_rounds_number"))
                             Spacer()
                         }
                         
                         VStack {
-                            TextField("", text: $series)
+                            TextField(String(localized: "WorkoutAddView_interval_rounds_unit"), text: $series)
                                 .disableAutocorrection(true)
                                 .autocapitalization(.none)
                                 .keyboardType(.numberPad)
@@ -197,12 +197,12 @@ struct WorkoutAddView: View {
                     
                     VStack {
                         HStack {
-                            Text("Work Time")
+                            Text(String(localized: "WorkoutAddView_interval_work_time"))
                             Spacer()
                         }
                         
                         VStack {
-                            TextField("seconds", text: $workTime)
+                            TextField(String(localized: "WorkoutAddView_interval_work_time_unit"), text: $workTime)
                                 .disableAutocorrection(true)
                                 .autocapitalization(.none)
                                 .keyboardType(.numberPad)
@@ -215,12 +215,12 @@ struct WorkoutAddView: View {
                     
                     VStack {
                         HStack {
-                            Text("Rest Time")
+                            Text(String(localized: "WorkoutAddView_interval_rest_time"))
                             Spacer()
                         }
                         
                         VStack {
-                            TextField("seconds", text: $restTime)
+                            TextField(String(localized: "WorkoutAddView_interval_rest_time_unit"), text: $restTime)
                                 .disableAutocorrection(true)
                                 .autocapitalization(.none)
                                 .keyboardType(.numberPad)
@@ -240,7 +240,7 @@ struct WorkoutAddView: View {
                     workoutViewModel.addUserWorkout(series: Int(self.series) ?? 8, workTime: Int(self.workTime) ?? 45, restTime: Int(self.restTime) ?? 15)
                     dismiss()
                 }, label: {
-                    Text("Save Workout")
+                    Text(String(localized: "WorkoutAddView_save_workout_button"))
                         .foregroundColor(Color(uiColor: .systemGray5))
                         .fontWeight(.bold)
                 })

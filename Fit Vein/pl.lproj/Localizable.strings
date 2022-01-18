@@ -77,26 +77,32 @@
 "HomeView_confirmation_dialog_delete" = "Usuń";
 "HomeView_confirmation_dialog_cancel" = "Anuluj";
 
+"HomeView_nothing_to_present" = "Nie ma żadnych nowych aktualności.";
+"HomeView_add_friends_label" = "Obserwuj innych by widzieć ich aktualności.";
+
 // AddPostView
 "AddPostView_navigation_title" = "Dodaj post";
 "AddPostView_post_button" = "Opublikuj";
 "AddPostView_share" = "Czym się chcesz podzielić?";
+"AddPostView_success" = "Post został poprawnie dodany.";
+"AddPostView_error" = "Błąd podczas dodawania posta. Spróbuj ponownie później.";
 
 // EditPostView
 "EditPostView_navigation_title" = "Edytuj post";
 "EditPostView_save_button" = "Zapisz";
 "EditPostView_share" = "Czym się chcesz podzielić?";
+"EditPostView_success" = "Post został edytowany dodany.";
+"EditdPostView_error" = "Błąd podczas edytowania posta. Spróbuj ponownie później.";
 
 // SearchFriendsView
 "SearchFriendsView_navigation_title" = "Obserwowanie";
-"SearchFriendsView_search" = "Wyszukaj";
 
 // NotificationsView
-"SearchFriendsView_navigation_title" = "Powiadomienia";
+"NotificationsView_navigation_title" = "Powiadomienia";
 
 // CommentsView
 "CommentView_post_like_button" = "Lubię to";
-"HomeView_confirmation_dialog_text" = "Co chcesz zrobić z wybranym komentarzem?";
+"CommentView_confirmation_dialog_text" = "Co chcesz zrobić z wybranym komentarzem?";
 "CommentView_confirmation_dialog_edit" = "Edytuj";
 "CommentView_confirmation_dialog_delete" = "Usuń";
 "CommentView_confirmation_dialog_cancel" = "Anuluj";
@@ -104,6 +110,8 @@
 "CommentView_send_comment_button" = "Wyślij";
 "CommentView_edit_comment_cancel_button" = "Anuluj";
 "CommentView_send_comment_update_button" = "Zaktualizuj";
+"CommentView_edit_comment_error" = "Błąd podczas edytowania komentarza. Spróbuj ponownie później.";
+"CommentView_comment_number_label" = "komentarzy";
 
 
 
@@ -113,16 +121,19 @@
 "WorkoutView_navigation_title" = "Treningi";
 "WorkoutView_sample_workouts" = "Treningi przykładowe";
 "WorkoutView_interval_training_type" = "Interwał";
-"WorkoutView_interval_work_time" = "Czas pracy";
-"WorkoutView_interval_rest_time" = "Czas odpoczynku";
+"WorkoutView_interval_work_time" = "Praca";
+"WorkoutView_interval_rest_time" = "Odpoczynek";
 "WorkoutView_interval_series" = "Serie";
 "WorkoutView_users_workouts" = "Treningi użytkownika";
 
 // WorkoutAddView
 "WorkoutAddView_navigation_title" = "Dodaj trening";
 "WorkoutAddView_interval_rounds_number" = "Liczba serii";
-"WorkoutAddView_interval_work_time" = "Czas pracy";
-"WorkoutAddView_interval_rest_time" = "Czas odpoczynku";
+"WorkoutAddView_interval_rounds_unit" = "liczba";
+"WorkoutAddView_interval_work_time" = "Praca";
+"WorkoutAddView_interval_work_time_unit" = "sekundy";
+"WorkoutAddView_interval_rest_time" = "Odpoczynek";
+"WorkoutAddView_interval_rest_time_unit" = "sekundy";
 "WorkoutAddView_save_workout_button" = "Zapisz";
 
 // WorkoutTimerView
@@ -135,6 +146,7 @@
 //FinishedWorkoutView
 "FinishedWorkoutView_save_button" = "Zapisz";
 "FinishedWorkoutView_discard_button" = "Odrzuć";
+"FinisehdWorkoutView_saving_error" = "Nie można teraz zapisać treningu. Spróbuj ponownie później";
 
 //SingleWorkoutWindowView
 "SingleWorkoutWindowsView_interval_training_type" = "Interwał";
@@ -142,9 +154,9 @@
 "SingleWorkoutWindowsView_duration" = "Czas trwania";
 "SingleWorkoutWindowsView_calories" = "Kalorie";
 "SingleWorkoutWindowsView_calories_unit" = "kcal";
-"SingleWorkoutWindowsView_work_time" = "Czas pracy";
+"SingleWorkoutWindowsView_work_time" = "Praca";
 "SingleWorkoutWindowsView_work_time_unit" = "sekund";
-"SingleWorkoutWindowsView_rest_time" = "Czas odpoczynku";
+"SingleWorkoutWindowsView_rest_time" = "Odpoczynek";
 "SingleWorkoutWindowsView_rest_time_unit" = "sekund";
 "SingleWorkoutWindowsView_series" = "Serie";
 
@@ -159,6 +171,8 @@
 "ProfileView_change_photo_confirmation_dialog_cancel_button" = "Anuluj";
 "ProfileView_level_label" = "Poziom";
 "ProfileView_workouts_label" = "Treningów";
+"ProfileView_no_workouts_message" = "Przejdź do zakładki 'Workout' żeby zrobić swój pierwszy trening!";
+"ProfileView_level_up" = "Nowy poziom!";
 
 // SettingsView
 "SettingsView_navigation_title" = "Ustawienia";
@@ -167,7 +181,7 @@
 "SettingsView_notifications_toggle_label" = "Powiadomienia";
 "SettingsView_sample_workouts_toggle_label" = "Pokaż 'Treningi przykładowe' w zakładce 'Treningi'";
 "SettingsView_faceID_touchID_toggle_label" = "Używaj FaceID / TouchID";
-"SettingsView_faceID_touchID_info_label" = "To, czy FaceID lub TouchID jest używane, zależy od możliwości urządzenia";
+"SettingsView_faceID_touchID_info_label" = "Użycie FaceID lub TouchID zależy od technicznych możliwości urządzenia";
 
 "SettingsView_account_settings_section" = "Konto";
 
@@ -177,6 +191,8 @@
 "ChangeEmailSheet_new_email_address" = "Nowy adres e-mail";
 "ChangeEmailSheet_info" = "Przed zmianą adresu e-mail podaj proszę swoje dane logowania, żebyśmy mogli potwierdzić, że to rzeczywiście ty.";
 "ChangeEmailSheet_change_email_address_button" = "Wprowadź zmianę";
+"ChangeEmailSheet_change_email_error" = "Wystąpił błąd przy zmianie adresu e-mail. Spróbuj ponownie później.";
+"ChangeEmailSheet_change_email_success" = "Pomyślnie zmieniono adres e-mail.";
 
 "SettingsView_change_password_button" = "Zmień hasło";
 "ChangePasswordSheet_email_address" = "Adres e-mail";
@@ -184,20 +200,23 @@
 "ChangePasswordSheet_new_password" = "Nowe hasło";
 "ChangePasswordSheet_info" = "Przed zmianą hasła podaj proszę swoje dane logowania, żebyśmy mogli potwierdzić, że to rzeczywiście ty.";
 "ChangePasswordSheet_change_password_button" = "Wprowadź zmianę";
+"ChangePasswordSheet_change_password_error" = "Wystąpił błąd przy zmianie hasła. Spróbuj ponownie później.";
+"ChangePasswordSheet_change_password_success" = "Pomyślnie zmieniono hasło.";
 
 "SettingsView_logout" = "Wyloguj się";
-"SettingsView_logout_confirmation_dialog_text" = "Czy jesteś pewien, że chcesz się wylogować?";
+"SettingsView_logout_confirmation_dialog_text" = "Czy jesteś pewny/a, że chcesz się wylogować?";
 "SettingsView_logout_confirmation_dialog_logout_button" = "Wyloguj się";
 "SettingsView_logout_confirmation_dialog_cancel_button" = "Anuluj";
 
 "SettingsView_delete_account" = "Usuń konto";
-"SettingsView_delete_account_confirmation_dialog_text" = "Czy jesteś pewny/a, że chcesz się wylogować? Wszystkie dane zostaną utracone.";
+"SettingsView_delete_account_confirmation_dialog_text" = "Czy jesteś pewny/a, że chcesz usunąć konto? Wszystkie dane zostaną utracone.";
 "SettingsView_delete_account_confirmation_dialog_delete_account_button" = "Usuń konto";
 "SettingsView_delete_account_confirmation_dialog_cancel_button" = "Anuluj";
 "DeleteAccountSheet_email_address" = "Adres e-mail";
 "DeleteAccountSheet_password" = "Hasło";
 "DeleteAccountSheet_info" = "Przed usunięciem konta podaj proszę swoje dane logowania, żebyśmy mogli potwierdzić, że to rzeczywiście ty.";
 "DeleteAccountSheet_delete_account_button" = "Usuń konto nieodwracalnie";
+"DeleteAccountSheet_delete_account_error" = "Wystąpił błąd przy usuwaniu konta. Spróbuj ponownie później.";
 
 "SettingsView_help_settings_section" = "Pomoc";
 "SettingsView_version_label" = "Wersja (kompilacja)";
@@ -208,15 +227,21 @@
 "SettingsView_help_navigation_title" = "Pomoc";
 "SettingsView_help_text" = "W razie jakichkolwiek problemów napisz maila pod adres";
 "SettingsView_help_text2" = "opisując sprawę.";
-"SettingsView_github_author_following" = "Zaobserwuj mnie na platformie GitHub";
-
+"SettingsView_github_author_following" = "Obserwuj mnie na GitHub: ";
 
 // HealthTabView
 "HealthTabView_navigation_title" = "Dane zdrowotne";
 "HealthTabView_steps" = "Kroki";
 "HealthTabView_calories" = "Kalorie";
 "HealthTabView_calories_unit" = "kcal";
+"HealthTabView_distance" = "Dystans";
 "HealthTabView_distance_unit" = "km";
 "HealthTabView_workout_time" = "Czas treningu";
 "HealthTabView_pulse" = "Tętno";
+
+// WorkoutTabView
+"WorkoutTabView_windows_navigation_title" = "Treningi";
+"WorkoutTabView_list_single_workout_navigation_title" = "Trening";
+"WorkoutTabView_list_navigation_title" = "Treningi";
+"WorkoutTabView_list_workout_type_name" = "Interwał";
 

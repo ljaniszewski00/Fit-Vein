@@ -102,17 +102,19 @@ struct HomeTabSubViewPostDetailsView: View {
             }
             .padding()
             .frame(width: screenWidth, height: screenHeight)
-            .confirmationDialog("What do you want to do with the selected post?", isPresented: $showPostOptions, titleVisibility: .visible) {
-                Button("Edit") {
+            .confirmationDialog(String(localized: "HomeView_confirmation_dialog_text"), isPresented: $showPostOptions, titleVisibility: .visible) {
+                Button(String(localized: "HomeView_confirmation_dialog_edit")) {
                     sheetManager.postID = postID
                     sheetManager.postText = postText
                     sheetManager.whichSheet = .editView
                     sheetManager.showSheet.toggle()
                 }
                 
-                Button("Delete", role: .destructive) {
+                Button(String(localized: "HomeView_confirmation_dialog_delete"), role: .destructive) {
                     self.homeViewModel.deletePost(postID: postID) { success in }
                 }
+                
+                Button(String(localized: "HomeView_confirmation_dialog_cancel"), role: .cancel) {}
             }
         }
     }

@@ -97,7 +97,7 @@ struct HomeTabCommentsView: View {
                                 HStack(spacing: 0) {
                                     LottieView(name: "wrongData", loopMode: .loop, contentMode: .scaleAspectFill)
                                         .frame(width: screenWidth * 0.05, height: screenHeight * 0.15)
-                                    Text("Error editing comment. Please, try again later.\n")
+                                    Text(String(localized: "CommentView_edit_comment_error"))
                                         .foregroundColor(.red)
                                         .font(.system(size: screenWidth * 0.025, weight: .bold))
                                         .frame(width: screenWidth * 0.5, height: screenHeight * 0.2)
@@ -115,7 +115,7 @@ struct HomeTabCommentsView: View {
                                             self.commentEditMode = false
                                         }
                                     }, label: {
-                                        Text("Cancel")
+                                        Text(String(localized: "CommentView_edit_comment_cancel_button"))
                                             .font(.system(size: screenHeight * 0.07))
                                             .frame(width: screenWidth * 0.12, height: screenHeight * 0.1)
                                             .background(RoundedRectangle(cornerRadius: 20, style: .continuous).stroke())
@@ -140,7 +140,7 @@ struct HomeTabCommentsView: View {
                                             }
                                         }
                                     }, label: {
-                                        Text("Update")
+                                        Text(String(localized: "CommentView_send_comment_update_button"))
                                             .foregroundColor(.white)
                                             .font(.system(size: screenHeight * 0.07))
                                             .frame(width: screenWidth * 0.12, height: screenHeight * 0.1)
@@ -200,17 +200,19 @@ struct HomeTabCommentsView: View {
                 }
             }
             .frame(width: screenWidth, height: screenHeight)
-            .confirmationDialog("What do you want to do with the selected comment?", isPresented: $showCommentOptions, titleVisibility: .visible) {
-                Button("Edit") {
+            .confirmationDialog(String(localized: "CommentView_confirmation_dialog_text"), isPresented: $showCommentOptions, titleVisibility: .visible) {
+                Button(String(localized: "CommentView_confirmation_dialog_edit")) {
                     withAnimation {
                         self.commentNewText = self.comment.text
                         self.commentEditMode = true
                     }
                 }
 
-                Button("Delete", role: .destructive) {
+                Button(String(localized: "CommentView_confirmation_dialog_delete"), role: .destructive) {
                     self.homeViewModel.deleteComment(postID: post.id, commentID: comment.id) { success in }
                 }
+                
+                Button(String(localized: "CommentView_confirmation_dialog_cancel"), role: .cancel) {}
             }
         }
     }

@@ -37,7 +37,7 @@ struct FinishedWorkoutView: View {
                                 .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                                 .padding(.leading)
                                 .offset(y: -screenHeight * 0.013)
-                            Text("Cannot save the workout right now. Please try again later.\n")
+                            Text(String(localized: "FinisehdWorkoutView_saving_error"))
                                 .foregroundColor(.red)
                                 .font(.system(size: screenWidth * 0.035, weight: .bold))
                             Spacer()
@@ -61,7 +61,7 @@ struct FinishedWorkoutView: View {
                                 }
                             }
                         }, label: {
-                            Text("Save")
+                            Text(String(localized: "FinishedWorkoutView_save_button"))
                                 .fontWeight(.bold)
                                 .foregroundColor(Color(uiColor: .systemGray5))
                         })
@@ -76,7 +76,7 @@ struct FinishedWorkoutView: View {
                                 backToBeginning = true
                             }
                         }, label: {
-                            Text("Discard")
+                            Text(String(localized: "FinishedWorkoutView_discard_button"))
                                 .foregroundColor(Color(uiColor: .systemGray5))
                         })
                             .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.35, height: screenHeight * 0.07).foregroundColor(.red))

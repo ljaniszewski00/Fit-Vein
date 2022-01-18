@@ -48,7 +48,7 @@ struct WorkoutTabViewWindows: View {
                 }
             }
             .tabViewStyle(.page)
-            .navigationTitle("Workouts")
+            .navigationTitle(String(localized: "WorkoutTabView_windows_navigation_title"))
             .navigationBarHidden(false)
         }
     }
@@ -64,7 +64,7 @@ struct WorkoutTabViewList: View {
             
             List(profileViewModel.workouts!) { workout in
                 NavigationLink(destination: SingleWorkoutWindowView(workout: workout)
-                                .navigationTitle("Workout")
+                                .navigationTitle(String(localized: "WorkoutTabView_list_single_workout_navigation_title"))
                                 .navigationBarHidden(false)) {
                     HStack {
                         Image(uiImage: UIImage(named: "sprint2")!)
@@ -74,7 +74,7 @@ struct WorkoutTabViewList: View {
                             .padding(.trailing)
                         
                         VStack {
-                            Text(workout.type)
+                            Text(String(localized: "WorkoutTabView_list_workout_type_name"))
                                 .font(.title3)
                                 .fontWeight(.bold)
                             Text(getShortDate(longDate: workout.date))
@@ -82,7 +82,7 @@ struct WorkoutTabViewList: View {
                     }
                 }
             }
-            .navigationTitle("Workouts")
+            .navigationTitle(String(localized: "WorkoutTabView_list_navigation_title"))
             .navigationBarHidden(false)
         }
     }
