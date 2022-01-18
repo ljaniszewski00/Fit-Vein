@@ -225,8 +225,7 @@
 "SettingsView_terms_and_conditions_text" = "Ta aplikacja jest w pełni otwartym i wolnym oprogramowaniem";
 "SettingsView_help_settings_label" = "Pomoc";
 "SettingsView_help_navigation_title" = "Pomoc";
-"SettingsView_help_text" = "W razie jakichkolwiek problemów napisz maila pod adres";
-"SettingsView_help_text2" = "opisując sprawę.";
+"SettingsView_help_text" = "W razie jakichkolwiek problemów napisz maila na poniższy adres opisując problem:";
 "SettingsView_github_author_following" = "Obserwuj mnie na GitHub: ";
 
 // HealthTabView

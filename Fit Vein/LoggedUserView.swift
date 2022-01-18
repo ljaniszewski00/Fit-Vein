@@ -104,7 +104,7 @@ struct LoggedUserView: View {
             }
             .padding(.horizontal, 7)
             .padding(.top, 10)
-            .frame(height: screenHeight * 0.1, alignment: .top)
+            .frame(height: screenHeight * 0.11, alignment: .top)
             .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 40, style: .continuous))
             .overlay(
                 HStack {

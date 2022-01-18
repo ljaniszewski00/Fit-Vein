@@ -239,14 +239,6 @@ struct SettingsView: View {
                         
                         Spacer()
                     }
-                    
-                    HStack {
-                        Spacer()
-                        Text(String(localized: "SettingsView_help_text2"))
-                            .font(.system(size: screenHeight * 0.03))
-                        Spacer()
-                    }
-                    
                 }
                 .padding()
                 .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 40, style: .continuous))

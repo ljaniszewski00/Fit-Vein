@@ -118,7 +118,6 @@ struct HomeTabSubViewPostsView: View {
                 
                 Spacer()
             }
-            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 5))
             .frame(width: screenWidth, height: screenHeight)
         }
     }

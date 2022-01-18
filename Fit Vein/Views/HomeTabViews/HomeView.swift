@@ -50,7 +50,7 @@ struct HomeView: View {
                                 ScrollView(.vertical) {
                                     HomeTabSubViewShareView(sheetManager: sheetManager).environmentObject(profileViewModel)
                                         .frame(height: screenHeight * 0.25)
-                                        .padding(.bottom, screenHeight * 0.05)
+                                        .padding(.bottom, screenHeight * 0.055)
                                         .offset(y: -screenHeight * 0.02)
 
                                     Group {
@@ -60,25 +60,50 @@ struct HomeView: View {
                                                     HomeTabSubViewPostsView(sheetManager: sheetManager, post: post).environmentObject(homeViewModel).environmentObject(profileViewModel)
                                                         .frame(minHeight: screenHeight * 0.2, idealHeight: screenHeight * 0.25, maxHeight: screenHeight * 0.5)
                                                         .padding(.bottom, screenHeight * 0.03)
+                                                        .background(Color(uiColor: .systemGray6))
                                                 }
                                             } else {
-                                                Text(String(localized: "HomeView_nothing_to_present"))
-                                                    .foregroundColor(.accentColor)
+                                                VStack {
+                                                    Text(String(localized: "HomeView_nothing_to_present"))
+                                                        .fontWeight(.bold)
+                                                        .foregroundColor(.accentColor)
+                                                        .padding(.top, screenHeight * 0.07)
+                                                    
+                                                    Spacer()
+                                                }
                                             }
                                         } else {
                                             if let followedIDs = self.profileViewModel.profile!.followedIDs {
                                                 if followedIDs.count != 0 {
             //                                            HomeTabPostsFetchingView()
             //                                                .frame(width: screenWidth, height: screenHeight)
-                                                    Text(String(localized: "HomeView_nothing_to_present"))
-                                                        .foregroundColor(.accentColor)
+                                                    VStack {
+                                                        Text(String(localized: "HomeView_nothing_to_present"))
+                                                            .fontWeight(.bold)
+                                                            .foregroundColor(.accentColor)
+                                                            .padding(.top, screenHeight * 0.07)
+                                                        
+                                                        Spacer()
+                                                    }
                                                 } else {
-                                                    Text(String(localized: "HomeView_add_friends_label"))
-                                                        .foregroundColor(.accentColor)
+                                                    VStack {
+                                                        Text(String(localized: "HomeView_add_friends_label"))
+                                                            .fontWeight(.bold)
+                                                            .foregroundColor(.accentColor)
+                                                            .padding(.top, screenHeight * 0.07)
+                                                        
+                                                        Spacer()
+                                                    }
                                                 }
                                             } else {
-                                                Text(String(localized: "HomeView_add_friends_label"))
-                                                    .foregroundColor(.accentColor)
+                                                VStack {
+                                                    Text(String(localized: "HomeView_add_friends_label"))
+                                                        .fontWeight(.bold)
+                                                        .foregroundColor(.accentColor)
+                                                        .padding(.top, screenHeight * 0.07)
+                                                    
+                                                    Spacer()
+                                                }
                                             }
                                         }
                                     }
