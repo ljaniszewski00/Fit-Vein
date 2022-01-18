@@ -38,20 +38,20 @@ struct SignInView: View {
                         
                         Spacer()
                         
-                        Text("Sign In Form")
+                        Text(String(localized: "SignInView_sign_in_form_label"))
                             .font(.system(size: screenHeight * 0.04, weight: .bold))
                         
                         Spacer()
                     }
                     
-                    CustomTextField(textFieldProperty: "E-Mail", textFieldImageName: "envelope", textFieldSignsLimit: 0, text: $email, isFocusedParentView: $isEmailTextFieldFocused)
+                    CustomTextField(textFieldProperty: String(localized: "SignInView_email_label"), textFieldImageName: "envelope", textFieldSignsLimit: 0, text: $email, isFocusedParentView: $isEmailTextFieldFocused)
                         .padding(.bottom, -screenHeight * 0.02)
                     
                     VStack {
-                        CustomTextField(isSecureField: true, textFieldProperty: "Password", textFieldImageName: "lock", text: $password, isFocusedParentView: $isPasswordTextFieldFocused)
+                        CustomTextField(isSecureField: true, textFieldProperty: String(localized: "SignInView_password_label"), textFieldImageName: "lock", text: $password, isFocusedParentView: $isPasswordTextFieldFocused)
                         
                         HStack {
-                            Text("Forgot Password?")
+                            Text(String(localized: "SignInView_email_label"))
                                 .font(.system(size: screenHeight * 0.018))
                                 .foregroundColor(.accentColor)
                                 .onTapGesture {
@@ -69,7 +69,7 @@ struct SignInView: View {
                                 .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                                 .padding(.leading)
                                 .offset(y: -screenHeight * 0.013)
-                            Text("Provided e-mail and/or password is incorrect or the account does not exists.\n")
+                            Text(String(localized: "SignInView_sign_in_wrong_data_label"))
                                 .foregroundColor(.red)
                                 .font(.system(size: screenWidth * 0.035, weight: .bold))
                             Spacer()
@@ -104,8 +104,8 @@ struct SignInView: View {
                 Spacer()
                 
                 HStack {
-                    Text("Don't have an account?")
-                    NavigationLink("Create One", destination: SignUpView().ignoresSafeArea(.keyboard))
+                    Text(String(localized: "SignInView_no_account_label"))
+                    NavigationLink(String(localized: "SignInView_create_account_button"), destination: SignUpView().ignoresSafeArea(.keyboard))
                         .foregroundColor(.accentColor)
                 }
                 .padding(.bottom, screenHeight * 0.05)
@@ -140,9 +140,9 @@ struct SignInView: View {
                 NavigationView {
                     VStack {
                         VStack {
-                            CustomTextField(isSecureField: false, textFieldProperty: "E-Mail", textFieldImageName: "envelope", text: $forgotPasswordEmail, isFocusedParentView: $isTextFieldFocused)
+                            CustomTextField(isSecureField: false, textFieldProperty: String(localized: "SignInView_forgot_password_email_label"), textFieldImageName: "envelope", text: $forgotPasswordEmail, isFocusedParentView: $isTextFieldFocused)
                             
-                            Text("Please provide your e-mail address so that we could send you recovery e-mail with instructions how to reset the password.")
+                            Text(String(localized: "SignInView_forgot_password_text"))
                                 .font(.caption)
                                 .foregroundColor(.gray)
                                 .padding(.horizontal)
@@ -155,7 +155,7 @@ struct SignInView: View {
                                     .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                                     .padding(.leading)
                                     .offset(y: -screenHeight * 0.013)
-                                Text("Error sending recovery e-mail. Please check provided e-mail address.\n")
+                                Text(String(localized: "SignInView_forgot_password_send_recovery_email_error"))
                                     .foregroundColor(.red)
                                     .font(.system(size: screenWidth * 0.035, weight: .bold))
                                 Spacer()
@@ -170,7 +170,7 @@ struct SignInView: View {
                                     .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                                     .padding(.leading)
                                     .offset(y: -screenHeight * 0.013)
-                                Text("Recovery e-mail has been sent. Please check your e-mail inbox.")
+                                Text(String(localized: "SignInView_forgot_password_send_recovery_email_success"))
                                     .foregroundColor(.green)
                                     .font(.system(size: screenWidth * 0.035, weight: .bold))
                                     .offset(y: -screenHeight * 0.01)
@@ -197,7 +197,7 @@ struct SignInView: View {
                                 
                             }
                         }, label: {
-                            Text("Send Recovery E-Mail")
+                            Text(String(localized: "SignInView_forgot_password_send_recovery_email_button"))
                                 .foregroundColor(.white)
                         })
                         .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(.accentColor))
@@ -206,7 +206,7 @@ struct SignInView: View {
                         .padding(.bottom, screenHeight * 0.02)
                         .offset(y: -screenHeight * 0.05)
                     }
-                    .navigationBarTitle("Forgot Password Form", displayMode: .inline)
+                    .navigationBarTitle(String(localized: "SignInView_forgot_password_navigation_title"), displayMode: .inline)
                 }
             }
         }

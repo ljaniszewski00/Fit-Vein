@@ -33,7 +33,7 @@ struct ContentView: View {
                     }
                 } else {
                     VStack {
-                        Text("Welcome to")
+                        Text(String(localized: "ContentView_welcome_label"))
                             .font(.title)
                             .padding(.bottom, screenHeight * 0.02)
                         
@@ -62,7 +62,7 @@ struct ContentView: View {
                         .font(.system(size: screenHeight * 0.08))
                         .padding(.bottom, screenHeight * 0.02)
                         
-                        Text("Unlock the app first")
+                        Text(String(localized: "ContentView_unlock_the_app_label"))
                             .foregroundColor(Color(uiColor: UIColor.lightGray))
                         
                         Spacer()

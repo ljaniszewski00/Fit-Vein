@@ -1,0 +1,221 @@
+/* 
+  Localizable.strings
+  Fit Vein
+
+  Created by Łukasz Janiszewski on 18/01/2022.
+  
+*/
+
+
+// SignInView Section
+"SignInView_sign_in_form_label" = "Sign In Form";
+"SignInView_email_label" = "E-Mail";
+"SignInView_password_label" = "Password";
+
+"SignInView_forgot_password_label" = "Forgot Password?";
+"SignInView_forgot_password_navigation_title" = "Forgot Password Form";
+"SignInView_forgot_password_email_label" = "E-mail address";
+"SignInView_forgot_password_text" = "Please provide your e-mail address so that we could send you recovery e-mail with instructions how to reset the password.";
+"SignInView_forgot_password_send_recovery_email_button" = "Send Recovery E-mail";
+"SignInView_forgot_password_send_recovery_email_error" = "Error sending recovery e-mail. Please check provided e-mail address.";
+"SignInView_forgot_password_send_recovery_email_success" = "Recovery e-mail has been sent. Please check your e-mail inbox.";
+
+"SignInView_sign_in_button" = "Sign In";
+"SignInView_no_account_label" = "Don't have an account?";
+"SignInView_create_account_button" = "Create one";
+
+"SignInView_sign_in_wrong_data_label" = "Provided e-mail and/or password is incorrect or the account does not exists.";
+
+
+
+// SignUpView Section
+"SignUpView_sign_up_form_label" = "Sign Up Form";
+
+"SignUpView_first_name_label" = "First Name";
+"SignUpView_username_label" = "Username";
+"SignUpView_username_used_label" = "This username has already been used.";
+"SignUpView_gender_label" = "Gender";
+"SignUpView_birth_date_label" = "Birth Date";
+"SignUpView_country_label" = "Country";
+"SignUpView_language_label" = "Language";
+"SignUpView_next_button_label" = "Next";
+
+"SignUpView_email_label" = "E-mail address";
+"SignUpView_email_used_label" = "This e-mail has already been used.";
+"SignUpView_password_label" = "Password";
+"SignUpView_password_hint_label" = "Password should be at least 8 characters long and should contain a number";
+"SignUpView_repeat_password_label" = "Repeat Password";
+"SignUpView_sign_up_button_label" = "Sign Up";
+
+"SignUpView_error" = "Error signing up. Please try again later.";
+
+
+
+// LoggedUserView Section
+"LoggedUserView_home_tab_label" = "Home";
+"LoggedUserView_workout_tab_label" = "Workout";
+"LoggedUserView_profile_tab_label" = "Profile";
+
+
+
+// ContentView Section
+"ContentView_welcome_label" = "Welcome!";
+"ContentView_unlock_the_app_label" = "Unlock the app first";
+
+
+
+// HomeView Section
+
+// HomeView
+"HomeView_share" = "What do you want to share?";
+"HomeView_friends_activity" = "Your friends activity";
+"HomeView_post_comments_number" = "comments";
+"HomeView_like_button" = "Like";
+"HomeView_comment_button" = "Comment";
+"HomeView_confirmation_dialog_text" = "What do you want to do with the selected post?";
+"HomeView_confirmation_dialog_edit" = "Edit";
+"HomeView_confirmation_dialog_delete" = "Delete";
+"HomeView_confirmation_dialog_cancel" = "Cancel";
+
+// AddPostView
+"AddPostView_navigation_title" = "Add a post";
+"AddPostView_post_button" = "Post";
+"AddPostView_share" = "What do you want to share?";
+
+// EditPostView
+"EditPostView_navigation_title" = "Edit a post";
+"EditPostView_save_button" = "Save";
+"EditPostView_share" = "What do you want to share?";
+
+// SearchFriendsView
+"SearchFriendsView_navigation_title" = "Follow";
+"SearchFriendsView_search" = "Search";
+
+// NotificationsView
+"SearchFriendsView_navigation_title" = "Notifications";
+
+// CommentsView
+"CommentView_post_like_button" = "Like";
+"HomeView_confirmation_dialog_text" = "What do you want to do with the selected comment?";
+"CommentView_confirmation_dialog_edit" = "Edit";
+"CommentView_confirmation_dialog_delete" = "Delete";
+"CommentView_confirmation_dialog_cancel" = "Cancel";
+"CommentView_comment_text_field_label" = "Comment";
+"CommentView_send_comment_button" = "Send";
+"CommentView_edit_comment_cancel_button" = "Cancel";
+"CommentView_send_comment_update_button" = "Update";
+
+
+
+// WorkoutView Section
+
+// WorkoutView
+"WorkoutView_navigation_title" = "Workouts";
+"WorkoutView_sample_workouts" = "Sample Workouts";
+"WorkoutView_interval_training_type" = "Interval";
+"WorkoutView_interval_work_time" = "Work Time";
+"WorkoutView_interval_rest_time" = "Rest Time";
+"WorkoutView_interval_series" = "Series";
+"WorkoutView_users_workouts" = "User's Workouts";
+
+// WorkoutAddView
+"WorkoutAddView_navigation_title" = "Add Workout";
+"WorkoutAddView_interval_rounds_number" = "Rounds Number";
+"WorkoutAddView_interval_work_time" = "Work Time";
+"WorkoutAddView_interval_rest_time" = "Rest Time";
+"WorkoutAddView_save_workout_button" = "Save Workout";
+
+// WorkoutTimerView
+"WorkoutTimerView_work_label" = "Work";
+"WorkoutTimerView_rest_label" = "Rest";
+"WorkoutTimerView_elapsed_time" = "Elapsed";
+"WorkoutTimerView_rounds" = "Rounds";
+"WorkoutTimerView_remaining" = "Remaining";
+
+//FinishedWorkoutView
+"FinishedWorkoutView_save_button" = "Save";
+"FinishedWorkoutView_discard_button" = "Discard";
+
+//SingleWorkoutWindowView
+"SingleWorkoutWindowsView_interval_training_type" = "Interval";
+"SingleWorkoutWindowsView_workout_details" = "Workout Details";
+"SingleWorkoutWindowsView_duration" = "Duration";
+"SingleWorkoutWindowsView_calories" = "Calories";
+"SingleWorkoutWindowsView_calories_unit" = "cal";
+"SingleWorkoutWindowsView_work_time" = "Work Time";
+"SingleWorkoutWindowsView_work_time_unit" = "seconds";
+"SingleWorkoutWindowsView_rest_time" = "Rest Time";
+"SingleWorkoutWindowsView_rest_time_unit" = "seconds";
+"SingleWorkoutWindowsView_series" = "Series";
+
+
+
+// ProfileView Section
+
+// ProfileView
+"ProfileView_change_photo_confirmation_dialog_text" = "Add a new photo";
+"ProfileView_change_photo_confirmation_dialog_take_photo_button" = "Take a new photo";
+"ProfileView_change_photo_confirmation_dialog_upload_photo_button" = "Upload a new photo";
+"ProfileView_change_photo_confirmation_dialog_cancel_button" = "Cancel";
+"ProfileView_level_label" = "Level";
+"ProfileView_workouts_label" = "Workouts";
+
+// SettingsView
+"SettingsView_navigation_title" = "Settings";
+
+"SettingsView_app_settings_section" = "App";
+"SettingsView_notifications_toggle_label" = "Notifications";
+"SettingsView_sample_workouts_toggle_label" = "Show 'Sample Workouts' in Workout Tab";
+"SettingsView_faceID_touchID_toggle_label" = "Use FaceID / TouchID";
+"SettingsView_faceID_touchID_info_label" = "Whether FaceID or TouchID is used depends on device hardware capabilities";
+
+"SettingsView_account_settings_section" = "Account";
+
+"SettingsView_change_email_address_button" = "Change e-mail address";
+"ChangeEmailSheet_old_email_address" = "Old e-mail address";
+"ChangeEmailSheet_password" = "Password";
+"ChangeEmailSheet_new_email_address" = "New e-mail address";
+"ChangeEmailSheet_info" = "Before you change your e-mail address please provide your login credentials to confirm it is really you";
+"ChangeEmailSheet_change_email_address_button" = "Change e-mail address";
+
+"SettingsView_change_password_button" = "Change password";
+"ChangePasswordSheet_email_address" = "E-mail address";
+"ChangePasswordSheet_old_password" = "Old password";
+"ChangePasswordSheet_new_password" = "New password";
+"ChangePasswordSheet_info" = "Before you change your password please provide your login credentials to confirm it is really you";
+"ChangePasswordSheet_change_password_button" = "Change password";
+
+"SettingsView_logout" = "Logout";
+"SettingsView_logout_confirmation_dialog_text" = "Are you sure you want to logout?";
+"SettingsView_logout_confirmation_dialog_logout_button" = "Logout";
+"SettingsView_logout_confirmation_dialog_cancel_button" = "Cancel";
+
+"SettingsView_delete_account" = "Delete account";
+"SettingsView_delete_account_confirmation_dialog_text" = "Are you sure you want to delete your account? All data will be lost.";
+"SettingsView_delete_account_confirmation_dialog_delete_account_button" = "Delete Account";
+"SettingsView_delete_account_confirmation_dialog_cancel_button" = "Cancel";
+"DeleteAccountSheet_email_address" = "E-mail address";
+"DeleteAccountSheet_password" = "Password";
+"DeleteAccountSheet_info" = "Before you delete your account please provide your login credentials to confirm it is really you";
+"DeleteAccountSheet_delete_account_button" = "Delete account permanently";
+
+"SettingsView_help_settings_section" = "Help";
+"SettingsView_version_label" = "Version (build)";
+"SettingsView_terms_and_conditions_settings_label" = "Terms and Conditions";
+"SettingsView_terms_and_conditions_navigation_title" = "Terms and Conditions";
+"SettingsView_terms_and_conditions_text" = "This app is a fully open-source and licence-free product";
+"SettingsView_help_settings_label" = "Help";
+"SettingsView_help_navigation_title" = "Help";
+"SettingsView_help_text" = "In case of any problems please write an e-mail to";
+"SettingsView_help_text2" = "describing the issue.";
+"SettingsView_github_author_following" = "Follow me on GitHub";
+
+
+// HealthTabView
+"HealthTabView_navigation_title" = "Health Data";
+"HealthTabView_steps" = "Steps";
+"HealthTabView_calories" = "Calories";
+"HealthTabView_calories_unit" = "kcal";
+"HealthTabView_distance_unit" = "km";
+"HealthTabView_workout_time" = "Workout Time";
+"HealthTabView_pulse" = "Pulse";

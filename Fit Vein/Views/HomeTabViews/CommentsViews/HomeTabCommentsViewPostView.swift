@@ -57,31 +57,22 @@ struct HomeTabCommentsViewPostView: View {
                         Spacer()
 
                         if let reactionsUsersIDs = profileViewModel.profile!.reactedPostsIDs {
-                            if reactionsUsersIDs.contains(post.id) {
-                                Button(action: {
-                                    withAnimation {
+                            Button(action: {
+                                withAnimation {
+                                    if reactionsUsersIDs.contains(post.id) {
                                         self.homeViewModel.removeReactionFromPost(postID: post.id)  { success in }
-                                    }
-                                }, label: {
-                                    HStack {
-                                        Image(systemName: "hand.thumbsdown")
-                                        Text("Unlike")
-                                    }
-                                    .foregroundColor(colorScheme == .dark ? .white : .black)
-                                })
-                            } else {
-                                Button(action: {
-                                    withAnimation {
+                                    } else {
                                         self.homeViewModel.reactToPost(postID: post.id)  { success in }
                                     }
-                                }, label: {
-                                    HStack {
-                                        Image(systemName: "hand.thumbsup")
-                                        Text("Like")
-                                    }
-                                    .foregroundColor(colorScheme == .dark ? .white : .black)
-                                })
-                            }
+                                }
+                            }, label: {
+                                HStack {
+                                    Image(systemName: "hand.thumbsup")
+                                        .symbolVariant(reactionsUsersIDs.contains(post.id) ? .fill : .none)
+                                    Text("Like")
+                                }
+                                .foregroundColor(reactionsUsersIDs.contains(post.id) ? .green : (colorScheme == .dark ? .white : .black))
+                            })
                         } else {
                             Button(action: {
                                 withAnimation {

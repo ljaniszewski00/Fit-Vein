@@ -25,9 +25,9 @@ struct LoggedUserView: View {
     }
     
     private var tabItems = [
-        TabItem(text: "Home", icon: "house", tab: .home),
-        TabItem(text: "Workout", icon: "figure.walk", tab: .workout),
-        TabItem(text: "Profile", icon: "person", tab: .profile)
+        TabItem(text: String(localized: "LoggedUserView_home_tab_label"), icon: "house", tab: .home),
+        TabItem(text: String(localized: "LoggedUserView_workout_tab_label"), icon: "figure.walk", tab: .workout),
+        TabItem(text: String(localized: "LoggedUserView_profile_tab_label"), icon: "person", tab: .profile)
     ]
     
     var body: some View {

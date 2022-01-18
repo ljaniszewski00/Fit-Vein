@@ -55,16 +55,16 @@ struct SignUpView: View {
                             
                             Spacer()
                             
-                            Text("Sign Up Form")
+                            Text(String(localized: "SignUpView_sign_up_form_label"))
                                 .font(.system(size: screenHeight * 0.04, weight: .bold))
                             
                             Spacer()
                         }
                         
-                        CustomTextField(textFieldProperty: "First Name", textFieldImageName: "person", text: $firstName, isFocusedParentView: $isFirstNameTextFieldFocused)
+                        CustomTextField(textFieldProperty: String(localized: "SignUpView_first_name_label"), textFieldImageName: "person", text: $firstName, isFocusedParentView: $isFirstNameTextFieldFocused)
                             .padding(.bottom, -screenHeight * 0.04)
                         
-                        CustomTextField(textFieldProperty: "Username", textFieldImageName: "person", text: $username, isFocusedParentView: $isUsernameTextFieldFocused)
+                        CustomTextField(textFieldProperty: String(localized: "SignUpView_username_label"), textFieldImageName: "person", text: $username, isFocusedParentView: $isUsernameTextFieldFocused)
                             .onChange(of: username) { [signUpViewModel] newValue in
                                 Task {
                                     self.usernameTaken = try await signUpViewModel.checkUsernameDuplicate(username: newValue)
@@ -77,7 +77,7 @@ struct SignUpView: View {
                                     .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                                     .padding(.leading)
                                     .offset(y: -screenHeight * 0.013)
-                                Text("This username has already been used.\n")
+                                Text(String(localized: "SignUpView_username_used_label"))
                                     .foregroundColor(.red)
                                     .font(.system(size: screenWidth * 0.04, weight: .bold))
                                 Spacer()
@@ -87,11 +87,11 @@ struct SignUpView: View {
                         
                         VStack {
                             HStack {
-                                Text("Gender")
+                                Text(String(localized: "SignUpView_gender_label"))
                                 Spacer()
                             }
                             
-                            Picker("Gender", selection: $gender) {
+                            Picker(String(localized: "SignUpView_gender_label"), selection: $gender) {
                                 ForEach(genderValues, id: \.self) {
                                     Text($0)
                                 }
@@ -104,12 +104,12 @@ struct SignUpView: View {
                     Group {
                         VStack {
                             HStack {
-                                Text("Birth Date")
+                                Text(String(localized: "SignUpView_birth_date_label"))
                                 Spacer()
                             }
                             
                             HStack {
-                                DatePicker("Birth Date", selection: $birthDate, in: dateRange, displayedComponents: [.date])
+                                DatePicker(String(localized: "SignUpView_birth_date_label"), selection: $birthDate, in: dateRange, displayedComponents: [.date])
                                     .labelsHidden()
                                 Spacer()
                             }
@@ -120,18 +120,18 @@ struct SignUpView: View {
                         
                         VStack {
                             HStack(spacing: screenWidth * 0.2) {
-                                Text("Country")
-                                Text("Language")
+                                Text(String(localized: "SignUpView_country_label"))
+                                Text(String(localized: "SignUpView_language_label"))
                             }
                             
                             HStack(spacing: screenWidth * 0.26) {
-                                Picker("Country", selection: $country) {
+                                Picker(String(localized: "SignUpView_country_label"), selection: $country) {
                                     ForEach(Country.allCases) { country in
                                         Text(country.rawValue.capitalized).tag(country)
                                     }
                                 }
                                 
-                                Picker("Language", selection: $language) {
+                                Picker(String(localized: "SignUpView_language_label"), selection: $language) {
                                     ForEach(Language.allCases) { language in
                                         Text(language.rawValue.capitalized).tag(language)
                                     }
@@ -144,7 +144,7 @@ struct SignUpView: View {
                     
                     Spacer()
                     
-                    NavigationLink("Next", destination: withAnimation {
+                    NavigationLink(String(localized: "SignUpView_next_button_label"), destination: withAnimation {
                         SecondSignUpView(firstName: firstName, username: username, gender: gender, birthDate: birthDate, country: country, language: language).environmentObject(sessionStore).ignoresSafeArea(.keyboard)
                     })
                         .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor((!checkFieldsNotEmpty() || usernameTaken) ? .gray : .accentColor))
@@ -229,13 +229,13 @@ struct SecondSignUpView: View {
                     
                     Spacer()
                     
-                    Text("Sign Up Form")
+                    Text(String(localized: "SignUpView_sign_up_form_label"))
                         .font(.system(size: screenHeight * 0.04, weight: .bold))
                     
                     Spacer()
                 }
                 
-                CustomTextField(textFieldProperty: "E-Mail", textFieldImageName: "envelope", text: $email, isFocusedParentView: $isEmailTextFieldFocused)
+                CustomTextField(textFieldProperty: String(localized: "SignUpView_email_label"), textFieldImageName: "envelope", text: $email, isFocusedParentView: $isEmailTextFieldFocused)
                     .onChange(of: email) { [signUpViewModel] newValue in
                         Task {
                             self.emailTaken = try await signUpViewModel.checkEmailDuplicate(email: newValue)
@@ -248,7 +248,7 @@ struct SecondSignUpView: View {
                             .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                             .padding(.leading)
                             .offset(y: -screenHeight * 0.013)
-                        Text("This email has already been used.\n")
+                        Text(String(localized: "SignUpView_email_used_label"))
                             .foregroundColor(.red)
                             .font(.system(size: screenWidth * 0.04, weight: .bold))
                         Spacer()
@@ -256,7 +256,7 @@ struct SecondSignUpView: View {
                     .padding(.bottom, -screenHeight * 0.022)
                 }
                 
-                CustomTextField(isSecureField: true, textFieldProperty: "Password", textFieldImageName: "lock", text: $password, isFocusedParentView: $isPasswordTextFieldFocused)
+                CustomTextField(isSecureField: true, textFieldProperty: String(localized: "SignUpView_password_label"), textFieldImageName: "lock", text: $password, isFocusedParentView: $isPasswordTextFieldFocused)
                 
                 HStack {
                     Button(action: {
@@ -269,7 +269,7 @@ struct SecondSignUpView: View {
                             .offset(y: -screenHeight * 0.01)
                     })
                 
-                    Text("Password should be at least 8 characters long and should contain a number.\n").font(.caption).fontWeight(.bold)
+                    Text(String(localized: "SignUpView_password_hint_label")).font(.caption).fontWeight(.bold)
                         .isHidden(!showPasswordHelp)
                     Spacer()
                 }
@@ -277,7 +277,7 @@ struct SecondSignUpView: View {
                 .padding()
                 .offset(y: -screenHeight * 0.03)
                 
-                CustomTextField(isSecureField: true, textFieldProperty: "Repeat Password", textFieldImageName: "lock", text: $repeatedPassword, isFocusedParentView: $isRepeatedPasswordTextFieldFocused)
+                CustomTextField(isSecureField: true, textFieldProperty: String(localized: "SignUpView_repeat_password_label"), textFieldImageName: "lock", text: $repeatedPassword, isFocusedParentView: $isRepeatedPasswordTextFieldFocused)
                     .offset(y: -screenHeight * 0.07)
                 
                 if errorSigningUp {
@@ -286,7 +286,7 @@ struct SecondSignUpView: View {
                             .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                             .padding(.leading)
                             .offset(y: -screenHeight * 0.013)
-                        Text("Error signing up. Please try again later.\n")
+                        Text(String(localized: "SignUpView_error"))
                             .foregroundColor(.red)
                             .font(.system(size: screenWidth * 0.04, weight: .bold))
                         Spacer()
@@ -303,7 +303,7 @@ struct SecondSignUpView: View {
                         }
                     }
                 }, label: {
-                    Text("Sign Up")
+                    Text(String(localized: "SignUpView_sign_up_button_label"))
                         .fontWeight(.bold)
                 })
                 .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor((!checkDataIsCorrect()) ? .gray : .accentColor))

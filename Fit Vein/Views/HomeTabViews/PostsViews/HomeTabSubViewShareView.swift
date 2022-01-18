@@ -43,9 +43,9 @@ struct HomeTabSubViewShareView: View {
                     .frame(width: screenWidth * 0.1, height: screenHeight * 0.1)
                     .padding(.trailing, screenWidth * 0.02)
 
-                    Text("What do you want to share?")
+                    Text(String(localized: "HomeView_share"))
                         .foregroundColor(Color(uiColor: .systemGray))
-                        .font(.system(size: screenHeight * 0.06))
+                        .font(.system(size: screenHeight * 0.08))
                     
                     Spacer()
                 }
@@ -60,7 +60,7 @@ struct HomeTabSubViewShareView: View {
                 
                 Divider()
 
-                Text("Your friends activity")
+                Text(String(localized: "HomeView_friends_activity"))
                     .foregroundColor(.accentColor)
                     .font(.system(size: screenHeight * 0.13, weight: .bold))
                     .padding()

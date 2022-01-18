@@ -51,6 +51,8 @@
 		0A67B1D6272B04EC007F8891 /* SearchFriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A67B1D5272B04EC007F8891 /* SearchFriendsView.swift */; };
 		0A67B1D8272B0652007F8891 /* EditPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A67B1D7272B0652007F8891 /* EditPostView.swift */; };
 		0A7817032795DBDB00E4C424 /* levelUp.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A7817022795DBDB00E4C424 /* levelUp.json */; };
+		0A7817082796CA8B00E4C424 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0A78170A2796CA8B00E4C424 /* Localizable.strings */; };
+		0A78170D2796E4BB00E4C424 /* SingleWorkoutWindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A78170C2796E4BB00E4C424 /* SingleWorkoutWindowView.swift */; };
 		0A7CA660274D7AC000B97EF2 /* HomeTabFetchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7CA65F274D7AC000B97EF2 /* HomeTabFetchingView.swift */; };
 		0A7CA662274D7AD100B97EF2 /* ProfileTabFetchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7CA661274D7AD100B97EF2 /* ProfileTabFetchingView.swift */; };
 		0A7CA668274E7FAF00B97EF2 /* HealthStat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7CA667274E7FAF00B97EF2 /* HealthStat.swift */; };
@@ -169,6 +171,9 @@
 		0A67B1D5272B04EC007F8891 /* SearchFriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFriendsView.swift; sourceTree = "<group>"; };
 		0A67B1D7272B0652007F8891 /* EditPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostView.swift; sourceTree = "<group>"; };
 		0A7817022795DBDB00E4C424 /* levelUp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = levelUp.json; sourceTree = "<group>"; };
+		0A7817092796CA8B00E4C424 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		0A78170B2796CB0F00E4C424 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		0A78170C2796E4BB00E4C424 /* SingleWorkoutWindowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleWorkoutWindowView.swift; sourceTree = "<group>"; };
 		0A7CA65F274D7AC000B97EF2 /* HomeTabFetchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabFetchingView.swift; sourceTree = "<group>"; };
 		0A7CA661274D7AD100B97EF2 /* ProfileTabFetchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTabFetchingView.swift; sourceTree = "<group>"; };
 		0A7CA667274E7FAF00B97EF2 /* HealthStat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthStat.swift; sourceTree = "<group>"; };
@@ -345,6 +350,7 @@
 				0ABE144727203D04009CD67A /* WorkoutView.swift */,
 				0A4BF9232728500800311D24 /* WorkoutTimerView.swift */,
 				0A4BF9292728552000311D24 /* FinishedWorkoutView.swift */,
+				0A78170C2796E4BB00E4C424 /* SingleWorkoutWindowView.swift */,
 			);
 			path = WorkoutTabViews;
 			sourceTree = "<group>";
@@ -510,6 +516,7 @@
 				0AD3A40627275E0C00396FE7 /* sprint2.png */,
 				0AB808D72715D77800337924 /* gym.jpg */,
 				0AC4DD8A2715A9E5003D5FED /* Preview Content */,
+				0A78170A2796CA8B00E4C424 /* Localizable.strings */,
 			);
 			path = "Fit Vein";
 			sourceTree = "<group>";
@@ -629,6 +636,7 @@
 			knownRegions = (
 				en,
 				Base,
+				pl,
 			);
 			mainGroup = 0AC4DD782715A9E4003D5FED;
 			packageReferences = (
@@ -677,6 +685,7 @@
 				0AC4DD892715A9E5003D5FED /* Assets.xcassets in Resources */,
 				0A83A278278B9E650061973B /* success.json in Resources */,
 				0AB808D82715D77800337924 /* gym.jpg in Resources */,
+				0A7817082796CA8B00E4C424 /* Localizable.strings in Resources */,
 				0A83A27A278BA3280061973B /* changeArrows.json in Resources */,
 				0A20A8A72729FF790058F3DB /* FitVeinIconDark.png in Resources */,
 				0ABE145527204ABC009CD67A /* blank-profile-hi.png in Resources */,
@@ -847,6 +856,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A78170D2796E4BB00E4C424 /* SingleWorkoutWindowView.swift in Sources */,
 				0A7CA662274D7AD100B97EF2 /* ProfileTabFetchingView.swift in Sources */,
 				0AE00BA7276CC9B600C876FE /* AddPostView.swift in Sources */,
 				0A4174772726CC1A00DF4460 /* IntervalWorkout.swift in Sources */,
@@ -915,6 +925,18 @@
 			targetProxy = 0A61E1AD2784C7A300A7FD34 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		0A78170A2796CA8B00E4C424 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0A7817092796CA8B00E4C424 /* en */,
+				0A78170B2796CB0F00E4C424 /* pl */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		0A05CF4327846B1D005432E3 /* Debug */ = {
@@ -1067,6 +1089,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -1120,6 +1143,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -1128,6 +1152,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -1174,6 +1199,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};

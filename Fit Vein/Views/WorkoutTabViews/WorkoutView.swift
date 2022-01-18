@@ -258,19 +258,17 @@ struct WorkoutAddView: View {
 }
 
 struct WorkoutCountdownView: View {
-    @State private var timeToFinish = 4
+    @State private var startWorkout = false
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var workoutViewModel: WorkoutViewModel
     @EnvironmentObject private var networkManager: NetworkManager
-    
-    private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var body: some View {
         GeometryReader { geometry in
             let screenWidth = geometry.size.width
             let screenHeight = geometry.size.height
             
-            if timeToFinish == 0 {
+            if startWorkout {
                 withAnimation(.linear) {
                     WorkoutTimerView()
                         .environmentObject(workoutViewModel)
@@ -283,23 +281,6 @@ struct WorkoutCountdownView: View {
                     HStack {
                         Spacer()
                         
-//                        ZStack {
-//                            Circle()
-//                                .stroke(Color.gray.opacity(0.2), style: StrokeStyle(lineWidth: 15, lineCap: .round))
-//                                .padding()
-//
-//                            Circle()
-//                                .trim(from: 0, to: CGFloat(timeToFinish) / 5)
-//                                .stroke(Color.accentColor, style: StrokeStyle(lineWidth: 15, lineCap: .round))
-//                                .rotationEffect(.degrees(-90))
-//                                .animation(.easeInOut)
-//                                .padding()
-//
-//                            Text("\(timeToFinish)")
-//                                .foregroundColor(.accentColor)
-//                                .font(.system(size: screenHeight * 0.3, weight: .bold))
-//                        }
-                        
                         LottieView(name: "countdown", loopMode: .loop)
                             .frame(width: screenWidth * 0.9, height: screenHeight * 0.8)
                         
@@ -309,16 +290,14 @@ struct WorkoutCountdownView: View {
                     
                     Spacer()
                 }
-                .onReceive(timer) { _ in
-                    if timeToFinish == 1 {
-                        if workoutViewModel.workout != nil {
-                            workoutViewModel.startWorkout(workout: workoutViewModel.workout!)
+                .onAppear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                        withAnimation(.linear) {
+                            if let workout = workoutViewModel.workout {
+                                workoutViewModel.startWorkout(workout: workout)
+                            }
+                            startWorkout = true
                         }
-                    }
-                    if timeToFinish > 0 {
-                        timeToFinish -= 1
-                    } else {
-                        dismiss()
                     }
                 }
             }
