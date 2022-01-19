@@ -22,8 +22,6 @@ class HomeViewModel: ObservableObject {
     @Published var usersData: [String: [String]] = [:]
     @Published var usersProfilePicturesURLs: [String: URL] = [:]
     
-    @Published var fetchingData = true
-    
     init(forPreviews: Bool) {
 
         let commentsPost1: [Comment] = [Comment(authorID: "2", postID: "1", authorFirstName: "Maciej", authorUsername: "maciej23.d", authorProfilePictureURL: "", text: "Excellent :)"), Comment(authorID: "3", postID: "1", authorFirstName: "Maciej", authorUsername: "maciej23.d", authorProfilePictureURL: "", text: "Excellent :)")]
@@ -93,7 +91,6 @@ class HomeViewModel: ObservableObject {
     func addPost(authorID: String, authorFirstName: String, authorUsername: String, authorProfilePictureURL: String, text: String, completion: @escaping ((Bool) -> ())) {
         self.firestoreManager.postDataCreation(id: UUID().uuidString, authorID: authorID, authorFirstName: authorFirstName, authorUsername: authorUsername, authorProfilePictureURL: authorProfilePictureURL, addDate: Date(), text: text, reactionsUsersIDs: nil, comments: nil) { success in
             if success {
-                self.fetchData()
             }
             completion(success)
         }
@@ -103,7 +100,6 @@ class HomeViewModel: ObservableObject {
         if sessionStore.currentUser != nil {
             self.firestoreManager.postEdit(id: postID, text: text) { success in
                 if success {
-                    self.fetchData()
                 }
                 completion(success)
             }
@@ -115,7 +111,6 @@ class HomeViewModel: ObservableObject {
             self.firestoreManager.postAddReaction(postID: postID, userIDThatReacted: self.sessionStore.currentUser!.uid) { success in
                 if success {
                     self.firestoreManager.addPostIDToPostsReactedByUser(userID: self.sessionStore.currentUser!.uid, postID: postID) { success in
-                        self.fetchData()
                         completion(success)
                     }
                 } else {
@@ -130,7 +125,6 @@ class HomeViewModel: ObservableObject {
             self.firestoreManager.postRemoveReaction(postID: postID, userIDThatRemovedReaction: self.sessionStore.currentUser!.uid) { success in
                 if success {
                     self.firestoreManager.removePostIDFromPostsReactedByUser(userID: self.sessionStore.currentUser!.uid, postID: postID) { success in
-                        self.fetchData()
                         completion(success)
                     }
                 } else {
@@ -156,11 +150,9 @@ class HomeViewModel: ObservableObject {
                                         }
                                     }
                                 }
-                                self.fetchData()
                                 completion(success)
                             }
                         } else {
-                            self.fetchData()
                             completion(success)
                         }
                     }
@@ -178,7 +170,6 @@ class HomeViewModel: ObservableObject {
                     self.firestoreManager.addPostIDToPostsCommentedByUser(userID: self.sessionStore.currentUser!.uid, postID: postID) { success in
                         if success {
                             self.firestoreManager.postAddCommentingUserID(postID: postID, userIDThatCommented: authorID) { success in
-                                self.fetchData()
                                 completion(success)
                             }
                         } else {
@@ -196,7 +187,6 @@ class HomeViewModel: ObservableObject {
         if sessionStore.currentUser != nil {
             self.firestoreManager.commentEdit(id: commentID, text: text) { success in
                 if success {
-                    self.fetchData()
                 }
                 completion(success)
             }
@@ -208,7 +198,6 @@ class HomeViewModel: ObservableObject {
             self.firestoreManager.commentAddReaction(commentID: commentID, userIDThatReacted: userID) { success in
                 if success {
                     self.firestoreManager.addCommentIDToCommentsReactedByUser(userID: userID, commentID: commentID) { success in
-                        self.fetchData()
                         completion(success)
                     }
                 } else {
@@ -223,7 +212,6 @@ class HomeViewModel: ObservableObject {
             self.firestoreManager.commentRemoveReaction(commentID: commentID, userIDThatRemovedReaction: userID) { success in
                 if success {
                     self.firestoreManager.removeCommentIDFromCommentsReactedByUser(userID: userID, commentID: commentID) { success in
-                        self.fetchData()
                         completion(success)
                     }
                 } else {
@@ -242,7 +230,6 @@ class HomeViewModel: ObservableObject {
                             self.firestoreManager.postRemoveCommentingUserID(postID: postID, userIDThatRemovedComment: self.sessionStore.currentUser!.uid) { success in
                                 if success {
                                     self.firestoreManager.removeCommentIDFromCommentsReactedByUser(userID: self.sessionStore.currentUser!.uid, commentID: postID) { success in
-                                        self.fetchData()
                                         completion(success)
                                     }
                                 } else {
@@ -251,7 +238,6 @@ class HomeViewModel: ObservableObject {
                             }
                         } else {
                             self.firestoreManager.removeCommentIDFromCommentsReactedByUser(userID: self.sessionStore.currentUser!.uid, commentID: postID) { success in
-                                self.fetchData()
                                 completion(success)
                             }
                         }

@@ -19,8 +19,6 @@ class ProfileViewModel: ObservableObject {
     
     @Published var workouts: [IntervalWorkout]?
     
-    @Published var fetchingData = true
-    
     init(forPreviews: Bool) {
         self.workouts = [IntervalWorkout(forPreviews: true, id: UUID().uuidString, usersID: "9999", type: "Interval", date: Date(), isFinished: true, calories: 200, series: 8, workTime: 45, restTime: 15, completedDuration: 8 * (45 + 15), completedSeries: 8),
                          IntervalWorkout(forPreviews: true, id: UUID().uuidString, usersID: "9999", type: "Interval", date: Date(), isFinished: true, calories: 260, series: 10, workTime: 45, restTime: 15, completedDuration: 8 * (45 + 15), completedSeries: 8),
@@ -39,10 +37,6 @@ class ProfileViewModel: ObservableObject {
         self.sessionStore = sessionStore
     }
     
-    func detachCurrentProfile() {
-        self.profile = nil
-    }
-    
     func fetchData() {
         if sessionStore.currentUser != nil {
             self.firestoreManager.fetchDataForProfileViewModel(userID: self.sessionStore.currentUser!.uid) { [self] fetchedProfile in
@@ -58,30 +52,21 @@ class ProfileViewModel: ObservableObject {
                                 self.firestoreManager.fetchWorkouts(userID: self.sessionStore.currentUser!.uid) { fetchedWorkouts, success in
                                     if success {
                                         self.workouts = fetchedWorkouts
-                                        self.fetchingData = false
                                     }
                                 }
                             }
                         }
-                    } else {
-                        self.fetchingData = false
                     }
-                } else {
-                    self.fetchingData = false
                 }
             }
-        } else {
-            self.fetchingData = false
         }
     }
     
     func uploadPhoto(image: UIImage, completion: @escaping ((Bool) -> ())) {
         if let profile = self.profile {
             if let profilePictureURL = profile.profilePictureURL {
-                self.firebaseStorageManager.deleteImageFromStorage(userPhotoURL: profile.profilePictureURL!, userID: profile.id) { success in }
+                self.firebaseStorageManager.deleteImageFromStorage(userPhotoURL: profilePictureURL, userID: profile.id) { success in }
             }
-            
-            print("Uploading photo for user ID: \(self.sessionStore.currentUser!.uid)")
             
             self.firebaseStorageManager.uploadImageToStorage(image: image, userID: profile.id) { photoURL, success in
                 if success {
@@ -91,11 +76,9 @@ class ProfileViewModel: ObservableObject {
                                 self.firestoreManager.postChangeAuthorProfilePictureURL(authorID: profile.id, authorProfilePictureURL: photoURL) { success in
                                     if success {
                                         self.firestoreManager.commentChangeAuthorProfilePictureURL(authorID: profile.id, authorProfilePictureURL: photoURL) { success in
-                                            self.fetchData()
                                             completion(success)
                                         }
                                     } else {
-                                        self.fetchData()
                                         completion(false)
                                     }
                                 }
@@ -204,7 +187,6 @@ class ProfileViewModel: ObservableObject {
         if sessionStore.currentUser != nil {
             self.firestoreManager.addUserToFollowed(userID: self.sessionStore.currentUser!.uid, userIDToFollow: userID) { success in
                 if success {
-                    self.fetchData()
                 }
                 completion(success)
             }
@@ -215,7 +197,6 @@ class ProfileViewModel: ObservableObject {
         if sessionStore.currentUser != nil {
             self.firestoreManager.removeUserFromFollowed(userID: self.sessionStore.currentUser!.uid, userIDToStopFollow: userID) { success in
                 if success {
-                    self.fetchData()
                 }
                 completion(success)
             }

@@ -15,17 +15,13 @@ struct HomeView: View {
     
     @StateObject private var sheetManager = SheetManager()
     
-    @Binding var tabBarHidden: Bool
-    
     @State private var showPostOptions = false
     @State private var showEditView = false
     @State private var showAddView = false
     
     @State private var showCommentsView = false
     
-    init(tabBarHidden: Binding<Bool>) {
-        self._tabBarHidden = tabBarHidden
-    }
+    @State private var test = ""
     
     var body: some View {
         GeometryReader { geometry in
@@ -48,6 +44,9 @@ struct HomeView: View {
                         if profileViewModel.profile != nil {
                             withAnimation {
                                 ScrollView(.vertical) {
+                                    TextField("", text: $test)
+                                        .textFieldStyle(.roundedBorder)
+                                    
                                     HomeTabSubViewShareView(sheetManager: sheetManager).environmentObject(profileViewModel)
                                         .frame(height: screenHeight * 0.25)
                                         .padding(.bottom, screenHeight * 0.055)
@@ -172,7 +171,7 @@ struct HomeView_Previews: PreviewProvider {
 
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
-                HomeView(tabBarHidden: .constant(false))
+                HomeView()
                     .environmentObject(homeViewModel)
                     .environmentObject(profileViewModel)
                     .preferredColorScheme(colorScheme)

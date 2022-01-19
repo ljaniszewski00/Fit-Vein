@@ -140,11 +140,15 @@ struct SearchFriendsView: View {
                                             }
                                         Spacer()
                                     }
+                                    .padding(.top, screenHeight * 0.1)
                                 }
                             }
                         }
                         .searchable(text: $searchText)
                         .listStyle(GroupedListStyle())
+                        .refreshable {
+                            homeViewModel.getAllUsersData()
+                        }
                     }
                 }
                 .navigationTitle(String(localized: "SearchFriendsView_navigation_title"))

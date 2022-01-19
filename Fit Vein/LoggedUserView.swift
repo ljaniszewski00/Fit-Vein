@@ -39,7 +39,7 @@ struct LoggedUserView: View {
                 switch selectedTab {
                 case .home:
                     withAnimation(.linear) {
-                        HomeView(tabBarHidden: self.$tabBarHidden)
+                        HomeView()
                             .environmentObject(sessionStore)
                             .environmentObject(homeViewModel)
                             .environmentObject(profileViewModel)
