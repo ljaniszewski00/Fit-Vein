@@ -60,7 +60,6 @@ struct HomeTabSubViewPostDetailsView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 50))
                     .frame(width: screenWidth * 0.12, height: screenHeight * 0.12)
                     
-                    
                     VStack {
                         HStack {
                             Text(postAuthorFirstName)
@@ -92,16 +91,14 @@ struct HomeTabSubViewPostDetailsView: View {
                     }
                     .padding(.horizontal)
                 }
-                .padding(.bottom, screenHeight * 0.03)
                 
                 Text(postText)
-                    .fixedSize(horizontal: false, vertical: false)
+                    .fixedSize(horizontal: false, vertical: true)
                     .padding()
                 
                 Spacer()
             }
             .padding()
-            .frame(width: screenWidth, height: screenHeight)
             .confirmationDialog(String(localized: "HomeView_confirmation_dialog_text"), isPresented: $showPostOptions, titleVisibility: .visible) {
                 Button(String(localized: "HomeView_confirmation_dialog_edit")) {
                     sheetManager.postID = postID

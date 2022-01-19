@@ -164,9 +164,9 @@ struct SettingsView: View {
             .confirmationDialog(sheetManager.whichSheet == .logout ? String(localized: "SettingsView_logout_confirmation_dialog_text") : String(localized: "SettingsView_delete_account_confirmation_dialog_text"), isPresented: $shouldPresentActionSheet, titleVisibility: .visible) {
                 if sheetManager.whichSheet == .logout {
                     Button(String(localized: "SettingsView_logout_confirmation_dialog_logout_button"), role: .destructive) {
-                        profileViewModel.sessionStore.signOut()
-                        profileViewModel.detachCurrentProfile()
-                        dismiss()
+                        if profileViewModel.signOut() {
+                            dismiss()
+                        }
                     }
                     Button(String(localized: "SettingsView_logout_confirmation_dialog_cancel_button"), role: .cancel) {}
                 } else {

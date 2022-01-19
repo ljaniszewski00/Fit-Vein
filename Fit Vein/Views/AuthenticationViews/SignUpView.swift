@@ -60,6 +60,7 @@ struct SignUpView: View {
                             
                             Spacer()
                         }
+                        .padding(.top, screenHeight * 0.02)
                         
                         CustomTextField(textFieldProperty: String(localized: "SignUpView_first_name_label"), textFieldImageName: "person", text: $firstName, isFocusedParentView: $isFirstNameTextFieldFocused)
                             .padding(.bottom, -screenHeight * 0.04)
@@ -72,17 +73,15 @@ struct SignUpView: View {
                             }
                         
                         if usernameTaken {
-                            HStack {
+                            HStack(alignment: .center) {
                                 LottieView(name: "wrongData", loopMode: .loop, contentMode: .scaleAspectFill)
                                     .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                                     .padding(.leading)
-                                    .offset(y: -screenHeight * 0.013)
                                 Text(String(localized: "SignUpView_username_used_label"))
                                     .foregroundColor(.red)
                                     .font(.system(size: screenWidth * 0.04, weight: .bold))
                                 Spacer()
                             }
-                            .padding(.bottom, -screenHeight * 0.022)
                         }
                         
                         VStack {
@@ -118,24 +117,36 @@ struct SignUpView: View {
                         }
                         .padding(.horizontal)
                         
-                        VStack {
+                        VStack(alignment: .leading) {
                             HStack(spacing: screenWidth * 0.2) {
+                                Spacer()
                                 Text(String(localized: "SignUpView_country_label"))
                                 Text(String(localized: "SignUpView_language_label"))
+                                Spacer()
                             }
                             
-                            HStack(spacing: screenWidth * 0.26) {
+                            HStack(spacing: screenWidth * 0.2) {
+                                Spacer()
                                 Picker(String(localized: "SignUpView_country_label"), selection: $country) {
                                     ForEach(Country.allCases) { country in
-                                        Text(country.rawValue.capitalized).tag(country)
+                                        switch country {
+                                        case .poland:
+                                            Text(String(localized: "SignUpView_country_poland")).tag(country)
+                                        }
                                     }
                                 }
                                 
                                 Picker(String(localized: "SignUpView_language_label"), selection: $language) {
                                     ForEach(Language.allCases) { language in
-                                        Text(language.rawValue.capitalized).tag(language)
+                                        switch language {
+                                        case .english:
+                                            Text(String(localized: "SignUpView_language_english")).tag(language)
+                                        case .polish:
+                                            Text(String(localized: "SignUpView_language_polish")).tag(language)
+                                        }
                                     }
                                 }
+                                Spacer()
                             }
                         }
                         .padding(.top)
@@ -155,7 +166,7 @@ struct SignUpView: View {
                 }
                 .background(RoundedRectangle(cornerRadius: 25)
                                 .foregroundColor(.black.opacity(0.7))
-                                .frame(width: screenWidth * 0.98, height: screenHeight * 0.96))
+                                .frame(width: screenWidth * 0.98, height: screenHeight))
                 
             }
             .foregroundColor(.white)
@@ -234,6 +245,7 @@ struct SecondSignUpView: View {
                     
                     Spacer()
                 }
+                .padding(.top, screenHeight * 0.02)
                 
                 CustomTextField(textFieldProperty: String(localized: "SignUpView_email_label"), textFieldImageName: "envelope", text: $email, isFocusedParentView: $isEmailTextFieldFocused)
                     .onChange(of: email) { [signUpViewModel] newValue in
@@ -243,17 +255,15 @@ struct SecondSignUpView: View {
                     }
                 
                 if emailTaken {
-                    HStack {
+                    HStack(alignment: .center) {
                         LottieView(name: "wrongData", loopMode: .loop, contentMode: .scaleAspectFill)
                             .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                             .padding(.leading)
-                            .offset(y: -screenHeight * 0.013)
                         Text(String(localized: "SignUpView_email_used_label"))
                             .foregroundColor(.red)
                             .font(.system(size: screenWidth * 0.04, weight: .bold))
                         Spacer()
                     }
-                    .padding(.bottom, -screenHeight * 0.022)
                 }
                 
                 CustomTextField(isSecureField: true, textFieldProperty: String(localized: "SignUpView_password_label"), textFieldImageName: "lock", text: $password, isFocusedParentView: $isPasswordTextFieldFocused)
@@ -281,17 +291,16 @@ struct SecondSignUpView: View {
                     .offset(y: -screenHeight * 0.07)
                 
                 if errorSigningUp {
-                    HStack {
+                    HStack(alignment: .center) {
                         LottieView(name: "wrongData", loopMode: .loop, contentMode: .scaleAspectFill)
                             .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                             .padding(.leading)
-                            .offset(y: -screenHeight * 0.013)
                         Text(String(localized: "SignUpView_error"))
                             .foregroundColor(.red)
                             .font(.system(size: screenWidth * 0.04, weight: .bold))
                         Spacer()
                     }
-                    .padding(.bottom, -screenHeight * 0.022)
+                    .padding(.bottom, screenHeight * 0.03)
                 }
                 
                 Spacer()
@@ -315,7 +324,7 @@ struct SecondSignUpView: View {
             }
             .background(RoundedRectangle(cornerRadius: 25)
                             .foregroundColor(.black.opacity(0.7))
-                            .frame(width: screenWidth * 0.98, height: screenHeight * 0.95))
+                            .frame(width: screenWidth * 0.98, height: screenHeight))
             .foregroundColor(.white)
             .background(Image("SignUpBackgroundImage")
                             .resizable()

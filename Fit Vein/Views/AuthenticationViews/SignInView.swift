@@ -51,7 +51,7 @@ struct SignInView: View {
                         CustomTextField(isSecureField: true, textFieldProperty: String(localized: "SignInView_password_label"), textFieldImageName: "lock", text: $password, isFocusedParentView: $isPasswordTextFieldFocused)
                         
                         HStack {
-                            Text(String(localized: "SignInView_email_label"))
+                            Text(String(localized: "SignInView_forgot_password_label"))
                                 .font(.system(size: screenHeight * 0.018))
                                 .foregroundColor(.accentColor)
                                 .onTapGesture {
@@ -93,7 +93,7 @@ struct SignInView: View {
                         }
                     }
                 }, label: {
-                    Text("Sign In")
+                    Text(String(localized: "SignInView_sign_in_button"))
                 })
                 .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(.accentColor))
                 .padding()

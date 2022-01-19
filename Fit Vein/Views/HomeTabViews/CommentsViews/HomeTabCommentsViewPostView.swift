@@ -24,31 +24,34 @@ struct HomeTabCommentsViewPostView: View {
             let screenHeight = geometry.size.height
             
             VStack {
-                Spacer()
-                
-                Text(post.text)
-                    .fixedSize(horizontal: false, vertical: false)
-                    .padding()
+                VStack {
+                    Text(post.text)
+                        .fixedSize(horizontal: false, vertical: false)
+                        .padding()
+                }
+                .padding(.top, screenHeight * 0.1)
 
                 Spacer()
 
-                HStack {
-                    if post.reactionsUsersIDs != nil {
-                        if post.reactionsUsersIDs!.count != 0 {
-                            Image(systemName: post.reactionsUsersIDs!.contains(self.profileViewModel.profile!.id) ? "hand.thumbsup.fill" : "hand.thumbsup")
-                                .foregroundColor(.accentColor)
-                                .padding(.leading, screenWidth * 0.05)
+                VStack {
+                    HStack {
+                        if post.reactionsUsersIDs != nil {
+                            if post.reactionsUsersIDs!.count != 0 {
+                                Image(systemName: post.reactionsUsersIDs!.contains(self.profileViewModel.profile!.id) ? "hand.thumbsup.fill" : "hand.thumbsup")
+                                    .foregroundColor(.accentColor)
+                                    .padding(.leading, screenWidth * 0.05)
 
-                            Text("\(post.reactionsUsersIDs!.count)")
+                                Text("\(post.reactionsUsersIDs!.count)")
+                            }
+
                         }
 
-                    }
+                        Spacer()
 
-                    Spacer()
-
-                    if let postComments = homeViewModel.postsComments[post.id] {
-                        Text("\(postComments.count) \(String(localized: "CommentView_comment_number_label"))")
-                            .padding(.trailing, screenWidth * 0.05)
+                        if let postComments = homeViewModel.postsComments[post.id] {
+                            Text("\(postComments.count) \(String(localized: "CommentView_comment_number_label"))")
+                                .padding(.trailing, screenWidth * 0.05)
+                        }
                     }
                 }
 
@@ -91,9 +94,10 @@ struct HomeTabCommentsViewPostView: View {
                     }
                 }
                 .frame(width: screenWidth, height: screenHeight * 0.25)
-                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+                .background(.ultraThinMaterial, in: Rectangle())
+                
+                Divider()
             }
-            .frame(width: screenWidth, height: screenHeight)
         }
     }
 }

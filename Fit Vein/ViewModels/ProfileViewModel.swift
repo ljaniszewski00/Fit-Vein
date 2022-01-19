@@ -146,6 +146,10 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
+    func signOut() -> Bool {
+        self.sessionStore.signOut()
+    }
+    
     func deleteUserData(email: String, password: String, completion: @escaping ((Bool) -> ())) {
         if self.profile != nil {
             if self.profile!.profilePictureURL != nil {

@@ -57,7 +57,7 @@ struct HomeTabCommentsView: View {
                     .padding(.leading, screenWidth * 0.08)
                     .padding(.trailing, screenWidth * 0.01)
                     
-                    VStack(spacing: screenHeight * 0.1) {
+                    VStack(spacing: screenHeight * 0.15) {
                         HStack {
                             Group {
                                 Text(comment.authorFirstName)
@@ -148,7 +148,7 @@ struct HomeTabCommentsView: View {
                                             .disabled(commentNewText.count > 200)
                                     })
                                 } else {
-                                    HStack {
+                                    HStack(alignment: .center) {
                                         if let reactionsUsersIDs = comment.reactionsUsersIDs {
                                             if reactionsUsersIDs.contains(self.profileViewModel.profile!.id) {
                                                 Button(action: {
@@ -156,9 +156,10 @@ struct HomeTabCommentsView: View {
                                                 }, label: {
                                                     HStack {
                                                         Image(systemName: "hand.thumbsup.fill")
+                                                            .scaledToFill()
+                                                            .frame(width: screenWidth * 0.05, height: screenHeight * 0.1, alignment: .center)
                                                     }
                                                     .foregroundColor(.accentColor)
-                                                    .frame(width: screenWidth * 0.05, height: screenHeight * 0.05)
                                                 })
 
                                             } else {
@@ -167,6 +168,8 @@ struct HomeTabCommentsView: View {
                                                 }, label: {
                                                     HStack {
                                                         Image(systemName: "hand.thumbsup")
+                                                            .scaledToFill()
+                                                            .frame(width: screenWidth * 0.05, height: screenHeight * 0.1, alignment: .center)
                                                     }
                                                     .foregroundColor(.accentColor)
                                                 })
@@ -177,6 +180,8 @@ struct HomeTabCommentsView: View {
                                             }, label: {
                                                 HStack {
                                                     Image(systemName: "hand.thumbsup")
+                                                        .scaledToFill()
+                                                        .frame(width: screenWidth * 0.05, height: screenHeight * 0.1, alignment: .center)
                                                 }
                                                 .foregroundColor(.accentColor)
                                             })
@@ -199,7 +204,6 @@ struct HomeTabCommentsView: View {
                     .padding(.trailing)
                 }
             }
-            .frame(width: screenWidth, height: screenHeight)
             .confirmationDialog(String(localized: "CommentView_confirmation_dialog_text"), isPresented: $showCommentOptions, titleVisibility: .visible) {
                 Button(String(localized: "CommentView_confirmation_dialog_edit")) {
                     withAnimation {

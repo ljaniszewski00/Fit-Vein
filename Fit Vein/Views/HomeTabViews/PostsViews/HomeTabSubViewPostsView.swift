@@ -26,10 +26,15 @@ struct HomeTabSubViewPostsView: View {
             let screenHeight = geometry.size.height
             
             VStack {
-                HomeTabSubViewPostDetailsView(sheetManager: sheetManager, currentUserID: self.profileViewModel.profile!.id, postID: post.id, postAuthorUserID: post.authorID, postAuthorProfilePictureURL: self.homeViewModel.postsAuthorsProfilePicturesURLs[post.id], postAuthorFirstName: post.authorFirstName, postAuthorUsername: post.authorUsername, postAddDate: post.addDate, postText: post.text)
-                    .environmentObject(homeViewModel)
+                VStack {
+                    HomeTabSubViewPostDetailsView(sheetManager: sheetManager, currentUserID: self.profileViewModel.profile!.id, postID: post.id, postAuthorUserID: post.authorID, postAuthorProfilePictureURL: self.homeViewModel.postsAuthorsProfilePicturesURLs[post.id], postAuthorFirstName: post.authorFirstName, postAuthorUsername: post.authorUsername, postAddDate: post.addDate, postText: post.text)
+                        .environmentObject(homeViewModel)
+                }
+                
+                Spacer()
                 
                 VStack {
+                    Spacer()
                     HStack {
                         if post.reactionsUsersIDs != nil {
                             if post.reactionsUsersIDs!.count != 0 {
@@ -49,76 +54,72 @@ struct HomeTabSubViewPostsView: View {
                                 .padding(.trailing, screenWidth * 0.05)
                         }
                     }
+                }
 
-                    VStack {
-                        HStack(spacing: 0) {
-                            Spacer()
+                VStack {
+                    HStack(spacing: 0) {
+                        Spacer()
 
-                            if let reactionsUsersIDs = profileViewModel.profile!.reactedPostsIDs {
-                                Button(action: {
-                                    withAnimation {
-                                        if reactionsUsersIDs.contains(post.id) {
-                                            self.homeViewModel.removeReactionFromPost(postID: post.id)  { success in }
-                                        } else {
-                                            self.homeViewModel.reactToPost(postID: post.id)  { success in }
-                                        }
-                                    }
-                                }, label: {
-                                    HStack {
-                                        Image(systemName: "hand.thumbsup")
-                                            .symbolVariant(reactionsUsersIDs.contains(post.id) ? .fill : .none)
-                                        Text(String(localized: "HomeView_like_button"))
-                                    }
-                                    .foregroundColor(reactionsUsersIDs.contains(post.id) ? .green : (colorScheme == .dark ? .white : .black))
-                                })
-                            } else {
-                                Button(action: {
-                                    withAnimation {
+                        if let reactionsUsersIDs = profileViewModel.profile!.reactedPostsIDs {
+                            Button(action: {
+                                withAnimation {
+                                    if reactionsUsersIDs.contains(post.id) {
+                                        self.homeViewModel.removeReactionFromPost(postID: post.id)  { success in }
+                                    } else {
                                         self.homeViewModel.reactToPost(postID: post.id)  { success in }
                                     }
-                                }, label: {
-                                    HStack {
-                                        Image(systemName: "hand.thumbsup")
-                                        Text(String(localized: "HomeView_like_button"))
-                                    }
-                                    .foregroundColor(colorScheme == .dark ? .white : .black)
-                                })
-                            }
-                            
-                            Spacer()
-
-                            Divider()
-                            
-                            Spacer()
-
-                            NavigationLink(destination:
-                                            PostCommentsView(post: post)
-                                            .environmentObject(homeViewModel)
-                                            .environmentObject(profileViewModel)
-                                            .onAppear {
-    //                                    self.tabBarHidden = true
-                            }.onDisappear {
-    //                                    self.tabBarHidden = false
-                            }) {
+                                }
+                            }, label: {
                                 HStack {
-                                    Image(systemName: "bubble.left")
-                                    Text(String(localized: "HomeView_comment_button"))
+                                    Image(systemName: "hand.thumbsup")
+                                        .symbolVariant(reactionsUsersIDs.contains(post.id) ? .fill : .none)
+                                    Text(String(localized: "HomeView_like_button"))
+                                }
+                                .foregroundColor(reactionsUsersIDs.contains(post.id) ? .green : (colorScheme == .dark ? .white : .black))
+                            })
+                        } else {
+                            Button(action: {
+                                withAnimation {
+                                    self.homeViewModel.reactToPost(postID: post.id)  { success in }
+                                }
+                            }, label: {
+                                HStack {
+                                    Image(systemName: "hand.thumbsup")
+                                    Text(String(localized: "HomeView_like_button"))
                                 }
                                 .foregroundColor(colorScheme == .dark ? .white : .black)
-                            }
-                            
-                            Spacer()
+                            })
                         }
+                        
+                        Spacer()
+
+                        Divider()
+                        
+                        Spacer()
+
+                        NavigationLink(destination:
+                                        PostCommentsView(sheetManager: sheetManager, post: post)
+                                        .environmentObject(homeViewModel)
+                                        .environmentObject(profileViewModel)
+                                        .onAppear {
+//                                    self.tabBarHidden = true
+                        }.onDisappear {
+//                                    self.tabBarHidden = false
+                        }) {
+                            HStack {
+                                Image(systemName: "bubble.left")
+                                Text(String(localized: "HomeView_comment_button"))
+                            }
+                            .foregroundColor(colorScheme == .dark ? .white : .black)
+                        }
+                        
+                        Spacer()
                     }
-                    .frame(height: screenHeight * 0.06)
-                    .padding(.vertical)
-                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
                 }
-                .frame(height: screenHeight * 0.04)
-                
-                Spacer()
+                .frame(height: screenHeight * 0.06)
+                .padding(.vertical)
+                .background(.ultraThinMaterial, in: Rectangle())
             }
-            .frame(width: screenWidth, height: screenHeight)
         }
     }
 }

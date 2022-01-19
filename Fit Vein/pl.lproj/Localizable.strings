@@ -8,7 +8,7 @@
 
 
 // SignInView Section
-"SignInView_sign_in_form_label" = "Formularz logowania";
+"SignInView_sign_in_form_label" = "Logowanie";
 "SignInView_email_label" = "E-mail";
 "SignInView_password_label" = "Hasło";
 
@@ -29,7 +29,7 @@
 
 
 // SignUpView Section
-"SignUpView_sign_up_form_label" = "Formularz rejestracji";
+"SignUpView_sign_up_form_label" = "Rejestracja";
 
 "SignUpView_first_name_label" = "Imię";
 "SignUpView_username_label" = "Nazwa użytkownika";
@@ -37,7 +37,10 @@
 "SignUpView_gender_label" = "Płeć";
 "SignUpView_birth_date_label" = "Data urodzenia";
 "SignUpView_country_label" = "Kraj";
+"SignUpView_country_poland" = "Polska";
 "SignUpView_language_label" = "Język";
+"SignUpView_language_english" = "Angielski";
+"SignUpView_language_polish" = "Polski";
 "SignUpView_next_button_label" = "Dalej";
 
 "SignUpView_email_label" = "E-mail";
@@ -91,7 +94,7 @@
 "EditPostView_navigation_title" = "Edytuj post";
 "EditPostView_save_button" = "Zapisz";
 "EditPostView_share" = "Czym się chcesz podzielić?";
-"EditPostView_success" = "Post został edytowany dodany.";
+"EditPostView_success" = "Post został pomyślnie edytowany.";
 "EditdPostView_error" = "Błąd podczas edytowania posta. Spróbuj ponownie później.";
 
 // SearchFriendsView
@@ -109,7 +112,7 @@
 "CommentView_comment_text_field_label" = "Skomentuj";
 "CommentView_send_comment_button" = "Wyślij";
 "CommentView_edit_comment_cancel_button" = "Anuluj";
-"CommentView_send_comment_update_button" = "Zaktualizuj";
+"CommentView_send_comment_update_button" = "Zmień";
 "CommentView_edit_comment_error" = "Błąd podczas edytowania komentarza. Spróbuj ponownie później.";
 "CommentView_comment_number_label" = "komentarzy";
 

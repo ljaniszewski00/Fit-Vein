@@ -37,7 +37,10 @@
 "SignUpView_gender_label" = "Gender";
 "SignUpView_birth_date_label" = "Birth Date";
 "SignUpView_country_label" = "Country";
+"SignUpView_country_poland" = "Poland";
 "SignUpView_language_label" = "Language";
+"SignUpView_language_english" = "English";
+"SignUpView_language_polish" = "Polish";
 "SignUpView_next_button_label" = "Next";
 
 "SignUpView_email_label" = "E-mail address";
@@ -91,6 +94,8 @@
 "EditPostView_navigation_title" = "Edit a post";
 "EditPostView_save_button" = "Save";
 "EditPostView_share" = "What do you want to share?";
+"EditPostView_success" = "Successfully edited post.";
+"EditdPostView_error" = "Error editing post. Please try again later.";
 
 // SearchFriendsView
 "SearchFriendsView_navigation_title" = "Follow";

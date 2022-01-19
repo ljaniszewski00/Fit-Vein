@@ -65,12 +65,14 @@ class SessionStore: ObservableObject {
         }
     }
     
-    func signOut() {
+    func signOut() -> Bool {
         do {
             try Auth.auth().signOut()
             self.session = nil
+            return true
         } catch {
         }
+        return false
     }
     
     func unbind () {
