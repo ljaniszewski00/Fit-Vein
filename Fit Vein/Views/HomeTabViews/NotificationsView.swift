@@ -34,6 +34,7 @@ struct NotificationsView: View {
                 }
                 .navigationTitle(String(localized: "NotificationsView_navigation_title"))
             }
+            .navigationViewStyle(.stack)
         }
     }
 }

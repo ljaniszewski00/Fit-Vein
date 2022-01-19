@@ -4,22 +4,17 @@
 //
 //  Created by Łukasz Janiszewski on 20/10/2021.
 //
+
+
 import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject private var homeViewModel: HomeViewModel
     @EnvironmentObject private var profileViewModel: ProfileViewModel
-    @EnvironmentObject private var sessionStore: SessionStore
     @EnvironmentObject private var networkManager: NetworkManager
     @Environment(\.colorScheme) var colorScheme
     
     @StateObject private var sheetManager = SheetManager()
-    
-    @State private var showPostOptions = false
-    @State private var showEditView = false
-    @State private var showAddView = false
-    
-    @State private var showCommentsView = false
     
     @State private var test = ""
     
@@ -27,6 +22,7 @@ struct HomeView: View {
         GeometryReader { geometry in
             let screenWidth = geometry.size.width
             let screenHeight = geometry.size.height
+            
             NavigationView {
                 Group {
                     if !networkManager.isConnected {
@@ -44,9 +40,6 @@ struct HomeView: View {
                         if profileViewModel.profile != nil {
                             withAnimation {
                                 ScrollView(.vertical) {
-                                    TextField("", text: $test)
-                                        .textFieldStyle(.roundedBorder)
-                                    
                                     HomeTabSubViewShareView(sheetManager: sheetManager).environmentObject(profileViewModel)
                                         .frame(height: screenHeight * 0.25)
                                         .padding(.bottom, screenHeight * 0.055)
@@ -110,24 +103,13 @@ struct HomeView: View {
                                 .sheet(isPresented: $sheetManager.showSheet) {
                                     switch sheetManager.whichSheet {
                                     case .addView:
-                                        AddPostView().environmentObject(homeViewModel).environmentObject(profileViewModel).environmentObject(sessionStore)
+                                        AddPostView().environmentObject(homeViewModel).environmentObject(profileViewModel)
                                     case .editView:
-                                        EditPostView(postID: sheetManager.postID!, postText: sheetManager.postText!).environmentObject(homeViewModel).environmentObject(profileViewModel).environmentObject(sessionStore)
+                                        EditPostView(postID: sheetManager.postID!, postText: sheetManager.postText!).environmentObject(homeViewModel).environmentObject(profileViewModel)
                                     default:
                                         Text("No view")
                                     }
                                 }
-                            }
-                        } else {
-                            withAnimation {
-                                LottieView(name: "skeleton", loopMode: .loop)
-                                    .frame(width: screenWidth, height: screenHeight)
-                                    .onAppear() {
-            //                            self.homeViewModel.setup(sessionStore: sessionStore)
-            //                            self.homeViewModel.fetchData()
-            //                            self.profileViewModel.setup(sessionStore: sessionStore)
-            //                            self.profileViewModel.fetchData()
-                                    }
                             }
                         }
                     }
@@ -143,7 +125,7 @@ struct HomeView: View {
                     }
                     
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        NavigationLink(destination: SearchFriendsView().environmentObject(homeViewModel).environmentObject(profileViewModel).environmentObject(sessionStore)) {
+                        NavigationLink(destination: SearchFriendsView().environmentObject(homeViewModel).environmentObject(profileViewModel).ignoresSafeArea(.keyboard)) {
                             Image(systemName: "magnifyingglass")
                                 .foregroundColor(.accentColor)
                         }
@@ -159,6 +141,7 @@ struct HomeView: View {
                     }
                 }
             }
+            .navigationViewStyle(.stack)
         }
     }
 }
@@ -167,7 +150,6 @@ struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         let homeViewModel = HomeViewModel(forPreviews: true)
         let profileViewModel = ProfileViewModel(forPreviews: true)
-        let sessionStore = SessionStore(forPreviews: true)
 
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
@@ -177,7 +159,6 @@ struct HomeView_Previews: PreviewProvider {
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)
-                    .environmentObject(sessionStore)
             }
         }
     }

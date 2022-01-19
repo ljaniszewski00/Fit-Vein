@@ -42,6 +42,7 @@ struct HealthTabView: View {
                 .navigationTitle(String(localized: "HealthTabView_navigation_title"))
                 .navigationBarHidden(false)
             }
+            .navigationViewStyle(.stack)
         }
     }
     

@@ -12,7 +12,6 @@ struct LoggedUserView: View {
     @ObservedObject private var workoutViewModel = WorkoutViewModel(forPreviews: false)
     @ObservedObject private var profileViewModel = ProfileViewModel()
     @ObservedObject private var networkManager = NetworkManager()
-    @EnvironmentObject private var sessionStore: SessionStore
     
     @State private var tabBarHidden: Bool = false
     
@@ -40,33 +39,21 @@ struct LoggedUserView: View {
                 case .home:
                     withAnimation(.linear) {
                         HomeView()
-                            .environmentObject(sessionStore)
                             .environmentObject(homeViewModel)
                             .environmentObject(profileViewModel)
                             .environmentObject(networkManager)
-                            .navigationTitle("")
-                            .navigationBarHidden(true)
-                            .ignoresSafeArea(.keyboard)
                     }
                 case .workout:
                     withAnimation(.linear) {
                         WorkoutView()
-                            .environmentObject(sessionStore)
                             .environmentObject(workoutViewModel)
                             .environmentObject(networkManager)
-                            .navigationTitle("")
-                            .navigationBarHidden(true)
-                            .ignoresSafeArea(.keyboard)
                     }
                 case .profile:
                     withAnimation(.linear) {
-                        ProfileView(tabBarHidden: self.$tabBarHidden)
-                            .environmentObject(sessionStore)
+                        ProfileView()
                             .environmentObject(profileViewModel)
                             .environmentObject(networkManager)
-                            .navigationTitle("")
-                            .navigationBarHidden(true)
-                            .ignoresSafeArea(.keyboard)
                     }
                 }
             }

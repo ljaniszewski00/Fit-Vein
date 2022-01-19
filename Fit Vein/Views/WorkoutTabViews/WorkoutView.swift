@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct WorkoutView: View {
-    @EnvironmentObject private var sessionStore: SessionStore
     @EnvironmentObject private var workoutViewModel: WorkoutViewModel
     @EnvironmentObject private var networkManager: NetworkManager
     @State var startWorkout = false
@@ -141,11 +140,8 @@ struct WorkoutView: View {
                         }
                     }
                 }
+                .navigationViewStyle(.stack)
             }
-            
-        }
-        .onAppear {
-            self.workoutViewModel.setup(sessionStore: sessionStore)
         }
     }
 }

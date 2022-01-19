@@ -24,8 +24,8 @@ struct ContentView: View {
                 if self.unlocked || !self.biometricLock {
                     if sessionStore.session != nil {
                         LoggedUserView()
-                            .environmentObject(sessionStore)
                             .ignoresSafeArea(.keyboard)
+                            .navigationBarHidden(true)
                     } else {
                         SignInView()
                             .environmentObject(sessionStore)
@@ -71,6 +71,7 @@ struct ContentView: View {
                     
                 }
             }
+            .navigationViewStyle(.stack)
             .onAppear {
 //                In case the app remains in logged-in state
 //                sessionStore.signOut()

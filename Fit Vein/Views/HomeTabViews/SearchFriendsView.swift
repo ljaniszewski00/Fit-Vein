@@ -10,7 +10,6 @@ import SwiftUI
 struct SearchFriendsView: View {
     @EnvironmentObject private var homeViewModel: HomeViewModel
     @EnvironmentObject private var profileViewModel: ProfileViewModel
-    @EnvironmentObject private var sessionStore: SessionStore
     
     @State var searching = false
     @State var searchText = ""
@@ -156,6 +155,7 @@ struct SearchFriendsView: View {
                     self.homeViewModel.getAllUsersData()
                 }
             }
+            .navigationViewStyle(.stack)
         }
         .ignoresSafeArea(.keyboard)
     }
@@ -176,6 +176,7 @@ struct SearchFriendsView: View {
                 return searchResults
             }
         } else {
+            self.homeViewModel.getAllUsersData()
             return [String]()
         }
     }

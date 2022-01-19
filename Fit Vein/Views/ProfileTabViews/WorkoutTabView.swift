@@ -32,6 +32,7 @@ struct WorkoutTabView: View {
                     }
                 }
             }
+            .navigationViewStyle(.stack)
         }
     }
 }

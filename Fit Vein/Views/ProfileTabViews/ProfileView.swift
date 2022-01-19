@@ -9,13 +9,10 @@ import SwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject private var profileViewModel: ProfileViewModel
-    @EnvironmentObject private var sessionStore: SessionStore
     @EnvironmentObject private var networkManager: NetworkManager
     @Environment(\.colorScheme) var colorScheme
     @AppStorage("shouldShowLevelUpAnimation") var shouldShowLevelUpAnimationTrigger: Bool = false
     @State private var shouldShowLevelUpAnimation: Bool = false
-    
-    @Binding var tabBarHidden: Bool
     
     @State private var oldImage = UIImage()
     @State private var image = UIImage()
@@ -29,10 +26,6 @@ struct ProfileView: View {
     @State private var tabSelection = 0
     
     @State private var alreadyAppearedOnce = false
-    
-    init(tabBarHidden: Binding<Bool>) {
-        self._tabBarHidden = tabBarHidden
-    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -96,7 +89,7 @@ struct ProfileView: View {
                                     
                                     Spacer()
                                     
-                                    NavigationLink(destination: SettingsView().environmentObject(sessionStore).environmentObject(profileViewModel).environmentObject(networkManager), isActive: $shouldPresentSettings) {
+                                    NavigationLink(destination: SettingsView().environmentObject(profileViewModel).environmentObject(networkManager), isActive: $shouldPresentSettings) {
                                         Button(action: {
                                             withAnimation(.linear) {
                                                 shouldPresentSettings = true
@@ -221,10 +214,10 @@ struct ProfileView: View {
                     .onAppear {
                         withAnimation {
                             self.shouldShowLevelUpAnimation = self.shouldShowLevelUpAnimationTrigger
-                            if !alreadyAppearedOnce {
-                                self.profileViewModel.fetchData()
-                                self.alreadyAppearedOnce = true
-                            }
+//                                if !alreadyAppearedOnce {
+//                                    self.profileViewModel.fetchData()
+//                                    self.alreadyAppearedOnce = true
+//                                }
                         }
                     }
                     .navigationTitle("")
@@ -252,15 +245,6 @@ struct ProfileView: View {
                         ])
                     }
                 }
-            } else {
-                withAnimation {
-                    LottieView(name: "skeleton", loopMode: .loop)
-                        .frame(width: screenWidth, height: screenHeight)
-                        .onAppear() {
-//                            self.profileViewModel.setup(sessionStore: sessionStore)
-//                            self.profileViewModel.fetchData()
-                        }
-                }
             }
         }
     }
@@ -271,13 +255,10 @@ struct ProfileView_Previews: PreviewProvider {
         let profileViewModel = ProfileViewModel(forPreviews: true)
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
-                let sessionStore = SessionStore(forPreviews: true)
-                
-                ProfileView(tabBarHidden: .constant(false))
+                ProfileView()
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)
-                    .environmentObject(sessionStore)
                     .environmentObject(profileViewModel)
             }
         }
