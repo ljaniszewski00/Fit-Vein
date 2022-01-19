@@ -22,8 +22,8 @@ class SessionStore: ObservableObject {
     private var firebaseStorageManager = FirebaseStorageManager()
     
     var handle: AuthStateDidChangeListenerHandle?
-    private let authRef = Auth.auth()
-    public let currentUser = Auth.auth().currentUser
+    private var authRef = Auth.auth()
+    public var currentUser = Auth.auth().currentUser
     
     init(forPreviews: Bool) {
         if forPreviews {
@@ -35,6 +35,8 @@ class SessionStore: ObservableObject {
         handle = authRef.addStateDidChangeListener({ (auth, user) in
             if let user = user {
                 self.session = User(uid: user.uid, email: user.email!)
+                self.authRef = Auth.auth()
+                self.currentUser = Auth.auth().currentUser
             } else {
                 self.session = nil
             }
@@ -69,6 +71,7 @@ class SessionStore: ObservableObject {
         do {
             try Auth.auth().signOut()
             self.session = nil
+            unbind()
             return true
         } catch {
         }
@@ -153,8 +156,8 @@ class SessionStore: ObservableObject {
                         print("Could not delete user: \(error)")
                         completion(false)
                     } else {
-                        self.signOut()
-                        completion(true)
+                        let result = self.signOut()
+                        completion(result)
                     }
                 }
             }

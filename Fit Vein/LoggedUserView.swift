@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct LoggedUserView: View {
-    @EnvironmentObject private var sessionStore: SessionStore
     @ObservedObject private var homeViewModel = HomeViewModel()
     @ObservedObject private var workoutViewModel = WorkoutViewModel(forPreviews: false)
     @ObservedObject private var profileViewModel = ProfileViewModel()
     @ObservedObject private var networkManager = NetworkManager()
+    @EnvironmentObject private var sessionStore: SessionStore
     
     @State private var tabBarHidden: Bool = false
     

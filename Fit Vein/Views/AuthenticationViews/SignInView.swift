@@ -10,6 +10,7 @@ import SwiftUI
 struct SignInView: View {
     @StateObject private var signInViewModel = SignInViewModel()
     @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject private var sessionStore: SessionStore
     
     @State var email: String = ""
     @State var password: String = ""
@@ -43,6 +44,7 @@ struct SignInView: View {
                         
                         Spacer()
                     }
+                    .offset(y: isEmailTextFieldFocused ? screenHeight * 0.03 : (isPasswordTextFieldFocused ? screenHeight * 0.03 : 0))
                     
                     CustomTextField(textFieldProperty: String(localized: "SignInView_email_label"), textFieldImageName: "envelope", textFieldSignsLimit: 0, text: $email, isFocusedParentView: $isEmailTextFieldFocused)
                         .padding(.bottom, -screenHeight * 0.02)
@@ -64,18 +66,18 @@ struct SignInView: View {
                     }
                     
                     if wrongCredentials {
-                        HStack {
+                        HStack(alignment: .center) {
                             LottieView(name: "wrongData", loopMode: .loop, contentMode: .scaleAspectFill)
                                 .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                                 .padding(.leading)
-                                .offset(y: -screenHeight * 0.013)
                             Text(String(localized: "SignInView_sign_in_wrong_data_label"))
                                 .foregroundColor(.red)
                                 .font(.system(size: screenWidth * 0.035, weight: .bold))
                             Spacer()
                         }
                         .padding(.horizontal)
-                        .offset(y: -screenHeight * 0.05)
+                        .frame(height: screenHeight * 0.05)
+                        .offset(y: -screenHeight * 0.06)
                     }
                 }
                 .background(RoundedRectangle(cornerRadius: 25)

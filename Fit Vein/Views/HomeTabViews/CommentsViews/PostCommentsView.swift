@@ -35,7 +35,7 @@ struct PostCommentsView: View {
                 ScrollView(.vertical) {
                     HomeTabCommentsViewPostView(post: post).environmentObject(homeViewModel).environmentObject(profileViewModel)
                         .frame(width: screenWidth, height: screenHeight * 0.2)
-                        .padding(.bottom, screenHeight * 0.03)
+                        .padding(.bottom, screenHeight * 0.05)
                     
                     if let postComments = homeViewModel.postsComments[post.id] {
                         ForEach(postComments) { comment in

@@ -9,7 +9,7 @@ import SwiftUI
 import LocalAuthentication
 
 struct ContentView: View {
-    @EnvironmentObject var sessionStore: SessionStore
+    @EnvironmentObject private var sessionStore: SessionStore
     @Environment(\.colorScheme) var colorScheme
     @AppStorage("locked") var biometricLock: Bool = true
     @AppStorage("shouldShowOnboarding") var shouldShowOnboarding: Bool = true

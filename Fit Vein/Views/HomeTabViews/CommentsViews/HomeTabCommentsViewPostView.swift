@@ -29,7 +29,7 @@ struct HomeTabCommentsViewPostView: View {
                         .fixedSize(horizontal: false, vertical: false)
                         .padding()
                 }
-                .padding(.top, screenHeight * 0.1)
+                .padding(.vertical, screenHeight * 0.15)
 
                 Spacer()
 

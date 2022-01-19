@@ -58,7 +58,7 @@ struct HomeView: View {
                                             if posts.count != 0 {
                                                 ForEach(posts) { post in
                                                     HomeTabSubViewPostsView(sheetManager: sheetManager, post: post).environmentObject(homeViewModel).environmentObject(profileViewModel)
-                                                        .frame(height: screenHeight * 0.25)
+                                                        .frame(height: screenHeight * 0.3)
                                                         .background(Color(uiColor: .systemGray6))
                                                 }
                                             } else {
