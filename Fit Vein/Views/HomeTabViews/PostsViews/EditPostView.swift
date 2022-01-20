@@ -108,7 +108,10 @@ struct EditPostView: View {
                                 .foregroundColor(Color(uiColor: .systemGray3))
                                 .padding()
                             Spacer()
+                            Text("\(postTextEdited.count) / 200")
+                                .foregroundColor(Color(uiColor: .systemGray2))
                         }
+                        .padding()
                     }
                     
                     TextEditor(text: $postTextEdited)
@@ -116,16 +119,6 @@ struct EditPostView: View {
                         .frame(width: screenWidth * 0.9, height: screenHeight * 0.5)
                         .overlay(RoundedRectangle(cornerRadius: 8)
                                 .stroke(Color.secondary).opacity(0.5))
-                    
-                    ProgressView("", value: Double(self.postTextEdited.count), total: 200)
-                        .frame(width: screenWidth * 0.3, height: screenHeight * 0.04)
-                        .padding()
-                        .accentColor(.accentColor)
-                    
-                    if !postTextEdited.isEmpty {
-                        LottieView(name: "chat", loopMode: .loop)
-                            .frame(width: screenWidth, height: screenHeight * 0.1)
-                    }
                     
                     Spacer()
                 }

@@ -119,7 +119,7 @@ struct PostCommentsView: View {
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    if self.profileViewModel.profile!.id == post.authorID {
+                    if self.homeViewModel.sessionStore.currentUser!.uid == post.authorID {
                         Button(action: {
                             withAnimation {
                                 self.showPostOptions = true
@@ -127,9 +127,8 @@ struct PostCommentsView: View {
                         }, label: {
                             Image(systemName: "ellipsis")
                                 .foregroundColor(.accentColor)
-                                .padding(.trailing, screenWidth * 0.05)
+                                .padding(.trailing, screenWidth * 0.03)
                         })
-
                     }
                 }
             }
@@ -150,12 +149,11 @@ struct PostCommentsView: View {
             .sheet(isPresented: $sheetManager.showSheet) {
                 switch sheetManager.whichSheet {
                 case .editView:
-                    EditPostView(postID: sheetManager.postID!, postText: sheetManager.postText!).environmentObject(homeViewModel).environmentObject(profileViewModel)
+                    EditPostView(postID: sheetManager.postID!, postText: sheetManager.postText!).environmentObject(homeViewModel).environmentObject(profileViewModel).ignoresSafeArea(.keyboard)
                 default:
                     Text("No view")
                 }
             }
-            
             .background(.ultraThinMaterial, in: Rectangle())
         }
     }

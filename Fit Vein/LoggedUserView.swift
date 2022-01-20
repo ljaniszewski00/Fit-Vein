@@ -13,8 +13,6 @@ struct LoggedUserView: View {
     @ObservedObject private var profileViewModel = ProfileViewModel()
     @ObservedObject private var networkManager = NetworkManager()
     
-    @State private var tabBarHidden: Bool = false
-    
     @State var selectedTab: Tab = .home
     
     enum Tab: String {
@@ -122,7 +120,6 @@ struct LoggedUserView: View {
             )
             .frame(maxHeight: .infinity, alignment: .bottom)
             .ignoresSafeArea()
-            .isHidden(tabBarHidden)
         }
     }
     
@@ -138,13 +135,10 @@ struct LoggedUserView_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
-                let sessionStore = SessionStore(forPreviews: true)
-                
                 LoggedUserView()
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)
-                    .environmentObject(sessionStore)
             }
         }
     }

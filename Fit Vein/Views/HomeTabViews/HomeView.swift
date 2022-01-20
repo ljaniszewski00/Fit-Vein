@@ -16,8 +16,6 @@ struct HomeView: View {
     
     @StateObject private var sheetManager = SheetManager()
     
-    @State private var test = ""
-    
     var body: some View {
         GeometryReader { geometry in
             let screenWidth = geometry.size.width
@@ -103,9 +101,9 @@ struct HomeView: View {
                                 .sheet(isPresented: $sheetManager.showSheet) {
                                     switch sheetManager.whichSheet {
                                     case .addView:
-                                        AddPostView().environmentObject(homeViewModel).environmentObject(profileViewModel)
+                                        AddPostView().environmentObject(homeViewModel).environmentObject(profileViewModel).ignoresSafeArea(.keyboard)
                                     case .editView:
-                                        EditPostView(postID: sheetManager.postID!, postText: sheetManager.postText!).environmentObject(homeViewModel).environmentObject(profileViewModel)
+                                        EditPostView(postID: sheetManager.postID!, postText: sheetManager.postText!).environmentObject(homeViewModel).environmentObject(profileViewModel).ignoresSafeArea(.keyboard)
                                     default:
                                         Text("No view")
                                     }

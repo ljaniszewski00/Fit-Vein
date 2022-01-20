@@ -97,15 +97,7 @@ struct HomeTabSubViewPostsView: View {
                         
                         Spacer()
 
-                        NavigationLink(destination:
-                                        PostCommentsView(sheetManager: sheetManager, post: post)
-                                        .environmentObject(homeViewModel)
-                                        .environmentObject(profileViewModel)
-                                        .onAppear {
-//                                    self.tabBarHidden = true
-                        }.onDisappear {
-//                                    self.tabBarHidden = false
-                        }) {
+                        NavigationLink(destination: PostCommentsView(sheetManager: sheetManager, post: post).environmentObject(homeViewModel).environmentObject(profileViewModel).ignoresSafeArea(.keyboard)) {
                             HStack {
                                 Image(systemName: "bubble.left")
                                 Text(String(localized: "HomeView_comment_button"))
