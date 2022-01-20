@@ -396,7 +396,7 @@ struct ChangeEmailAddressSheetView: View {
                     
                     if success {
                         HStack {
-                            LottieView(name: "success2", loopMode: .loop, contentMode: .scaleAspectFit)
+                            LottieView(name: "success2", loopMode: .playOnce, contentMode: .scaleAspectFit)
                                 .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                                 .padding(.leading)
                                 .offset(y: -screenHeight * 0.013)
@@ -502,7 +502,7 @@ struct ChangePasswordSheetView: View {
                     
                     if success {
                         HStack {
-                            LottieView(name: "success2", loopMode: .loop, contentMode: .scaleAspectFit)
+                            LottieView(name: "success2", loopMode: .playOnce, contentMode: .scaleAspectFit)
                                 .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                                 .padding(.leading)
                                 .offset(y: -screenHeight * 0.013)

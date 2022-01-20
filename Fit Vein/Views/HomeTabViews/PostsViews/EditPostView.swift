@@ -13,16 +13,15 @@ struct EditPostView: View {
     
     @Environment(\.dismiss) var dismiss
     
-    private var postID: String
-    private var postText: String
+    private var post: Post
+    
     @State private var postTextEdited = ""
     
     @State private var success = false
     @State private var error = false
     
-    init(postID: String, postText: String) {
-        self.postID = postID
-        self.postText = postText
+    init(post: Post) {
+        self.post = post
     }
     
     var body: some View {
@@ -123,7 +122,7 @@ struct EditPostView: View {
                     Spacer()
                 }
                 .onAppear {
-                    self.postTextEdited = self.postText
+                    self.postTextEdited = self.post.text
                 }
                 .navigationBarTitle(String(localized: "EditPostView_navigation_title"), displayMode: .inline)
                 .toolbar {
@@ -145,7 +144,7 @@ struct EditPostView: View {
                                 self.error = false
                                 self.success = false
                             }
-                            self.homeViewModel.editPost(postID: postID, text: postTextEdited) { success in
+                            self.homeViewModel.editPost(postID: self.post.id, text: postTextEdited) { success in
                                 withAnimation {
                                     if success {
                                         self.success = true
@@ -182,7 +181,7 @@ struct EditPostView_Previews: PreviewProvider {
 
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
-                EditPostView(postID: "id1", postText: "text")
+                EditPostView(post: Post(id: "1", authorID: "1", authorFirstName: "Jan", authorUsername: "jan23.d", authorProfilePictureURL: "", addDate: Date(), text: "Did this today!", reactionsUsersIDs: nil, commentedUsersIDs: nil, comments: nil))
                     .environmentObject(homeViewModel)
                     .environmentObject(profileViewModel)
                     .preferredColorScheme(colorScheme)

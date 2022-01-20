@@ -9,28 +9,17 @@ import SwiftUI
 
 struct HomeTabSubViewPostDetailsView: View {
     @EnvironmentObject private var homeViewModel: HomeViewModel
-    @ObservedObject private var sheetManager: SheetManager
+    @EnvironmentObject private var profileViewModel: ProfileViewModel
+    
     @State private var showPostOptions = false
+    @State private var showEditPostSheet = false
     
     private var currentUserID: String
-    private var postID: String
-    private var postAuthorUserID: String
-    private var postAuthorProfilePictureURL: URL?
-    private var postAuthorFirstName: String
-    private var postAuthorUsername: String
-    private var postAddDate: Date
-    private var postText: String
+    private var post: Post
     
-    init(sheetManager: SheetManager, currentUserID: String, postID: String, postAuthorUserID: String, postAuthorProfilePictureURL: URL?, postAuthorFirstName: String, postAuthorUsername: String, postAddDate: Date, postText: String) {
-        self.sheetManager = sheetManager
+    init(currentUserID: String, post: Post) {
         self.currentUserID = currentUserID
-        self.postID = postID
-        self.postAuthorUserID = postAuthorUserID
-        self.postAuthorProfilePictureURL = postAuthorProfilePictureURL
-        self.postAuthorFirstName = postAuthorFirstName
-        self.postAuthorUsername = postAuthorUsername
-        self.postAddDate = postAddDate
-        self.postText = postText
+        self.post = post
     }
     
     var body: some View {
@@ -41,7 +30,7 @@ struct HomeTabSubViewPostDetailsView: View {
             VStack {
                 HStack {
                     Group {
-                        if let profilePictureURL = self.postAuthorProfilePictureURL {
+                        if let profilePictureURL = self.homeViewModel.postsAuthorsProfilePicturesURLs[post.id] {
                             AsyncImage(url: profilePictureURL) { phase in
                                 if let image = phase.image {
                                     image
@@ -62,16 +51,16 @@ struct HomeTabSubViewPostDetailsView: View {
                     
                     VStack {
                         HStack {
-                            Text(postAuthorFirstName)
+                            Text(post.authorFirstName)
                                 .fontWeight(.bold)
                             Text("•")
-                            Text(postAuthorUsername)
+                            Text(post.authorUsername)
                             Spacer()
 
-                            if currentUserID == postAuthorUserID {
+                            if currentUserID == post.authorID {
                                 Button(action: {
                                     withAnimation {
-                                        self.showPostOptions = true
+                                        showPostOptions.toggle()
                                     }
                                 }, label: {
                                     Image(systemName: "ellipsis")
@@ -84,7 +73,7 @@ struct HomeTabSubViewPostDetailsView: View {
                         .padding(.bottom, screenHeight * 0.001)
 
                         HStack {
-                            Text(getShortDate(longDate: postAddDate))
+                            Text(getShortDate(longDate: post.addDate))
                                 .foregroundColor(Color(uiColor: .systemGray2))
                             Spacer()
                         }
@@ -92,7 +81,7 @@ struct HomeTabSubViewPostDetailsView: View {
                     .padding(.horizontal)
                 }
                 
-                Text(postText)
+                Text(post.text)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding()
                 
@@ -101,17 +90,17 @@ struct HomeTabSubViewPostDetailsView: View {
             .padding()
             .confirmationDialog(String(localized: "HomeView_confirmation_dialog_text"), isPresented: $showPostOptions, titleVisibility: .visible) {
                 Button(String(localized: "HomeView_confirmation_dialog_edit")) {
-                    sheetManager.postID = postID
-                    sheetManager.postText = postText
-                    sheetManager.whichSheet = .editView
-                    sheetManager.showSheet.toggle()
+                    showEditPostSheet.toggle()
                 }
-                
+
                 Button(String(localized: "HomeView_confirmation_dialog_delete"), role: .destructive) {
-                    self.homeViewModel.deletePost(postID: postID) { success in }
+                    self.homeViewModel.deletePost(postID: post.id) { success in }
                 }
-                
+
                 Button(String(localized: "HomeView_confirmation_dialog_cancel"), role: .cancel) {}
+            }
+            .sheet(isPresented: $showEditPostSheet) {
+                EditPostView(post: post).environmentObject(homeViewModel).environmentObject(profileViewModel).ignoresSafeArea(.keyboard)
             }
         }
     }
@@ -120,12 +109,15 @@ struct HomeTabSubViewPostDetailsView: View {
 struct HomeTabSubViewPostDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         let homeViewModel = HomeViewModel(forPreviews: true)
-        let sheetManager = SheetManager()
+        let profileViewModel = ProfileViewModel(forPreviews: true)
+        let comments = [Comment(id: "id1", authorID: "1", postID: "1", authorFirstName: "Maciej", authorUsername: "maciej.j223", authorProfilePictureURL: "nil", addDate: Date(), text: "Good job!", reactionsUsersIDs: ["2", "3"]), Comment(id: "id2", authorID: "3", postID: "1", authorFirstName: "Kamil", authorUsername: "kamil.j223", authorProfilePictureURL: "nil", addDate: Date(), text: "Let's Go!", reactionsUsersIDs: ["1", "3"])]
+        let post = Post(id: "1", authorID: "1", authorFirstName: "Jan", authorUsername: "jan23.d", authorProfilePictureURL: "", addDate: Date(), text: "Did this today!", reactionsUsersIDs: nil, commentedUsersIDs: nil, comments: comments)
         
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
-                HomeTabSubViewPostDetailsView(sheetManager: sheetManager, currentUserID: "id1", postID: "id1", postAuthorUserID: "id1", postAuthorProfilePictureURL: nil, postAuthorFirstName: "jan", postAuthorUsername: "jan23.d", postAddDate: Date(), postText: "post")
+                HomeTabSubViewPostDetailsView(currentUserID: "id1", post: post)
                     .environmentObject(homeViewModel)
+                    .environmentObject(profileViewModel)
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)

@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct LoggedUserView: View {
-    @ObservedObject private var homeViewModel = HomeViewModel()
-    @ObservedObject private var workoutViewModel = WorkoutViewModel(forPreviews: false)
-    @ObservedObject private var profileViewModel = ProfileViewModel()
-    @ObservedObject private var networkManager = NetworkManager()
+    @StateObject private var homeViewModel = HomeViewModel()
+    @StateObject private var workoutViewModel = WorkoutViewModel(forPreviews: false)
+    @StateObject private var profileViewModel = ProfileViewModel()
+    @StateObject private var networkManager = NetworkManager()
     
     @State var selectedTab: Tab = .home
     

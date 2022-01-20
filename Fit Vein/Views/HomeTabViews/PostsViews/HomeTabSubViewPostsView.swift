@@ -10,13 +10,12 @@ import SwiftUI
 struct HomeTabSubViewPostsView: View {
     @EnvironmentObject private var homeViewModel: HomeViewModel
     @EnvironmentObject private var profileViewModel: ProfileViewModel
-    @ObservedObject private var sheetManager: SheetManager
+    
     @Environment(\.colorScheme) var colorScheme
     
     private var post: Post
     
-    init(sheetManager: SheetManager, post: Post) {
-        self.sheetManager = sheetManager
+    init(post: Post) {
         self.post = post
     }
     
@@ -27,8 +26,8 @@ struct HomeTabSubViewPostsView: View {
             
             VStack {
                 VStack {
-                    HomeTabSubViewPostDetailsView(sheetManager: sheetManager, currentUserID: self.profileViewModel.profile!.id, postID: post.id, postAuthorUserID: post.authorID, postAuthorProfilePictureURL: self.homeViewModel.postsAuthorsProfilePicturesURLs[post.id], postAuthorFirstName: post.authorFirstName, postAuthorUsername: post.authorUsername, postAddDate: post.addDate, postText: post.text)
-                        .environmentObject(homeViewModel)
+                    HomeTabSubViewPostDetailsView(currentUserID: self.profileViewModel.profile!.id, post: post)
+                        .environmentObject(homeViewModel).environmentObject(profileViewModel)
                 }
                 
                 Spacer()
@@ -97,12 +96,15 @@ struct HomeTabSubViewPostsView: View {
                         
                         Spacer()
 
-                        NavigationLink(destination: PostCommentsView(sheetManager: sheetManager, post: post).environmentObject(homeViewModel).environmentObject(profileViewModel).ignoresSafeArea(.keyboard)) {
+                        NavigationLink(destination: PostCommentsView(post: post).environmentObject(homeViewModel).environmentObject(profileViewModel).ignoresSafeArea(.keyboard)) {
                             HStack {
                                 Image(systemName: "bubble.left")
                                 Text(String(localized: "HomeView_comment_button"))
                             }
                             .foregroundColor(colorScheme == .dark ? .white : .black)
+                        }
+                        NavigationLink(destination: EmptyView()) {
+                             EmptyView()
                         }
                         
                         Spacer()
@@ -120,11 +122,10 @@ struct HomeTabSubViewPostsView_Previews: PreviewProvider {
     static var previews: some View {
         let homeViewModel = HomeViewModel(forPreviews: true)
         let profileViewModel = ProfileViewModel(forPreviews: true)
-        let sheetManager = SheetManager()
 
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
-                HomeTabSubViewPostsView(sheetManager: sheetManager, post: homeViewModel.posts![0])
+                HomeTabSubViewPostsView(post: homeViewModel.posts![0])
                     .environmentObject(homeViewModel)
                     .environmentObject(profileViewModel)
                     .preferredColorScheme(colorScheme)

@@ -14,8 +14,6 @@ struct HomeView: View {
     @EnvironmentObject private var networkManager: NetworkManager
     @Environment(\.colorScheme) var colorScheme
     
-    @StateObject private var sheetManager = SheetManager()
-    
     var body: some View {
         GeometryReader { geometry in
             let screenWidth = geometry.size.width
@@ -38,7 +36,7 @@ struct HomeView: View {
                         if profileViewModel.profile != nil {
                             withAnimation {
                                 ScrollView(.vertical) {
-                                    HomeTabSubViewShareView(sheetManager: sheetManager).environmentObject(profileViewModel)
+                                    HomeTabSubViewShareView().environmentObject(homeViewModel).environmentObject(profileViewModel)
                                         .frame(height: screenHeight * 0.25)
                                         .padding(.bottom, screenHeight * 0.055)
                                         .offset(y: -screenHeight * 0.02)
@@ -47,7 +45,7 @@ struct HomeView: View {
                                         if let posts = homeViewModel.posts {
                                             if posts.count != 0 {
                                                 ForEach(posts) { post in
-                                                    HomeTabSubViewPostsView(sheetManager: sheetManager, post: post).environmentObject(homeViewModel).environmentObject(profileViewModel)
+                                                    HomeTabSubViewPostsView(post: post).environmentObject(homeViewModel).environmentObject(profileViewModel)
                                                         .frame(height: screenHeight * 0.3)
                                                         .background(Color(uiColor: .systemGray6))
                                                 }
@@ -97,16 +95,6 @@ struct HomeView: View {
                                         }
                                     }
                                     .offset(y: -screenHeight * 0.12)
-                                }
-                                .sheet(isPresented: $sheetManager.showSheet) {
-                                    switch sheetManager.whichSheet {
-                                    case .addView:
-                                        AddPostView().environmentObject(homeViewModel).environmentObject(profileViewModel).ignoresSafeArea(.keyboard)
-                                    case .editView:
-                                        EditPostView(postID: sheetManager.postID!, postText: sheetManager.postText!).environmentObject(homeViewModel).environmentObject(profileViewModel).ignoresSafeArea(.keyboard)
-                                    default:
-                                        Text("No view")
-                                    }
                                 }
                             }
                         }

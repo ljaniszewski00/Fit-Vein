@@ -10,10 +10,11 @@ import SwiftUI
 struct PostCommentsView: View {
     @EnvironmentObject private var homeViewModel: HomeViewModel
     @EnvironmentObject private var profileViewModel: ProfileViewModel
-    @Environment(\.colorScheme) var colorScheme
-    @ObservedObject private var sheetManager: SheetManager
     
     @State private var showPostOptions = false
+    @State private var showEditPostSheet = false
+    
+    @Environment(\.colorScheme) var colorScheme
     
     @State var commentText = ""
     
@@ -21,8 +22,7 @@ struct PostCommentsView: View {
     
     private var post: Post
     
-    init(sheetManager: SheetManager, post: Post) {
-        self.sheetManager = sheetManager
+    init(post: Post) {
         self.post = post
     }
     
@@ -122,7 +122,7 @@ struct PostCommentsView: View {
                     if self.homeViewModel.sessionStore.currentUser!.uid == post.authorID {
                         Button(action: {
                             withAnimation {
-                                self.showPostOptions = true
+                                showPostOptions.toggle()
                             }
                         }, label: {
                             Image(systemName: "ellipsis")
@@ -134,10 +134,7 @@ struct PostCommentsView: View {
             }
             .confirmationDialog(String(localized: "HomeView_confirmation_dialog_text"), isPresented: $showPostOptions, titleVisibility: .visible) {
                 Button(String(localized: "HomeView_confirmation_dialog_edit")) {
-                    sheetManager.postID = post.id
-                    sheetManager.postText = post.text
-                    sheetManager.whichSheet = .editView
-                    sheetManager.showSheet.toggle()
+                    showEditPostSheet.toggle()
                 }
 
                 Button(String(localized: "HomeView_confirmation_dialog_delete"), role: .destructive) {
@@ -146,13 +143,8 @@ struct PostCommentsView: View {
 
                 Button(String(localized: "HomeView_confirmation_dialog_cancel"), role: .cancel) {}
             }
-            .sheet(isPresented: $sheetManager.showSheet) {
-                switch sheetManager.whichSheet {
-                case .editView:
-                    EditPostView(postID: sheetManager.postID!, postText: sheetManager.postText!).environmentObject(homeViewModel).environmentObject(profileViewModel).ignoresSafeArea(.keyboard)
-                default:
-                    Text("No view")
-                }
+            .sheet(isPresented: $showEditPostSheet) {
+                EditPostView(post: post).environmentObject(homeViewModel).environmentObject(profileViewModel).ignoresSafeArea(.keyboard)
             }
             .background(.ultraThinMaterial, in: Rectangle())
         }
@@ -165,12 +157,11 @@ struct PostCommentsView_Previews: PreviewProvider {
         let profileViewModel = ProfileViewModel(forPreviews: true)
         let comments = [Comment(id: "id1", authorID: "1", postID: "1", authorFirstName: "Maciej", authorUsername: "maciej.j223", authorProfilePictureURL: "nil", addDate: Date(), text: "Good job!", reactionsUsersIDs: ["2", "3"]), Comment(id: "id2", authorID: "3", postID: "1", authorFirstName: "Kamil", authorUsername: "kamil.j223", authorProfilePictureURL: "nil", addDate: Date(), text: "Let's Go!", reactionsUsersIDs: ["1", "3"])]
         let post = Post(id: "1", authorID: "1", authorFirstName: "Jan", authorUsername: "jan23.d", authorProfilePictureURL: "", addDate: Date(), text: "Did this today!", reactionsUsersIDs: nil, commentedUsersIDs: nil, comments: comments)
-        let sheetManager = SheetManager()
 
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
                 NavigationView {
-                    PostCommentsView(sheetManager: sheetManager, post: post)
+                    PostCommentsView(post: post)
                         .environmentObject(homeViewModel)
                         .environmentObject(profileViewModel)
                         .preferredColorScheme(colorScheme)

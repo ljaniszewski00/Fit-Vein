@@ -8,12 +8,10 @@
 import SwiftUI
 
 struct HomeTabSubViewShareView: View {
+    @EnvironmentObject private var homeViewModel: HomeViewModel
     @EnvironmentObject private var profileViewModel: ProfileViewModel
-    @ObservedObject private var sheetManager: SheetManager
     
-    init(sheetManager: SheetManager) {
-        self.sheetManager = sheetManager
-    }
+    @State private var showAddPostSheet = false
     
     var body: some View {
         GeometryReader { geometry in
@@ -53,8 +51,7 @@ struct HomeTabSubViewShareView: View {
                 .padding(.leading)
                 .onTapGesture {
                     withAnimation {
-                        sheetManager.whichSheet = .addView
-                        sheetManager.showSheet.toggle()
+                        showAddPostSheet.toggle()
                     }
                 }
                 
@@ -68,6 +65,9 @@ struct HomeTabSubViewShareView: View {
                     
             }
             .frame(width: screenWidth, height: screenHeight)
+            .sheet(isPresented: $showAddPostSheet) {
+                AddPostView().environmentObject(homeViewModel).environmentObject(profileViewModel).ignoresSafeArea(.keyboard)
+            }
         }
         
     }
@@ -75,10 +75,12 @@ struct HomeTabSubViewShareView: View {
 
 struct HomeTabSubViewShareView_Previews: PreviewProvider {
     static var previews: some View {
+        let homeViewModel = HomeViewModel(forPreviews: true)
         let profileViewModel = ProfileViewModel(forPreviews: true)
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
-                HomeTabSubViewShareView(sheetManager: SheetManager())
+                HomeTabSubViewShareView()
+                    .environmentObject(homeViewModel)
                     .environmentObject(profileViewModel)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)

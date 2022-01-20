@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0A0174E3278A010200CD45F9 /* HomeTabSubViewShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0174E2278A010200CD45F9 /* HomeTabSubViewShareView.swift */; };
 		0A0174E5278A011900CD45F9 /* HomeTabSubViewPostsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0174E4278A011900CD45F9 /* HomeTabSubViewPostsView.swift */; };
-		0A0174E7278A023E00CD45F9 /* HomeViewSheetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0174E6278A023E00CD45F9 /* HomeViewSheetManager.swift */; };
 		0A0174E9278A05E400CD45F9 /* HomeTabSubViewPostDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0174E8278A05E400CD45F9 /* HomeTabSubViewPostDetailsView.swift */; };
 		0A0174EC278B106500CD45F9 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 0A0174EB278B106500CD45F9 /* Lottie */; };
 		0A0174EF278B111F00CD45F9 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0174EE278B111F00CD45F9 /* LottieView.swift */; };
@@ -127,7 +126,6 @@
 /* Begin PBXFileReference section */
 		0A0174E2278A010200CD45F9 /* HomeTabSubViewShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabSubViewShareView.swift; sourceTree = "<group>"; };
 		0A0174E4278A011900CD45F9 /* HomeTabSubViewPostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabSubViewPostsView.swift; sourceTree = "<group>"; };
-		0A0174E6278A023E00CD45F9 /* HomeViewSheetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewSheetManager.swift; sourceTree = "<group>"; };
 		0A0174E8278A05E400CD45F9 /* HomeTabSubViewPostDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabSubViewPostDetailsView.swift; sourceTree = "<group>"; };
 		0A0174EE278B111F00CD45F9 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		0A0174F4278B1BA200CD45F9 /* 20022-character-squat-animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "20022-character-squat-animation.json"; sourceTree = "<group>"; };
@@ -439,7 +437,6 @@
 				0ABE143D27170333009CD67A /* Errors.swift */,
 				0ABE145627204C72009CD67A /* SwiftUIImagePicker.swift */,
 				0A7CA669274E802F00B97EF2 /* HealthKitRepository.swift */,
-				0A0174E6278A023E00CD45F9 /* HomeViewSheetManager.swift */,
 				0A83A26F278B8A190061973B /* NetworkManager.swift */,
 			);
 			path = "Constants&Utils";
@@ -877,7 +874,6 @@
 				0AC41CF827274F7300DA5491 /* WorkoutTabView.swift in Sources */,
 				0AC4DD872715A9E4003D5FED /* ContentView.swift in Sources */,
 				0ABEF73327788624007E20FC /* PostCommentsView.swift in Sources */,
-				0A0174E7278A023E00CD45F9 /* HomeViewSheetManager.swift in Sources */,
 				0A7CA66E274ED88900B97EF2 /* HealthKitViewModel.swift in Sources */,
 				0A0174E9278A05E400CD45F9 /* HomeTabSubViewPostDetailsView.swift in Sources */,
 				0A67B1D6272B04EC007F8891 /* SearchFriendsView.swift in Sources */,
