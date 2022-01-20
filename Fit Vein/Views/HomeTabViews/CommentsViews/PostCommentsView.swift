@@ -20,6 +20,8 @@ struct PostCommentsView: View {
     
     @FocusState private var isCommentTextFieldFocused
     
+    @State private var isCommentEditTextFieldFocused = false
+    
     private var post: Post
     
     init(post: Post) {
@@ -39,12 +41,13 @@ struct PostCommentsView: View {
                     
                     if let postComments = homeViewModel.postsComments[post.id] {
                         ForEach(postComments) { comment in
-                            HomeTabCommentsView(post: post, comment: comment).environmentObject(homeViewModel).environmentObject(profileViewModel)
+                            HomeTabCommentsView(post: post, comment: comment, isCommentEditTextFieldFocusedBool: $isCommentEditTextFieldFocused).environmentObject(homeViewModel).environmentObject(profileViewModel)
                                 .frame(width: screenWidth, height: screenHeight * 0.2)
                         }
                     }
                 }
                 .padding(.top, screenHeight * 0.001)
+                .padding(.bottom, isCommentTextFieldFocused ? screenHeight * 0.27 : (isCommentEditTextFieldFocused ? screenHeight * 0.2 : 0))
                 
                 HStack {
                     TextField(String(localized: "CommentView_comment_text_field_label"), text: $commentText)
@@ -71,7 +74,9 @@ struct PostCommentsView: View {
                 }
                 .frame(width: screenWidth * 0.95, height: screenHeight * 0.05)
                 .background(RoundedRectangle(cornerRadius: 25, style: .continuous).stroke().foregroundColor(.accentColor))
+                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 25, style: .continuous))
                 .padding(.bottom, screenHeight * 0.1)
+                .offset(y: isCommentTextFieldFocused ? -screenHeight * 0.27 : 0)
             }
             .navigationTitle("")
             .navigationBarTitleDisplayMode(.inline)

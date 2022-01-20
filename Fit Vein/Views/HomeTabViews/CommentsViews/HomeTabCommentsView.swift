@@ -20,12 +20,17 @@ struct HomeTabCommentsView: View {
     
     @State private var error = false
     
+    @FocusState private var isCommentEditTextFieldFocused
+    
+    @Binding private var isCommentEditTextFieldFocusedBool: Bool
+    
     private var post: Post
     private var comment: Comment
     
-    init(post: Post, comment: Comment) {
+    init(post: Post, comment: Comment, isCommentEditTextFieldFocusedBool: Binding<Bool>) {
         self.post = post
         self.comment = comment
+        self._isCommentEditTextFieldFocusedBool = isCommentEditTextFieldFocusedBool
     }
     
     var body: some View {
@@ -85,11 +90,21 @@ struct HomeTabCommentsView: View {
                         
                         if commentEditMode {
                             TextField("", text: $commentNewText)
-                                .textFieldStyle(.roundedBorder)
+                                .disableAutocorrection(true)
+                                .autocapitalization(.none)
+                                .padding(.leading)
+                                .focused($isCommentEditTextFieldFocused)
+                                .onChange(of: isCommentEditTextFieldFocused) { newValue in
+                                    self.isCommentEditTextFieldFocusedBool = newValue
+                                }
+                                .frame(width: screenWidth * 0.67, height: screenHeight * 0.18)
+                                .background(RoundedRectangle(cornerRadius: 25, style: .continuous).stroke().foregroundColor(.accentColor))
+                                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 25, style: .continuous))
                         } else {
                             Text(comment.text)
                                 .font(.system(size: screenHeight * 0.1))
                                 .fixedSize(horizontal: false, vertical: false)
+                                .frame(width: screenWidth * 0.67, height: screenHeight * 0.18)
                         }
                         
                         HStack {
@@ -232,7 +247,7 @@ struct HomeTabCommentsView_Previews: PreviewProvider {
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
             ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
                 NavigationView {
-                    HomeTabCommentsView(post: post, comment: post.comments![0])
+                    HomeTabCommentsView(post: post, comment: post.comments![0], isCommentEditTextFieldFocusedBool: .constant(false))
                         .environmentObject(homeViewModel)
                         .environmentObject(profileViewModel)
                         .preferredColorScheme(colorScheme)
