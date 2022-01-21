@@ -27,6 +27,8 @@ struct ProfileView: View {
     
     @State private var alreadyAppearedOnce = false
     
+    @State private var shouldShowMedalsPresentation = false
+    
     var body: some View {
         GeometryReader { geometry in
             let screenWidth = geometry.size.width
@@ -129,6 +131,20 @@ struct ProfileView: View {
                                     }
                                     
                                     Spacer()
+                                    
+                                    HStack(alignment: .center, spacing: screenWidth * 0.03) {
+                                        ForEach(Array(profileViewModel.medals.keys.sorted(by: <))[0...2], id: \.self) { medalFileName in
+                                            Image(uiImage: UIImage(named: medalFileName)!)
+                                                .resizable()
+                                                .shadow(color: .gray, radius: 7)
+                                                .frame(width: screenWidth * 0.14, height: screenHeight * 0.07)
+                                                .onTapGesture {
+                                                    withAnimation(.linear) {
+                                                        shouldShowMedalsPresentation = true
+                                                    }
+                                                }
+                                        }
+                                    }
                                 }
                             }
                             .padding()
@@ -225,6 +241,30 @@ struct ProfileView: View {
                                             self.shouldShowLevelUpAnimation = false
                                         }
                                     }
+                                )
+                        }
+                        .if(shouldShowMedalsPresentation) {
+                            $0
+                                .overlay(
+                                    TabView {
+                                        ForEach(profileViewModel.medals.sorted(by: <), id: \.key) { medalFileName, medalDescription in
+                                            VStack {
+                                                Image(uiImage: UIImage(named: medalFileName)!)
+                                                    .resizable()
+                                                    .shadow(color: .gray, radius: 7)
+                                                    .frame(width: screenWidth * 0.56, height: screenHeight * 0.28)
+
+                                                Text(medalDescription)
+                                            }
+                                        }
+                                    }
+                                        .tabViewStyle(PageTabViewStyle())
+                                        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 40, style: .continuous))
+                                        .onTapGesture {
+                                            withAnimation(.linear) {
+                                                shouldShowMedalsPresentation = false
+                                            }
+                                        }
                                 )
                         }
                         .onAppear {
