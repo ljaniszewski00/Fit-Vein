@@ -133,7 +133,7 @@ struct ProfileView: View {
                                     Spacer()
                                     
                                     HStack(alignment: .center, spacing: screenWidth * 0.03) {
-                                        ForEach(Array(profileViewModel.medals.keys.sorted(by: <))[0...2], id: \.self) { medalFileName in
+                                        ForEach(profileViewModel.medalsFilesNames.sorted(by: <)[profileViewModel.profile!.level < 3 ? 0...profileViewModel.profile!.level : 0...2], id: \.self) { medalFileName in
                                             Image(uiImage: UIImage(named: medalFileName)!)
                                                 .resizable()
                                                 .shadow(color: .gray, radius: 7)
@@ -247,14 +247,14 @@ struct ProfileView: View {
                             $0
                                 .overlay(
                                     TabView {
-                                        ForEach(profileViewModel.medals.sorted(by: <), id: \.key) { medalFileName, medalDescription in
-                                            VStack {
-                                                Image(uiImage: UIImage(named: medalFileName)!)
+                                        ForEach((0...(profileViewModel.profile!.level - 1)), id: \.self) { index in
+                                            VStack(spacing: screenHeight * 0.07) {
+                                                Image(uiImage: UIImage(named: profileViewModel.medalsFilesNames.sorted(by: <)[index])!)
                                                     .resizable()
-                                                    .shadow(color: .gray, radius: 7)
                                                     .frame(width: screenWidth * 0.56, height: screenHeight * 0.28)
 
-                                                Text(medalDescription)
+                                                Text(profileViewModel.medalsDescriptions.sorted(by: <)[index])
+                                                    .font(.system(size: screenHeight * 0.025, weight: .bold))
                                             }
                                         }
                                     }
