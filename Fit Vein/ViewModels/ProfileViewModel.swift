@@ -16,6 +16,7 @@ class ProfileViewModel: ObservableObject {
     
     @Published var profile: Profile?
     @Published var profilePicturePhotoURL: URL?
+    @Published var profilePicturePhoto: UIImage?
     
     @Published var workouts: [IntervalWorkout]?
     
@@ -42,19 +43,19 @@ class ProfileViewModel: ObservableObject {
             self.firestoreManager.fetchDataForProfileViewModel(userID: self.sessionStore.currentUser!.uid) { [self] fetchedProfile in
                 self.profile = fetchedProfile
                 
-                if profile != nil {
-                    if profile!.profilePictureURL != nil {
-                        if self.sessionStore.currentUser != nil {
-                            self.firebaseStorageManager.getDownloadURLForImage(stringURL: profile!.profilePictureURL!, userID: self.sessionStore.currentUser!.uid) { photoURL, success in
-                                if let photoURL = photoURL {
-                                    self.profilePicturePhotoURL = photoURL
-                                }
-                                self.firestoreManager.fetchWorkouts(userID: self.sessionStore.currentUser!.uid) { fetchedWorkouts, success in
-                                    if success {
-                                        self.workouts = fetchedWorkouts
-                                    }
-                                }
-                            }
+                if let profile = profile {
+                    if let profilePictureURL = profile.profilePictureURL {
+//                        self.firebaseStorageManager.getDownloadURLForImage(stringURL: profile!.profilePictureURL!, userID: self.sessionStore.currentUser!.uid) { photoURL, success in
+//                            if let photoURL = photoURL {
+//                                self.profilePicturePhotoURL = photoURL
+//                            }
+//                        }
+                        
+                        self.downloadPhoto(photoURL: profilePictureURL) { success in }
+                    }
+                    self.firestoreManager.fetchWorkouts(userID: profile.id) { fetchedWorkouts, success in
+                        if success {
+                            self.workouts = fetchedWorkouts
                         }
                     }
                 }
@@ -76,7 +77,9 @@ class ProfileViewModel: ObservableObject {
                                 self.firestoreManager.postChangeAuthorProfilePictureURL(authorID: profile.id, authorProfilePictureURL: photoURL) { success in
                                     if success {
                                         self.firestoreManager.commentChangeAuthorProfilePictureURL(authorID: profile.id, authorProfilePictureURL: photoURL) { success in
-                                            completion(success)
+                                            self.downloadPhoto(photoURL: photoURL) { success in
+                                                completion(success)
+                                            }
                                         }
                                     } else {
                                         completion(false)
@@ -92,6 +95,19 @@ class ProfileViewModel: ObservableObject {
                     }
                 } else {
                     completion(false)
+                }
+            }
+        }
+    }
+    
+    func downloadPhoto(photoURL: String, completion: @escaping ((Bool) -> ())) {
+        if let profile = self.profile {
+            if let profilePictureURL = profile.profilePictureURL {
+                self.firebaseStorageManager.downloadImageFromStorage(userID: profile.id, userPhotoURL: profilePictureURL) { photo, success in
+                    if let photo = photo {
+                        self.profilePicturePhoto = photo
+                    }
+                    completion(success)
                 }
             }
         }

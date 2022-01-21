@@ -208,7 +208,8 @@ struct WorkoutTimerView: View {
                             
                             Button(action: {
                                 withAnimation {
-                                    self.workoutViewModel.stopWorkout(calories: 200, completedDuration: (minutesElapsed != 0 ? secondsElapsed * minutesElapsed : secondsElapsed), completedSeries: currentRound)
+                                    let completedDuration = minutesElapsed != 0 ? secondsElapsed * minutesElapsed : secondsElapsed
+                                    self.workoutViewModel.stopWorkout(calories: Int(Double(completedDuration) * 0.35), completedDuration: completedDuration, completedSeries: currentRound)
                                     stopped = true
                                 }
                             }, label: {
@@ -242,7 +243,8 @@ struct WorkoutTimerView: View {
                     endRadius: 500))
                 .onReceive(timer) { _ in
                     if minutesRemaining == 0 && secondsRemaining == 0 {
-                        self.workoutViewModel.stopWorkout(calories: 200, completedDuration: secondsElapsed * minutesElapsed, completedSeries: currentRound)
+                        let completedDuration = minutesElapsed != 0 ? (secondsElapsed * minutesElapsed) : secondsElapsed
+                        self.workoutViewModel.stopWorkout(calories: Int(Double(completedDuration) * 0.35), completedDuration: completedDuration, completedSeries: currentRound)
                         stopped = true
                     }
                     

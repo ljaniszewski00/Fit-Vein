@@ -21,16 +21,24 @@ struct HomeTabSubViewShareView: View {
             VStack {
                 HStack {
                     Group {
-                        if let profilePictureURL = profileViewModel.profilePicturePhotoURL {
-                            AsyncImage(url: profilePictureURL) { phase in
-                                if let image = phase.image {
-                                    image
-                                        .resizable()
-                                } else {
-                                    Image(uiImage: UIImage(named: "blank-profile-hi")!)
-                                        .resizable()
-                                }
-                            }
+//                        if let profilePictureURL = profileViewModel.profilePicturePhotoURL {
+//                            AsyncImage(url: profilePictureURL) { phase in
+//                                if let image = phase.image {
+//                                    image
+//                                        .resizable()
+//                                } else {
+//                                    Image(uiImage: UIImage(named: "blank-profile-hi")!)
+//                                        .resizable()
+//                                }
+//                            }
+//                        } else {
+//                            Image(uiImage: UIImage(named: "blank-profile-hi")!)
+//                                .resizable()
+//                        }
+                        
+                        if let profilePicturePhoto = profileViewModel.profilePicturePhoto {
+                            Image(uiImage: profilePicturePhoto)
+                                .resizable()
                         } else {
                             Image(uiImage: UIImage(named: "blank-profile-hi")!)
                                 .resizable()
