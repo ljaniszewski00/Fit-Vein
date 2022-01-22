@@ -55,19 +55,17 @@ struct WorkoutTimerView: View {
                             
                             Circle()
                                 .trim(from: 0, to: CGFloat(secondsRound) / CGFloat(rest ? workoutViewModel.workout!.restTime! : workoutViewModel.workout!.workTime!))
-                                .stroke(AngularGradient(gradient: Gradient(colors: [.red, .yellow, .accentColor, .blue, .purple, .red]), center: .center), style: StrokeStyle(lineWidth: 15, lineCap: .round))
-                                .shadow(color: Color.black, radius: 5, x: -10, y: 10)
+                                .stroke(rest ? Color(uiColor: UIColor(red: 246, green: 205, blue: 108)) : Color(uiColor: UIColor(red: 255, green: 104, blue: 108)), style: StrokeStyle(lineWidth: 15, lineCap: .round))
                                 .rotationEffect(.degrees(-90))
                                 .animation(.easeInOut)
                                 .padding(.horizontal)
                             
+                            Circle()
+                                .foregroundColor(rest ? Color(uiColor: UIColor(red: 255, green: 248, blue: 182)) : Color(uiColor: UIColor(red: 255, green: 204, blue: 209)))
+                                .frame(width: screenWidth * 0.755, height: screenHeight * 0.385)
+                            
                             VStack {
                                 Spacer()
-                                
-                                LottieView(name: "avocadoWorkout", loopMode: .loop, paused: paused)
-                                    .frame(width: screenWidth * 0.4, height: screenHeight * 0.17)
-                                    .padding(.top, screenHeight * 0.05)
-                                    .padding(.bottom, -screenHeight * 0.05)
                                 
                                 Group {
                                     if minutesRound < 10 {
@@ -84,83 +82,114 @@ struct WorkoutTimerView: View {
                                         }
                                     }
                                 }
-                                .foregroundColor(Color(UIColor.systemGray5))
+                                .foregroundColor(.black)
                                 .font(.system(size: screenHeight * 0.1, weight: .bold))
-                                .padding(.bottom, screenHeight * 0.02)
                                 
-                                Text(String(localized: rest ? "WorkoutTimerView_rest_label" : "WorkoutTimerView_work_label"))
-                                    .font(.title)
-                                    .background(RoundedRectangle(cornerRadius: 25).foregroundColor(rest ? .yellow : .red).frame(width: screenWidth * 0.3, height: screenHeight * 0.06))
-                                    .shadow(color: Color.black, radius: 7, x: 10, y: 10)
-                                    .padding(.bottom, screenHeight * 0.12)
+                                Spacer()
                             }
                         }
+                        .frame(width: screenWidth * 0.9, height: screenHeight * 0.4)
                         
                         Spacer()
                     }
+                    .padding(.top)
                     
-                    Spacer(minLength: screenHeight * 0.08)
-                    
-                    VStack {
-                        HStack {
-                            Text(String(localized: "WorkoutTimerView_elapsed_time"))
-                            Spacer()
-                            Text(String(localized: "WorkoutTimerView_rounds")).padding(.leading, screenWidth * 0.045)
-                            Spacer()
-                            Text(String(localized: "WorkoutTimerView_remaining"))
-                        }
-                        .padding(.horizontal)
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 40, style: .continuous)
+                            .foregroundColor(.white)
+                            .frame(width: screenWidth, height: screenHeight)
                         
-                        HStack {
-                            Group {
-                                if minutesElapsed < 10 {
-                                    if secondsElapsed < 10 {
-                                        Text("0\(minutesElapsed):0\(secondsElapsed)")
-                                    } else {
-                                        Text("0\(minutesElapsed):\(secondsElapsed)")
+                        VStack {
+                            HStack {
+                                Spacer()
+                                
+                                Text(String(localized: "WorkoutTimerView_work_label"))
+                                    .bold()
+                                    .foregroundColor(.black)
+                                    .background(RoundedRectangle(cornerRadius: 25).foregroundColor(Color(uiColor: UIColor(red: 255, green: 104, blue: 108))).frame(width: screenWidth * 0.35, height: screenHeight * 0.06).shadow(color: Color.black, radius: 7, x: -5, y: 5))
+                                    .padding(.leading)
+                                    .offset(y: -screenHeight * 0.07)
+                                    .frame(width: screenWidth * 0.35)
+                                    
+                                
+                                Spacer()
+                                
+                                ZStack {
+                                    Circle()
+                                        .foregroundColor(Color(uiColor: UIColor(red: 30, green: 200, blue: 30)))
+                                        .frame(width: screenWidth * 0.25, height: screenHeight * 0.125)
+                                    
+                                    Group {
+                                        if paused {
+                                            Button(action: {
+                                                withAnimation {
+                                                    paused = false
+                                                }
+                                            }, label: {
+                                                Image(systemName: "play.circle.fill")
+                                                    .resizable()
+                                                    .scaledToFit()
+                                            })
+                                        } else {
+                                            Button(action: {
+                                                withAnimation {
+                                                    paused = true
+                                                }
+                                            }, label: {
+                                                Image(systemName: "pause.circle.fill")
+                                                    .resizable()
+                                                    .scaledToFit()
+                                            })
+                                        }
                                     }
-                                } else {
-                                    if secondsElapsed < 10 {
-                                        Text("\(minutesElapsed):0\(secondsElapsed)")
-                                    } else {
-                                        Text("\(minutesElapsed):\(secondsElapsed)")
-                                    }
+                                    .disabled(locked)
+                                    .foregroundColor(locked ? .gray : .white)
+                                    .frame(width: screenWidth * 0.2, height: screenHeight * 0.1)
+                                    
                                 }
+                                .offset(y: -screenHeight * 0.02)
+                                .frame(height: screenHeight * 0.001)
+                                
+                                Spacer()
+                                
+                                Text(String(localized: "WorkoutTimerView_rest_label"))
+                                    .bold()
+                                    .foregroundColor(.black)
+                                    .background(RoundedRectangle(cornerRadius: 25).foregroundColor(Color(uiColor: UIColor(red: 246, green: 205, blue: 108))).frame(width: screenWidth * 0.35, height: screenHeight * 0.06).shadow(color: Color.black, radius: 7, x: 5, y: 5))
+                                    .padding(.trailing)
+                                    .offset(y: -screenHeight * 0.07)
+                                    .frame(width: screenWidth * 0.35)
+                                
+                                Spacer()
                             }
-                            .foregroundColor(Color(UIColor.systemGray5))
-                            .font(.system(size: screenHeight * 0.03, weight: .bold, design: .monospaced))
                             
-                            Spacer()
-                            
-                            Text("\(currentRound) / \(self.workoutViewModel.workout!.series!)")
-                                .foregroundColor(Color(UIColor.systemGray5))
-                                .font(.system(size: screenHeight * 0.03, weight: .bold))
-                            
-                            Spacer()
-                            
-                            Group {
-                                if minutesRemaining < 10 {
-                                    if secondsRemaining < 10 {
-                                        Text("0\(minutesRemaining):0\(secondsRemaining)")
-                                    } else {
-                                        Text("0\(minutesRemaining):\(secondsRemaining)")
+                            HStack {
+                                Spacer()
+                                
+                                LottieView(name: "avocadoWorkout", loopMode: .loop, contentMode: .scaleAspectFill)
+                                    .frame(width: screenWidth * 0.3, height: screenHeight * 0.15)
+                                
+                                Spacer(minLength: screenWidth * 0.4)
+                                
+                                Button(action: {
+                                    withAnimation {
+                                        let completedDuration = minutesElapsed != 0 ? secondsElapsed * minutesElapsed : secondsElapsed
+                                        self.workoutViewModel.stopWorkout(calories: Int(Double(completedDuration) * 0.35), completedDuration: completedDuration, completedSeries: currentRound)
+                                        stopped = true
                                     }
-                                } else {
-                                    if secondsRemaining < 10 {
-                                        Text("\(minutesRemaining):0\(secondsRemaining)")
-                                    } else {
-                                        Text("\(minutesRemaining):\(secondsRemaining)")
-                                    }
-                                }
+                                }, label: {
+                                    Image(systemName: "stop.circle.fill")
+                                        .resizable()
+                                        .scaledToFit()
+                                })
+                                    .disabled(locked)
+                                    .foregroundColor(locked ? .gray : Color(uiColor: UIColor(red: 255, green: 100, blue: 100)))
+                                    .frame(width: screenWidth * 0.16, height: screenHeight * 0.08)
+                                    .padding(.trailing, screenWidth * 0.05)
+                                
+                                Spacer()
                             }
-                            .foregroundColor(Color(UIColor.systemGray5))
-                            .font(.system(size: screenHeight * 0.03, weight: .bold, design: .monospaced))
-                        }
-                        .padding(.horizontal)
-                        .padding(.bottom, screenHeight * 0.01)
-                        
-                        HStack {
-                            Spacer()
+                            .offset(y: -screenHeight * 0.04)
                             
                             Button(action: {
                                 locked.toggle()
@@ -169,78 +198,93 @@ struct WorkoutTimerView: View {
                                     .resizable()
                                     .scaledToFit()
                             })
-                                .foregroundColor(Color(uiColor: .systemGray5))
+                                .foregroundColor(.black)
                                 .frame(width: screenWidth * 0.12, height: screenHeight * 0.06)
+                                .offset(y: -screenHeight * 0.07)
+                            
+                            VStack {
+                                Divider()
+                                
+                                HStack {
+                                    Image(systemName: "play.circle.fill")
+                                        .resizable()
+                                        .foregroundColor(Color(uiColor: UIColor(red: 255, green: 104, blue: 108)))
+                                        .frame(width: screenWidth * 0.07, height: screenHeight * 0.035)
+                                        .padding(.horizontal)
+                                    
+                                    Text("WorkoutTimerView_work_label")
+                                        .fontWeight(.bold)
+                                        .foregroundColor(.black)
+                                    
+                                    Spacer()
+                                    
+                                    getTimeText(time: workoutViewModel.workout!.workTime!)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(Color(uiColor: UIColor(red: 255, green: 104, blue: 108)))
+                                }
+                                .padding(.horizontal)
+                                .frame(height: screenHeight * 0.07)
+                                .background(Color(uiColor: UIColor(red: 255, green: 204, blue: 209)), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+                                
+                                HStack {
+                                    Image(systemName: "pause.circle.fill")
+                                        .resizable()
+                                        .foregroundColor(Color(uiColor: UIColor(red: 246, green: 205, blue: 108)))
+                                        .frame(width: screenWidth * 0.07, height: screenHeight * 0.035)
+                                        .padding(.horizontal)
+                                    
+                                    Text("WorkoutTimerView_rest_label")
+                                        .fontWeight(.bold)
+                                        .foregroundColor(.black)
+                                    
+                                    Spacer()
+                                    
+                                    getTimeText(time: workoutViewModel.workout!.restTime!)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(Color(uiColor: UIColor(red: 246, green: 205, blue: 108)))
+                                }
+                                .padding(.horizontal)
+                                .frame(height: screenHeight * 0.07)
+                                .background(Color(uiColor: UIColor(red: 255, green: 248, blue: 182)), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+                                
+                                HStack {
+                                    Image(systemName: "arrow.triangle.2.circlepath.circle.fill")
+                                        .resizable()
+                                        .foregroundColor(Color(uiColor: UIColor(red: 148, green: 164, blue: 240)))
+                                        .frame(width: screenWidth * 0.07, height: screenHeight * 0.035)
+                                        .padding(.horizontal)
+                                    
+                                    Text(String(localized: "WorkoutTimerView_rounds"))
+                                        .fontWeight(.bold)
+                                        .foregroundColor(.black)
+                                    
+                                    Spacer()
+                                    
+                                    Text("\(currentRound) / \(workoutViewModel.workout!.series!)")
+                                        .fontWeight(.bold)
+                                        .foregroundColor(Color(uiColor: UIColor(red: 148, green: 164, blue: 240)))
+                                }
+                                .padding(.horizontal)
+                                .frame(height: screenHeight * 0.07)
+                                .background(Color(uiColor: UIColor(red: 220, green: 220, blue: 255)), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+                            }
+                            .frame(width: screenWidth * 0.9)
+                            .offset(y: -screenHeight * 0.07)
                             
                             Spacer()
                         }
-                        .padding(.top, screenHeight * 0.025)
-                        .padding(.bottom, screenHeight * 0.045)
-                        
-                        HStack(spacing: screenWidth * 0.1) {
-                            Spacer()
-                            
-                            Button(action: {
-                                paused = false
-                            }, label: {
-                                Image(systemName: "play.circle.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                            })
-                                .disabled(locked)
-                                .foregroundColor(locked ? Color(uiColor: .systemGray5) : .blue)
-                                .shadow(color: Color.black, radius: 5, x: 0, y: 10)
-                                .frame(width: screenWidth * (!paused ? 0.16 : 0.24), height: screenHeight * (!paused ? 0.08 : 0.12))
-                            
-                            Button(action: {
-                                withAnimation {
-                                    paused = true
-                                }
-                            }, label: {
-                                Image(systemName: "pause.circle.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                            })
-                                .disabled(locked)
-                                .foregroundColor(locked ? Color(uiColor: .systemGray5) : .yellow)
-                                .shadow(color: Color.black, radius: 5, x: 0, y: 10)
-                                .frame(width: screenWidth * (paused ? 0.16 : 0.24), height: screenHeight * (paused ? 0.08 : 0.12))
-                            
-                            Button(action: {
-                                withAnimation {
-                                    let completedDuration = minutesElapsed != 0 ? secondsElapsed * minutesElapsed : secondsElapsed
-                                    self.workoutViewModel.stopWorkout(calories: Int(Double(completedDuration) * 0.35), completedDuration: completedDuration, completedSeries: currentRound)
-                                    stopped = true
-                                }
-                            }, label: {
-                                Image(systemName: "stop.circle.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                            })
-                                .disabled(locked)
-                                .foregroundColor(locked ? Color(uiColor: .systemGray5) : .red)
-                                .shadow(color: Color.black, radius: 5, x: 0, y: 10)
-                                .frame(width: screenWidth * 0.16, height: screenHeight * 0.08)
-                            
-                            Spacer()
-                        }
-                        .offset(y: -screenHeight * 0.04)
                     }
-                    .background(RoundedRectangle(cornerRadius: 25)
-                                    .fill(LinearGradient(gradient: Gradient(colors: [.accentColor, Color.clear]), startPoint: .top, endPoint: .bottom))
-                                    .frame(width: screenWidth, height: screenHeight * 0.4)
-                                    .ignoresSafeArea())
-                    
-                    Spacer(minLength: screenHeight * 0.08)
+                    .frame(width: screenWidth)
+                    .padding(.top, screenHeight * 0.08)
                 }
                 .onDisappear {
                     dismiss()
                 }
                 .background(RadialGradient(
-                    gradient: Gradient(colors: [.accentColor, Color.black]),
-                    center: .center,
+                    gradient: Gradient(colors: [Color(uiColor: UIColor(red: 90, green: 230, blue: 90)), Color(uiColor: UIColor(red: 30, green: 200, blue: 30))]),
+                    center: .topLeading,
                     startRadius: 100,
-                    endRadius: 500))
+                    endRadius: 400))
                 .onReceive(timer) { _ in
                     if minutesRemaining == 0 && secondsRemaining == 0 {
                         let completedDuration = minutesElapsed != 0 ? (secondsElapsed * minutesElapsed) : secondsElapsed
@@ -287,6 +331,7 @@ struct WorkoutTimerView: View {
             }
         }
         .onAppear {
+            UserDefaults.standard.set(false, forKey: "isTabBarHidden")
             if !counting {
                 // Round Time
                 setRoundTime(workRound: true)
@@ -300,51 +345,82 @@ struct WorkoutTimerView: View {
     }
     
     func setRoundTime(workRound: Bool) {
-        if workRound {
-            self.currentRound += 1
-            if workoutViewModel.workout!.workTime! >= 60 {
-                self.minutesRound = Int(workoutViewModel.workout!.workTime! / 60)
-                self.secondsRound = workoutViewModel.workout!.workTime! - (60 * self.minutesRound)
+        if let workout = workoutViewModel.workout {
+            if let workTime = workout.workTime, let restTime = workout.restTime {
+                if workRound {
+                    self.currentRound += 1
+                    if workTime >= 60 {
+                        self.minutesRound = Int(workTime / 60)
+                        self.secondsRound = workTime - (60 * self.minutesRound)
 
-            } else {
-                self.minutesRound = 0
-                self.secondsRound = workoutViewModel.workout!.workTime!
+                    } else {
+                        self.minutesRound = 0
+                        self.secondsRound = workTime
+                    }
+                } else {
+                    if restTime >= 60 {
+                        self.minutesRound = Int(restTime / 60)
+                        self.secondsRound = restTime - (60 * self.minutesRound)
+
+                    } else {
+                        self.minutesRound = 0
+                        self.secondsRound = restTime
+                    }
+                }
             }
-        } else {
-            if workoutViewModel.workout!.restTime! >= 60 {
-                self.minutesRound = Int(workoutViewModel.workout!.restTime! / 60)
-                self.secondsRound = workoutViewModel.workout!.restTime! - (60 * self.minutesRound)
-
-            } else {
-                self.minutesRound = 0
-                self.secondsRound = workoutViewModel.workout!.restTime!
+        }
+        
+    }
+    
+    func setRemainingTime() {
+        if let workout = workoutViewModel.workout {
+            if let duration = workout.duration {
+                if duration >= 60 {
+                    self.minutesRemaining = Int(duration / 60)
+                    self.secondsRemaining = duration - (60 * self.minutesRemaining)
+                } else {
+                    self.minutesRemaining = 0
+                    self.secondsRemaining = duration
+                }
             }
         }
     }
     
-    func setRemainingTime() {
-        if workoutViewModel.workout!.duration! >= 60 {
-            self.minutesRemaining = Int(workoutViewModel.workout!.duration! / 60)
-            self.secondsRemaining = workoutViewModel.workout!.duration! - (60 * self.minutesRemaining)
+    func getTimeText(time: Int) -> Text {
+        if let workTime = workoutViewModel.workout!.workTime {
+            if time > 60 {
+                if time / 60 > 9 {
+                    return Text("\(time / 60):\(time % 60)")
+                } else {
+                    if workTime % 60 > 9 {
+                        return Text("0\(time / 60):\(time % 60)")
+                    } else {
+                        return Text("0\(time / 60):0\(time % 60)")
+                    }
+                }
+            } else {
+                if workTime > 9 {
+                    return Text("00:\(time)")
+                } else {
+                    return Text("00:0\(time)")
+                }
+            }
         } else {
-            self.minutesRemaining = 0
-            self.secondsRemaining = workoutViewModel.workout!.duration!
+           return Text("00:00")
         }
     }
 }
 
 struct WorkoutTimerView_Previews: PreviewProvider {
     static var previews: some View {
-        let sessionStore = SessionStore(forPreviews: true)
         let workoutViewModel = WorkoutViewModel(forPreviews: true)
         let networkManager = NetworkManager()
         ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
-            ForEach(["iPhone XS MAX", "iPhone 8"], id: \.self) { deviceName in
+            ForEach(["iPhone 11 Pro Max", "iPhone 8"], id: \.self) { deviceName in
                 WorkoutTimerView()
                     .preferredColorScheme(colorScheme)
                     .previewDevice(PreviewDevice(rawValue: deviceName))
                     .previewDisplayName(deviceName)
-                    .environmentObject(sessionStore)
                     .environmentObject(workoutViewModel)
                     .environmentObject(networkManager)
             }

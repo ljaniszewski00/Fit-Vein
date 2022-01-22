@@ -13,6 +13,8 @@ struct LoggedUserView: View {
     @StateObject private var profileViewModel = ProfileViewModel()
     @StateObject private var networkManager = NetworkManager()
     
+    @AppStorage("isTabBarHidden") var isTabBarHidden: Bool = false
+    
     @State var selectedTab: Tab = .home
     
     enum Tab: String {
@@ -40,18 +42,27 @@ struct LoggedUserView: View {
                             .environmentObject(homeViewModel)
                             .environmentObject(profileViewModel)
                             .environmentObject(networkManager)
+                            .onAppear {
+                                UserDefaults.standard.set(false, forKey: "isTabBarHidden")
+                            }
                     }
                 case .workout:
                     withAnimation(.linear) {
                         WorkoutView()
                             .environmentObject(workoutViewModel)
                             .environmentObject(networkManager)
+                            .onAppear {
+                                UserDefaults.standard.set(false, forKey: "isTabBarHidden")
+                            }
                     }
                 case .profile:
                     withAnimation(.linear) {
                         ProfileView()
                             .environmentObject(profileViewModel)
                             .environmentObject(networkManager)
+                            .onAppear {
+                                UserDefaults.standard.set(false, forKey: "isTabBarHidden")
+                            }
                     }
                 }
             }
@@ -120,6 +131,7 @@ struct LoggedUserView: View {
             )
             .frame(maxHeight: .infinity, alignment: .bottom)
             .ignoresSafeArea()
+            .isHidden(isTabBarHidden)
         }
     }
     

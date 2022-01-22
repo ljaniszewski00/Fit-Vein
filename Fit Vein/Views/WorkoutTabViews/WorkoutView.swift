@@ -287,6 +287,7 @@ struct WorkoutCountdownView: View {
                     Spacer()
                 }
                 .onAppear {
+                    UserDefaults.standard.set(true, forKey: "isTabBarHidden")
                     DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
                         withAnimation(.linear) {
                             if let workout = workoutViewModel.workout {
