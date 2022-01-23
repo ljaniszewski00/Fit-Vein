@@ -179,6 +179,11 @@
 "ProfileView_no_workouts_message" = "Go to 'Workout' Tab to do your first training!";
 "ProfileView_level_up" = "Level Up!";
 
+"ProfileView_medal_account_registration" = "Achieved for account registration";
+"ProfileView_medal_level_2" = "Achieved for getting level 2";
+"ProfileView_medal_level_3" = "Achieved for getting level 3";
+"ProfileView_medal_level_4" = "Achieved for getting level 4";
+
 // SettingsView
 "SettingsView_navigation_title" = "Settings";
 

@@ -29,8 +29,6 @@ struct WorkoutView: View {
             } else {
                 NavigationView {
                     VStack {
-                        Spacer(minLength: screenHeight * 0.05)
-                        
                         List {
                             if showSampleWorkoutsListFromSettings {
                                 DisclosureGroup(isExpanded: $showSampleWorkoutsList, content: {

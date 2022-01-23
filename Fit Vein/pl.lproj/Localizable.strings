@@ -179,6 +179,11 @@
 "ProfileView_no_workouts_message" = "Przejdź do zakładki 'Workout' żeby zrobić swój pierwszy trening!";
 "ProfileView_level_up" = "Nowy poziom!";
 
+"ProfileView_medal_account_registration" = "Zdobyty za rejestrację konta";
+"ProfileView_medal_level_2" = "Zdobyty za osiągnięcie poziomu 2";
+"ProfileView_medal_level_3" = "Zdobyty za osiągnięcie poziomu 3";
+"ProfileView_medal_level_4" = "Zdobyty za osiągnięcie poziomu 4";
+
 // SettingsView
 "SettingsView_navigation_title" = "Ustawienia";
 

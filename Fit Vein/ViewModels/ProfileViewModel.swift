@@ -21,7 +21,7 @@ class ProfileViewModel: ObservableObject {
     @Published var workouts: [IntervalWorkout]?
     
     let medalsFilesNames: [String] = ["medal", "medal-2", "medal-3", "medal-4"]
-    let medalsDescriptions: [String] = ["Achieved for account registration", "Achieved for getting level 2", "Achieved for getting level 3", "Achieved for getting level 4"]
+    let medalsDescriptions: [String] = [String(localized: "ProfileView_medal_account_registration"), String(localized: "ProfileView_medal_level_2"), String(localized: "ProfileView_medal_level_3"), String(localized: "ProfileView_medal_level_4")]
     
     init(forPreviews: Bool) {
         self.workouts = [IntervalWorkout(forPreviews: true, id: UUID().uuidString, usersID: "9999", type: "Interval", date: Date(), isFinished: true, calories: 200, series: 8, workTime: 45, restTime: 15, completedDuration: 8 * (45 + 15), completedSeries: 8),

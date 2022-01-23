@@ -64,26 +64,25 @@ struct HomeTabCommentsView: View {
                     
                     VStack(spacing: screenHeight * 0.15) {
                         HStack {
-                            Group {
-                                Text(comment.authorFirstName)
-                                    .fontWeight(.bold)
-                                Text("•")
-                                Text(comment.authorUsername)
-                                Spacer()
+                            Text(comment.authorFirstName)
+                                .fontWeight(.bold)
+                            Text("•")
+                            Text(comment.authorUsername)
+                            
+                            Spacer()
 
-                                if let profile = profileViewModel.profile {
-                                    if profile.id == comment.authorID {
-                                        Button(action: {
-                                            withAnimation {
-                                                self.showCommentOptions = true
-                                            }
-                                        }, label: {
-                                            Image(systemName: "ellipsis")
-                                                .foregroundColor(.accentColor)
-                                                .padding(.trailing, screenWidth * 0.05)
-                                        })
-
-                                    }
+                            if let profile = profileViewModel.profile {
+                                if profile.id == comment.authorID {
+                                    Button(action: {
+                                        withAnimation {
+                                            self.showCommentOptions = true
+                                        }
+                                    }, label: {
+                                        Image(systemName: "ellipsis")
+                                            .foregroundColor(.accentColor)
+                                            .padding(.trailing, screenWidth * 0.05)
+                                            
+                                    })
                                 }
                             }
                         }

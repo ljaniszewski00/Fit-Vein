@@ -152,7 +152,6 @@ struct AddPostView: View {
                                 RoundedRectangle(cornerRadius: 10)
                                     .foregroundColor(self.postText.count <= 200 ? .accentColor : .gray)
                                 Text(String(localized: "AddPostView_post_button"))
-                                    .foregroundColor(Color(uiColor: .systemGray5))
                                     .fontWeight(.bold)
                             }
                             .frame(width: screenWidth * 0.2, height: screenHeight * 0.04)

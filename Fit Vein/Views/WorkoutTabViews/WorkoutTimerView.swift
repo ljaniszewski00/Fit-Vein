@@ -110,7 +110,7 @@ struct WorkoutTimerView: View {
                                     .padding(.leading)
                                     .offset(y: -screenHeight * 0.07)
                                     .frame(width: screenWidth * 0.35)
-                                    
+                                    .isHidden(rest)
                                 
                                 Spacer()
                                 
@@ -159,6 +159,7 @@ struct WorkoutTimerView: View {
                                     .padding(.trailing)
                                     .offset(y: -screenHeight * 0.07)
                                     .frame(width: screenWidth * 0.35)
+                                    .isHidden(!rest)
                                 
                                 Spacer()
                             }
