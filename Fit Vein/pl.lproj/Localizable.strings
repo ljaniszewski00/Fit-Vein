@@ -155,7 +155,7 @@
 
 //SingleWorkoutWindowView
 "SingleWorkoutWindowsView_interval_training_type" = "Interwał";
-"SingleWorkoutWindowsView_workout_details" = "Szczegóły treningu";
+"SingleWorkoutWindowsView_workout_details" = "Podsumowanie treningu";
 "SingleWorkoutWindowsView_duration" = "Czas trwania";
 "SingleWorkoutWindowsView_calories" = "Kalorie";
 "SingleWorkoutWindowsView_calories_unit" = "kcal";
@@ -231,7 +231,7 @@
 "SettingsView_help_settings_label" = "Pomoc";
 "SettingsView_help_navigation_title" = "Pomoc";
 "SettingsView_help_text" = "W razie jakichkolwiek problemów napisz maila na poniższy adres opisując problem:";
-"SettingsView_github_author_following" = "Obserwuj mnie na GitHub: ";
+"SettingsView_github_author_following" = "Odwiedź mój GitHub: ";
 
 // HealthTabView
 "HealthTabView_navigation_title" = "Dane zdrowotne";

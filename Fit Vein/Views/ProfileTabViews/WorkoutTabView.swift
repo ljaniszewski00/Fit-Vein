@@ -42,10 +42,13 @@ struct WorkoutTabViewWindows: View {
     
     var body: some View {
         GeometryReader { geometry in
+            let screenWidth = geometry.size.width
+            let screenHeight = geometry.size.height
             
             TabView {
                 ForEach(profileViewModel.workouts!) { workout in
                     SingleWorkoutWindowView(workout: workout)
+                        .frame(width: screenWidth, height: screenHeight)
                 }
             }
             .tabViewStyle(.page)
@@ -66,7 +69,9 @@ struct WorkoutTabViewList: View {
             List(profileViewModel.workouts!) { workout in
                 NavigationLink(destination: SingleWorkoutWindowView(workout: workout)
                                 .navigationTitle(String(localized: "WorkoutTabView_list_single_workout_navigation_title"))
-                                .navigationBarHidden(false)) {
+                                .navigationBarHidden(false)
+                                .frame(width: screenWidth, height: screenHeight))
+                {
                     HStack {
                         Image(uiImage: UIImage(named: "sprint2")!)
                             .resizable()

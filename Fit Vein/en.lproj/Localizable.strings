@@ -155,7 +155,7 @@
 
 //SingleWorkoutWindowView
 "SingleWorkoutWindowsView_interval_training_type" = "Interval";
-"SingleWorkoutWindowsView_workout_details" = "Workout Details";
+"SingleWorkoutWindowsView_workout_details" = "Workout Summary";
 "SingleWorkoutWindowsView_duration" = "Duration";
 "SingleWorkoutWindowsView_calories" = "Calories";
 "SingleWorkoutWindowsView_calories_unit" = "cal";

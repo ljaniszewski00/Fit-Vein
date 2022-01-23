@@ -11,7 +11,7 @@ struct SingleWorkoutWindowView: View {
     private var workout: IntervalWorkout
     
     private var dataImagesNames: [String] = ["timer", "flame.fill", "play.circle.fill", "pause.circle.fill", "123.rectangle.fill"]
-    private var coloursForDataImages: [Color] = [Color.purple, Color.red, Color.blue, Color.yellow, Color.brown]
+    private var coloursForDataImages: [Color] = [Color.purple, Color.red, Color.blue, Color(uiColor: UIColor(red: 255, green: 255, blue: 51)), Color(uiColor: UIColor(red: 135, green: 42, blue: 42))]
     private var dataValuesUnits: [String] = ["", String(localized: "SingleWorkoutWindowsView_calories_unit"), String(localized: "SingleWorkoutWindowsView_work_time_unit"), String(localized: "SingleWorkoutWindowsView_rest_time_unit"), ""]
     private var dataNames: [String] = [String(localized: "SingleWorkoutWindowsView_duration"), String(localized: "SingleWorkoutWindowsView_calories"), String(localized: "SingleWorkoutWindowsView_work_time"), String(localized: "SingleWorkoutWindowsView_rest_time"), String(localized: "SingleWorkoutWindowsView_series")]
     
@@ -28,111 +28,108 @@ struct SingleWorkoutWindowView: View {
             
             ZStack {
                 RoundedRectangle(cornerRadius: 25).foregroundColor(Color(UIColor.systemGray5))
+                    .frame(height: screenHeight * 0.86)
                 
                 VStack {
                     VStack {
-                        HStack {
-                            VStack {
-                                Image(uiImage: UIImage(named: "sprint2")!)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: screenWidth * 0.25, height: screenHeight * 0.3)
-                            }
+                        HStack(alignment: .center, spacing: screenWidth * 0.1) {
                             
-                                
-                            Spacer()
+                            Image(uiImage: UIImage(named: "sprint2")!)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: screenWidth * 0.15, height: screenHeight * 0.1)
                             
-                            VStack {
+                            VStack(spacing: screenHeight * 0.01) {
                                 Text(String(localized: "SingleWorkoutWindowsView_interval_training_type"))
                                     .font(.title)
                                     .fontWeight(.bold)
                                     .foregroundColor(.accentColor)
                                 
                                 Text("\(getShortDate(longDate: workout.date))")
-                                    .font(.caption)
+                                    .font(.subheadline)
                                     .foregroundColor(colorScheme == .dark ? .white : .black)
-                                
-                                Text(String(localized: "SingleWorkoutWindowsView_workout_details"))
-                                    .font(.title3)
-                                    .foregroundColor(.accentColor)
-                                    .padding(.top, screenHeight * 0.02)
-                                    .padding(.bottom, screenHeight * 0.01)
-                                
-                                Image(systemName: "arrow.down.circle.fill")
-                                    .foregroundColor(colorScheme == .dark ? .white : .black)
-                                    .font(.title2)
                             }
-                            
-                            Spacer()
                         }
                     }
                     .padding()
                     
                     ZStack {
                         RoundedRectangle(cornerRadius: 25).foregroundColor(.accentColor)
+                            .frame(height: screenHeight * 0.7)
                         
-                        LazyVGrid(columns: [GridItem(.flexible()),
-                                            GridItem(.flexible())], spacing: 0) {
+                        VStack(alignment: .center) {
+                            Text(String(localized: "SingleWorkoutWindowsView_workout_details"))
+                                .font(.title)
+                                .bold()
+                                .padding(.top)
                             
-                            ForEach(0..<dataNames.count) { number in
-                                HStack {
-                                    Image(systemName: dataImagesNames[number])
-                                        .resizable()
-                                        .scaledToFit()
-                                        .foregroundColor(coloursForDataImages[number])
-                                        .frame(width: screenWidth * 0.06, height: screenHeight * 0.06)
-                                    
-                                    Spacer()
-                                    
-                                    VStack {
-                                        Spacer()
+                            Divider()
+                            
+                            LazyVGrid(columns: [GridItem(.flexible()),
+                                                GridItem(.flexible())], alignment: .leading, spacing: screenHeight * 0.02) {
+                                
+                                ForEach(0..<dataNames.count) { number in
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                            .foregroundColor(Color(uiColor: UIColor(red: 80, green: 210, blue: 100)))
+                                            .frame(width: screenWidth * 0.4)
+                                            .padding()
+                                            .shadow(radius: 15)
                                         
-                                        HStack {
-                                            Text(dataNames[number])
+                                        HStack(alignment: .center) {
+                                            Image(systemName: dataImagesNames[number])
+                                                .resizable()
+                                                .scaledToFit()
                                                 .foregroundColor(coloursForDataImages[number])
-                                                .fontWeight(.bold)
+                                                .frame(width: screenWidth * 0.06, height: screenHeight * 0.06)
                                             
-                                            Spacer()
-                                        }
-                                        
-                                        HStack {
-                                            if number == 0 {
-                                                getTextTimeFromDuration(duration: workout.completedDuration!)
-                                                    .font(.title)
-                                                    .fontWeight(.bold)
-                                            } else if number == 1 {
-                                                Text("\(workout.calories!)")
-                                                    .font(.title)
-                                                    .fontWeight(.bold)
-                                            } else if number == 2 {
-                                                Text("\(workout.workTime!)")
-                                                    .font(.title)
-                                                    .fontWeight(.bold)
-                                            } else if number == 3 {
-                                                Text("\(workout.restTime!)")
-                                                    .font(.title)
-                                                    .fontWeight(.bold)
-                                            } else if number == 4 {
-                                                Text("\(workout.completedSeries!)")
-                                                    .font(.title)
-                                                    .fontWeight(.bold)
+                                            VStack {
+                                                Spacer()
+                                                
+                                                HStack(alignment: .center) {
+                                                    Text(dataNames[number])
+                                                        .foregroundColor(coloursForDataImages[number])
+                                                        .fontWeight(.bold)
+                                                }
+                                                
+                                                HStack(alignment: .center) {
+                                                    if number == 0 {
+                                                        getTextTimeFromDuration(duration: workout.completedDuration!)
+                                                            .font(.title)
+                                                            .fontWeight(.bold)
+                                                    } else if number == 1 {
+                                                        Text("\(workout.calories!)")
+                                                            .font(.title)
+                                                            .fontWeight(.bold)
+                                                    } else if number == 2 {
+                                                        Text("\(workout.workTime!)")
+                                                            .font(.title)
+                                                            .fontWeight(.bold)
+                                                    } else if number == 3 {
+                                                        Text("\(workout.restTime!)")
+                                                            .font(.title)
+                                                            .fontWeight(.bold)
+                                                    } else if number == 4 {
+                                                        Text("\(workout.completedSeries!)")
+                                                            .font(.title)
+                                                            .fontWeight(.bold)
+                                                    }
+                                                    
+                                                    Text(dataValuesUnits[number])
+                                                }
+                                                
+                                                Spacer()
                                             }
-                                            
-                                            Text(dataValuesUnits[number])
-                                            
-                                            Spacer()
                                         }
-                                        .foregroundColor(Color(UIColor.systemGray5))
-                                        
-                                        Spacer()
+                                        .padding()
                                     }
                                 }
-                                .padding()
                             }
                         }
                     }
                 }
             }
+            .frame(width: screenWidth, height: screenHeight)
         }
     }
 }
