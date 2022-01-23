@@ -99,6 +99,8 @@
 
 // SearchFriendsView
 "SearchFriendsView_navigation_title" = "Follow";
+"SearchFriendsView_follow_button" = "Follow";
+"SearchFriendsView_unfollow_button" = "Unfollow";
 
 // NotificationsView
 "NotificationsView_navigation_title" = "Notifications";

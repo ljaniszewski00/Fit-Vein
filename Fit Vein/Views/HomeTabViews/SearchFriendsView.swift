@@ -70,7 +70,7 @@ struct SearchFriendsView: View {
                                     }
                                     .padding(.leading, screenWidth * 0.03)
                                     
-                                    Spacer()
+                                    Spacer(minLength: screenWidth * 0.15)
                                     
                                     if self.profileViewModel.profile!.followedIDs != nil {
                                         if self.profileViewModel.profile!.followedIDs!.contains(userID) {
@@ -82,11 +82,19 @@ struct SearchFriendsView: View {
                                                     self.success = success
                                                 }
                                             }, label: {
-                                                Image(systemName: "person.crop.circle.badge.minus")
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                                    .foregroundColor(.red)
-                                                    .frame(width: screenWidth * 0.07, height: screenHeight * 0.035)
+                                                ZStack {
+                                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                                        .foregroundColor(Color(uiColor: UIColor(red: 255, green: 204, blue: 209)))
+                                                    
+                                                    HStack {
+                                                        Text(String(localized: "SearchFriendsView_unfollow_button"))
+                                                            .fontWeight(.bold)
+                                                            .foregroundColor(Color(uiColor: UIColor(red: 255, green: 104, blue: 108)))
+                                                    }
+                                                    .padding(.horizontal)
+                                                    .frame(height: screenHeight * 0.05)
+                                                }
+                                                .frame(width: screenWidth * 0.33, height: screenHeight * 0.05)
                                             })
                                         } else {
                                             Button(action: {
@@ -97,11 +105,19 @@ struct SearchFriendsView: View {
                                                     self.success = success
                                                 }
                                             }, label: {
-                                                Image(systemName: "person.crop.circle.badge.plus")
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                                    .foregroundColor(.accentColor)
-                                                    .frame(width: screenWidth * 0.07, height: screenHeight * 0.035)
+                                                ZStack {
+                                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                                        .foregroundColor(Color(uiColor: UIColor(red: 180, green: 255, blue: 180)))
+                                                    
+                                                    HStack {
+                                                        Text(String(localized: "SearchFriendsView_follow_button"))
+                                                            .fontWeight(.bold)
+                                                            .foregroundColor(Color(uiColor: UIColor(red: 100, green: 215, blue: 100)))
+                                                    }
+                                                    .padding(.horizontal)
+                                                    .frame(height: screenHeight * 0.05)
+                                                }
+                                                .frame(width: screenWidth * 0.33, height: screenHeight * 0.05)
                                             })
                                         }
                                     } else {
@@ -113,15 +129,23 @@ struct SearchFriendsView: View {
                                                 self.success = success
                                             }
                                         }, label: {
-                                            Image(systemName: "plus.circle.fill")
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fit)
-                                                .foregroundColor(.accentColor)
-                                                .frame(width: screenWidth * 0.07, height: screenHeight * 0.035)
+                                            ZStack {
+                                                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                                    .foregroundColor(Color(uiColor: UIColor(red: 180, green: 255, blue: 180)))
+                                                
+                                                HStack {
+                                                    Text(String(localized: "SearchFriendsView_follow_button"))
+                                                        .fontWeight(.bold)
+                                                        .foregroundColor(Color(uiColor: UIColor(red: 100, green: 215, blue: 100)))
+                                                }
+                                                .padding(.horizontal)
+                                                .frame(height: screenHeight * 0.05)
+                                            }
+                                            .frame(width: screenWidth * 0.33, height: screenHeight * 0.05)
                                         })
                                     }
                                 }
-                                .frame(width: screenWidth * 0.8, height: screenHeight * 0.1)
+                                .frame(width: screenWidth * 0.9, height: screenHeight * 0.1)
                             }
                             
                             if success {
