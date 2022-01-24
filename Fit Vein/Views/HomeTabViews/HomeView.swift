@@ -46,7 +46,7 @@ struct HomeView: View {
                                             if posts.count != 0 {
                                                 ForEach(posts) { post in
                                                     HomeTabSubViewPostsView(post: post).environmentObject(homeViewModel).environmentObject(profileViewModel)
-                                                        .frame(height: screenHeight * 0.3)
+                                                        .frame(height: screenHeight * calculatePostFrameHeightMultiplier(post: post))
                                                         .background(Color(uiColor: .systemGray6))
                                                 }
                                             } else {
@@ -96,10 +96,12 @@ struct HomeView: View {
                                     }
                                     .offset(y: -screenHeight * 0.12)
                                 }
+                                .padding(.top, screenHeight * 0.001)
                             }
                         }
                     }
                 }
+//                .navigationBarColor(backgroundColor: colorScheme == .light ? .white : .black, titleColor: colorScheme == .light ? .black : .white)
                 .navigationTitle("")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
@@ -107,7 +109,7 @@ struct HomeView: View {
                         Image(uiImage: UIImage(named: colorScheme == .dark ? "FitVeinIconDark" : "FitVeinIconLight")!)
                             .resizable()
                             .scaledToFit()
-                            .frame(width: screenWidth * 0.15, height: screenHeight * 0.15)
+                            .frame(width: screenWidth * 0.1, height: screenHeight * 0.1)
                     }
                     
                     ToolbarItem(placement: .navigationBarTrailing) {
@@ -128,6 +130,36 @@ struct HomeView: View {
                 }
             }
             .navigationViewStyle(.stack)
+        }
+    }
+    
+    private func calculatePostFrameHeightMultiplier(post: Post) -> Double {
+        let textCount = post.text.count
+        let photoURL = post.photoURL
+        if textCount <= 50 {
+            if photoURL != nil {
+                return 0.8
+            } else {
+                return 0.29
+            }
+        } else if textCount > 50 && textCount <= 100 {
+            if photoURL != nil {
+                return 0.83
+            } else {
+                return 0.34
+            }
+        } else if textCount > 100 && textCount <= 150 {
+            if photoURL != nil {
+                return 0.85
+            } else {
+                return 0.36
+            }
+        } else {
+            if photoURL != nil {
+                return 0.92
+            } else {
+                return 0.43
+            }
         }
     }
 }

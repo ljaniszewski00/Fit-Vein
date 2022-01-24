@@ -18,6 +18,7 @@ struct Post: Codable, Identifiable {
     var reactionsUsersIDs: [String]?
     var commentedUsersIDs: [String]?
     var comments: [Comment]?
+    var photoURL: String?
     
     init(authorID: String, authorFirstName: String, authorUsername: String, authorProfilePictureURL: String, text: String) {
         self.id = UUID().uuidString
@@ -29,7 +30,7 @@ struct Post: Codable, Identifiable {
         self.text = text
     }
     
-    init(id: String, authorID: String, authorFirstName: String, authorUsername: String, authorProfilePictureURL: String, addDate: Date, text: String, reactionsUsersIDs: [String]?, commentedUsersIDs: [String]?, comments: [Comment]?) {
+    init(id: String, authorID: String, authorFirstName: String, authorUsername: String, authorProfilePictureURL: String, addDate: Date, text: String, reactionsUsersIDs: [String]?, commentedUsersIDs: [String]?, comments: [Comment]?, photoURL: String? = nil) {
         self.id = id
         self.authorID = authorID
         self.authorFirstName = authorFirstName
@@ -40,6 +41,7 @@ struct Post: Codable, Identifiable {
         self.reactionsUsersIDs = reactionsUsersIDs
         self.commentedUsersIDs = commentedUsersIDs
         self.comments = comments
+        self.photoURL = photoURL
     }
 }
 

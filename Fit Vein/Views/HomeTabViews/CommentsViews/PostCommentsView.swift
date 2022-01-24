@@ -36,13 +36,13 @@ struct PostCommentsView: View {
             VStack {
                 ScrollView(.vertical) {
                     HomeTabCommentsViewPostView(post: post).environmentObject(homeViewModel).environmentObject(profileViewModel)
-                        .frame(width: screenWidth, height: screenHeight * 0.2)
-                        .padding(.bottom, screenHeight * 0.05)
+                        .frame(width: screenWidth, height: post.photoURL == nil ? screenHeight * 0.3 : screenHeight * 0.9)
                     
                     if let postComments = homeViewModel.postsComments[post.id] {
                         ForEach(postComments) { comment in
                             HomeTabCommentsView(post: post, comment: comment, isCommentEditTextFieldFocusedBool: $isCommentEditTextFieldFocused).environmentObject(homeViewModel).environmentObject(profileViewModel)
-                                .frame(width: screenWidth, height: screenHeight * 0.2)
+                                .frame(width: screenWidth, height: screenHeight * 0.225)
+                                .padding(.bottom, screenHeight * calculateCommentFrameLength(comment: comment))
                         }
                     }
                 }
@@ -143,7 +143,7 @@ struct PostCommentsView: View {
                 }
 
                 Button(String(localized: "HomeView_confirmation_dialog_delete"), role: .destructive) {
-                    self.homeViewModel.deletePost(postID: post.id) { success in }
+                    self.homeViewModel.deletePost(postID: post.id, postPictureURL: post.photoURL) { success in }
                 }
 
                 Button(String(localized: "HomeView_confirmation_dialog_cancel"), role: .cancel) {}
@@ -152,6 +152,19 @@ struct PostCommentsView: View {
                 EditPostView(post: post).environmentObject(homeViewModel).environmentObject(profileViewModel).ignoresSafeArea(.keyboard)
             }
             .background(.ultraThinMaterial, in: Rectangle())
+        }
+    }
+    
+    private func calculateCommentFrameLength(comment: Comment) -> Double {
+        let commentTextCount = comment.text.count
+        if commentTextCount <= 50 {
+            return -0.01
+        } else if commentTextCount > 50 && commentTextCount <= 100 {
+            return 0.05
+        } else if commentTextCount > 100 && commentTextCount <= 150 {
+            return 0.1
+        } else {
+            return 0.128
         }
     }
 }

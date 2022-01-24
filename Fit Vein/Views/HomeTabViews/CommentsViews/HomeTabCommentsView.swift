@@ -96,14 +96,13 @@ struct HomeTabCommentsView: View {
                                 .onChange(of: isCommentEditTextFieldFocused) { newValue in
                                     self.isCommentEditTextFieldFocusedBool = newValue
                                 }
-                                .frame(width: screenWidth * 0.67, height: screenHeight * 0.18)
+                                .frame(width: screenWidth * 0.69, height: screenHeight * 0.18)
                                 .background(RoundedRectangle(cornerRadius: 25, style: .continuous).stroke().foregroundColor(.accentColor))
                                 .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 25, style: .continuous))
                         } else {
                             Text(comment.text)
                                 .font(.system(size: screenHeight * 0.1))
-                                .fixedSize(horizontal: false, vertical: false)
-                                .frame(width: screenWidth * 0.67, height: screenHeight * 0.18)
+                                .fixedSize(horizontal: false, vertical: true)
                         }
                         
                         HStack {
@@ -127,6 +126,7 @@ struct HomeTabCommentsView: View {
                                     Button(action: {
                                         withAnimation {
                                             self.commentEditMode = false
+                                            isCommentEditTextFieldFocusedBool = false
                                         }
                                     }, label: {
                                         Text(String(localized: "CommentView_edit_comment_cancel_button"))
@@ -141,6 +141,7 @@ struct HomeTabCommentsView: View {
                                             self.homeViewModel.editComment(commentID: comment.id, text: commentNewText) { success in
                                                 if success {
                                                     self.commentEditMode = false
+                                                    isCommentEditTextFieldFocusedBool = false
                                                 } else {
                                                     withAnimation {
                                                         self.error = true
@@ -204,6 +205,7 @@ struct HomeTabCommentsView: View {
                                         if comment.reactionsUsersIDs != nil {
                                             if comment.reactionsUsersIDs!.count != 0 {
                                                 Text("\(comment.reactionsUsersIDs!.count)")
+                                                    .foregroundColor(Color(uiColor: .systemGray2))
                                             }
                                         }
                                     }

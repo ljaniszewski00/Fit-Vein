@@ -12,11 +12,20 @@ struct AddPostView: View {
     @EnvironmentObject private var profileViewModel: ProfileViewModel
     
     @Environment(\.dismiss) var dismiss
+    @Environment(\.colorScheme) var colorScheme
     
     @State private var postText = ""
     
     @State private var success = false
     @State private var error = false
+    
+    @State private var oldImage = UIImage()
+    @State private var image = UIImage()
+    @State private var photoSelected = false
+    
+    @State private var shouldPresentAddActionSheet = false
+    @State private var shouldPresentImagePicker = false
+    @State private var shouldPresentCamera = false
     
     var body: some View {
         GeometryReader { geometry in
@@ -27,16 +36,9 @@ struct AddPostView: View {
                 ScrollView(.vertical) {
                     HStack {
                         Group {
-                            if let profilePictureURL = profileViewModel.profilePicturePhotoURL {
-                                AsyncImage(url: profilePictureURL) { phase in
-                                    if let image = phase.image {
-                                        image
-                                            .resizable()
-                                    } else {
-                                        Image(uiImage: UIImage(named: "blank-profile-hi")!)
-                                            .resizable()
-                                    }
-                                }
+                            if let profilePicturePhoto = profileViewModel.profilePicturePhoto {
+                                Image(uiImage: profilePicturePhoto)
+                                    .resizable()
                             } else {
                                 Image(uiImage: UIImage(named: "blank-profile-hi")!)
                                     .resizable()
@@ -70,8 +72,8 @@ struct AddPostView: View {
                     .padding()
                     
                     if success {
-                        HStack {
-                            LottieView(name: "success2", loopMode: .loop, contentMode: .scaleAspectFit)
+                        HStack(alignment: .center) {
+                            LottieView(name: "success2", loopMode: .playOnce, contentMode: .scaleAspectFit)
                                 .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                                 .padding(.leading)
                                 .offset(y: -screenHeight * 0.013)
@@ -83,7 +85,7 @@ struct AddPostView: View {
                         }
                         .padding(.horizontal)
                     } else if error {
-                        HStack {
+                        HStack(alignment: .center) {
                             LottieView(name: "wrongData", loopMode: .loop, contentMode: .scaleAspectFill)
                                 .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                                 .padding(.leading)
@@ -94,7 +96,6 @@ struct AddPostView: View {
                             Spacer()
                         }
                         .padding(.horizontal)
-                        .offset(y: -screenHeight * 0.05)
                     } else {
                         HStack {
                             Text(String(localized: "AddPostView_share"))
@@ -111,6 +112,31 @@ struct AddPostView: View {
                         .frame(width: screenWidth * 0.9, height: screenHeight * 0.5)
                         .overlay(RoundedRectangle(cornerRadius: 8)
                                 .stroke(Color.secondary).opacity(0.5))
+                        .padding(.bottom, screenHeight * 0.02)
+                    
+                    Button(action: {
+                        withAnimation {
+                            self.shouldPresentAddActionSheet = true
+                        }
+                    }, label: {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                .foregroundColor(Color(uiColor: UIColor(red: 180, green: 255, blue: 180)))
+                            
+                            HStack(alignment: .center, spacing: screenWidth * 0.03) {
+                                Image(systemName: "photo")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: screenWidth * 0.1, height: screenHeight * 0.03)
+                                
+                                Text(String(localized: !photoSelected ? "AddPostView_upload_photo" : "AddPostView_photo_selected"))
+                                    .fontWeight(.bold)
+                                    .foregroundColor(Color(uiColor: UIColor(red: 100, green: 215, blue: 100)))
+                            }
+                            .frame(height: screenHeight * 0.05)
+                        }
+                        .frame(width: screenWidth * 0.9, height: screenHeight * 0.05)
+                    })
                     
                     Spacer()
                 }
@@ -134,7 +160,7 @@ struct AddPostView: View {
                                 self.error = false
                                 self.success = false
                             }
-                            self.homeViewModel.addPost(authorID: self.profileViewModel.profile!.id, authorFirstName: self.profileViewModel.profile!.firstName, authorUsername: self.profileViewModel.profile!.username, authorProfilePictureURL: self.profileViewModel.profile!.profilePictureURL == nil ? "" : self.profileViewModel.profile!.profilePictureURL!, text: self.postText) { success in
+                            self.homeViewModel.addPost(authorID: self.profileViewModel.profile!.id, authorFirstName: self.profileViewModel.profile!.firstName, authorUsername: self.profileViewModel.profile!.username, authorProfilePictureURL: self.profileViewModel.profile!.profilePictureURL == nil ? "" : self.profileViewModel.profile!.profilePictureURL!, text: self.postText, photo: photoSelected ? image : nil) { success in
                                 withAnimation {
                                     if success {
                                         self.success = true
@@ -152,12 +178,36 @@ struct AddPostView: View {
                                 RoundedRectangle(cornerRadius: 10)
                                     .foregroundColor(self.postText.count <= 200 ? .accentColor : .gray)
                                 Text(String(localized: "AddPostView_post_button"))
+                                    .foregroundColor(colorScheme == .light ? .white : .black)
                                     .fontWeight(.bold)
                             }
-                            .frame(width: screenWidth * 0.2, height: screenHeight * 0.04)
+                            .frame(width: screenWidth * 0.25, height: screenHeight * 0.04)
                         })
                             .disabled(self.postText.count > 200)
                     }
+                }
+                .sheet(isPresented: $shouldPresentImagePicker) {
+                    ImagePicker(sourceType: self.shouldPresentCamera ? .camera : .photoLibrary, selectedImage: self.$image)
+                        .onDisappear {
+                            if !self.image.isEqual(self.oldImage) {
+                                self.oldImage = image
+                                self.image = image
+                                photoSelected = true
+                            }
+                        }
+                }
+                .actionSheet(isPresented: $shouldPresentAddActionSheet) {
+                    ActionSheet(title: Text(String(localized: "ProfileView_change_photo_confirmation_dialog_text")), message: nil, buttons: [
+                        .default(Text(String(localized: "ProfileView_change_photo_confirmation_dialog_take_photo_button")), action: {
+                             self.shouldPresentImagePicker = true
+                             self.shouldPresentCamera = true
+                         }),
+                        .default(Text(String(localized: "ProfileView_change_photo_confirmation_dialog_upload_photo_button")), action: {
+                             self.shouldPresentImagePicker = true
+                             self.shouldPresentCamera = false
+                         }),
+                        .cancel(Text(String(localized: "ProfileView_change_photo_confirmation_dialog_cancel_button")))
+                    ])
                 }
             }
         }

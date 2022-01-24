@@ -16,6 +16,7 @@ class HomeViewModel: ObservableObject {
     
     @Published var posts: [Post]?
     @Published var postsAuthorsProfilePicturesURLs: [String: URL] = [:]
+    @Published var postsPicturesURLs: [String: URL] = [:]
     @Published var postsComments: [String: [Comment]] = [:]
     @Published var postsCommentsAuthorsProfilePicturesURLs: [String: URL] = [:]
     
@@ -63,6 +64,16 @@ class HomeViewModel: ObservableObject {
                                 }
                             }
                             
+                            if let postPhotoURL = post.photoURL {
+                                self.firebaseStorageManager.getDownloadURLForPostImage(stringURL: postPhotoURL, userID: post.authorID, postID: post.id) { photoURL, success in
+                                    if success {
+                                        if let photoURL = photoURL {
+                                            self.postsPicturesURLs.updateValue(photoURL, forKey: post.id)
+                                        }
+                                    }
+                                }
+                            }
+                            
                             self.firestoreManager.fetchComments(postID: post.id) { comments, success in
                                 if success {
                                     if let fetchedComments = comments {
@@ -88,22 +99,94 @@ class HomeViewModel: ObservableObject {
         }
     }
     
-    func addPost(authorID: String, authorFirstName: String, authorUsername: String, authorProfilePictureURL: String, text: String, completion: @escaping ((Bool) -> ())) {
-        self.firestoreManager.postDataCreation(id: UUID().uuidString, authorID: authorID, authorFirstName: authorFirstName, authorUsername: authorUsername, authorProfilePictureURL: authorProfilePictureURL, addDate: Date(), text: text, reactionsUsersIDs: nil, comments: nil) { success in
+    func uploadPostPhoto(image: UIImage, userID: String, postID: String, completion: @escaping ((String?, Bool) -> ())) {
+        self.firebaseStorageManager.uploadPostImageToStorage(image: image, userID: userID, postID: postID) { photoURL, success in
             if success {
+                if let photoURL = photoURL {
+                    self.firestoreManager.addPostPictureURLToPostsData(photoURL: photoURL, postID: postID) { success in
+                        completion(photoURL, success)
+                    }
+                } else {
+                    completion(nil, false)
+                }
+            } else {
+                completion(nil, false)
             }
-            completion(success)
         }
     }
     
-    func editPost(postID: String, text: String, completion: @escaping ((Bool) -> ())) {
-        if sessionStore.currentUser != nil {
-            self.firestoreManager.postEdit(id: postID, text: text) { success in
-                if success {
+    func deletePostPhoto(photoURL: String, userID: String, postID: String, completion: @escaping ((Bool) -> ())) {
+        self.firebaseStorageManager.deletePostImageFromStorage(photoURL: photoURL, userID: userID, postID: postID) { success in
+            if success {
+                self.firestoreManager.deletePostPictureURLFromPostsData(postID: postID) { success in
+                    completion(success)
                 }
+            } else {
                 completion(success)
             }
         }
+    }
+    
+    func addPost(authorID: String, authorFirstName: String, authorUsername: String, authorProfilePictureURL: String, text: String, photo: UIImage? = nil, completion: @escaping ((Bool) -> ())) {
+        let postID = UUID().uuidString
+        if let photo = photo {
+            self.uploadPostPhoto(image: photo, userID: authorID, postID: postID) { photoURL, success in
+                if success {
+                    if let photoURL = photoURL {
+                        self.firestoreManager.postDataCreation(id: postID, authorID: authorID, authorFirstName: authorFirstName, authorUsername: authorUsername, authorProfilePictureURL: authorProfilePictureURL, addDate: Date(), text: text, reactionsUsersIDs: nil, comments: nil, photoURL: photoURL) { success in
+                            completion(success)
+                        }
+                    }
+                } else {
+                    self.firestoreManager.postDataCreation(id: postID, authorID: authorID, authorFirstName: authorFirstName, authorUsername: authorUsername, authorProfilePictureURL: authorProfilePictureURL, addDate: Date(), text: text, reactionsUsersIDs: nil, comments: nil, photoURL: nil) { success in
+                        completion(success)
+                    }
+                }
+            }
+        } else {
+            self.firestoreManager.postDataCreation(id: postID, authorID: authorID, authorFirstName: authorFirstName, authorUsername: authorUsername, authorProfilePictureURL: authorProfilePictureURL, addDate: Date(), text: text, reactionsUsersIDs: nil, comments: nil, photoURL: nil) { success in
+                completion(success)
+            }
+        }
+    }
+    
+    func editPost(postID: String, userID: String, text: String, photo: UIImage?, completion: @escaping ((Bool) -> ())) {
+        if sessionStore.currentUser != nil {
+            if let photo = photo {
+                self.uploadPostPhoto(image: photo, userID: userID, postID: postID) { photoURL, success in
+                    if success {
+                        if let photoURL = photoURL {
+                            self.firestoreManager.postEdit(id: postID, text: text, photoURL: photoURL) { success in
+                                completion(success)
+                            }
+                        }
+                    } else {
+                        completion(false)
+                    }
+                }
+            } else {
+                self.firestoreManager.postEdit(id: postID, text: text) { success in
+                    completion(success)
+                }
+            }
+        }
+    }
+    
+    func removePostPhotoURLAfterDeletion(postID: String) {
+        self.postsPicturesURLs.removeValue(forKey: postID)
+    }
+    
+    func getCurrentPostDetails(postID: String) -> Post? {
+        if let posts = self.posts {
+            for post in posts {
+                if post.id == postID {
+                    return post
+                }
+            }
+        } else {
+            return nil
+        }
+        return nil
     }
     
     func reactToPost(postID: String, completion: @escaping ((Bool) -> ())) {
@@ -134,30 +217,28 @@ class HomeViewModel: ObservableObject {
         }
     }
     
-    func deletePost(postID: String, completion: @escaping ((Bool) -> ())) {
+    func deletePost(postID: String, postPictureURL: String? = nil, completion: @escaping ((Bool) -> ())) {
         if sessionStore.currentUser != nil {
             self.firestoreManager.postRemoval(id: postID) { success in
-                if success {
-                    self.firestoreManager.removePostIDFromPostsReactedByUser(userID: self.sessionStore.currentUser!.uid, postID: postID) { success in
-                        if success {
-                            self.firestoreManager.removePostIDFromPostsCommentedByUser(userID: self.sessionStore.currentUser!.uid, postID: postID) { success in
-                                if success {
-                                    if let postComments = self.postsComments[postID] {
-                                        for comment in postComments {
-                                            self.deleteComment(postID: postID, commentID: comment.id) { success in
-                                                
+                if let postPictureURL = postPictureURL {
+                    self.firebaseStorageManager.deletePostImageFromStorage(photoURL: postPictureURL, userID: self.sessionStore.currentUser!.uid, postID: postID) { success in
+                        self.firestoreManager.removePostIDFromPostsReactedByUser(userID: self.sessionStore.currentUser!.uid, postID: postID) { success in
+                            if success {
+                                self.firestoreManager.removePostIDFromPostsCommentedByUser(userID: self.sessionStore.currentUser!.uid, postID: postID) { success in
+                                    if success {
+                                        if let postComments = self.postsComments[postID] {
+                                            for comment in postComments {
+                                                self.deleteComment(postID: postID, commentID: comment.id) { success in
+                                                    
+                                                }
                                             }
                                         }
                                     }
                                 }
-                                completion(success)
                             }
-                        } else {
-                            completion(success)
                         }
+
                     }
-                } else {
-                    completion(success)
                 }
             }
         }

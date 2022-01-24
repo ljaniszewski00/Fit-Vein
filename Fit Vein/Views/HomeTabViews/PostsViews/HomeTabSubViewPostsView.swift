@@ -42,6 +42,7 @@ struct HomeTabSubViewPostsView: View {
                                     .padding(.leading, screenWidth * 0.05)
 
                                 Text("\(post.reactionsUsersIDs!.count)")
+                                    .foregroundColor(Color(uiColor: .systemGray2))
                             }
 
                         }
@@ -50,6 +51,7 @@ struct HomeTabSubViewPostsView: View {
 
                         if let postComments = homeViewModel.postsComments[post.id] {
                             Text("\(postComments.count) \(String(localized: "HomeView_post_comments_number"))")
+                                .foregroundColor(Color(uiColor: .systemGray2))
                                 .padding(.trailing, screenWidth * 0.05)
                         }
                     }
@@ -110,7 +112,7 @@ struct HomeTabSubViewPostsView: View {
                         Spacer()
                     }
                 }
-                .frame(height: screenHeight * 0.06)
+                .frame(height: post.photoURL == nil ? screenHeight * 0.03 : screenHeight * 0.013)
                 .padding(.vertical)
                 .background(.ultraThinMaterial, in: Rectangle())
             }

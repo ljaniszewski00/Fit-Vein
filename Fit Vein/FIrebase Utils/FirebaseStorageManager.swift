@@ -36,6 +36,30 @@ class FirebaseStorageManager: ObservableObject {
         }
     }
     
+    func uploadPostImageToStorage(image: UIImage, userID: String, postID: String, completion: @escaping ((String?), Bool) -> ()) {
+        let imageUUID = UUID().uuidString
+        let userImagesStorageRef = storageRef.child("images/\(userID)/\(postID)/\(imageUUID)")
+        
+        let data = image.jpegData(compressionQuality: 1)
+        
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpeg"
+        metadata.customMetadata = ["username": userID, "post": postID]
+        
+        if let data = data {
+            userImagesStorageRef.putData(data, metadata: metadata) { _, error in
+                if let error = error {
+                    print("Error uploading photo: \(error.localizedDescription)")
+                    completion(nil, false)
+                } else {
+                    completion(imageUUID, true)
+                }
+            }
+        } else {
+            completion(nil, false)
+        }
+    }
+    
     func deleteImageFromStorage(userPhotoURL: String, userID: String, completion: @escaping ((Bool) -> ())) {
         let userImagesStorageRef = storageRef.child("images/\(userID)/\(userPhotoURL)")
 
@@ -50,8 +74,35 @@ class FirebaseStorageManager: ObservableObject {
         }
     }
     
+    func deletePostImageFromStorage(photoURL: String, userID: String, postID: String, completion: @escaping ((Bool) -> ())) {
+        let userImagesStorageRef = storageRef.child("images/\(userID)/\(postID)/\(photoURL)")
+
+        userImagesStorageRef.delete() { (error) in
+            if let error = error {
+                print("Error deleting image from storage: \(error.localizedDescription)")
+                completion(false)
+            } else {
+                print("Successfully deleted image from storage")
+                completion(true)
+            }
+        }
+    }
+    
     func getDownloadURLForImage(stringURL: String, userID: String, completion: @escaping ((URL?, Bool) -> ())) {
         let path = "images/\(userID)/\(stringURL)"
+        let userImagesStorageRef = storageRef.child(path)
+        userImagesStorageRef.downloadURL() { url, error in
+            if let error = error {
+                print("Error getting download URL: \(error.localizedDescription)")
+                completion(nil, false)
+            } else {
+                completion(url, true)
+            }
+        }
+    }
+    
+    func getDownloadURLForPostImage(stringURL: String, userID: String, postID: String, completion: @escaping ((URL?, Bool) -> ())) {
+        let path = "images/\(userID)/\(postID)/\(stringURL)"
         let userImagesStorageRef = storageRef.child(path)
         userImagesStorageRef.downloadURL() { url, error in
             if let error = error {

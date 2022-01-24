@@ -780,8 +780,9 @@ class FirestoreManager: ObservableObject {
                         let text = data["text"] as? String ?? ""
                         let reactionsUsersIDs = data["reactionsUsersIDs"] as? [String]? ?? nil
                         let commentedUsersIDs = data["commentedUsersIDs"] as? [String]? ?? nil
+                        let photoURL = data["photoURL"] as? String? ?? nil
 
-                        return Post(id: id, authorID: authorID, authorFirstName: authorFirstName, authorUsername: authorUsername, authorProfilePictureURL: authorProfilePictureURL, addDate: (addDate?.dateValue())!, text: text, reactionsUsersIDs: reactionsUsersIDs, commentedUsersIDs: commentedUsersIDs, comments: nil)
+                        return Post(id: id, authorID: authorID, authorFirstName: authorFirstName, authorUsername: authorUsername, authorProfilePictureURL: authorProfilePictureURL, addDate: (addDate?.dateValue())!, text: text, reactionsUsersIDs: reactionsUsersIDs, commentedUsersIDs: commentedUsersIDs, comments: nil, photoURL: photoURL)
                     }
                     
                     DispatchQueue.main.async {
@@ -799,7 +800,7 @@ class FirestoreManager: ObservableObject {
         }
     }
     
-    func postDataCreation(id: String, authorID: String, authorFirstName: String, authorUsername: String, authorProfilePictureURL: String, addDate: Date, text: String, reactionsUsersIDs: [String]?, comments: [Comment]?, completion: @escaping ((Bool) -> ())) {
+    func postDataCreation(id: String, authorID: String, authorFirstName: String, authorUsername: String, authorProfilePictureURL: String, addDate: Date, text: String, reactionsUsersIDs: [String]?, comments: [Comment]?, photoURL: String? = nil, completion: @escaping ((Bool) -> ())) {
         let documentData: [String: Any] = [
             "id": id,
             "authorID": authorID,
@@ -810,6 +811,7 @@ class FirestoreManager: ObservableObject {
             "text": text,
             "reactionsUsersIDs": reactionsUsersIDs as Any,
             "commentedUsersIDs": reactionsUsersIDs as Any,
+            "photoURL": photoURL as Any
         ]
         
         self.db.collection("posts").document(id).setData(documentData) { (error) in
@@ -820,6 +822,36 @@ class FirestoreManager: ObservableObject {
                 print("Successfully created post: \(id) by user: \(authorID)")
                 completion(true)
             }
+        }
+    }
+    
+    func addPostPictureURLToPostsData(photoURL: String, postID: String, completion: @escaping ((Bool) -> ())) {
+        let documentData: [String: Any] = [
+            "photoURL": photoURL
+        ]
+        
+        updatePostData(postID: postID, documentData: documentData) { success in
+            if success {
+                print("Successfully added new picture URL \(photoURL) to post's \(postID) data in database.")
+            } else {
+                print("Error adding new picture URL to post's \(postID) data in database.")
+            }
+            completion(success)
+        }
+    }
+    
+    func deletePostPictureURLFromPostsData(postID: String, completion: @escaping ((Bool) -> ())) {
+        let documentData: [String: String?] = [
+            "photoURL": nil
+        ]
+        
+        updatePostData(postID: postID, documentData: documentData) { success in
+            if success {
+                print("Successfully removed picture URL from post's \(postID) data in database.")
+            } else {
+                print("Error removing picture URL from post's \(postID) data in database.")
+            }
+            completion(success)
         }
     }
     
@@ -835,10 +867,20 @@ class FirestoreManager: ObservableObject {
         }
     }
     
-    func postEdit(id: String, text: String, completion: @escaping ((Bool) -> ())) {
-        let documentData: [String: Any] = [
-            "text": text
-        ]
+    func postEdit(id: String, text: String, photoURL: String? = nil, completion: @escaping ((Bool) -> ())) {
+        let documentData: [String: Any]
+        
+        if photoURL == nil {
+            documentData = [
+                "text": text
+            ]
+        } else {
+            documentData = [
+                "text": text,
+                "photoURL": photoURL
+            ]
+        }
+        
         updatePostData(postID: id, documentData: documentData) { success in
             if success {
                 print("Successfully edited post's \(id) data.")

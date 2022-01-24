@@ -26,12 +26,30 @@ struct HomeTabCommentsViewPostView: View {
             VStack {
                 VStack {
                     Text(post.text)
-                        .fixedSize(horizontal: false, vertical: false)
+                        .fixedSize(horizontal: false, vertical: true)
                         .padding()
                 }
-                .padding(.vertical, screenHeight * 0.15)
-
-                Spacer()
+                .padding(.top)
+                
+                if let post = self.homeViewModel.getCurrentPostDetails(postID: post.id) {
+                    if let postPhotoURL = post.photoURL {
+                        Group {
+                            if let postPictureURL = self.homeViewModel.postsPicturesURLs[post.id] {
+                                AsyncImage(url: postPictureURL) { phase in
+                                    if let image = phase.image {
+                                        image
+                                            .resizable()
+                                            .scaledToFill()
+                                    } else {
+                                        ProgressView()
+                                    }
+                                }
+                            }
+                        }
+                        .frame(width: screenWidth * 0.53, height: screenHeight * 0.55)
+                        .padding(.bottom, screenHeight * 0.05)
+                    }
+                }
 
                 VStack {
                     HStack {
@@ -42,6 +60,7 @@ struct HomeTabCommentsViewPostView: View {
                                     .padding(.leading, screenWidth * 0.05)
 
                                 Text("\(post.reactionsUsersIDs!.count)")
+                                    .foregroundColor(Color(uiColor: .systemGray2))
                             }
 
                         }
@@ -50,6 +69,7 @@ struct HomeTabCommentsViewPostView: View {
 
                         if let postComments = homeViewModel.postsComments[post.id] {
                             Text("\(postComments.count) \(String(localized: "CommentView_comment_number_label"))")
+                                .foregroundColor(Color(uiColor: .systemGray2))
                                 .padding(.trailing, screenWidth * 0.05)
                         }
                     }
@@ -93,7 +113,7 @@ struct HomeTabCommentsViewPostView: View {
                         Spacer()
                     }
                 }
-                .frame(width: screenWidth, height: screenHeight * 0.25)
+                .frame(height: post.photoURL == nil ? screenHeight * 0.18 : screenHeight * 0.06)
                 .background(.ultraThinMaterial, in: Rectangle())
                 
                 Divider()

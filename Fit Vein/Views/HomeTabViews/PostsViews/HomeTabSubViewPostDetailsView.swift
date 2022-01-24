@@ -84,8 +84,26 @@ struct HomeTabSubViewPostDetailsView: View {
                 Text(post.text)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding()
+                    .padding(.bottom, screenHeight * calculatePostTextBottomPaddingHeightMultiplier(post: post))
                 
-                Spacer()
+                if let post = self.homeViewModel.getCurrentPostDetails(postID: post.id) {
+                    if let postPhotoURL = post.photoURL {
+                        Group {
+                            if let postPictureURL = self.homeViewModel.postsPicturesURLs[post.id] {
+                                AsyncImage(url: postPictureURL) { phase in
+                                    if let image = phase.image {
+                                        image
+                                            .resizable()
+                                            .scaledToFill()
+                                    } else {
+                                        ProgressView()
+                                    }
+                                }
+                            }
+                        }
+                        .frame(width: screenWidth * 0.9, height: screenHeight)
+                    }
+                }
             }
             .padding()
             .confirmationDialog(String(localized: "HomeView_confirmation_dialog_text"), isPresented: $showPostOptions, titleVisibility: .visible) {
@@ -94,13 +112,31 @@ struct HomeTabSubViewPostDetailsView: View {
                 }
 
                 Button(String(localized: "HomeView_confirmation_dialog_delete"), role: .destructive) {
-                    self.homeViewModel.deletePost(postID: post.id) { success in }
+                    self.homeViewModel.deletePost(postID: post.id, postPictureURL: post.photoURL) { success in }
                 }
 
                 Button(String(localized: "HomeView_confirmation_dialog_cancel"), role: .cancel) {}
             }
             .sheet(isPresented: $showEditPostSheet) {
                 EditPostView(post: post).environmentObject(homeViewModel).environmentObject(profileViewModel).ignoresSafeArea(.keyboard)
+            }
+        }
+    }
+    
+    private func calculatePostTextBottomPaddingHeightMultiplier(post: Post) -> Double {
+        let textCount = post.text.count
+        let photoURL = post.photoURL
+        if photoURL == nil {
+            return 0
+        } else {
+            if textCount <= 50 {
+                return 0.22
+            } else if textCount > 50 && textCount <= 100 {
+                return 0.11
+            } else if textCount > 100 && textCount <= 150 {
+                return 0.1
+            } else {
+                return 0.05
             }
         }
     }

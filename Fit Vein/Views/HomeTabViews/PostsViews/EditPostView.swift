@@ -12,6 +12,7 @@ struct EditPostView: View {
     @EnvironmentObject private var profileViewModel: ProfileViewModel
     
     @Environment(\.dismiss) var dismiss
+    @Environment(\.colorScheme) var colorScheme
     
     private var post: Post
     
@@ -19,6 +20,16 @@ struct EditPostView: View {
     
     @State private var success = false
     @State private var error = false
+    
+    @State private var oldImage = UIImage()
+    @State private var image = UIImage()
+    @State private var photoSelected = false
+    @State private var photoExists = false
+    @State private var photoToBeDeleted = false
+    
+    @State private var shouldPresentAddActionSheet = false
+    @State private var shouldPresentImagePicker = false
+    @State private var shouldPresentCamera = false
     
     init(post: Post) {
         self.post = post
@@ -33,16 +44,9 @@ struct EditPostView: View {
                 ScrollView(.vertical) {
                     HStack {
                         Group {
-                            if let profilePictureURL = profileViewModel.profilePicturePhotoURL {
-                                AsyncImage(url: profilePictureURL) { phase in
-                                    if let image = phase.image {
-                                        image
-                                            .resizable()
-                                    } else {
-                                        Image(uiImage: UIImage(named: "blank-profile-hi")!)
-                                            .resizable()
-                                    }
-                                }
+                            if let profilePicturePhoto = profileViewModel.profilePicturePhoto {
+                                Image(uiImage: profilePicturePhoto)
+                                    .resizable()
                             } else {
                                 Image(uiImage: UIImage(named: "blank-profile-hi")!)
                                     .resizable()
@@ -76,8 +80,8 @@ struct EditPostView: View {
                     .padding()
                     
                     if success {
-                        HStack {
-                            LottieView(name: "success2", loopMode: .loop, contentMode: .scaleAspectFit)
+                        HStack(alignment: .center) {
+                            LottieView(name: "success2", loopMode: .playOnce, contentMode: .scaleAspectFit)
                                 .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                                 .padding(.leading)
                                 .offset(y: -screenHeight * 0.013)
@@ -89,7 +93,7 @@ struct EditPostView: View {
                         }
                         .padding(.horizontal)
                     } else if error {
-                        HStack {
+                        HStack(alignment: .center) {
                             LottieView(name: "wrongData", loopMode: .loop, contentMode: .scaleAspectFill)
                                 .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                                 .padding(.leading)
@@ -100,12 +104,10 @@ struct EditPostView: View {
                             Spacer()
                         }
                         .padding(.horizontal)
-                        .offset(y: -screenHeight * 0.05)
                     } else {
                         HStack {
                             Text(String(localized: "EditPostView_share"))
                                 .foregroundColor(Color(uiColor: .systemGray3))
-                                .padding()
                             Spacer()
                             Text("\(postTextEdited.count) / 200")
                                 .foregroundColor(Color(uiColor: .systemGray2))
@@ -118,11 +120,66 @@ struct EditPostView: View {
                         .frame(width: screenWidth * 0.9, height: screenHeight * 0.5)
                         .overlay(RoundedRectangle(cornerRadius: 8)
                                 .stroke(Color.secondary).opacity(0.5))
+                        .padding(.bottom, screenHeight * 0.02)
                     
-                    Spacer()
+                    Button(action: {
+                        withAnimation {
+                            self.shouldPresentAddActionSheet = true
+                        }
+                    }, label: {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                .foregroundColor(Color(uiColor: UIColor(red: 180, green: 255, blue: 180)))
+                            
+                            HStack(alignment: .center, spacing: screenWidth * 0.03) {
+                                Image(systemName: "photo")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: screenWidth * 0.1, height: screenHeight * 0.03)
+                                
+                                Text(String(localized: photoExists ? (photoSelected ? "EditPostView_photo_selected" : "EditPostView_change_photo") : "EditPostView_upload_photo"))
+                                    .fontWeight(.bold)
+                            }
+                            .foregroundColor(Color(uiColor: UIColor(red: 100, green: 215, blue: 100)))
+                            .frame(height: screenHeight * 0.05)
+                        }
+                        .frame(width: screenWidth * 0.9, height: screenHeight * 0.05)
+                    })
+                    
+                    Button(action: {
+                        withAnimation {
+                            photoExists = false
+                            photoSelected = false
+                            oldImage = UIImage()
+                            image = UIImage()
+                            photoToBeDeleted = true
+                        }
+                    }, label: {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                .foregroundColor(Color(uiColor: UIColor(red: 255, green: 204, blue: 209)))
+                            
+                            HStack(alignment: .center, spacing: screenWidth * 0.03) {
+                                Image(systemName: "trash")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: screenWidth * 0.1, height: screenHeight * 0.03)
+                                
+                                Text(String(localized: "EditPostView_delete_photo"))
+                                    .fontWeight(.bold)
+                            }
+                            .foregroundColor(Color(uiColor: UIColor(red: 255, green: 104, blue: 108)))
+                            .frame(height: screenHeight * 0.05)
+                        }
+                        .frame(width: screenWidth * 0.9, height: screenHeight * 0.05)
+                    })
+                        .disabled(!photoExists)
                 }
                 .onAppear {
                     self.postTextEdited = self.post.text
+                    if post.photoURL != nil {
+                        self.photoExists = true
+                    }
                 }
                 .navigationBarTitle(String(localized: "EditPostView_navigation_title"), displayMode: .inline)
                 .toolbar {
@@ -144,10 +201,19 @@ struct EditPostView: View {
                                 self.error = false
                                 self.success = false
                             }
-                            self.homeViewModel.editPost(postID: self.post.id, text: postTextEdited) { success in
+                            if photoToBeDeleted || photoSelected {
+                                if let postPhotoURL = post.photoURL {
+                                    homeViewModel.deletePostPhoto(photoURL: postPhotoURL, userID: profileViewModel.profile!.id, postID: post.id) { success in
+                                        homeViewModel.removePostPhotoURLAfterDeletion(postID: post.id)
+                                    }
+                                }
+                            }
+                            
+                            self.homeViewModel.editPost(postID: self.post.id, userID: self.post.authorID, text: postTextEdited, photo: self.image.isEqual(UIImage()) ? nil : self.image ) { success in
                                 withAnimation {
                                     if success {
                                         self.success = true
+                                        homeViewModel.fetchData()
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                             dismiss()
                                         }
@@ -161,13 +227,37 @@ struct EditPostView: View {
                                 RoundedRectangle(cornerRadius: 10)
                                     .foregroundColor(self.postTextEdited.count <= 200 ? .accentColor : .gray)
                                 Text(String(localized: "EditPostView_save_button"))
-                                    .foregroundColor(Color(uiColor: .systemGray5))
+                                    .foregroundColor(colorScheme == .light ? .white : .black)
                                     .fontWeight(.bold)
                             }
                             .frame(width: screenWidth * 0.2, height: screenHeight * 0.04)
                         })
                             .disabled(self.postTextEdited.count > 200)
                     }
+                }
+                .sheet(isPresented: $shouldPresentImagePicker) {
+                    ImagePicker(sourceType: self.shouldPresentCamera ? .camera : .photoLibrary, selectedImage: self.$image)
+                        .onDisappear {
+                            if !self.image.isEqual(self.oldImage) {
+                                self.oldImage = image
+                                self.image = image
+                                photoSelected = true
+                                photoExists = true
+                            }
+                        }
+                }
+                .actionSheet(isPresented: $shouldPresentAddActionSheet) {
+                    ActionSheet(title: Text(String(localized: "ProfileView_change_photo_confirmation_dialog_text")), message: nil, buttons: [
+                        .default(Text(String(localized: "ProfileView_change_photo_confirmation_dialog_take_photo_button")), action: {
+                             self.shouldPresentImagePicker = true
+                             self.shouldPresentCamera = true
+                         }),
+                        .default(Text(String(localized: "ProfileView_change_photo_confirmation_dialog_upload_photo_button")), action: {
+                             self.shouldPresentImagePicker = true
+                             self.shouldPresentCamera = false
+                         }),
+                        .cancel(Text(String(localized: "ProfileView_change_photo_confirmation_dialog_cancel_button")))
+                    ])
                 }
             }
         }

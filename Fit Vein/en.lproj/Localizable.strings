@@ -89,6 +89,8 @@
 "AddPostView_share" = "What do you want to share?";
 "AddPostView_success" = "Post has been added successfully.";
 "AddPostView_error" = "Error adding post. Please, try again later.";
+"AddPostView_upload_photo" = "Upload photo";
+"AddPostView_photo_selected" = "Photo selected";
 
 // EditPostView
 "EditPostView_navigation_title" = "Edit a post";
@@ -96,6 +98,10 @@
 "EditPostView_share" = "What do you want to share?";
 "EditPostView_success" = "Successfully edited post.";
 "EditdPostView_error" = "Error editing post. Please try again later.";
+"EditPostView_upload_photo" = "Upload photo";
+"EditPostView_photo_selected" = "Photo selected";
+"EditPostView_change_photo" = "Change photo";
+"EditPostView_delete_photo" = "Delete photo";
 
 // SearchFriendsView
 "SearchFriendsView_navigation_title" = "Follow";
