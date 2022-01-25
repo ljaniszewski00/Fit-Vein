@@ -49,7 +49,7 @@ struct HomeTabSubViewPostDetailsView: View {
                 .frame(width: screenWidth * 0.06, height: screenHeight * 0.06)
                 .padding(.horizontal)
                 
-                VStack {
+                VStack(spacing: screenHeight * 0.005) {
                     HStack {
                         Text(post.authorFirstName)
                             .fontWeight(.bold)
@@ -72,6 +72,7 @@ struct HomeTabSubViewPostDetailsView: View {
 
                     HStack {
                         Text(getShortDate(longDate: post.addDate))
+                            .font(.system(size: screenHeight * 0.016))
                             .foregroundColor(Color(uiColor: .systemGray2))
                         Spacer()
                     }
@@ -82,7 +83,8 @@ struct HomeTabSubViewPostDetailsView: View {
             
             Text(post.text)
                 .fixedSize(horizontal: false, vertical: true)
-                .padding()
+                .padding(.horizontal)
+                .padding(.bottom)
             
             if let post = self.homeViewModel.getCurrentPostDetails(postID: post.id) {
                 if let postPhotoURL = post.photoURL {

@@ -15,6 +15,7 @@ struct SettingsView: View {
     @AppStorage("locked") var biometricLock: Bool = false
     @AppStorage("notifications") var notifications: Bool = true
     @AppStorage("showSampleWorkoutsListFromSettings") var showSampleWorkoutsListFromSettings: Bool = true
+    @AppStorage("showAnimationsInHealthTabView") var showAnimationsInHealthTabView: Bool = true
     @Environment(\.colorScheme) var colorScheme
     
     @Environment(\.dismiss) var dismiss
@@ -50,6 +51,13 @@ struct SettingsView: View {
                             .font(.title)
                             .foregroundColor(.accentColor)
                         Text(String(localized: "SettingsView_sample_workouts_toggle_label"))
+                    })
+                    
+                    Toggle(isOn: $showAnimationsInHealthTabView, label: {
+                        Image(systemName: "heart.circle.fill")
+                            .font(.title)
+                            .foregroundColor(.accentColor)
+                        Text(String(localized: "SettingsView_animations_health_tab_view_toggle_label"))
                     })
                     
                     Toggle(isOn: $biometricLock, label: {

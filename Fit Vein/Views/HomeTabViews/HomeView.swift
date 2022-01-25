@@ -98,7 +98,6 @@ struct HomeView: View {
                     }
                 }
             }
-//                .navigationBarColor(backgroundColor: colorScheme == .light ? .white : .black, titleColor: colorScheme == .light ? .black : .white)
             .navigationTitle("")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -128,54 +127,6 @@ struct HomeView: View {
         }
         .navigationViewStyle(.stack)
     }
-    
-//    private func calculatePostFrameHeightMultiplier(post: Post) -> Double {
-//        let textCount = post.text.count
-//        let photoURL = post.photoURL
-//        if textCount <= 50 {
-//            if photoURL != nil {
-//                return 0.79
-//            } else {
-//                return 0.29
-//            }
-//        } else if textCount > 50 && textCount <= 75 {
-//            if photoURL != nil {
-//                return 0.805
-//            } else {
-//                return 0.31
-//            }
-//        } else if textCount > 75 && textCount <= 100 {
-//            if photoURL != nil {
-//                return 0.82
-//            } else {
-//                return 0.34
-//            }
-//        } else if textCount > 100 && textCount < 125 {
-//            if photoURL != nil {
-//                return 0.84
-//            } else {
-//                return 0.35
-//            }
-//        } else if textCount > 125 && textCount <= 150 {
-//            if photoURL != nil {
-//                return 0.85
-//            } else {
-//                return 0.36
-//            }
-//        } else if textCount > 150 && textCount < 175 {
-//            if photoURL != nil {
-//                return 0.85
-//            } else {
-//                return 0.36
-//            }
-//        } else {
-//            if photoURL != nil {
-//                return 1.03
-//            } else {
-//                return 0.43
-//            }
-//        }
-//    }
 }
 
 struct HomeView_Previews: PreviewProvider {

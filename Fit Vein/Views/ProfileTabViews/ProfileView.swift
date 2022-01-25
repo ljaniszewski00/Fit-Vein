@@ -52,29 +52,6 @@ struct ProfileView: View {
                                     }
                                 } else {
                                     Group {
-//                                        if let profilePictureURL = profileViewModel.profilePicturePhotoURL {
-//                                            AsyncImage(url: profilePictureURL) { phase in
-//                                                if let image = phase.image {
-//                                                    image
-//                                                        .resizable()
-//                                                        .onTapGesture {
-//                                                            self.shouldPresentAddActionSheet = true
-//                                                        }
-//                                                } else {
-//                                                    Image(uiImage: UIImage(named: "blank-profile-hi")!)
-//                                                        .resizable()
-//                                                        .shadow(color: .gray, radius: 7)
-//                                                }
-//                                            }
-//                                        } else {
-//                                            Image(uiImage: UIImage(named: "blank-profile-hi")!)
-//                                                .resizable()
-//                                                .shadow(color: .gray, radius: 7)
-//                                                .onTapGesture {
-//                                                    self.shouldPresentAddActionSheet = true
-//                                                }
-//                                        }
-                                        
                                         if let profilePicturePhoto = profileViewModel.profilePicturePhoto {
                                             Image(uiImage: profilePicturePhoto)
                                                 .resizable()

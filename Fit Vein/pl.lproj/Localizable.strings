@@ -196,6 +196,7 @@
 "SettingsView_app_settings_section" = "Aplikacja";
 "SettingsView_notifications_toggle_label" = "Powiadomienia";
 "SettingsView_sample_workouts_toggle_label" = "Pokaż 'Treningi przykładowe' w zakładce 'Treningi'";
+"SettingsView_animations_health_tab_view_toggle_label" = "Pokaż animacje w sekcji zdrowie twojego profilu";
 "SettingsView_faceID_touchID_toggle_label" = "Używaj FaceID / TouchID";
 "SettingsView_faceID_touchID_info_label" = "Użycie FaceID lub TouchID zależy od technicznych możliwości urządzenia";
 

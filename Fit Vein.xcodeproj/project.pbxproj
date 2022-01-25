@@ -73,6 +73,12 @@
 		0A86D1EA278F559D00AF6F87 /* runnerAddWorkout.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A86D1E9278F559D00AF6F87 /* runnerAddWorkout.json */; };
 		0A8F574C2720B70E00183F47 /* RingProgressViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F574B2720B70E00183F47 /* RingProgressViewStyle.swift */; };
 		0A8F574E2720B8A400183F47 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F574D2720B8A400183F47 /* SettingsView.swift */; };
+		0A95D88A27A07161000C3D5F /* heartRate.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A95D88927A07161000C3D5F /* heartRate.json */; };
+		0A95D88C27A07795000C3D5F /* distance.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A95D88B27A07795000C3D5F /* distance.json */; };
+		0A95D88E27A07B35000C3D5F /* time.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A95D88D27A07B35000C3D5F /* time.json */; };
+		0A95D89227A07D28000C3D5F /* shoesWalking.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A95D89127A07D28000C3D5F /* shoesWalking.json */; };
+		0A95D89427A0809E000C3D5F /* flame.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A95D89327A0809E000C3D5F /* flame.json */; };
+		0A95D89627A0810E000C3D5F /* time2.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A95D89527A0810E000C3D5F /* time2.json */; };
 		0AB808CF2715B9D700337924 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB808CE2715B9D700337924 /* SessionStore.swift */; };
 		0AB808D42715C1AB00337924 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB808D32715C1AB00337924 /* SignInView.swift */; };
 		0AB808D62715C1B500337924 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB808D52715C1B500337924 /* SignUpView.swift */; };
@@ -198,6 +204,12 @@
 		0A86D1E9278F559D00AF6F87 /* runnerAddWorkout.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = runnerAddWorkout.json; sourceTree = "<group>"; };
 		0A8F574B2720B70E00183F47 /* RingProgressViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingProgressViewStyle.swift; sourceTree = "<group>"; };
 		0A8F574D2720B8A400183F47 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		0A95D88927A07161000C3D5F /* heartRate.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = heartRate.json; sourceTree = "<group>"; };
+		0A95D88B27A07795000C3D5F /* distance.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = distance.json; sourceTree = "<group>"; };
+		0A95D88D27A07B35000C3D5F /* time.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = time.json; sourceTree = "<group>"; };
+		0A95D89127A07D28000C3D5F /* shoesWalking.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = shoesWalking.json; sourceTree = "<group>"; };
+		0A95D89327A0809E000C3D5F /* flame.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = flame.json; sourceTree = "<group>"; };
+		0A95D89527A0810E000C3D5F /* time2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = time2.json; sourceTree = "<group>"; };
 		0AB808CE2715B9D700337924 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
 		0AB808D32715C1AB00337924 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		0AB808D52715C1B500337924 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
@@ -289,6 +301,11 @@
 		0A0174ED278B110E00CD45F9 /* Lottie */ = {
 			isa = PBXGroup;
 			children = (
+				0A95D89527A0810E000C3D5F /* time2.json */,
+				0A95D89327A0809E000C3D5F /* flame.json */,
+				0A95D88D27A07B35000C3D5F /* time.json */,
+				0A95D88B27A07795000C3D5F /* distance.json */,
+				0A95D88927A07161000C3D5F /* heartRate.json */,
 				0A7817022795DBDB00E4C424 /* levelUp.json */,
 				0A86D1E9278F559D00AF6F87 /* runnerAddWorkout.json */,
 				0A4CC5F2278E4D5E0012630F /* success2.json */,
@@ -311,6 +328,7 @@
 				0A0174FA278B1BA400CD45F9 /* 70772-smiley-loader.json */,
 				0A0174F7278B1BA300CD45F9 /* avocadoWorkout.json */,
 				0A0174FC278B1BA500CD45F9 /* loading.json */,
+				0A95D89127A07D28000C3D5F /* shoesWalking.json */,
 				0A0174F5278B1BA300CD45F9 /* skeleton.json */,
 				0A0174FE278B1BA500CD45F9 /* countdown.json */,
 			);
@@ -686,10 +704,13 @@
 				0A14B8A4278CB402009E194B /* envelope.json in Resources */,
 				0A017508278B1BA500CD45F9 /* loading.json in Resources */,
 				0A017505278B1BA500CD45F9 /* 43323-men-doing-rope-exercise.json in Resources */,
+				0A95D88C27A07795000C3D5F /* distance.json in Resources */,
 				0A14B8A6278CB782009E194B /* passwordLock.json in Resources */,
 				0A017500278B1BA500CD45F9 /* 20022-character-squat-animation.json in Resources */,
 				0A83A276278B9CED0061973B /* termsAndConditions.json in Resources */,
+				0A95D89427A0809E000C3D5F /* flame.json in Resources */,
 				0AC4DD8C2715A9E5003D5FED /* Preview Assets.xcassets in Resources */,
+				0A95D89227A07D28000C3D5F /* shoesWalking.json in Resources */,
 				0A5B3169279AF3DF000F7517 /* medal-3.png in Resources */,
 				0A14B8A8278CB8B2009E194B /* wrongData.json in Resources */,
 				0A5B316A279AF3DF000F7517 /* medal.png in Resources */,
@@ -709,8 +730,10 @@
 				0A017512278B247200CD45F9 /* noInternetConnection.json in Resources */,
 				0A5B3167279AF3DF000F7517 /* medal-2.png in Resources */,
 				0ADC2DF02715AE43003ED144 /* GoogleService-Info.plist in Resources */,
+				0A95D88A27A07161000C3D5F /* heartRate.json in Resources */,
 				0A017514278B24A700CD45F9 /* countdown2.json in Resources */,
 				0A86D1EA278F559D00AF6F87 /* runnerAddWorkout.json in Resources */,
+				0A95D88E27A07B35000C3D5F /* time.json in Resources */,
 				0A017503278B1BA500CD45F9 /* avocadoWorkout.json in Resources */,
 				0A83A26E278B69A50061973B /* notifications.json in Resources */,
 				0A4CC5F3278E4D5E0012630F /* success2.json in Resources */,
@@ -718,6 +741,7 @@
 				0A01750A278B1BA500CD45F9 /* countdown.json in Resources */,
 				0A5B3168279AF3DF000F7517 /* medal-4.png in Resources */,
 				0A83A26C278B65F20061973B /* runningMan.json in Resources */,
+				0A95D89627A0810E000C3D5F /* time2.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
