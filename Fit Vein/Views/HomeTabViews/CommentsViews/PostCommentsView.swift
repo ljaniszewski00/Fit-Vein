@@ -41,7 +41,7 @@ struct PostCommentsView: View {
                     
                     
                     if let postComments = homeViewModel.postsComments[post.id] {
-                        LazyVStack() {
+                        LazyVStack(spacing: screenHeight * 0.025) {
                             ForEach(postComments) { comment in
                                 HomeTabCommentsView(post: post, comment: comment, isCommentEditTextFieldFocusedBool: $isCommentEditTextFieldFocused).environmentObject(homeViewModel).environmentObject(profileViewModel)
     //                                    .frame(width: screenWidth, height: screenHeight * 0.225)

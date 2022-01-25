@@ -56,7 +56,7 @@ struct HomeTabCommentsView: View {
             }
             .aspectRatio(contentMode: .fill)
             .clipShape(RoundedRectangle(cornerRadius: 50))
-            .frame(width: screenWidth * 0.1, height: screenHeight * 0.1)
+            .frame(width: screenWidth * 0.12, height: screenHeight * 0.1)
             .padding(.leading, screenWidth * 0.08)
             
             VStack {
@@ -77,10 +77,9 @@ struct HomeTabCommentsView: View {
                             }, label: {
                                 Image(systemName: "ellipsis")
                                     .foregroundColor(.accentColor)
-//                                    .padding(.trailing, screenWidth * 0.05)
+                                    .padding(.trailing, screenWidth * 0.05)
                                     
                             })
-                                .padding(.trailing, screenWidth * 0.05)
                         }
                     }
                 }
@@ -101,7 +100,7 @@ struct HomeTabCommentsView: View {
                             .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 25, style: .continuous))
                     } else {
                         Text(comment.text)
-                            .font(.system(size: screenHeight * 0.02))
+                            .font(.system(size: screenHeight * 0.018))
                             .fixedSize(horizontal: false, vertical: true)
                     }
                 }
@@ -189,7 +188,6 @@ struct HomeTabCommentsView: View {
                                             HStack {
                                                 Image(systemName: "hand.thumbsup.fill")
                                                     .scaledToFill()
-//                                                        .frame(width: screenWidth * 0.05, height: screenHeight * 0.1, alignment: .center)
                                             }
                                             .foregroundColor(.accentColor)
                                         })
@@ -201,7 +199,6 @@ struct HomeTabCommentsView: View {
                                             HStack {
                                                 Image(systemName: "hand.thumbsup")
                                                     .scaledToFill()
-//                                                        .frame(width: screenWidth * 0.05, height: screenHeight * 0.1, alignment: .center)
                                             }
                                             .foregroundColor(.accentColor)
                                         })
@@ -213,7 +210,6 @@ struct HomeTabCommentsView: View {
                                         HStack {
                                             Image(systemName: "hand.thumbsup")
                                                 .scaledToFill()
-//                                                    .frame(width: screenWidth * 0.05, height: screenHeight * 0.1, alignment: .center)
                                         }
                                         .foregroundColor(.accentColor)
                                     })
@@ -232,7 +228,6 @@ struct HomeTabCommentsView: View {
                 }
             }
             .padding()
-//            .font(.system(size: screenHeight * 0.08))
             .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 30, style: .continuous))
             .padding(.trailing)
         }

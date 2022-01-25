@@ -23,121 +23,99 @@ struct HomeTabSubViewPostDetailsView: View {
     }
     
     var body: some View {
-        GeometryReader { geometry in
-            let screenWidth = geometry.size.width
-            let screenHeight = geometry.size.height
+        let screenWidth = UIScreen.screenWidth
+        let screenHeight = UIScreen.screenHeight
+        
+        VStack {
+            HStack {
+                Group {
+                    if let profilePictureURL = self.homeViewModel.postsAuthorsProfilePicturesURLs[post.id] {
+                        AsyncImage(url: profilePictureURL) { phase in
+                            if let image = phase.image {
+                                image
+                                    .resizable()
+                            } else {
+                                Image(uiImage: UIImage(named: "blank-profile-hi")!)
+                                    .resizable()
+                            }
+                        }
+                    } else {
+                        Image(uiImage: UIImage(named: "blank-profile-hi")!)
+                            .resizable()
+                    }
+                }
+                .aspectRatio(contentMode: .fill)
+                .clipShape(RoundedRectangle(cornerRadius: 50))
+                .frame(width: screenWidth * 0.06, height: screenHeight * 0.06)
+                .padding(.horizontal)
+                
+                VStack {
+                    HStack {
+                        Text(post.authorFirstName)
+                            .fontWeight(.bold)
+                        Text("•")
+                        Text(post.authorUsername)
+                        Spacer()
+
+                        if currentUserID == post.authorID {
+                            Button(action: {
+                                withAnimation {
+                                    showPostOptions.toggle()
+                                }
+                            }, label: {
+                                Image(systemName: "ellipsis")
+                                    .foregroundColor(.accentColor)
+                            })
+
+                        }
+                    }
+
+                    HStack {
+                        Text(getShortDate(longDate: post.addDate))
+                            .foregroundColor(Color(uiColor: .systemGray2))
+                        Spacer()
+                    }
+                }
+                .padding(.horizontal)
+            }
+            .padding()
             
-            VStack {
-                HStack {
+            Text(post.text)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding()
+            
+            if let post = self.homeViewModel.getCurrentPostDetails(postID: post.id) {
+                if let postPhotoURL = post.photoURL {
                     Group {
-                        if let profilePictureURL = self.homeViewModel.postsAuthorsProfilePicturesURLs[post.id] {
-                            AsyncImage(url: profilePictureURL) { phase in
+                        if let postPictureURL = self.homeViewModel.postsPicturesURLs[post.id] {
+                            AsyncImage(url: postPictureURL) { phase in
                                 if let image = phase.image {
                                     image
                                         .resizable()
+                                        .scaledToFill()
                                 } else {
-                                    Image(uiImage: UIImage(named: "blank-profile-hi")!)
-                                        .resizable()
-                                }
-                            }
-                        } else {
-                            Image(uiImage: UIImage(named: "blank-profile-hi")!)
-                                .resizable()
-                        }
-                    }
-                    .aspectRatio(contentMode: .fill)
-                    .clipShape(RoundedRectangle(cornerRadius: 50))
-                    .frame(width: screenWidth * 0.12, height: screenHeight * 0.12)
-                    
-                    VStack {
-                        HStack {
-                            Text(post.authorFirstName)
-                                .fontWeight(.bold)
-                            Text("•")
-                            Text(post.authorUsername)
-                            Spacer()
-
-                            if currentUserID == post.authorID {
-                                Button(action: {
-                                    withAnimation {
-                                        showPostOptions.toggle()
-                                    }
-                                }, label: {
-                                    Image(systemName: "ellipsis")
-                                        .foregroundColor(.accentColor)
-                                        .padding(.trailing, screenWidth * 0.05)
-                                })
-
-                            }
-                        }
-                        .padding(.bottom, screenHeight * 0.001)
-
-                        HStack {
-                            Text(getShortDate(longDate: post.addDate))
-                                .foregroundColor(Color(uiColor: .systemGray2))
-                            Spacer()
-                        }
-                    }
-                    .padding(.horizontal)
-                }
-                
-                Text(post.text)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding()
-                    .padding(.bottom, screenHeight * calculatePostTextBottomPaddingHeightMultiplier(post: post))
-                
-                if let post = self.homeViewModel.getCurrentPostDetails(postID: post.id) {
-                    if let postPhotoURL = post.photoURL {
-                        Group {
-                            if let postPictureURL = self.homeViewModel.postsPicturesURLs[post.id] {
-                                AsyncImage(url: postPictureURL) { phase in
-                                    if let image = phase.image {
-                                        image
-                                            .resizable()
-                                            .scaledToFill()
-                                    } else {
-                                        ProgressView()
-                                    }
+                                    ProgressView()
                                 }
                             }
                         }
-                        .frame(width: screenWidth * 0.9, height: screenHeight)
                     }
+                    .padding(.bottom)
                 }
-            }
-            .padding()
-            .confirmationDialog(String(localized: "HomeView_confirmation_dialog_text"), isPresented: $showPostOptions, titleVisibility: .visible) {
-                Button(String(localized: "HomeView_confirmation_dialog_edit")) {
-                    showEditPostSheet.toggle()
-                }
-
-                Button(String(localized: "HomeView_confirmation_dialog_delete"), role: .destructive) {
-                    self.homeViewModel.deletePost(postID: post.id, postPictureURL: post.photoURL) { success in }
-                }
-
-                Button(String(localized: "HomeView_confirmation_dialog_cancel"), role: .cancel) {}
-            }
-            .sheet(isPresented: $showEditPostSheet) {
-                EditPostView(post: post).environmentObject(homeViewModel).environmentObject(profileViewModel).ignoresSafeArea(.keyboard)
             }
         }
-    }
-    
-    private func calculatePostTextBottomPaddingHeightMultiplier(post: Post) -> Double {
-        let textCount = post.text.count
-        let photoURL = post.photoURL
-        if photoURL == nil {
-            return 0
-        } else {
-            if textCount <= 50 {
-                return 0.22
-            } else if textCount > 50 && textCount <= 100 {
-                return 0.11
-            } else if textCount > 100 && textCount <= 150 {
-                return 0.1
-            } else {
-                return 0.05
+        .confirmationDialog(String(localized: "HomeView_confirmation_dialog_text"), isPresented: $showPostOptions, titleVisibility: .visible) {
+            Button(String(localized: "HomeView_confirmation_dialog_edit")) {
+                showEditPostSheet.toggle()
             }
+
+            Button(String(localized: "HomeView_confirmation_dialog_delete"), role: .destructive) {
+                self.homeViewModel.deletePost(postID: post.id, postPictureURL: post.photoURL) { success in }
+            }
+
+            Button(String(localized: "HomeView_confirmation_dialog_cancel"), role: .cancel) {}
+        }
+        .sheet(isPresented: $showEditPostSheet) {
+            EditPostView(post: post).environmentObject(homeViewModel).environmentObject(profileViewModel).ignoresSafeArea(.keyboard)
         }
     }
 }

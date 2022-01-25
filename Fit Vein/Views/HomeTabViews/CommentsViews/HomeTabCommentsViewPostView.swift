@@ -108,9 +108,8 @@ struct HomeTabCommentsViewPostView: View {
 
                 Spacer()
             }
-            .padding(screenHeight * 0.012)
-//                .frame(height: post.photoURL == nil ? screenHeight * 0.18 : screenHeight * 0.06)
-            .background(.ultraThinMaterial, in: Rectangle())
+            .padding(screenHeight * 0.014)
+            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10))
             
             Divider()
         }
