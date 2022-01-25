@@ -34,206 +34,221 @@ struct HomeTabCommentsView: View {
     }
     
     var body: some View {
-        GeometryReader { geometry in
-            let screenWidth = geometry.size.width
-            let screenHeight = geometry.size.height
-            
-            VStack {
-                HStack {
-                    Group {
-                        if let profilePictureURL = self.homeViewModel.postsCommentsAuthorsProfilePicturesURLs[comment.authorID] {
-                            AsyncImage(url: profilePictureURL) { phase in
-                                if let image = phase.image {
-                                    image
-                                        .resizable()
-                                } else {
-                                    Image(uiImage: UIImage(named: "blank-profile-hi")!)
-                                        .resizable()
-                                }
-                            }
+        let screenWidth = UIScreen.screenWidth
+        let screenHeight = UIScreen.screenHeight
+        
+        HStack {
+            Group {
+                if let profilePictureURL = self.homeViewModel.postsCommentsAuthorsProfilePicturesURLs[comment.authorID] {
+                    AsyncImage(url: profilePictureURL) { phase in
+                        if let image = phase.image {
+                            image
+                                .resizable()
                         } else {
                             Image(uiImage: UIImage(named: "blank-profile-hi")!)
                                 .resizable()
                         }
                     }
-                    .aspectRatio(contentMode: .fill)
-                    .clipShape(RoundedRectangle(cornerRadius: 50))
-                    .frame(width: screenWidth * 0.1, height: screenHeight * 0.5)
-                    .padding(.leading, screenWidth * 0.08)
-                    .padding(.trailing, screenWidth * 0.01)
+                } else {
+                    Image(uiImage: UIImage(named: "blank-profile-hi")!)
+                        .resizable()
+                }
+            }
+            .aspectRatio(contentMode: .fill)
+            .clipShape(RoundedRectangle(cornerRadius: 50))
+            .frame(width: screenWidth * 0.1, height: screenHeight * 0.1)
+            .padding(.leading, screenWidth * 0.08)
+            
+            VStack {
+                HStack {
+                    Text(comment.authorFirstName)
+                        .fontWeight(.bold)
+                    Text("•")
+                    Text(comment.authorUsername)
                     
-                    VStack(spacing: screenHeight * 0.15) {
-                        HStack {
-                            Text(comment.authorFirstName)
-                                .fontWeight(.bold)
-                            Text("•")
-                            Text(comment.authorUsername)
-                            
-                            Spacer()
+                    Spacer()
 
-                            if let profile = profileViewModel.profile {
-                                if profile.id == comment.authorID {
-                                    Button(action: {
-                                        withAnimation {
-                                            self.showCommentOptions = true
-                                        }
-                                    }, label: {
-                                        Image(systemName: "ellipsis")
-                                            .foregroundColor(.accentColor)
-                                            .padding(.trailing, screenWidth * 0.05)
-                                            
-                                    })
+                    if let profile = profileViewModel.profile {
+                        if profile.id == comment.authorID {
+                            Button(action: {
+                                withAnimation {
+                                    self.showCommentOptions = true
                                 }
+                            }, label: {
+                                Image(systemName: "ellipsis")
+                                    .foregroundColor(.accentColor)
+//                                    .padding(.trailing, screenWidth * 0.05)
+                                    
+                            })
+                                .padding(.trailing, screenWidth * 0.05)
+                        }
+                    }
+                }
+                .font(.system(size: screenHeight * 0.016))
+                
+                Group {
+                    if commentEditMode {
+                        TextField("", text: $commentNewText)
+                            .disableAutocorrection(true)
+                            .autocapitalization(.none)
+                            .padding(.leading)
+                            .focused($isCommentEditTextFieldFocused)
+                            .onChange(of: isCommentEditTextFieldFocused) { newValue in
+                                self.isCommentEditTextFieldFocusedBool = newValue
                             }
+                            .frame(width: screenWidth * 0.68, height: screenHeight * 0.04)
+                            .background(RoundedRectangle(cornerRadius: 25, style: .continuous).stroke().foregroundColor(.accentColor))
+                            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 25, style: .continuous))
+                    } else {
+                        Text(comment.text)
+                            .font(.system(size: screenHeight * 0.02))
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                }
+                .padding(.vertical, screenHeight * 0.01)
+                
+                HStack {
+                    if error {
+                        HStack(spacing: 0) {
+                            LottieView(name: "wrongData", loopMode: .loop, contentMode: .scaleAspectFit)
+                                .frame(width: screenWidth * 0.1, height: screenHeight * 0.04)
+                            Text(String(localized: "CommentView_edit_comment_error"))
+                                .foregroundColor(.red)
+                                .font(.system(size: screenWidth * 0.028, weight: .bold))
+                        }
+                    } else {
+                        Group {
+                            Text(getShortDate(longDate: comment.addDate))
+                                .font(.system(size: screenHeight * 0.016))
+                                .foregroundColor(Color(uiColor: .systemGray2))
+                            Spacer()
                         }
                         
                         if commentEditMode {
-                            TextField("", text: $commentNewText)
-                                .disableAutocorrection(true)
-                                .autocapitalization(.none)
-                                .padding(.leading)
-                                .focused($isCommentEditTextFieldFocused)
-                                .onChange(of: isCommentEditTextFieldFocused) { newValue in
-                                    self.isCommentEditTextFieldFocusedBool = newValue
+                            Button(action: {
+                                withAnimation {
+                                    self.commentEditMode = false
+                                    isCommentEditTextFieldFocusedBool = false
                                 }
-                                .frame(width: screenWidth * 0.69, height: screenHeight * 0.18)
-                                .background(RoundedRectangle(cornerRadius: 25, style: .continuous).stroke().foregroundColor(.accentColor))
-                                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 25, style: .continuous))
-                        } else {
-                            Text(comment.text)
-                                .font(.system(size: screenHeight * 0.1))
-                                .fixedSize(horizontal: false, vertical: true)
-                        }
-                        
-                        HStack {
-                            if error {
-                                HStack(spacing: 0) {
-                                    LottieView(name: "wrongData", loopMode: .loop, contentMode: .scaleAspectFill)
-                                        .frame(width: screenWidth * 0.05, height: screenHeight * 0.15)
-                                    Text(String(localized: "CommentView_edit_comment_error"))
-                                        .foregroundColor(.red)
-                                        .font(.system(size: screenWidth * 0.025, weight: .bold))
-                                        .frame(width: screenWidth * 0.5, height: screenHeight * 0.2)
+                            }, label: {
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                        .foregroundColor(Color(uiColor: UIColor(red: 255, green: 204, blue: 209)))
+                                    
+                                    HStack {
+                                        Text(String(localized: "CommentView_edit_comment_cancel_button"))
+                                            .font(.system(size: screenHeight * 0.012, weight: .bold))
+                                            .foregroundColor(Color(uiColor: UIColor(red: 255, green: 104, blue: 108)))
+                                    }
+                                    .padding(.horizontal)
                                 }
-                            } else {
-                                Group {
-                                    Text(getShortDate(longDate: comment.addDate))
-                                        .foregroundColor(Color(uiColor: .systemGray2))
-                                    Spacer()
-                                }
-                                
-                                if commentEditMode {
-                                    Button(action: {
-                                        withAnimation {
+                                .frame(width: screenWidth * 0.17, height: screenHeight * 0.03)
+                            })
+                            
+                            Button(action: {
+                                self.error = false
+                                withAnimation {
+                                    self.homeViewModel.editComment(commentID: comment.id, text: commentNewText) { success in
+                                        if success {
                                             self.commentEditMode = false
                                             isCommentEditTextFieldFocusedBool = false
-                                        }
-                                    }, label: {
-                                        Text(String(localized: "CommentView_edit_comment_cancel_button"))
-                                            .font(.system(size: screenHeight * 0.07))
-                                            .frame(width: screenWidth * 0.12, height: screenHeight * 0.1)
-                                            .background(RoundedRectangle(cornerRadius: 20, style: .continuous).stroke())
-                                    })
-                                    
-                                    Button(action: {
-                                        self.error = false
-                                        withAnimation {
-                                            self.homeViewModel.editComment(commentID: comment.id, text: commentNewText) { success in
-                                                if success {
-                                                    self.commentEditMode = false
-                                                    isCommentEditTextFieldFocusedBool = false
-                                                } else {
-                                                    withAnimation {
-                                                        self.error = true
-                                                    }
-                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                                                        withAnimation {
-                                                            self.error = false
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }, label: {
-                                        Text(String(localized: "CommentView_send_comment_update_button"))
-                                            .foregroundColor(.white)
-                                            .font(.system(size: screenHeight * 0.07))
-                                            .frame(width: screenWidth * 0.12, height: screenHeight * 0.1)
-                                            .background(RoundedRectangle(cornerRadius: 20, style: .continuous).foregroundColor(.accentColor))
-                                            .disabled(commentNewText.count > 200)
-                                    })
-                                } else {
-                                    HStack(alignment: .center) {
-                                        if let reactionsUsersIDs = comment.reactionsUsersIDs {
-                                            if reactionsUsersIDs.contains(self.profileViewModel.profile!.id) {
-                                                Button(action: {
-                                                    self.homeViewModel.removeReactionFromComment(userID: self.profileViewModel.profile!.id, commentID: comment.id) { success in }
-                                                }, label: {
-                                                    HStack {
-                                                        Image(systemName: "hand.thumbsup.fill")
-                                                            .scaledToFill()
-                                                            .frame(width: screenWidth * 0.05, height: screenHeight * 0.1, alignment: .center)
-                                                    }
-                                                    .foregroundColor(.accentColor)
-                                                })
-
-                                            } else {
-                                                Button(action: {
-                                                    self.homeViewModel.reactToComment(userID: self.profileViewModel.profile!.id, commentID: comment.id) { success in }
-                                                }, label: {
-                                                    HStack {
-                                                        Image(systemName: "hand.thumbsup")
-                                                            .scaledToFill()
-                                                            .frame(width: screenWidth * 0.05, height: screenHeight * 0.1, alignment: .center)
-                                                    }
-                                                    .foregroundColor(.accentColor)
-                                                })
-                                            }
                                         } else {
-                                            Button(action: {
-                                                self.homeViewModel.reactToComment(userID: self.profileViewModel.profile!.id, commentID: comment.id) { success in }
-                                            }, label: {
-                                                HStack {
-                                                    Image(systemName: "hand.thumbsup")
-                                                        .scaledToFill()
-                                                        .frame(width: screenWidth * 0.05, height: screenHeight * 0.1, alignment: .center)
+                                            withAnimation {
+                                                self.error = true
+                                            }
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                                withAnimation {
+                                                    self.error = false
                                                 }
-                                                .foregroundColor(.accentColor)
-                                            })
-                                        }
-
-                                        if comment.reactionsUsersIDs != nil {
-                                            if comment.reactionsUsersIDs!.count != 0 {
-                                                Text("\(comment.reactionsUsersIDs!.count)")
-                                                    .foregroundColor(Color(uiColor: .systemGray2))
                                             }
                                         }
                                     }
-                                    .padding(.trailing, screenWidth * 0.05)
+                                }
+                            }, label: {
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                        .foregroundColor(Color(uiColor: UIColor(red: 180, green: 255, blue: 180)))
+                                    
+                                    HStack {
+                                        Text(String(localized: "CommentView_send_comment_update_button"))
+                                            .font(.system(size: screenHeight * 0.012, weight: .bold))
+                                            .foregroundColor(Color(uiColor: UIColor(red: 100, green: 215, blue: 100)))
+                                            .disabled(commentNewText.count > 200)
+                                    }
+                                    .padding(.horizontal)
+                                }
+                                .frame(width: screenWidth * 0.17, height: screenHeight * 0.03)
+                            })
+                        } else {
+                            HStack(alignment: .center) {
+                                if let reactionsUsersIDs = comment.reactionsUsersIDs {
+                                    if reactionsUsersIDs.contains(self.profileViewModel.profile!.id) {
+                                        Button(action: {
+                                            self.homeViewModel.removeReactionFromComment(userID: self.profileViewModel.profile!.id, commentID: comment.id) { success in }
+                                        }, label: {
+                                            HStack {
+                                                Image(systemName: "hand.thumbsup.fill")
+                                                    .scaledToFill()
+//                                                        .frame(width: screenWidth * 0.05, height: screenHeight * 0.1, alignment: .center)
+                                            }
+                                            .foregroundColor(.accentColor)
+                                        })
+
+                                    } else {
+                                        Button(action: {
+                                            self.homeViewModel.reactToComment(userID: self.profileViewModel.profile!.id, commentID: comment.id) { success in }
+                                        }, label: {
+                                            HStack {
+                                                Image(systemName: "hand.thumbsup")
+                                                    .scaledToFill()
+//                                                        .frame(width: screenWidth * 0.05, height: screenHeight * 0.1, alignment: .center)
+                                            }
+                                            .foregroundColor(.accentColor)
+                                        })
+                                    }
+                                } else {
+                                    Button(action: {
+                                        self.homeViewModel.reactToComment(userID: self.profileViewModel.profile!.id, commentID: comment.id) { success in }
+                                    }, label: {
+                                        HStack {
+                                            Image(systemName: "hand.thumbsup")
+                                                .scaledToFill()
+//                                                    .frame(width: screenWidth * 0.05, height: screenHeight * 0.1, alignment: .center)
+                                        }
+                                        .foregroundColor(.accentColor)
+                                    })
+                                }
+
+                                if comment.reactionsUsersIDs != nil {
+                                    if comment.reactionsUsersIDs!.count != 0 {
+                                        Text("\(comment.reactionsUsersIDs!.count)")
+                                            .foregroundColor(Color(uiColor: .systemGray2))
+                                    }
                                 }
                             }
+                            .padding(.trailing, screenWidth * 0.05)
                         }
                     }
-                    .padding()
-                    .font(.system(size: screenHeight * 0.08))
-                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 30, style: .continuous))
-                    .padding(.trailing)
                 }
             }
-            .confirmationDialog(String(localized: "CommentView_confirmation_dialog_text"), isPresented: $showCommentOptions, titleVisibility: .visible) {
-                Button(String(localized: "CommentView_confirmation_dialog_edit")) {
-                    withAnimation {
-                        self.commentNewText = self.comment.text
-                        self.commentEditMode = true
-                    }
+            .padding()
+//            .font(.system(size: screenHeight * 0.08))
+            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 30, style: .continuous))
+            .padding(.trailing)
+        }
+        .confirmationDialog(String(localized: "CommentView_confirmation_dialog_text"), isPresented: $showCommentOptions, titleVisibility: .visible) {
+            Button(String(localized: "CommentView_confirmation_dialog_edit")) {
+                withAnimation {
+                    self.commentNewText = self.comment.text
+                    self.commentEditMode = true
                 }
+            }
 
-                Button(String(localized: "CommentView_confirmation_dialog_delete"), role: .destructive) {
-                    self.homeViewModel.deleteComment(postID: post.id, commentID: comment.id) { success in }
-                }
-                
-                Button(String(localized: "CommentView_confirmation_dialog_cancel"), role: .cancel) {}
+            Button(String(localized: "CommentView_confirmation_dialog_delete"), role: .destructive) {
+                self.homeViewModel.deleteComment(postID: post.id, commentID: comment.id) { success in }
             }
+            
+            Button(String(localized: "CommentView_confirmation_dialog_cancel"), role: .cancel) {}
         }
     }
 }

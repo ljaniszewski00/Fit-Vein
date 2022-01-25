@@ -19,105 +19,100 @@ struct HomeTabCommentsViewPostView: View {
     }
     
     var body: some View {
-        GeometryReader { geometry in
-            let screenWidth = geometry.size.width
-            let screenHeight = geometry.size.height
-            
-            VStack {
-                VStack {
-                    Text(post.text)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .padding()
-                }
+        let screenWidth = UIScreen.screenWidth
+        let screenHeight = UIScreen.screenHeight
+        
+        VStack {
+            Text(post.text)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding()
                 .padding(.top)
-                
-                if let post = self.homeViewModel.getCurrentPostDetails(postID: post.id) {
-                    if let postPhotoURL = post.photoURL {
-                        Group {
-                            if let postPictureURL = self.homeViewModel.postsPicturesURLs[post.id] {
-                                AsyncImage(url: postPictureURL) { phase in
-                                    if let image = phase.image {
-                                        image
-                                            .resizable()
-                                            .scaledToFill()
-                                    } else {
-                                        ProgressView()
-                                    }
+            
+            if let post = self.homeViewModel.getCurrentPostDetails(postID: post.id) {
+                if let postPhotoURL = post.photoURL {
+                    Group {
+                        if let postPictureURL = self.homeViewModel.postsPicturesURLs[post.id] {
+                            AsyncImage(url: postPictureURL) { phase in
+                                if let image = phase.image {
+                                    image
+                                        .resizable()
+                                        .scaledToFill()
+                                } else {
+                                    ProgressView()
                                 }
                             }
                         }
-                        .frame(width: screenWidth * 0.53, height: screenHeight * 0.55)
-                        .padding(.bottom, screenHeight * 0.05)
                     }
+//                    .padding(.vertical)
+//                    .frame(width: screenWidth * 0.53, height: screenHeight * 0.55)
+//                    .padding(.bottom, screenHeight * 0.05)
                 }
-
-                VStack {
-                    HStack {
-                        if post.reactionsUsersIDs != nil {
-                            if post.reactionsUsersIDs!.count != 0 {
-                                Image(systemName: post.reactionsUsersIDs!.contains(self.profileViewModel.profile!.id) ? "hand.thumbsup.fill" : "hand.thumbsup")
-                                    .foregroundColor(.accentColor)
-                                    .padding(.leading, screenWidth * 0.05)
-
-                                Text("\(post.reactionsUsersIDs!.count)")
-                                    .foregroundColor(Color(uiColor: .systemGray2))
-                            }
-
-                        }
-
-                        Spacer()
-
-                        if let postComments = homeViewModel.postsComments[post.id] {
-                            Text("\(postComments.count) \(String(localized: "CommentView_comment_number_label"))")
-                                .foregroundColor(Color(uiColor: .systemGray2))
-                                .padding(.trailing, screenWidth * 0.05)
-                        }
-                    }
-                }
-
-                VStack {
-                    HStack() {
-                        Spacer()
-
-                        if let reactionsUsersIDs = profileViewModel.profile!.reactedPostsIDs {
-                            Button(action: {
-                                withAnimation {
-                                    if reactionsUsersIDs.contains(post.id) {
-                                        self.homeViewModel.removeReactionFromPost(postID: post.id)  { success in }
-                                    } else {
-                                        self.homeViewModel.reactToPost(postID: post.id)  { success in }
-                                    }
-                                }
-                            }, label: {
-                                HStack {
-                                    Image(systemName: "hand.thumbsup")
-                                        .symbolVariant(reactionsUsersIDs.contains(post.id) ? .fill : .none)
-                                    Text(String(localized: "CommentView_post_like_button"))
-                                }
-                                .foregroundColor(reactionsUsersIDs.contains(post.id) ? .accentColor : (colorScheme == .dark ? .white : .black))
-                            })
-                        } else {
-                            Button(action: {
-                                withAnimation {
-                                    self.homeViewModel.reactToPost(postID: post.id)  { success in }
-                                }
-                            }, label: {
-                                HStack {
-                                    Image(systemName: "hand.thumbsup")
-                                    Text(String(localized: "CommentView_post_like_button"))
-                                }
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                            })
-                        }
-
-                        Spacer()
-                    }
-                }
-                .frame(height: post.photoURL == nil ? screenHeight * 0.18 : screenHeight * 0.06)
-                .background(.ultraThinMaterial, in: Rectangle())
-                
-                Divider()
             }
+
+            HStack {
+                if post.reactionsUsersIDs != nil {
+                    if post.reactionsUsersIDs!.count != 0 {
+                        Image(systemName: post.reactionsUsersIDs!.contains(self.profileViewModel.profile!.id) ? "hand.thumbsup.fill" : "hand.thumbsup")
+                            .foregroundColor(.accentColor)
+                            .padding(.leading, screenWidth * 0.05)
+
+                        Text("\(post.reactionsUsersIDs!.count)")
+                            .foregroundColor(Color(uiColor: .systemGray2))
+                    }
+
+                }
+
+                Spacer()
+
+                if let postComments = homeViewModel.postsComments[post.id] {
+                    Text("\(postComments.count) \(String(localized: "CommentView_comment_number_label"))")
+                        .foregroundColor(Color(uiColor: .systemGray2))
+                        .padding(.trailing, screenWidth * 0.05)
+                }
+            }
+            .padding(.top, screenHeight * 0.02)
+
+            HStack {
+                Spacer()
+
+                if let reactionsUsersIDs = profileViewModel.profile!.reactedPostsIDs {
+                    Button(action: {
+                        withAnimation {
+                            if reactionsUsersIDs.contains(post.id) {
+                                self.homeViewModel.removeReactionFromPost(postID: post.id)  { success in }
+                            } else {
+                                self.homeViewModel.reactToPost(postID: post.id)  { success in }
+                            }
+                        }
+                    }, label: {
+                        HStack {
+                            Image(systemName: "hand.thumbsup")
+                                .symbolVariant(reactionsUsersIDs.contains(post.id) ? .fill : .none)
+                            Text(String(localized: "CommentView_post_like_button"))
+                        }
+                        .foregroundColor(reactionsUsersIDs.contains(post.id) ? .accentColor : (colorScheme == .dark ? .white : .black))
+                    })
+                } else {
+                    Button(action: {
+                        withAnimation {
+                            self.homeViewModel.reactToPost(postID: post.id)  { success in }
+                        }
+                    }, label: {
+                        HStack {
+                            Image(systemName: "hand.thumbsup")
+                            Text(String(localized: "CommentView_post_like_button"))
+                        }
+                        .foregroundColor(colorScheme == .dark ? .white : .black)
+                    })
+                }
+
+                Spacer()
+            }
+            .padding(screenHeight * 0.012)
+//                .frame(height: post.photoURL == nil ? screenHeight * 0.18 : screenHeight * 0.06)
+            .background(.ultraThinMaterial, in: Rectangle())
+            
+            Divider()
         }
     }
 }

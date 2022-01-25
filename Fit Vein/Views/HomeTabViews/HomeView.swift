@@ -35,7 +35,7 @@ struct HomeView: View {
                     } else {
                         if profileViewModel.profile != nil {
                             withAnimation {
-                                ScrollView(.vertical) {
+                                ScrollView(.vertical, showsIndicators: false) {
                                     HomeTabSubViewShareView().environmentObject(homeViewModel).environmentObject(profileViewModel)
                                         .frame(height: screenHeight * 0.25)
                                         .padding(.bottom, screenHeight * 0.055)
@@ -44,10 +44,12 @@ struct HomeView: View {
                                     Group {
                                         if let posts = homeViewModel.posts {
                                             if posts.count != 0 {
-                                                ForEach(posts) { post in
-                                                    HomeTabSubViewPostsView(post: post).environmentObject(homeViewModel).environmentObject(profileViewModel)
-                                                        .frame(height: screenHeight * calculatePostFrameHeightMultiplier(post: post))
-                                                        .background(Color(uiColor: .systemGray6))
+                                                LazyVStack {
+                                                    ForEach(posts) { post in
+                                                        HomeTabSubViewPostsView(post: post).environmentObject(homeViewModel).environmentObject(profileViewModel)
+                                                            .frame(height: screenHeight * calculatePostFrameHeightMultiplier(post: post))
+                                                            .background(Color(uiColor: .systemGray6))
+                                                    }
                                                 }
                                             } else {
                                                 VStack {
@@ -138,17 +140,35 @@ struct HomeView: View {
         let photoURL = post.photoURL
         if textCount <= 50 {
             if photoURL != nil {
-                return 0.8
+                return 0.79
             } else {
                 return 0.29
             }
-        } else if textCount > 50 && textCount <= 100 {
+        } else if textCount > 50 && textCount <= 75 {
             if photoURL != nil {
-                return 0.83
+                return 0.805
+            } else {
+                return 0.31
+            }
+        } else if textCount > 75 && textCount <= 100 {
+            if photoURL != nil {
+                return 0.82
             } else {
                 return 0.34
             }
-        } else if textCount > 100 && textCount <= 150 {
+        } else if textCount > 100 && textCount < 125 {
+            if photoURL != nil {
+                return 0.84
+            } else {
+                return 0.35
+            }
+        } else if textCount > 125 && textCount <= 150 {
+            if photoURL != nil {
+                return 0.85
+            } else {
+                return 0.36
+            }
+        } else if textCount > 150 && textCount < 175 {
             if photoURL != nil {
                 return 0.85
             } else {
@@ -156,7 +176,7 @@ struct HomeView: View {
             }
         } else {
             if photoURL != nil {
-                return 0.92
+                return 1.03
             } else {
                 return 0.43
             }

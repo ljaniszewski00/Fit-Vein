@@ -29,131 +29,140 @@ struct PostCommentsView: View {
     }
     
     var body: some View {
-        GeometryReader { geometry in
-            let screenWidth = geometry.size.width
-            let screenHeight = geometry.size.height
-            
-            VStack {
-                ScrollView(.vertical) {
+        let screenWidth = UIScreen.screenWidth
+        let screenHeight = UIScreen.screenHeight
+        
+        VStack {
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack {
                     HomeTabCommentsViewPostView(post: post).environmentObject(homeViewModel).environmentObject(profileViewModel)
-                        .frame(width: screenWidth, height: post.photoURL == nil ? screenHeight * 0.3 : screenHeight * 0.9)
+//                            .frame(width: screenWidth, height: post.photoURL == nil ? screenHeight * 0.3 : screenHeight * 0.9)
+//                            .padding(.bottom, screenHeight * 0.1)
+                    
                     
                     if let postComments = homeViewModel.postsComments[post.id] {
-                        ForEach(postComments) { comment in
-                            HomeTabCommentsView(post: post, comment: comment, isCommentEditTextFieldFocusedBool: $isCommentEditTextFieldFocused).environmentObject(homeViewModel).environmentObject(profileViewModel)
-                                .frame(width: screenWidth, height: screenHeight * 0.225)
-                                .padding(.bottom, screenHeight * calculateCommentFrameLength(comment: comment))
+                        LazyVStack() {
+                            ForEach(postComments) { comment in
+                                HomeTabCommentsView(post: post, comment: comment, isCommentEditTextFieldFocusedBool: $isCommentEditTextFieldFocused).environmentObject(homeViewModel).environmentObject(profileViewModel)
+    //                                    .frame(width: screenWidth, height: screenHeight * 0.225)
+    //                                    .padding(.bottom, screenHeight * calculateCommentFrameLength(comment: comment))
+                            }
                         }
                     }
                 }
-                .padding(.top, screenHeight * 0.001)
-                .padding(.bottom, isCommentTextFieldFocused ? screenHeight * 0.27 : (isCommentEditTextFieldFocused ? screenHeight * 0.2 : 0))
+            }
+            .padding(.top, screenHeight * 0.001)
+            .padding(.bottom, isCommentTextFieldFocused ? screenHeight * 0.23 : (isCommentEditTextFieldFocused ? screenHeight * 0.165 : 0.1))
+            
+            HStack {
+                TextField(String(localized: "CommentView_comment_text_field_label"), text: $commentText)
+                    .disableAutocorrection(true)
+                    .autocapitalization(.none)
+                    .focused($isCommentTextFieldFocused)
+                    .padding(.leading)
                 
-                HStack {
-                    TextField(String(localized: "CommentView_comment_text_field_label"), text: $commentText)
-                        .disableAutocorrection(true)
-                        .autocapitalization(.none)
-                        .focused($isCommentTextFieldFocused)
-                        .padding(.leading)
-                    
-                    Spacer()
+                Spacer()
 
+                Button(action: {
+                    withAnimation {
+                        self.homeViewModel.commentPost(postID: post.id, authorID: self.profileViewModel.profile!.id, authorFirstName: self.profileViewModel.profile!.firstName, authorLastName: self.profileViewModel.profile!.username, authorProfilePictureURL: self.profileViewModel.profile!.profilePictureURL != nil ? self.profileViewModel.profile!.profilePictureURL! : "User has no profile picture", text: commentText)  { success in
+                            self.commentText = ""
+                        }
+                    }
+                }, label: {
+                    Text(String(localized: "CommentView_send_comment_button"))
+                        .foregroundColor(.white)
+                })
+                    .disabled(self.commentText.count > 200)
+                    .frame(width: screenWidth * 0.18, height: screenHeight * 0.04)
+                    .background(RoundedRectangle(cornerRadius: 25, style: .continuous).foregroundColor(self.commentText.count > 200 ? .gray : .accentColor))
+            }
+            .frame(width: screenWidth * 0.95, height: screenHeight * 0.04)
+            .background(RoundedRectangle(cornerRadius: 25, style: .continuous).stroke().foregroundColor(.accentColor))
+            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 25, style: .continuous))
+            .padding(.bottom, screenHeight * 0.08)
+            .offset(y: isCommentTextFieldFocused ? -screenHeight * 0.23 : 0)
+        }
+        .navigationTitle("")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                HStack {
+                    Group {
+                        if let profilePictureURL = self.homeViewModel.postsAuthorsProfilePicturesURLs[post.id] {
+                            AsyncImage(url: profilePictureURL) { phase in
+                                if let image = phase.image {
+                                    image
+                                        .resizable()
+                                } else {
+                                    Image(uiImage: UIImage(named: "blank-profile-hi")!)
+                                        .resizable()
+                                }
+                            }
+                        } else {
+                            Image(uiImage: UIImage(named: "blank-profile-hi")!)
+                                .resizable()
+                        }
+                    }
+                    .aspectRatio(contentMode: .fit)
+                    .clipShape(RoundedRectangle(cornerRadius: 50))
+//                    .frame(width: screenWidth * 0.08, height: screenHeight * 0.08)
+//                    .padding(.leading, screenWidth * 0.05)
+                    
+                    VStack(spacing: 0) {
+                        HStack {
+                            Text(post.authorFirstName)
+                                .fontWeight(.bold)
+                            Text("•")
+                            Text(post.authorUsername)
+                            Spacer()
+                        }
+                        
+                        HStack {
+                            Text(getShortDate(longDate: post.addDate))
+                                .foregroundColor(Color(uiColor: .systemGray2))
+                            Spacer()
+                        }
+                    }
+                    .font(.system(size: screenHeight * 0.017))
+                }
+            }
+            
+            ToolbarItem(placement: .navigationBarTrailing) {
+                if self.homeViewModel.sessionStore.currentUser!.uid == post.authorID {
                     Button(action: {
                         withAnimation {
-                            self.homeViewModel.commentPost(postID: post.id, authorID: self.profileViewModel.profile!.id, authorFirstName: self.profileViewModel.profile!.firstName, authorLastName: self.profileViewModel.profile!.username, authorProfilePictureURL: self.profileViewModel.profile!.profilePictureURL != nil ? self.profileViewModel.profile!.profilePictureURL! : "User has no profile picture", text: commentText)  { success in
-                                self.commentText = ""
-                            }
+                            showPostOptions.toggle()
                         }
                     }, label: {
-                        Text(String(localized: "CommentView_send_comment_button"))
-                            .foregroundColor(.white)
+                        Image(systemName: "ellipsis")
+                            .foregroundColor(.accentColor)
+//                            .padding(.trailing, screenWidth * 0.03)
                     })
-                        .disabled(self.commentText.count > 200)
-                        .frame(width: screenWidth * 0.18, height: screenHeight * 0.05)
-                        .background(RoundedRectangle(cornerRadius: 25, style: .continuous).foregroundColor(self.commentText.count > 200 ? .gray : .accentColor))
-                }
-                .frame(width: screenWidth * 0.95, height: screenHeight * 0.05)
-                .background(RoundedRectangle(cornerRadius: 25, style: .continuous).stroke().foregroundColor(.accentColor))
-                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 25, style: .continuous))
-                .padding(.bottom, screenHeight * 0.1)
-                .offset(y: isCommentTextFieldFocused ? -screenHeight * 0.27 : 0)
-            }
-            .navigationTitle("")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    HStack {
-                        Group {
-                            if let profilePictureURL = self.homeViewModel.postsAuthorsProfilePicturesURLs[post.id] {
-                                AsyncImage(url: profilePictureURL) { phase in
-                                    if let image = phase.image {
-                                        image
-                                            .resizable()
-                                    } else {
-                                        Image(uiImage: UIImage(named: "blank-profile-hi")!)
-                                            .resizable()
-                                    }
-                                }
-                            } else {
-                                Image(uiImage: UIImage(named: "blank-profile-hi")!)
-                                    .resizable()
-                            }
-                        }
-                        .aspectRatio(contentMode: .fit)
-                        .clipShape(RoundedRectangle(cornerRadius: 50))
-                        .frame(width: screenWidth * 0.08, height: screenHeight * 0.08)
-                        .padding(.leading, screenWidth * 0.05)
-                        
-                        VStack(spacing: 0) {
-                            HStack {
-                                Text(post.authorFirstName)
-                                    .fontWeight(.bold)
-                                Text("•")
-                                Text(post.authorUsername)
-                                Spacer()
-                            }
-                            
-                            HStack {
-                                Text(getShortDate(longDate: post.addDate))
-                                    .foregroundColor(Color(uiColor: .systemGray2))
-                                Spacer()
-                            }
-                        }
-                        .font(.system(size: screenHeight * 0.02))
-                    }
-                }
-                
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    if self.homeViewModel.sessionStore.currentUser!.uid == post.authorID {
-                        Button(action: {
-                            withAnimation {
-                                showPostOptions.toggle()
-                            }
-                        }, label: {
-                            Image(systemName: "ellipsis")
-                                .foregroundColor(.accentColor)
-                                .padding(.trailing, screenWidth * 0.03)
-                        })
-                    }
                 }
             }
-            .confirmationDialog(String(localized: "HomeView_confirmation_dialog_text"), isPresented: $showPostOptions, titleVisibility: .visible) {
-                Button(String(localized: "HomeView_confirmation_dialog_edit")) {
-                    showEditPostSheet.toggle()
-                }
-
-                Button(String(localized: "HomeView_confirmation_dialog_delete"), role: .destructive) {
-                    self.homeViewModel.deletePost(postID: post.id, postPictureURL: post.photoURL) { success in }
-                }
-
-                Button(String(localized: "HomeView_confirmation_dialog_cancel"), role: .cancel) {}
-            }
-            .sheet(isPresented: $showEditPostSheet) {
-                EditPostView(post: post).environmentObject(homeViewModel).environmentObject(profileViewModel).ignoresSafeArea(.keyboard)
-            }
-            .background(.ultraThinMaterial, in: Rectangle())
         }
+        .confirmationDialog(String(localized: "HomeView_confirmation_dialog_text"), isPresented: $showPostOptions, titleVisibility: .visible) {
+            Button(String(localized: "HomeView_confirmation_dialog_edit")) {
+                showEditPostSheet.toggle()
+            }
+
+            Button(String(localized: "HomeView_confirmation_dialog_delete"), role: .destructive) {
+                self.homeViewModel.deletePost(postID: post.id, postPictureURL: post.photoURL) { success in }
+            }
+
+            Button(String(localized: "HomeView_confirmation_dialog_cancel"), role: .cancel) {}
+        }
+        .sheet(isPresented: $showEditPostSheet) {
+            EditPostView(post: post).environmentObject(homeViewModel).environmentObject(profileViewModel).ignoresSafeArea(.keyboard)
+        }
+        .background(.ultraThinMaterial, in: Rectangle())
     }
+    
+//    private func calculateCommentViewPostPadding(post: Post) -> Double {
+//        let postTextCount = post.text.count
+//        let pos
+//    }
     
     private func calculateCommentFrameLength(comment: Comment) -> Double {
         let commentTextCount = comment.text.count
