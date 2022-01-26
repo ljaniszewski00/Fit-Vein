@@ -12,6 +12,46 @@
 "Onboarding_welcome_title" = "Witaj!";
 "Onboarding_welcome_description" = "Poznaj najważniejsze funkcje aplikacji lub zacznij korzystać już teraz.";
 
+"Onboarding_home_tab_view_title" = "Aktualności";
+"Onboarding_home_tab_view_description" = "Tutaj możesz zobaczyć najnowszą aktywność innych, posty które udostępniają. Ponadto możesz dodać własne posty i to w dodatku ze zdjęciami!";
+
+"Onboarding_post_comments_title" = "Komentarze do postów";
+"Onboarding_post_comments_description" = "Komentuj aktywność innych i wzajemnie motywujcie się do działania.";
+
+"Onboarding_search_friends_view_title" = "Obserwowanie";
+"Onboarding_search_friends_view_description" = "Poprzez listę użytkowników, możesz wyszukać kogokolwiek chcesz i zacząć go obserwować by widzieć jego aktywność.";
+
+"Onboarding_workouts_view_title" = "Trening";
+"Onboarding_workouts_view_description" = "Tutaj się zaczyna najważniejsza funkcjonalność aplikacji - treningi. Wybierz jeden z już przygotowanych lub stwórz własny i rozpocznij ćwiczenie.";
+
+"Onboarding_add_workout_view_title" = "Dodaj swój własny trening";
+"Onboarding_add_workout_view_description" = "Wystarczy ustawić liczbę rund, czas pracy i odpoczynku i twój własny trening jest gotowy.";
+
+"Onboarding_workout_timer_view_title" = "Aktywny trening";
+"Onboarding_workout_timer_view_description" = "Stąd masz pogląd na przebieg treningu - liczbę wykonanych rund oraz ich czas.";
+
+"Onboarding_finished_workout_view_title" = "Ukończony trening";
+"Onboarding_finished_workout_view_description" = "Podsumowanie ukończonego przed chwilą treningu - jego parametry takie jak liczba spalonych kalorii czy poświęcony czas, a także wiele więcej. Trening możesz zapisać lub odrzucić jeśli czujesz, że słabo ci poszło.";
+
+"Onboarding_profile_view_title" = "Profil";
+"Onboarding_profile_view_description" = "Twoje najważniejsze informacje. Możesz dodać swoje inne zdjęcie profilowe klikając na nie. Zobaczysz tutaj także zdobyte medale oraz parametry zdrowotne i odbyte treningi.";
+
+"Onboarding_health_tab_view_title" = "Parametry zdrowotne";
+"Onboarding_health_tab_view_description" = "Podstawowe dane dotyczące twojej aktywności, wszystkie zebrane w jednym miejscu";
+
+"Onboarding_workouts_tab_view_title" = "Ukończone treningi";
+"Onboarding_workouts_tab_view_description" = "Chciałbyś zobaczyć postęp dokonywany z treningu na trening? Tutaj jeszcze raz możesz obejrzeć wszystkie ukończone treningi, które zdecydowałeś się zapisać.";
+
+"Onboarding_workouts_tab_view_list_title" = "Ukończone treningi";
+"Onboarding_workouts_tab_view_list_description" = "Treningi te możesz zobaczyć w trybie okien lub listy.";
+
+"Onboarding_settings_view_title" = "Ustawienia";
+"Onboarding_settings_view_description" = "Wszelkie ustawienia aplikacji mogą być dostosowane tutaj. Jeśli zdecydujesz się zmienić dane logowania, wylogować się lub usunąć konto to jest miejsce od którego powinieneś zacząć.";
+
+"Onboarding_medal_view_title" = "Medale";
+"Onboarding_medal_view_description" = "Za różne aktywności ukończone w aplikacji otrzymujesz medale, które mogą być przeglądane w twoim profilu razem z informacją za co zostały otrzymane.";
+
+"Onboarding_get_started_button" = "Rozpocznij";
 
 
 // SignInView Section
@@ -250,6 +290,7 @@
 "SettingsView_help_settings_label" = "Pomoc";
 "SettingsView_help_navigation_title" = "Pomoc";
 "SettingsView_help_text" = "W razie jakichkolwiek problemów napisz maila na poniższy adres opisując problem:";
+"SettingsView_onboarding_label" = "Przewodnik aplikacji";
 "SettingsView_github_author_following" = "Odwiedź mój GitHub: ";
 
 // HealthTabView

@@ -16,6 +16,7 @@ struct LoggedUserView: View {
     @AppStorage("isTabBarHidden") var isTabBarHidden: Bool = false
     
     @AppStorage("shouldShowOnboarding") var shouldShowOnboarding: Bool = true
+    @State private var shouldShowOnboardingState: Bool = false
     
     @State var selectedTab: Tab = .home
     
@@ -135,8 +136,12 @@ struct LoggedUserView: View {
             .ignoresSafeArea()
             .isHidden(isTabBarHidden)
         }
+        .onAppear {
+            self.shouldShowOnboardingState = shouldShowOnboarding
+        }
         .fullScreenCover(isPresented: $shouldShowOnboarding, onDismiss: {
             shouldShowOnboarding = false
+            shouldShowOnboardingState = false
         }, content: {
             OnboardingView()
         })

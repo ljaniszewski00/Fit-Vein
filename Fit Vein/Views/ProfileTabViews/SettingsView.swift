@@ -16,6 +16,9 @@ struct SettingsView: View {
     @AppStorage("notifications") var notifications: Bool = true
     @AppStorage("showSampleWorkoutsListFromSettings") var showSampleWorkoutsListFromSettings: Bool = true
     @AppStorage("showAnimationsInHealthTabView") var showAnimationsInHealthTabView: Bool = true
+    
+    @AppStorage("shouldShowOnboarding") var shouldShowOnboarding: Bool = true
+    
     @Environment(\.colorScheme) var colorScheme
     
     @Environment(\.dismiss) var dismiss
@@ -141,6 +144,14 @@ struct SettingsView: View {
                         NavigationLink(String(localized: "SettingsView_help_settings_label"), destination: {
                             HelpView()
                         })
+                        
+                        HStack {
+                            Button(action: {
+                                shouldShowOnboarding = true
+                            }, label: {
+                                Text(String(localized: "SettingsView_onboarding_label"))
+                            })
+                        }
                         
                         HStack {
                             HStack {

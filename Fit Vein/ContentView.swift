@@ -75,9 +75,6 @@ struct ContentView: View {
             .onAppear {
 //                In case the app remains in logged-in state
 //                sessionStore.signOut()
-                
-                shouldShowOnboarding = true
-                
                 if self.biometricLock && !shouldShowOnboarding {
                     authenticate()
                 }

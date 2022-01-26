@@ -12,6 +12,46 @@
 "Onboarding_welcome_title" = "Welcome!";
 "Onboarding_welcome_description" = "Let us walk you throught the most vital parts of the app or just dismiss this onboarding and dive right in.";
 
+"Onboarding_home_tab_view_title" = "Home Tab";
+"Onboarding_home_tab_view_description" = "Here you can see posts created by other people. You can post your own content too, including photos!";
+
+"Onboarding_post_comments_title" = "Post's Comments";
+"Onboarding_post_comments_description" = "Comment other people's activity and motivate each other.";
+
+"Onboarding_search_friends_view_title" = "Following";
+"Onboarding_search_friends_view_description" = "By searching throught the whole database of app's users, here you can follow anybody who has account on FitVein!";
+
+"Onboarding_workouts_view_title" = "Workout Tab";
+"Onboarding_workouts_view_description" = "This is the root view of fundamental functionality of the app - doing exercises. You can choose from already created or create your own workouts.";
+
+"Onboarding_add_workout_view_title" = "Add your own workout";
+"Onboarding_add_workout_view_description" = "Just set desire number of series, both work and rest time and your own workout is created.";
+
+"Onboarding_workout_timer_view_title" = "Timer";
+"Onboarding_workout_timer_view_description" = "Here you can see the progress of the training you chose.";
+
+"Onboarding_finished_workout_view_title" = "Finished workout";
+"Onboarding_finished_workout_view_description" = "The summary of the workout you have just completed including burned calories, time spent on workout and many more. You can save the workout or not if you fell you could have done better.";
+
+"Onboarding_profile_view_title" = "Profile Tab";
+"Onboarding_profile_view_description" = "Your personal information. You can add different profile picture by clicking on it. You can see there achieved medals for various completed activities along with health stats and completed workouts.";
+
+"Onboarding_health_tab_view_title" = "Health parameters";
+"Onboarding_health_tab_view_description" = "Basic health parameters collected by your device are shown there, all in one place.";
+
+"Onboarding_workouts_tab_view_title" = "Completed workouts";
+"Onboarding_workouts_tab_view_description" = "Want to see the progress you made from workout to workout? Here you can find all the workouts you decided to save.";
+
+"Onboarding_workouts_tab_view_list_title" = "Completed workouts";
+"Onboarding_workouts_tab_view_list_description" = "You can see these workouts either in the windows form or the list.";
+
+"Onboarding_settings_view_title" = "Settings";
+"Onboarding_settings_view_description" = "You want to personalize the app so that is fulfill your needs as much as it can? Here you can find all the settings. When you decide to change your login credentials, sign out or delete your account this is the place your should start from";
+
+"Onboarding_medal_view_title" = "Medals";
+"Onboarding_medal_view_description" = "For various activities completed in the app you earn medals which can be seen in your Profile Tab along with the descriptions for what you got them.";
+
+"Onboarding_get_started_button" = "Get Started";
 
 
 // SignInView Section
@@ -250,6 +290,7 @@
 "SettingsView_help_settings_label" = "Help";
 "SettingsView_help_navigation_title" = "Help";
 "SettingsView_help_text" = "In case of any problems please write an e-mail to following email describing the issue:";
+"SettingsView_onboarding_label" = "App's guide";
 "SettingsView_github_author_following" = "Follow me on GitHub: ";
 
 // HealthTabView
