@@ -15,8 +15,19 @@ struct WorkoutTimerView: View {
     @Environment(\.scenePhase) var scene
     
     @AppStorage("leftTime") var leftDate: Date = Date()
+    @AppStorage("restRound") var restRound: Bool = false
+    @AppStorage("currentRound") var leftCurrentRound: Int = 0
+    @AppStorage("leftSecondsRound") var leftSecondsRound: Int = 0
+    @AppStorage("leftMinutesRound") var leftMinutesRound: Int = 0
     
-    @State private var secondsElapsedDuringBackground: Int = 0
+    @AppStorage("leftSecondsElapsed") var leftSecondsElapsed: Int = 0
+    @AppStorage("leftMinutesElapsed") var leftMinutesElapsed: Int = 0
+    @AppStorage("leftSecondsRemaining") var leftSecondsRemaining: Int = 0
+    @AppStorage("leftMinutesRemaining") var leftMinutesRemaining: Int = 0
+    
+    @AppStorage("leftPaused") var leftPaused: Bool = false
+    @AppStorage("leftLocked") var leftLocked: Bool = false
+    @AppStorage("leftStopped") var leftStopped: Bool = false
     
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
@@ -26,6 +37,7 @@ struct WorkoutTimerView: View {
     @State private var counting = false
     
     @State private var rest = false
+    @State private var secondsElapsedDuringBackground: Int = 0
     
     @State private var secondsElapsed = 0
     @State private var minutesElapsed = 0
@@ -180,7 +192,7 @@ struct WorkoutTimerView: View {
                                 
                                 Button(action: {
                                     withAnimation {
-                                        let completedDuration = minutesElapsed != 0 ? secondsElapsed * minutesElapsed : secondsElapsed
+                                        let completedDuration = minutesElapsed != 0 ? (secondsElapsed + (minutesElapsed * 60)) : secondsElapsed
                                         self.workoutViewModel.stopWorkout(calories: Int(Double(completedDuration) * 0.35), completedDuration: completedDuration, completedSeries: currentRound)
                                         stopped = true
                                     }
@@ -289,11 +301,42 @@ struct WorkoutTimerView: View {
                 }
                 .onChange(of: scene) { (newScene) in
                     if newScene == .background {
+                        print()
+                        print("There was rest round when going background: \(rest)")
+                        print()
+                        
+                        restRound = rest
+                        leftSecondsRound = secondsRound
+                        leftMinutesRound = minutesRound
+                        leftCurrentRound = currentRound
                         leftDate = Date()
+                        
+                        leftSecondsElapsed = secondsElapsed
+                        leftMinutesElapsed = minutesElapsed
+                        leftSecondsRemaining = secondsRemaining
+                        leftMinutesRemaining = minutesRemaining
+                        
+                        leftPaused = paused
+                        leftLocked = locked
+                        leftStopped = leftStopped
                     }
                     
                     if newScene == .active {
+                        rest = restRound
+                        secondsRound = leftSecondsRound
+                        minutesRound = leftMinutesRound
+                        currentRound = leftCurrentRound
                         secondsElapsedDuringBackground = Int(Date().timeIntervalSince(leftDate))
+                        
+                        secondsElapsed = leftSecondsElapsed
+                        minutesElapsed = leftMinutesElapsed
+                        secondsRemaining = leftSecondsRemaining
+                        minutesRemaining = leftMinutesRemaining
+                        
+                        paused = leftPaused
+                        locked = leftLocked
+                        leftStopped = leftStopped
+                        
                         setWorkoutParametersAfterComingBackActive(secondsElapsedDuringBackground: secondsElapsedDuringBackground)
                     }
                 }
@@ -304,7 +347,7 @@ struct WorkoutTimerView: View {
                     endRadius: 400))
                 .onReceive(timer) { _ in
                     if minutesRemaining == 0 && secondsRemaining == 0 {
-                        let completedDuration = minutesElapsed != 0 ? (secondsElapsed * minutesElapsed) : secondsElapsed
+                        let completedDuration = minutesElapsed != 0 ? (secondsElapsed + (minutesElapsed * 60)) : secondsElapsed
                         self.workoutViewModel.stopWorkout(calories: Int(Double(completedDuration) * 0.35), completedDuration: completedDuration, completedSeries: currentRound)
                         stopped = true
                     }
@@ -363,15 +406,26 @@ struct WorkoutTimerView: View {
     
     func setWorkoutParametersAfterComingBackActive(secondsElapsedDuringBackground: Int) {
         if !paused {
-            let totalSecondsRemaining = minutesRemaining == 0 ? (secondsRemaining == 0 ? 0 : secondsRemaining) : minutesRemaining * secondsRemaining
-            let totalSecondsElapsed = minutesElapsed == 0 ? (secondsElapsed == 0 ? 0 : secondsElapsed) : minutesElapsed * secondsElapsed
+            let totalSecondsRemaining = minutesRemaining == 0 ? (secondsRemaining == 0 ? 0 : secondsRemaining) : (minutesRemaining * 60) + secondsRemaining
+//            print("MINUTES REMAINING: \(minutesRemaining)")
+//            print("SECONDS REMAINING: \(secondsRemaining)")
+//            print("TOTAL SECONDS REMAINING: \(totalSecondsRemaining)")
+            let totalSecondsElapsed = minutesElapsed == 0 ? (secondsElapsed == 0 ? 0 : secondsElapsed) : (minutesElapsed * 60) + secondsElapsed
+            
+//            print()
+//            print("There was rest round when came back from background: \(rest)")
+//            print()
             
             if let workout = workoutViewModel.workout {
                 if let workTime = workout.workTime, let restTime = workout.restTime, let series = workout.series {
                     var secondsElapsedDuringBackgroundTemp = secondsElapsedDuringBackground
                     var counter = 0
                     
-                    if minutesRound == 0 ? secondsRound >= secondsElapsedDuringBackgroundTemp : minutesRound * secondsRound >= secondsElapsedDuringBackgroundTemp {
+//                    print()
+//                    print("WHOLE SECONDS ELAPSED DURING BACKGROUND TEMP \(secondsElapsedDuringBackgroundTemp)")
+//                    print()
+                    
+                    if minutesRound == 0 ? secondsRound >= secondsElapsedDuringBackgroundTemp : ((minutesRound * 60) + secondsRound) >= secondsElapsedDuringBackgroundTemp {
                         if minutesRound == 0 {
                             secondsRound -= secondsElapsedDuringBackgroundTemp
                         } else {
@@ -379,78 +433,73 @@ struct WorkoutTimerView: View {
                             secondsRound -= secondsElapsedDuringBackgroundTemp % 60
                         }
                     } else {
-                        secondsElapsedDuringBackgroundTemp -= minutesRound == 0 ? secondsRound : minutesRound * secondsRound
-//                        if rest {
-//                            if workTime > 60 {
-//                                minutesRound =
-//                            } else {
-//
-//                            }
-//                        } else {
-//                            if workTime < 60 {
-//
-//                            } else {
-//
-//                            }
-//                        }
+//                        print("")
+//                        print("There was left time from the round during which the app went background: \(minutesRound) minutes and \(secondsRound) seconds")
+                        secondsElapsedDuringBackgroundTemp -= minutesRound == 0 ? (secondsRound) : ((minutesRound * 60) + secondsRound)
 
                         while secondsElapsedDuringBackgroundTemp > 0 && currentRound != series {
                             counter += 1
-                            print()
-                            print("ROUND NUMBER: \(currentRound)")
-                            print("SECONDS ELAPSED DURING BACKGROUND TEMP \(secondsElapsedDuringBackgroundTemp) AFTER ITERATION NO. \(counter)")
-                            print("REST: \(rest)")
-                            print()
+//                            print()
+//                            print("ROUND NUMBER: \(currentRound)")
+//                            print("SECONDS ELAPSED DURING BACKGROUND TEMP \(secondsElapsedDuringBackgroundTemp) AFTER ITERATION NO. \(counter)")
+//                            print("REST: \(rest)")
+//                            print()
 
                             if rest {
+                                // Setting the values for WORK round that comes next after current REST round
+                                
                                 if workTime > 60 {
-                                    let tempMinutesRound = minutesRound
-                                    let tempSecondsRound = secondsRound
-                                    minutesRound = (workTime / 60) - secondsElapsedDuringBackgroundTemp / 60
-                                    secondsRound = (workTime % 60) - secondsElapsedDuringBackgroundTemp % 60
-                                    if tempMinutesRound == 0 {
-                                        
-                                    } else if tempSecondsRound == 0 {
-                                        
-                                    } else if tempMinutesRound == 0 && tempSecondsRound == 0 {
-                                        
+                                    if secondsElapsedDuringBackgroundTemp > workTime {
+                                        secondsRound = 0
                                     } else {
-                                        secondsElapsedDuringBackgroundTemp -= tempMinutesRound * tempSecondsRound
+                                        minutesRound = (workTime - secondsElapsedDuringBackgroundTemp) / 60
+                                        secondsRound = (workTime - secondsElapsedDuringBackgroundTemp) % 60
                                     }
                                 } else {
-                                    let tempSecondsRound = secondsRound
-                                    print("TEMP SECONDS ROUND \(tempSecondsRound)")
-                                    secondsRound = workTime - secondsElapsedDuringBackgroundTemp
-                                    print("SECONDS ROUND \(secondsRound)")
-                                    secondsElapsedDuringBackgroundTemp -= tempSecondsRound
-                                    print("SECONDS ELAPSED DURING BACKGROUND TEMP \(secondsElapsedDuringBackgroundTemp)")
+                                    if secondsElapsedDuringBackgroundTemp > workTime {
+                                        secondsRound = 0
+                                    } else {
+                                        secondsRound = workTime - secondsElapsedDuringBackgroundTemp
+                                    }
+                                    
+//                                    print()
+//                                    print("SECONDS ROUND SET FOR WORK ROUND: \(secondsRound)")
+//                                    print("SECONDS ELAPSED DURING BACKGROUND TEMP: \(secondsElapsedDuringBackgroundTemp)")
+//                                    print()
                                 }
-
-                                if secondsElapsedDuringBackgroundTemp <= 0 {
-                                    break
-                                } else {
-                                    currentRound += 1
-                                }
-
+                                
+                                currentRound += 1
+                                secondsElapsedDuringBackgroundTemp -= workTime
                                 rest = false
+                                
                             } else {
+                                /* Setting the values for REST round that comes next after current WORK round */
+                                
                                 if restTime > 60 {
-                                    let tempMinutesRound = minutesRound
-                                    let tempSecondsRound = secondsRound
-                                    minutesRound = (restTime / 60) - secondsElapsedDuringBackgroundTemp / 60
-                                    secondsRound = (restTime % 60) - secondsElapsedDuringBackgroundTemp % 60
-                                    secondsElapsedDuringBackgroundTemp -= tempMinutesRound * tempSecondsRound
+                                    if secondsElapsedDuringBackgroundTemp > restTime {
+                                        secondsRound = 0
+                                    } else {
+                                        minutesRound = (restTime - secondsElapsedDuringBackgroundTemp) / 60
+                                        secondsRound = (restTime - secondsElapsedDuringBackgroundTemp) % 60
+                                    }
                                 } else {
-                                    let tempSecondsRound = secondsRound
-                                    print("TEMP SECONDS ROUND \(tempSecondsRound)")
-                                    secondsRound = restTime - secondsElapsedDuringBackgroundTemp
-                                    print("SECONDS ROUND \(secondsRound)")
-                                    secondsElapsedDuringBackgroundTemp -= tempSecondsRound
-                                    print("SECONDS ELAPSED DURING BACKGROUND TEMP \(secondsElapsedDuringBackgroundTemp)")
+                                    
+                                    /* If more seconds elapsed during background than the next rest round will last, next round is completely skipped setting it's time to 0 and substracting whole round time from seconds elapsed in the background. If whole round time is bigger than the remaining of seconds elapsed during background, the remaining time for round is set as the whole round time minus seconds elapsed in the background.  */
+                                    
+                                    if secondsElapsedDuringBackgroundTemp > restTime {
+                                        secondsRound = 0
+                                    } else {
+                                        secondsRound = restTime - secondsElapsedDuringBackgroundTemp
+                                    }
+                                    
+//                                    print()
+//                                    print("SECONDS ROUND SET FOR REST ROUND: \(secondsRound)")
+//                                    print("SECONDS ELAPSED DURING BACKGROUND TEMP: \(secondsElapsedDuringBackgroundTemp)")
+//                                    print()
                                 }
-
+                                
+                                secondsElapsedDuringBackgroundTemp -= restTime
                                 rest = true
-
                             }
                         }
                     }
@@ -461,24 +510,24 @@ struct WorkoutTimerView: View {
                 minutesElapsed += totalSecondsRemaining / 60
                 secondsElapsed += totalSecondsRemaining % 60
                 
-                print()
-                print(totalSecondsRemaining)
-                print(secondsElapsedDuringBackground)
-                print("Here was 0 set for remaining")
-                print()
+//                print()
+//                print(totalSecondsRemaining)
+//                print(secondsElapsedDuringBackground)
+//                print("Here was 0 set for remaining")
+//                print()
                 
                 minutesRemaining = 0
                 secondsRemaining = 0
             } else {
-                minutesElapsed += secondsElapsedDuringBackground / 60
-                secondsElapsed += secondsElapsedDuringBackground % 60
+                minutesElapsed = (totalSecondsElapsed + secondsElapsedDuringBackground) / 60
+                secondsElapsed = (totalSecondsElapsed + secondsElapsedDuringBackground) % 60
                 
-                minutesRemaining -= secondsElapsedDuringBackground / 60
-                secondsRemaining -= secondsElapsedDuringBackground % 60
+                minutesRemaining = (totalSecondsRemaining - secondsElapsedDuringBackground) / 60
+                secondsRemaining = (totalSecondsRemaining - secondsElapsedDuringBackground) % 60
                 
-                print()
-                print("MINUTES REMAINING: \(minutesRemaining)")
-                print("SECONDS REMAINING: \(secondsRemaining)")
+//                print()
+//                print("MINUTES REMAINING: \(minutesRemaining)")
+//                print("SECONDS REMAINING: \(secondsRemaining)")
             }
         }
     }
