@@ -7,6 +7,13 @@
 */
 
 
+
+// Onboarding Section
+"Onboarding_welcome_title" = "Welcome!";
+"Onboarding_welcome_description" = "Let us walk you throught the most vital parts of the app or just dismiss this onboarding and dive right in.";
+
+
+
 // SignInView Section
 "SignInView_sign_in_form_label" = "Sign In Form";
 "SignInView_email_label" = "E-Mail";

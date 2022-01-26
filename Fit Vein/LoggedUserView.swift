@@ -15,6 +15,8 @@ struct LoggedUserView: View {
     
     @AppStorage("isTabBarHidden") var isTabBarHidden: Bool = false
     
+    @AppStorage("shouldShowOnboarding") var shouldShowOnboarding: Bool = true
+    
     @State var selectedTab: Tab = .home
     
     enum Tab: String {
@@ -133,6 +135,11 @@ struct LoggedUserView: View {
             .ignoresSafeArea()
             .isHidden(isTabBarHidden)
         }
+        .fullScreenCover(isPresented: $shouldShowOnboarding, onDismiss: {
+            shouldShowOnboarding = false
+        }, content: {
+            OnboardingView()
+        })
     }
     
     struct TabItem: Identifiable {
