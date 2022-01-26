@@ -43,9 +43,6 @@ struct HomeTabCommentsViewPostView: View {
                             }
                         }
                     }
-//                    .padding(.vertical)
-//                    .frame(width: screenWidth * 0.53, height: screenHeight * 0.55)
-//                    .padding(.bottom, screenHeight * 0.05)
                 }
             }
 

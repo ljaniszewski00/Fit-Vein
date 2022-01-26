@@ -110,7 +110,7 @@ struct ProfileView: View {
                                     Spacer()
                                     
                                     HStack(alignment: .center, spacing: screenWidth * 0.03) {
-                                        ForEach(profileViewModel.medalsFilesNames.sorted(by: <)[profileViewModel.profile!.level < 3 ? 0...profileViewModel.profile!.level : 0...2], id: \.self) { medalFileName in
+                                        ForEach(profileViewModel.medalsFilesNames.sorted(by: <)[profileViewModel.profile!.level < 3 ? 0...(profileViewModel.profile!.level - 1) : 0...2], id: \.self) { medalFileName in
                                             Image(uiImage: UIImage(named: medalFileName)!)
                                                 .resizable()
                                                 .shadow(color: .gray, radius: 7)
@@ -121,6 +121,7 @@ struct ProfileView: View {
                                                     }
                                                 }
                                         }
+                                        Spacer()
                                     }
                                 }
                             }
@@ -168,7 +169,7 @@ struct ProfileView: View {
                                                     .foregroundColor(Color(UIColor.systemGray5))
                                                     .frame(width: screenWidth * 0.95, height: screenHeight * 0.2)
                                                 
-                                                Text("Go to 'Workout' Tab to do your first training!")
+                                                Text(String(localized: "ProfileView_no_workouts_message"))
                                                     .font(.title)
                                                     .fontWeight(.bold)
                                                     .foregroundColor(.accentColor)
@@ -224,7 +225,7 @@ struct ProfileView: View {
                             $0
                                 .overlay(
                                     TabView {
-                                        ForEach((0...(profileViewModel.profile!.level - 1)), id: \.self) { index in
+                                        ForEach((0...profileViewModel.profile!.level - 1), id: \.self) { index in
                                             VStack(spacing: screenHeight * 0.07) {
                                                 Image(uiImage: UIImage(named: profileViewModel.medalsFilesNames.sorted(by: <)[index])!)
                                                     .resizable()
@@ -247,10 +248,6 @@ struct ProfileView: View {
                         .onAppear {
                             withAnimation {
                                 self.shouldShowLevelUpAnimation = self.shouldShowLevelUpAnimationTrigger
-    //                                if !alreadyAppearedOnce {
-    //                                    self.profileViewModel.fetchData()
-    //                                    self.alreadyAppearedOnce = true
-    //                                }
                             }
                         }
                         .navigationTitle("")

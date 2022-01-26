@@ -10,6 +10,9 @@ import HealthKit
 
 struct HealthTabView: View {
     @ObservedObject private var healthKitViewModel = HealthKitViewModel()
+    @AppStorage("showAnimationsInHealthTabView") var showAnimationsInHealthTabView: Bool = true
+    
+    @State private var showingAnimations = true
     
     var body: some View {
         GeometryReader { geometry in
@@ -25,7 +28,11 @@ struct HealthTabView: View {
                         Spacer()
                     }
                     
-                    Spacer()
+                    if showingAnimations {
+                        Spacer()
+                    } else {
+                        Spacer(minLength: screenHeight * 0.05)
+                    }
                     
                     HStack {
                         Spacer()
@@ -35,7 +42,11 @@ struct HealthTabView: View {
                         Spacer()
                     }
                     
-                    Spacer()
+                    if showingAnimations {
+                        Spacer()
+                    } else {
+                        Spacer(minLength: screenHeight * 0.05)
+                    }
                     
                     HStack {
                         Spacer()
@@ -48,6 +59,9 @@ struct HealthTabView: View {
                 .navigationTitle(String(localized: "HealthTabView_navigation_title"))
                 .navigationBarHidden(false)
                 .padding(.vertical, screenHeight * 0.03)
+                .onAppear {
+                    showingAnimations = showAnimationsInHealthTabView
+                }
             }
             .navigationViewStyle(.stack)
         }
@@ -88,7 +102,7 @@ struct HealthTabView: View {
                                 .frame(width: screenWidth * 0.3, height: screenHeight * 0.3)
                         }
                     }
-                    .padding(tileNumber == 4 ? .top : .vertical, screenHeight * 0.13)
+                    .padding(tileNumber == 4 && showingAnimations ? .top : .vertical, screenHeight * 0.13)
                     
                     HStack(alignment: .center) {
                         Text(tileValue.contains("-") ? "-" : (tileValue.contains("km") ? tileValue : tileValue.removeCharactersFromString(string: tileValue, character: ".", before: false, upToCharacter: " ")))

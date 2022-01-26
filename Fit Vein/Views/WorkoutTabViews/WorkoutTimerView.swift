@@ -12,6 +12,12 @@ struct WorkoutTimerView: View {
     @EnvironmentObject private var networkManager: NetworkManager
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
+    @Environment(\.scenePhase) var scene
+    
+    @AppStorage("leftTime") var leftDate: Date = Date()
+    
+    @State private var secondsElapsedDuringBackground: Int = 0
+    
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     @State private var secondsRound = 0
@@ -281,6 +287,16 @@ struct WorkoutTimerView: View {
                 .onDisappear {
                     dismiss()
                 }
+                .onChange(of: scene) { (newScene) in
+                    if newScene == .background {
+                        leftDate = Date()
+                    }
+                    
+                    if newScene == .active {
+                        secondsElapsedDuringBackground = Int(Date().timeIntervalSince(leftDate))
+                        setWorkoutParametersAfterComingBackActive(secondsElapsedDuringBackground: secondsElapsedDuringBackground)
+                    }
+                }
                 .background(RadialGradient(
                     gradient: Gradient(colors: [Color(uiColor: UIColor(red: 90, green: 230, blue: 90)), Color(uiColor: UIColor(red: 30, green: 200, blue: 30))]),
                     center: .topLeading,
@@ -341,6 +357,128 @@ struct WorkoutTimerView: View {
                 setRemainingTime()
                 
                 counting = true
+            }
+        }
+    }
+    
+    func setWorkoutParametersAfterComingBackActive(secondsElapsedDuringBackground: Int) {
+        if !paused {
+            let totalSecondsRemaining = minutesRemaining == 0 ? (secondsRemaining == 0 ? 0 : secondsRemaining) : minutesRemaining * secondsRemaining
+            let totalSecondsElapsed = minutesElapsed == 0 ? (secondsElapsed == 0 ? 0 : secondsElapsed) : minutesElapsed * secondsElapsed
+            
+            if let workout = workoutViewModel.workout {
+                if let workTime = workout.workTime, let restTime = workout.restTime, let series = workout.series {
+                    var secondsElapsedDuringBackgroundTemp = secondsElapsedDuringBackground
+                    var counter = 0
+                    
+                    if minutesRound == 0 ? secondsRound >= secondsElapsedDuringBackgroundTemp : minutesRound * secondsRound >= secondsElapsedDuringBackgroundTemp {
+                        if minutesRound == 0 {
+                            secondsRound -= secondsElapsedDuringBackgroundTemp
+                        } else {
+                            minutesRound -= secondsElapsedDuringBackgroundTemp / 60
+                            secondsRound -= secondsElapsedDuringBackgroundTemp % 60
+                        }
+                    } else {
+                        secondsElapsedDuringBackgroundTemp -= minutesRound == 0 ? secondsRound : minutesRound * secondsRound
+//                        if rest {
+//                            if workTime > 60 {
+//                                minutesRound =
+//                            } else {
+//
+//                            }
+//                        } else {
+//                            if workTime < 60 {
+//
+//                            } else {
+//
+//                            }
+//                        }
+
+                        while secondsElapsedDuringBackgroundTemp > 0 && currentRound != series {
+                            counter += 1
+                            print()
+                            print("ROUND NUMBER: \(currentRound)")
+                            print("SECONDS ELAPSED DURING BACKGROUND TEMP \(secondsElapsedDuringBackgroundTemp) AFTER ITERATION NO. \(counter)")
+                            print("REST: \(rest)")
+                            print()
+
+                            if rest {
+                                if workTime > 60 {
+                                    let tempMinutesRound = minutesRound
+                                    let tempSecondsRound = secondsRound
+                                    minutesRound = (workTime / 60) - secondsElapsedDuringBackgroundTemp / 60
+                                    secondsRound = (workTime % 60) - secondsElapsedDuringBackgroundTemp % 60
+                                    if tempMinutesRound == 0 {
+                                        
+                                    } else if tempSecondsRound == 0 {
+                                        
+                                    } else if tempMinutesRound == 0 && tempSecondsRound == 0 {
+                                        
+                                    } else {
+                                        secondsElapsedDuringBackgroundTemp -= tempMinutesRound * tempSecondsRound
+                                    }
+                                } else {
+                                    let tempSecondsRound = secondsRound
+                                    print("TEMP SECONDS ROUND \(tempSecondsRound)")
+                                    secondsRound = workTime - secondsElapsedDuringBackgroundTemp
+                                    print("SECONDS ROUND \(secondsRound)")
+                                    secondsElapsedDuringBackgroundTemp -= tempSecondsRound
+                                    print("SECONDS ELAPSED DURING BACKGROUND TEMP \(secondsElapsedDuringBackgroundTemp)")
+                                }
+
+                                if secondsElapsedDuringBackgroundTemp <= 0 {
+                                    break
+                                } else {
+                                    currentRound += 1
+                                }
+
+                                rest = false
+                            } else {
+                                if restTime > 60 {
+                                    let tempMinutesRound = minutesRound
+                                    let tempSecondsRound = secondsRound
+                                    minutesRound = (restTime / 60) - secondsElapsedDuringBackgroundTemp / 60
+                                    secondsRound = (restTime % 60) - secondsElapsedDuringBackgroundTemp % 60
+                                    secondsElapsedDuringBackgroundTemp -= tempMinutesRound * tempSecondsRound
+                                } else {
+                                    let tempSecondsRound = secondsRound
+                                    print("TEMP SECONDS ROUND \(tempSecondsRound)")
+                                    secondsRound = restTime - secondsElapsedDuringBackgroundTemp
+                                    print("SECONDS ROUND \(secondsRound)")
+                                    secondsElapsedDuringBackgroundTemp -= tempSecondsRound
+                                    print("SECONDS ELAPSED DURING BACKGROUND TEMP \(secondsElapsedDuringBackgroundTemp)")
+                                }
+
+                                rest = true
+
+                            }
+                        }
+                    }
+                }
+            }
+            
+            if totalSecondsRemaining - secondsElapsedDuringBackground <= 0 {
+                minutesElapsed += totalSecondsRemaining / 60
+                secondsElapsed += totalSecondsRemaining % 60
+                
+                print()
+                print(totalSecondsRemaining)
+                print(secondsElapsedDuringBackground)
+                print("Here was 0 set for remaining")
+                print()
+                
+                minutesRemaining = 0
+                secondsRemaining = 0
+            } else {
+                minutesElapsed += secondsElapsedDuringBackground / 60
+                secondsElapsed += secondsElapsedDuringBackground % 60
+                
+                minutesRemaining -= secondsElapsedDuringBackground / 60
+                secondsRemaining -= secondsElapsedDuringBackground % 60
+                
+                print()
+                print("MINUTES REMAINING: \(minutesRemaining)")
+                print("SECONDS REMAINING: \(secondsRemaining)")
             }
         }
     }

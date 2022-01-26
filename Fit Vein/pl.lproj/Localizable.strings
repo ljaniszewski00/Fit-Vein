@@ -182,7 +182,7 @@
 "ProfileView_change_photo_confirmation_dialog_cancel_button" = "Anuluj";
 "ProfileView_level_label" = "Poziom";
 "ProfileView_workouts_label" = "Treningów";
-"ProfileView_no_workouts_message" = "Przejdź do zakładki 'Workout' żeby zrobić swój pierwszy trening!";
+"ProfileView_no_workouts_message" = "Przejdź do zakładki 'Trening' żeby zrobić swój pierwszy trening!";
 "ProfileView_level_up" = "Nowy poziom!";
 
 "ProfileView_medal_account_registration" = "Zdobyty za rejestrację konta";

@@ -37,151 +37,153 @@ struct SettingsView: View {
             let screenWidth = geometry.size.width
             let screenHeight = geometry.size.height
             
-            Form {
-                Section(header: Text(String(localized: "SettingsView_app_settings_section")), footer: Text(String(localized: "SettingsView_faceID_touchID_info_label"))) {
-                    Toggle(isOn: $notifications, label: {
-                        Image(systemName: "bell.circle.fill")
-                            .font(.title)
-                            .foregroundColor(.accentColor)
-                        Text(String(localized: "SettingsView_notifications_toggle_label"))
-                    })
-                    
-                    Toggle(isOn: $showSampleWorkoutsListFromSettings, label: {
-                        Image(systemName: "list.bullet.circle.fill")
-                            .font(.title)
-                            .foregroundColor(.accentColor)
-                        Text(String(localized: "SettingsView_sample_workouts_toggle_label"))
-                    })
-                    
-                    Toggle(isOn: $showAnimationsInHealthTabView, label: {
-                        Image(systemName: "heart.circle.fill")
-                            .font(.title)
-                            .foregroundColor(.accentColor)
-                        Text(String(localized: "SettingsView_animations_health_tab_view_toggle_label"))
-                    })
-                    
-                    Toggle(isOn: $biometricLock, label: {
-                        Image(systemName: "faceid")
-                            .font(.title)
-                            .foregroundColor(.accentColor)
-                        Text(String(localized: "SettingsView_faceID_touchID_toggle_label"))
-                    })
-                }
-                
-                Section(header: Text(String(localized: "SettingsView_account_settings_section"))) {
-                    Button(action: {
-                        sheetManager.whichSheet = .email
-                        sheetManager.showSheet.toggle()
-                    }, label: {
-                        HStack {
-                            Image(systemName: "envelope.circle.fill")
+            VStack {
+                Form {
+                    Section(header: Text(String(localized: "SettingsView_app_settings_section")), footer: Text(String(localized: "SettingsView_faceID_touchID_info_label"))) {
+                        Toggle(isOn: $notifications, label: {
+                            Image(systemName: "bell.circle.fill")
                                 .font(.title)
                                 .foregroundColor(.accentColor)
-                            Text(String(localized: "SettingsView_change_email_address_button"))
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                        }
-                    })
-                        .disabled(!networkManager.isConnected)
-                    
-                    Button(action: {
-                        sheetManager.whichSheet = .password
-                        sheetManager.showSheet.toggle()
-                    }, label: {
-                        HStack {
-                            Image(systemName: "lock.circle.fill")
+                            Text(String(localized: "SettingsView_notifications_toggle_label"))
+                        })
+                        
+                        Toggle(isOn: $showSampleWorkoutsListFromSettings, label: {
+                            Image(systemName: "list.bullet.circle.fill")
                                 .font(.title)
                                 .foregroundColor(.accentColor)
-                            Text(String(localized: "SettingsView_change_password_button"))
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                        }
-                    })
-                        .disabled(!networkManager.isConnected)
-                    
-                    Button(action: {
-                        sheetManager.whichSheet = .logout
-                        shouldPresentActionSheet = true
-                    }, label: {
-                        HStack {
-                            Image(systemName: "person.crop.circle.fill.badge.minus")
+                            Text(String(localized: "SettingsView_sample_workouts_toggle_label"))
+                        })
+                        
+                        Toggle(isOn: $showAnimationsInHealthTabView, label: {
+                            Image(systemName: "heart.circle.fill")
                                 .font(.title)
                                 .foregroundColor(.accentColor)
-                            Text(String(localized: "SettingsView_logout"))
-                                .foregroundColor(.red)
-                        }
-                    })
-                        .disabled(!networkManager.isConnected)
-                    
-                    Button(action: {
-                        sheetManager.whichSheet = .signout
-                        shouldPresentActionSheet = true
-                    }, label: {
-                        HStack {
-                            Image(systemName: "trash.circle.fill")
+                            Text(String(localized: "SettingsView_animations_health_tab_view_toggle_label"))
+                        })
+                        
+                        Toggle(isOn: $biometricLock, label: {
+                            Image(systemName: "faceid")
                                 .font(.title)
                                 .foregroundColor(.accentColor)
-                            Text(String(localized: "SettingsView_delete_account"))
-                                .foregroundColor(.red)
-                        }
-                    })
-                        .disabled(!networkManager.isConnected)
-                }
-                
-                Section(header: Text(String(localized: "SettingsView_help_settings_section"))) {
-                    HStack {
-                        Text(String(localized: "SettingsView_version_label"))
-                        Spacer()
-                        Text(UIApplication.versionBuild())
+                            Text(String(localized: "SettingsView_faceID_touchID_toggle_label"))
+                        })
                     }
                     
-                    NavigationLink(String(localized: "SettingsView_terms_and_conditions_settings_label"), destination: {
-                        TermsAndConditionsView()
-                    })
+                    Section(header: Text(String(localized: "SettingsView_account_settings_section"))) {
+                        Button(action: {
+                            sheetManager.whichSheet = .email
+                            sheetManager.showSheet.toggle()
+                        }, label: {
+                            HStack {
+                                Image(systemName: "envelope.circle.fill")
+                                    .font(.title)
+                                    .foregroundColor(.accentColor)
+                                Text(String(localized: "SettingsView_change_email_address_button"))
+                                    .foregroundColor(colorScheme == .dark ? .white : .black)
+                            }
+                        })
+                            .disabled(!networkManager.isConnected)
+                        
+                        Button(action: {
+                            sheetManager.whichSheet = .password
+                            sheetManager.showSheet.toggle()
+                        }, label: {
+                            HStack {
+                                Image(systemName: "lock.circle.fill")
+                                    .font(.title)
+                                    .foregroundColor(.accentColor)
+                                Text(String(localized: "SettingsView_change_password_button"))
+                                    .foregroundColor(colorScheme == .dark ? .white : .black)
+                            }
+                        })
+                            .disabled(!networkManager.isConnected)
+                        
+                        Button(action: {
+                            sheetManager.whichSheet = .logout
+                            shouldPresentActionSheet = true
+                        }, label: {
+                            HStack {
+                                Image(systemName: "person.crop.circle.fill.badge.minus")
+                                    .font(.title)
+                                    .foregroundColor(.accentColor)
+                                Text(String(localized: "SettingsView_logout"))
+                                    .foregroundColor(.red)
+                            }
+                        })
+                            .disabled(!networkManager.isConnected)
+                        
+                        Button(action: {
+                            sheetManager.whichSheet = .signout
+                            shouldPresentActionSheet = true
+                        }, label: {
+                            HStack {
+                                Image(systemName: "trash.circle.fill")
+                                    .font(.title)
+                                    .foregroundColor(.accentColor)
+                                Text(String(localized: "SettingsView_delete_account"))
+                                    .foregroundColor(.red)
+                            }
+                        })
+                            .disabled(!networkManager.isConnected)
+                    }
                     
-                    NavigationLink(String(localized: "SettingsView_help_settings_label"), destination: {
-                        HelpView()
-                    })
-                    
-                    HStack {
+                    Section(header: Text(String(localized: "SettingsView_help_settings_section"))) {
                         HStack {
-                            Image(systemName: "link.circle.fill")
-                                .font(.title)
-                                .foregroundColor(.accentColor)
-                            Text(String(localized: "SettingsView_github_author_following"))
-                            Link("Vader20FF", destination: URL(string: "https://github.com/Vader20FF")!)
-                                .foregroundColor(.accentColor)
-                                .font(.system(size: 18, weight: .bold))
+                            Text(String(localized: "SettingsView_version_label"))
+                            Spacer()
+                            Text(UIApplication.versionBuild())
+                        }
+                        
+                        NavigationLink(String(localized: "SettingsView_terms_and_conditions_settings_label"), destination: {
+                            TermsAndConditionsView()
+                        })
+                        
+                        NavigationLink(String(localized: "SettingsView_help_settings_label"), destination: {
+                            HelpView()
+                        })
+                        
+                        HStack {
+                            HStack {
+                                Image(systemName: "link.circle.fill")
+                                    .font(.title)
+                                    .foregroundColor(.accentColor)
+                                Text(String(localized: "SettingsView_github_author_following"))
+                                Link("Vader20FF", destination: URL(string: "https://github.com/Vader20FF")!)
+                                    .foregroundColor(.accentColor)
+                                    .font(.system(size: 18, weight: .bold))
+                            }
                         }
                     }
                 }
-            }
-            .navigationBarTitle(String(localized: "SettingsView_navigation_title"))
-            .navigationBarTitleDisplayMode(.large)
-            
-            .sheet(isPresented: $sheetManager.showSheet) {
-                switch sheetManager.whichSheet {
-                case .email:
-                    ChangeEmailAddressSheetView().environmentObject(profileViewModel).ignoresSafeArea(.keyboard)
-                case .password:
-                    ChangePasswordSheetView().environmentObject(profileViewModel).ignoresSafeArea(.keyboard)
-                case .signout:
-                    DeleteAccountSheetView().environmentObject(profileViewModel).ignoresSafeArea(.keyboard)
-                default:
-                    Text("No view")
+                .padding(.bottom, screenHeight * 0.04)
+                .navigationBarTitle(String(localized: "SettingsView_navigation_title"))
+                .navigationBarTitleDisplayMode(.large)
+                .sheet(isPresented: $sheetManager.showSheet) {
+                    switch sheetManager.whichSheet {
+                    case .email:
+                        ChangeEmailAddressSheetView().environmentObject(profileViewModel).ignoresSafeArea(.keyboard)
+                    case .password:
+                        ChangePasswordSheetView().environmentObject(profileViewModel).ignoresSafeArea(.keyboard)
+                    case .signout:
+                        DeleteAccountSheetView().environmentObject(profileViewModel).ignoresSafeArea(.keyboard)
+                    default:
+                        Text("No view")
+                    }
                 }
-            }
-            .confirmationDialog(sheetManager.whichSheet == .logout ? String(localized: "SettingsView_logout_confirmation_dialog_text") : String(localized: "SettingsView_delete_account_confirmation_dialog_text"), isPresented: $shouldPresentActionSheet, titleVisibility: .visible) {
-                if sheetManager.whichSheet == .logout {
-                    Button(String(localized: "SettingsView_logout_confirmation_dialog_logout_button"), role: .destructive) {
-                        if profileViewModel.signOut() {
-                            dismiss()
+                .confirmationDialog(sheetManager.whichSheet == .logout ? String(localized: "SettingsView_logout_confirmation_dialog_text") : String(localized: "SettingsView_delete_account_confirmation_dialog_text"), isPresented: $shouldPresentActionSheet, titleVisibility: .visible) {
+                    if sheetManager.whichSheet == .logout {
+                        Button(String(localized: "SettingsView_logout_confirmation_dialog_logout_button"), role: .destructive) {
+                            if profileViewModel.signOut() {
+                                dismiss()
+                            }
                         }
+                        Button(String(localized: "SettingsView_logout_confirmation_dialog_cancel_button"), role: .cancel) {}
+                    } else {
+                        Button(String(localized: "SettingsView_delete_account_confirmation_dialog_delete_account_button"), role: .destructive) {
+                            sheetManager.showSheet.toggle()
+                        }
+                        Button(String(localized: "SettingsView_delete_account_confirmation_dialog_cancel_button"), role: .cancel) {}
                     }
-                    Button(String(localized: "SettingsView_logout_confirmation_dialog_cancel_button"), role: .cancel) {}
-                } else {
-                    Button(String(localized: "SettingsView_delete_account_confirmation_dialog_delete_account_button"), role: .destructive) {
-                        sheetManager.showSheet.toggle()
-                    }
-                    Button(String(localized: "SettingsView_delete_account_confirmation_dialog_cancel_button"), role: .cancel) {}
                 }
             }
         }

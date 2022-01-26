@@ -11,7 +11,7 @@ import LocalAuthentication
 struct ContentView: View {
     @EnvironmentObject private var sessionStore: SessionStore
     @Environment(\.colorScheme) var colorScheme
-    @AppStorage("locked") var biometricLock: Bool = true
+    @AppStorage("locked") var biometricLock: Bool = false
     @AppStorage("shouldShowOnboarding") var shouldShowOnboarding: Bool = true
     @State private var unlocked = false
     
@@ -76,7 +76,7 @@ struct ContentView: View {
 //                In case the app remains in logged-in state
 //                sessionStore.signOut()
                 
-                if self.biometricLock {
+                if self.biometricLock && !shouldShowOnboarding {
                     authenticate()
                 }
                 sessionStore.listen()
