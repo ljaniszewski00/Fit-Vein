@@ -27,6 +27,15 @@ class Fit_Vein_UI_Tests: XCTestCase {
         
         homeViewNotificationsButton.tap()
         XCTAssertTrue(notificationsViewTexts.exists)
+        let app = XCUIApplication()
+        app.buttons["Rozpocznij"].tap()
+        app.navigationBars["_TtGC7SwiftUI19UIHosting"].buttons["Szukaj"].tap()
+        
+        let tablesQuery = app.tables
+        tablesQuery.cells["Szymon, szym, Obserwuj"].children(matching: .other).element(boundBy: 0).children(matching: .other).element.tap()
+        tablesQuery.cells["jakub, jakubm, Obserwuj"].children(matching: .other).element(boundBy: 0).children(matching: .other).element.tap()
+        app.buttons["Profil"].tap()
+
     }
     
     func testHomeViewSearchView() throws {

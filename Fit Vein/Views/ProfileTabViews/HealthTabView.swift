@@ -19,7 +19,7 @@ struct HealthTabView: View {
             let screenHeight = geometry.size.height
             
             NavigationView {
-                VStack {
+                VStack(spacing: screenHeight * 0.02) {
                     HStack {
                         Spacer()
                         tileView(tileNumber: 0, tileName: String(localized: "HealthTabView_steps"), tileImage: "flame.fill", tileValue: healthKitViewModel.stepCount.last == nil ? "-" : "\(healthKitViewModel.value(from: healthKitViewModel.stepCount.last!.stat).value) \(healthKitViewModel.value(from: healthKitViewModel.stepCount.last!.stat).units)")
@@ -126,7 +126,7 @@ struct HealthTabView: View {
                             
                             HStack {
                                 LottieView(name: "flame", loopMode: .loop, contentMode: .scaleAspectFill)
-                                    .frame(width: screenWidth * 0.25, height: screenHeight * 0.25)
+                                    .frame(width: screenWidth * 0.25, height: screenHeight * 0.33)
                                 Spacer()
                             }
                         case 2:
@@ -134,7 +134,7 @@ struct HealthTabView: View {
                             
                             HStack {
                                 LottieView(name: "distance", loopMode: .loop, contentMode: .scaleAspectFill)
-                                    .frame(width: screenWidth * 0.25, height: screenHeight * 0.25)
+                                    .frame(width: screenWidth * 0.25, height: screenHeight * 0.35)
                                 Spacer()
                             }
                         case 3:
