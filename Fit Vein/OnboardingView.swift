@@ -13,9 +13,9 @@ struct OnboardingView: View {
     
     private var imagesNames: [String] = ["", "HomeTabView", "PostCommentsView", "SearchFriendsView", "WorkoutsView", "AddWorkoutView", "WorkoutTimerView", "FinishedWorkoutView", "ProfileView", "HealthTabView", "WorkoutsTabView", "WorkoutsTabViewList", "SettingsView", "MedalView"]
     
-    private var titles: [String] = [String(localized: "Onboarding_welcome_title"), String(localized: "Onboarding_home_tab_view_title"), String(localized: "Onboarding_post_comments_title"), String(localized: "Onboarding_search_friends_view_title"), String(localized: "Onboarding_workouts_view_title"), String(localized: "Onboarding_add_workout_view_title"), String(localized: "Onboarding_workout_timer_view_title"), String(localized: "Onboarding_finished_workout_view_title"), String(localized: "Onboarding_profile_view_title"), String(localized: "Onboarding_health_tab_view_title"), String(localized: "Onboarding_workouts_tab_view_title"), String(localized: "Onboarding_workouts_tab_view_list_title"), String(localized: "Onboarding_settings_view_title"), String(localized: "Onboarding_medal_view_title")]
+    private var titles: [String] = [String(localized: "Onboarding_welcome_title"), String(localized: "Onboarding_home_tab_view_title"), String(localized: "Onboarding_post_comments_title"), String(localized: "Onboarding_search_friends_view_title"), String(localized: "Onboarding_workouts_view_title"), String(localized: "Onboarding_add_workout_view_title"), String(localized: "Onboarding_workout_timer_view_title"), String(localized: "Onboarding_finished_workout_view_title"), String(localized: "Onboarding_profile_view_title"), String(localized: "Onboarding_health_tab_view_title"), String(localized: "Onboarding_workouts_tab_view_title"), String(localized: "Onboarding_workouts_tab_view_list_title"), String(localized: "Onboarding_settings_view_title"), String(localized: "Onboarding_medal_view_title"), String(localized: "Onboarding_thanks_title")]
     
-    private var descriptions: [String] = [String(localized: "Onboarding_welcome_description"), String(localized: "Onboarding_home_tab_view_description"), String(localized: "Onboarding_post_comments_description"), String(localized: "Onboarding_search_friends_view_description"), String(localized: "Onboarding_workouts_view_description"), String(localized: "Onboarding_add_workout_view_description"), String(localized: "Onboarding_workout_timer_view_description"), String(localized: "Onboarding_finished_workout_view_description"), String(localized: "Onboarding_profile_view_description"), String(localized: "Onboarding_health_tab_view_description"), String(localized: "Onboarding_workouts_tab_view_description"), String(localized: "Onboarding_workouts_tab_view_list_description"), String(localized: "Onboarding_settings_view_description"), String(localized: "Onboarding_medal_view_description")]
+    private var descriptions: [String] = [String(localized: "Onboarding_welcome_description"), String(localized: "Onboarding_home_tab_view_description"), String(localized: "Onboarding_post_comments_description"), String(localized: "Onboarding_search_friends_view_description"), String(localized: "Onboarding_workouts_view_description"), String(localized: "Onboarding_add_workout_view_description"), String(localized: "Onboarding_workout_timer_view_description"), String(localized: "Onboarding_finished_workout_view_description"), String(localized: "Onboarding_profile_view_description"), String(localized: "Onboarding_health_tab_view_description"), String(localized: "Onboarding_workouts_tab_view_description"), String(localized: "Onboarding_workouts_tab_view_list_description"), String(localized: "Onboarding_settings_view_description"), String(localized: "Onboarding_medal_view_description"), String(localized: "Onboarding_thanks_description")]
     
     var body: some View {
         GeometryReader { geometry in
@@ -25,14 +25,18 @@ struct OnboardingView: View {
             VStack {
                 ZStack() {
                     TabView {
-                        ForEach(0..<imagesNames.count) { number in
+                        ForEach(0...imagesNames.count, id: \.self) { number in
                             VStack {
                                 Spacer()
                                 
-                                if number == 0 {
+                                switch number {
+                                case 0:
                                     LottieView(name: "hello", loopMode: .loop, contentMode: .scaleAspectFill)
                                         .frame(width: screenWidth * 0.7, height: screenHeight * 0.35)
-                                } else {
+                                case 14:
+                                    LottieView(name: "baboonExercising", loopMode: .loop, contentMode: .scaleAspectFill)
+                                        .frame(width: screenWidth)
+                                default:
                                     Image(uiImage: UIImage(named: imagesNames[number])!)
                                         .resizable()
                                         .scaledToFill()

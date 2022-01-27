@@ -22,7 +22,7 @@ struct PreLaunchView: View {
                     ContentView()
                         .environmentObject(sessionStore)
                 } else {
-                    VStack {
+                    VStack(alignment: .center) {
                         Image(uiImage: UIImage(named: colorScheme == .dark ? "FitVeinIconDark" : "FitVeinIconLight")!)
                             .resizable()
                             .scaledToFill()
@@ -38,16 +38,17 @@ struct PreLaunchView: View {
                         }
                         .font(.system(size: screenHeight * 0.1))
                         
-                        LottieView(name: "loading", loopMode: .loop)
-                            .frame(width: screenWidth, height: screenHeight * 0.1)
+                        LottieView(name: "dumbleLoading", loopMode: .playOnce, contentMode: .scaleAspectFill)
+                            .frame(width: screenWidth * 0.6, height: screenHeight * 0.3)
                             .padding(.top, screenHeight * 0.05)
                         
                         Spacer()
                     }
+                    .frame(width: screenWidth)
                 }
             }
             .onAppear {
-                withAnimation(.linear.delay(2)) {
+                withAnimation(.linear.delay(2.5)) {
                     showContentView = true
                 }
             }

@@ -51,6 +51,9 @@
 "Onboarding_medal_view_title" = "Medale";
 "Onboarding_medal_view_description" = "Za różne aktywności ukończone w aplikacji otrzymujesz medale, które mogą być przeglądane w twoim profilu razem z informacją za co zostały otrzymane.";
 
+"Onboarding_thanks_title" = "Dziękujemy";
+"Onboarding_thanks_description" = "Za zainstalowanie naszej aplikacji. Mamy nadzieje, że spełni ona wszystkie twoje oczekiwania.\n\nWitaj w rodzinie FitVein!";
+
 "Onboarding_get_started_button" = "Rozpocznij";
 
 

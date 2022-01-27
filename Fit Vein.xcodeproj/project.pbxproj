@@ -57,6 +57,7 @@
 		0A5B3168279AF3DF000F7517 /* medal-4.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A5B3164279AF3DF000F7517 /* medal-4.png */; };
 		0A5B3169279AF3DF000F7517 /* medal-3.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A5B3165279AF3DF000F7517 /* medal-3.png */; };
 		0A5B316A279AF3DF000F7517 /* medal.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A5B3166279AF3DF000F7517 /* medal.png */; };
+		0A5FFA1027A2D0B8007E736B /* baboonExercising.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A5FFA0F27A2D0B8007E736B /* baboonExercising.json */; };
 		0A61E19C2784AB3900A7FD34 /* FunctionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A61E19B2784AB3900A7FD34 /* FunctionsTests.swift */; };
 		0A61E19E2784AFA700A7FD34 /* HealthStatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A61E19D2784AFA700A7FD34 /* HealthStatTests.swift */; };
 		0A61E1A02784B7C900A7FD34 /* PostTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A61E19F2784B7C900A7FD34 /* PostTests.swift */; };
@@ -125,6 +126,7 @@
 		0AD3A40727275E0D00396FE7 /* sprint2.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD3A40627275E0C00396FE7 /* sprint2.png */; };
 		0ADC2DF02715AE43003ED144 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0ADC2DEF2715AE43003ED144 /* GoogleService-Info.plist */; };
 		0AE00BA7276CC9B600C876FE /* AddPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE00BA6276CC9B600C876FE /* AddPostView.swift */; };
+		0AEFCADC27A2C5F200A7A2B9 /* dumbleLoading.json in Resources */ = {isa = PBXBuildFile; fileRef = 0AEFCADB27A2C5F200A7A2B9 /* dumbleLoading.json */; };
 		1AA90AA5D92CCD45D2C1C1BE /* Pods_Fit_Vein_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2FD1DE140E6607B357827C7 /* Pods_Fit_Vein_Tests.framework */; };
 		212778242CC031E90AE55FEB /* Pods_Fit_Vein.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E30F0E3DFD56F0A337BDF4 /* Pods_Fit_Vein.framework */; };
 		248B30CA0363E1B761EFD755 /* Pods_Fit_Vein_Fit_Vein_UI_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C7BC3382F4CE04450C494F7 /* Pods_Fit_Vein_Fit_Vein_UI_Tests.framework */; };
@@ -199,6 +201,7 @@
 		0A5B3164279AF3DF000F7517 /* medal-4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "medal-4.png"; sourceTree = "<group>"; };
 		0A5B3165279AF3DF000F7517 /* medal-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "medal-3.png"; sourceTree = "<group>"; };
 		0A5B3166279AF3DF000F7517 /* medal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = medal.png; sourceTree = "<group>"; };
+		0A5FFA0F27A2D0B8007E736B /* baboonExercising.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = baboonExercising.json; sourceTree = "<group>"; };
 		0A61E19B2784AB3900A7FD34 /* FunctionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionsTests.swift; sourceTree = "<group>"; };
 		0A61E19D2784AFA700A7FD34 /* HealthStatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthStatTests.swift; sourceTree = "<group>"; };
 		0A61E19F2784B7C900A7FD34 /* PostTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTests.swift; sourceTree = "<group>"; };
@@ -271,6 +274,7 @@
 		0AD3A40627275E0C00396FE7 /* sprint2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sprint2.png; path = Assets.xcassets/sprint2.png; sourceTree = "<group>"; };
 		0ADC2DEF2715AE43003ED144 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0AE00BA6276CC9B600C876FE /* AddPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPostView.swift; sourceTree = "<group>"; };
+		0AEFCADB27A2C5F200A7A2B9 /* dumbleLoading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dumbleLoading.json; sourceTree = "<group>"; };
 		18E30F0E3DFD56F0A337BDF4 /* Pods_Fit_Vein.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fit_Vein.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		34E3988C1F745245EC9454B6 /* Pods-Fit Vein-Fit Vein UI Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fit Vein-Fit Vein UI Tests.debug.xcconfig"; path = "Target Support Files/Pods-Fit Vein-Fit Vein UI Tests/Pods-Fit Vein-Fit Vein UI Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		4C7BC3382F4CE04450C494F7 /* Pods_Fit_Vein_Fit_Vein_UI_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fit_Vein_Fit_Vein_UI_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -329,6 +333,8 @@
 		0A0174ED278B110E00CD45F9 /* Lottie */ = {
 			isa = PBXGroup;
 			children = (
+				0A5FFA0F27A2D0B8007E736B /* baboonExercising.json */,
+				0AEFCADB27A2C5F200A7A2B9 /* dumbleLoading.json */,
 				0A4E6BBF27A1ABBB00F4607F /* hello.json */,
 				0A95D89527A0810E000C3D5F /* time2.json */,
 				0A95D89327A0809E000C3D5F /* flame.json */,
@@ -752,6 +758,7 @@
 				0A017501278B1BA500CD45F9 /* skeleton.json in Resources */,
 				0A017510278B227600CD45F9 /* downArrows.json in Resources */,
 				0A4E6BBE27A1A7D900F4607F /* FinishedWorkoutView.png in Resources */,
+				0AEFCADC27A2C5F200A7A2B9 /* dumbleLoading.json in Resources */,
 				0A14B8A4278CB402009E194B /* envelope.json in Resources */,
 				0A017508278B1BA500CD45F9 /* loading.json in Resources */,
 				0A4E6BBB27A1A7D900F4607F /* AddWorkoutView.png in Resources */,
@@ -803,6 +810,7 @@
 				0AD3A40727275E0D00396FE7 /* sprint2.png in Resources */,
 				0A01750A278B1BA500CD45F9 /* countdown.json in Resources */,
 				0A4E6BB827A1A7D900F4607F /* HealthTabView.png in Resources */,
+				0A5FFA1027A2D0B8007E736B /* baboonExercising.json in Resources */,
 				0A5B3168279AF3DF000F7517 /* medal-4.png in Resources */,
 				0A83A26C278B65F20061973B /* runningMan.json in Resources */,
 				0A95D89627A0810E000C3D5F /* time2.json in Resources */,
@@ -1375,6 +1383,56 @@
 				);
 				"LD_RUNPATH_SEARCH_PATHS[arch=*]" = "$(inherited)";
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"c++\"",
+					"-l\"z\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"FBLPromises\"",
+					"-framework",
+					"\"FirebaseAuth\"",
+					"-framework",
+					"\"FirebaseCore\"",
+					"-framework",
+					"\"FirebaseCoreDiagnostics\"",
+					"-framework",
+					"\"FirebaseFirestore\"",
+					"-framework",
+					"\"FirebaseStorage\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"GTMSessionFetcher\"",
+					"-framework",
+					"\"GoogleDataTransport\"",
+					"-framework",
+					"\"GoogleUtilities\"",
+					"-framework",
+					"\"SafariServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"absl\"",
+					"-framework",
+					"\"grpc\"",
+					"-framework",
+					"\"grpcpp\"",
+					"-framework",
+					"\"leveldb\"",
+					"-framework",
+					"\"nanopb\"",
+					"-framework",
+					"\"openssl_grpc\"",
+					"\"-fprofile-instr-generate\"",
+					"-fprofile-instr-generate",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "ljaniszewski.Fit-Vein";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1453,6 +1511,56 @@
 				);
 				"LD_RUNPATH_SEARCH_PATHS[arch=*]" = "$(inherited)";
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"c++\"",
+					"-l\"z\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"FBLPromises\"",
+					"-framework",
+					"\"FirebaseAuth\"",
+					"-framework",
+					"\"FirebaseCore\"",
+					"-framework",
+					"\"FirebaseCoreDiagnostics\"",
+					"-framework",
+					"\"FirebaseFirestore\"",
+					"-framework",
+					"\"FirebaseStorage\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"GTMSessionFetcher\"",
+					"-framework",
+					"\"GoogleDataTransport\"",
+					"-framework",
+					"\"GoogleUtilities\"",
+					"-framework",
+					"\"SafariServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"absl\"",
+					"-framework",
+					"\"grpc\"",
+					"-framework",
+					"\"grpcpp\"",
+					"-framework",
+					"\"leveldb\"",
+					"-framework",
+					"\"nanopb\"",
+					"-framework",
+					"\"openssl_grpc\"",
+					"\"-fprofile-instr-generate\"",
+					"-fprofile-instr-generate",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "ljaniszewski.Fit-Vein";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

@@ -51,6 +51,9 @@
 "Onboarding_medal_view_title" = "Medals";
 "Onboarding_medal_view_description" = "For various activities completed in the app you earn medals which can be seen in your Profile Tab along with the descriptions for what you got them.";
 
+"Onboarding_thanks_title" = "Thank You";
+"Onboarding_thanks_description" = "For giving our app a try. We wish you the most pleasant experience as possible.\n\nWelcome to FitVein family!";
+
 "Onboarding_get_started_button" = "Get Started";
 
 
