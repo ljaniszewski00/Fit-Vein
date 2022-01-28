@@ -169,6 +169,11 @@ struct SignUpView: View {
                                 .frame(width: screenWidth * 0.98, height: screenHeight))
                 
             }
+            .onTapGesture {
+                isFirstNameTextFieldFocused = false
+                isUsernameTextFieldFocused = false
+                UIApplication.shared.endEditing()
+            }
             .foregroundColor(.white)
             .background(Image("SignUpBackgroundImage")
                             .resizable()
@@ -321,6 +326,12 @@ struct SecondSignUpView: View {
                 .offset(y: -screenHeight * 0.07)
                 
                 Spacer()
+            }
+            .onTapGesture {
+                isEmailTextFieldFocused = false
+                isPasswordTextFieldFocused = false
+                isRepeatedPasswordTextFieldFocused = false
+                UIApplication.shared.endEditing()
             }
             .background(RoundedRectangle(cornerRadius: 25)
                             .foregroundColor(.black.opacity(0.7))

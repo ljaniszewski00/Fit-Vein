@@ -119,6 +119,11 @@ struct SignInView: View {
                             .resizable()
                             .ignoresSafeArea()
                             .scaledToFill())
+            .onTapGesture {
+                isEmailTextFieldFocused = false
+                isPasswordTextFieldFocused = false
+                UIApplication.shared.endEditing()
+            }
             .sheet(isPresented: $showForgotPasswordSheet, content: {
                 forgotPasswordSheetView().environmentObject(signInViewModel).ignoresSafeArea(.keyboard)
             })
@@ -209,6 +214,10 @@ struct SignInView: View {
                         .offset(y: -screenHeight * 0.05)
                     }
                     .navigationBarTitle(String(localized: "SignInView_forgot_password_navigation_title"), displayMode: .inline)
+                }
+                .onTapGesture {
+                    isTextFieldFocused = false
+                    UIApplication.shared.endEditing()
                 }
             }
         }

@@ -314,18 +314,16 @@ struct DeleteAccountSheetView: View {
                     }
                     
                     if error {
-                        HStack {
+                        HStack(alignment: .center) {
                             LottieView(name: "wrongData", loopMode: .loop, contentMode: .scaleAspectFill)
                                 .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                                 .padding(.leading)
-                                .offset(y: -screenHeight * 0.013)
                             Text(String(localized: "DeleteAccountSheet_delete_account_error"))
                                 .foregroundColor(.red)
                                 .font(.system(size: screenWidth * 0.035, weight: .bold))
                             Spacer()
                         }
                         .padding(.horizontal)
-                        .offset(y: -screenHeight * 0.05)
                     }
                     
                     LottieView(name: "delete", loopMode: .loop)
@@ -401,30 +399,26 @@ struct ChangeEmailAddressSheetView: View {
                     }
                     
                     if error {
-                        HStack {
+                        HStack(alignment: .center) {
                             LottieView(name: "wrongData", loopMode: .loop, contentMode: .scaleAspectFill)
                                 .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                                 .padding(.leading)
-                                .offset(y: -screenHeight * 0.013)
                             Text(String(localized: "ChangeEmailSheet_change_email_error"))
                                 .foregroundColor(.red)
                                 .font(.system(size: screenWidth * 0.035, weight: .bold))
                             Spacer()
                         }
                         .padding(.horizontal)
-                        .offset(y: -screenHeight * 0.05)
                     }
                     
                     if success {
-                        HStack {
+                        HStack(alignment: .center) {
                             LottieView(name: "success2", loopMode: .playOnce, contentMode: .scaleAspectFit)
                                 .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                                 .padding(.leading)
-                                .offset(y: -screenHeight * 0.013)
                             Text(String(localized: "ChangeEmailSheet_change_email_success"))
                                 .foregroundColor(.green)
                                 .font(.system(size: screenWidth * 0.035, weight: .bold))
-                                .offset(y: -screenHeight * 0.01)
                             Spacer()
                         }
                         .padding(.horizontal)
@@ -507,30 +501,26 @@ struct ChangePasswordSheetView: View {
                     }
                     
                     if error {
-                        HStack {
+                        HStack(alignment: .center) {
                             LottieView(name: "wrongData", loopMode: .loop, contentMode: .scaleAspectFill)
                                 .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                                 .padding(.leading)
-                                .offset(y: -screenHeight * 0.013)
                             Text(String(localized: "ChangePasswordSheet_change_password_error"))
                                 .foregroundColor(.red)
                                 .font(.system(size: screenWidth * 0.035, weight: .bold))
                             Spacer()
                         }
                         .padding(.horizontal)
-                        .offset(y: -screenHeight * 0.05)
                     }
                     
                     if success {
-                        HStack {
+                        HStack(alignment: .center) {
                             LottieView(name: "success2", loopMode: .playOnce, contentMode: .scaleAspectFit)
                                 .frame(width: screenWidth * 0.15, height: screenHeight * 0.05)
                                 .padding(.leading)
-                                .offset(y: -screenHeight * 0.013)
                             Text(String(localized: "ChangePasswordSheet_change_password_success"))
                                 .foregroundColor(.green)
                                 .font(.system(size: screenWidth * 0.035, weight: .bold))
-                                .offset(y: -screenHeight * 0.01)
                             Spacer()
                         }
                         .padding(.horizontal)

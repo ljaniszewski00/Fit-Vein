@@ -56,7 +56,7 @@ struct CustomTextField: View {
                     .autocapitalization(.none)
                     
                     Image(systemName: textFieldImageName)
-                        .foregroundColor(.gray)
+                        .foregroundColor(isFocused ? .accentColor : .gray)
                 }
                 .padding(.top, isFocused ? 15 : 0)
                 .background(
