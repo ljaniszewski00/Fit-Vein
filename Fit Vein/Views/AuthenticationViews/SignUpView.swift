@@ -261,14 +261,15 @@ struct SecondSignUpView: View {
                             .padding(.leading)
                         Text(String(localized: "SignUpView_email_used_label"))
                             .foregroundColor(.red)
-                            .font(.system(size: screenWidth * 0.04, weight: .bold))
+                            .font(.caption)
+                            .fontWeight(.bold)
                         Spacer()
                     }
                 }
                 
                 CustomTextField(isSecureField: true, textFieldProperty: String(localized: "SignUpView_password_label"), textFieldImageName: "lock", text: $password, isFocusedParentView: $isPasswordTextFieldFocused)
                 
-                HStack {
+                HStack(alignment: .center) {
                     Button(action: {
                         withAnimation(.linear) {
                             showPasswordHelp.toggle()
@@ -276,19 +277,19 @@ struct SecondSignUpView: View {
                     }, label: {
                         Image(systemName: "questionmark.circle")
                             .padding()
-                            .offset(y: -screenHeight * 0.01)
                     })
                 
-                    Text(String(localized: "SignUpView_password_hint_label")).font(.caption).fontWeight(.bold)
+                    Text(String(localized: "SignUpView_password_hint_label"))
+                        .font(.caption)
+                        .fontWeight(.bold)
                         .isHidden(!showPasswordHelp)
                     Spacer()
                 }
                 .foregroundColor(checkPassword() ? .green : .red)
-                .padding()
-                .offset(y: -screenHeight * 0.03)
+                .padding(.horizontal)
+                .padding(.vertical, -screenHeight * 0.03)
                 
                 CustomTextField(isSecureField: true, textFieldProperty: String(localized: "SignUpView_repeat_password_label"), textFieldImageName: "lock", text: $repeatedPassword, isFocusedParentView: $isRepeatedPasswordTextFieldFocused)
-                    .offset(y: -screenHeight * 0.07)
                 
                 if errorSigningUp {
                     HStack(alignment: .center) {
@@ -300,7 +301,6 @@ struct SecondSignUpView: View {
                             .font(.system(size: screenWidth * 0.04, weight: .bold))
                         Spacer()
                     }
-                    .padding(.bottom, screenHeight * 0.03)
                 }
                 
                 Spacer()
@@ -318,13 +318,12 @@ struct SecondSignUpView: View {
                 .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor((!checkDataIsCorrect()) ? .gray : .accentColor))
                 .padding()
                 .disabled(!checkDataIsCorrect())
-                .offset(y: -screenHeight * 0.07)
-                
-                Spacer()
+                .padding(.bottom, screenHeight * 0.1)
             }
             .background(RoundedRectangle(cornerRadius: 25)
                             .foregroundColor(.black.opacity(0.7))
-                            .frame(width: screenWidth * 0.98, height: screenHeight))
+                            .frame(width: screenWidth * 0.98, height: screenHeight * 1.05))
+            .offset(y: -screenHeight * 0.05)
             .foregroundColor(.white)
             .background(Image("SignUpBackgroundImage")
                             .resizable()

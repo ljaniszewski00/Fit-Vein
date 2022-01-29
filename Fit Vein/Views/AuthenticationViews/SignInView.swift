@@ -96,6 +96,7 @@ struct SignInView: View {
                     }
                 }, label: {
                     Text(String(localized: "SignInView_sign_in_button"))
+                        .fontWeight(.bold)
                 })
                 .background(RoundedRectangle(cornerRadius: 25).frame(width: screenWidth * 0.6, height: screenHeight * 0.07).foregroundColor(.accentColor))
                 .padding()
