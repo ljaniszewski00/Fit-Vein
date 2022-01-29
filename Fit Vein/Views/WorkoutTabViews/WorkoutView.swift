@@ -9,6 +9,7 @@ import SwiftUI
 
 struct WorkoutView: View {
     @EnvironmentObject private var workoutViewModel: WorkoutViewModel
+    @EnvironmentObject private var medalsViewModel: MedalsViewModel
     @EnvironmentObject private var networkManager: NetworkManager
     @State var startWorkout = false
     @AppStorage("showSampleWorkoutsList") var showSampleWorkoutsList: Bool = true
@@ -24,6 +25,7 @@ struct WorkoutView: View {
                 withAnimation {
                     WorkoutCountdownView()
                         .environmentObject(workoutViewModel)
+                        .environmentObject(medalsViewModel)
                         .environmentObject(networkManager)
                 }
             } else {
@@ -128,7 +130,7 @@ struct WorkoutView: View {
                     .navigationBarHidden(false)
                     .toolbar {
                         ToolbarItem(placement: .navigationBarTrailing) {
-                            NavigationLink(destination: WorkoutAddView().environmentObject(workoutViewModel).navigationTitle(String(localized: "WorkoutAddView_navigation_title")).navigationBarHidden(false).ignoresSafeArea(.keyboard)) {
+                            NavigationLink(destination: WorkoutAddView().environmentObject(workoutViewModel).environmentObject(medalsViewModel).navigationTitle(String(localized: "WorkoutAddView_navigation_title")).navigationBarHidden(false).ignoresSafeArea(.keyboard)) {
                                 Image(systemName: "plus.circle.fill")
                                     .resizable()
                                     .scaledToFit()
@@ -147,6 +149,7 @@ struct WorkoutView: View {
 
 struct WorkoutAddView: View {
     @EnvironmentObject var workoutViewModel: WorkoutViewModel
+    @EnvironmentObject var medalsViewModel: MedalsViewModel
     @Environment(\.dismiss) var dismiss
     
     @State var workoutType: String? = "Interval"
@@ -232,6 +235,7 @@ struct WorkoutAddView: View {
                 
                 Button(action: {
                     workoutViewModel.addUserWorkout(series: Int(self.series) ?? 8, workTime: Int(self.workTime) ?? 45, restTime: Int(self.restTime) ?? 15)
+                    medalsViewModel.giveUserMedal(medalName: "medalFirstOwnWorkout")
                     dismiss()
                 }, label: {
                     Text(String(localized: "WorkoutAddView_save_workout_button"))
@@ -252,10 +256,12 @@ struct WorkoutAddView: View {
 }
 
 struct WorkoutCountdownView: View {
+    @EnvironmentObject var workoutViewModel: WorkoutViewModel
+    @EnvironmentObject private var medalsViewModel: MedalsViewModel
+    @EnvironmentObject private var networkManager: NetworkManager
+    
     @State private var startWorkout = false
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var workoutViewModel: WorkoutViewModel
-    @EnvironmentObject private var networkManager: NetworkManager
     
     var body: some View {
         GeometryReader { geometry in
@@ -266,6 +272,7 @@ struct WorkoutCountdownView: View {
                 withAnimation(.linear) {
                     WorkoutTimerView()
                         .environmentObject(workoutViewModel)
+                        .environmentObject(medalsViewModel)
                         .environmentObject(networkManager)
                 }
             } else {

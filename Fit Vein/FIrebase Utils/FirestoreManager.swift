@@ -35,7 +35,8 @@ class FirestoreManager: ObservableObject {
             "commentedPostsIDs": [String](),
             "reactedCommentsIDs": [String](),
             "completedWorkouts": 0,
-            "level": 1
+            "level": 1,
+            "medals": ["medalFirstLevel"]
         ]
         
         self.db.collection("users").document(id).setData(documentData) { (error) in
@@ -554,20 +555,16 @@ class FirestoreManager: ObservableObject {
                     var completedWorkouts = document.get("completedWorkouts") as? Int ?? 0
                     completedWorkouts += 1
                     
-                    // User levels up in the following scheme:
-                    // levels 1-5
-                    // new level every each 5 workouts: 5 workouts - level up to level 2,
-                    //                                  10 workouts - level up to level 3,
-                    //                                  15 workouts - level up to level 4,
-                    //                                  20 workouts - level up to level 5,
-                    // levels 5-10
-                    // new level every each 10 workouts:
-                    //                                  30 workouts - level up to level 6,
-                    //                                  40 workouts - level up to level 7,
-                    //                                  50 workouts - level up to level 8,
-                    //                                  60 workouts - level up to level 9,
-                    //                                  70 workouts - level up to level 10,
-                    // level 10 is maximum level for now.
+                    /*
+                     User levels up in the following scheme:
+                        levels 1
+                        new level after 2 workouts
+                    
+                        level 2
+                        new level after 3 workouts
+                    
+                        level 3 is achieved after 5 workout total and is maximum level for now.
+                     */
                     
                     let documentData: [String: Any] = [
                         "completedWorkouts": completedWorkouts
@@ -576,10 +573,20 @@ class FirestoreManager: ObservableObject {
                         if success {
                             print("Successfully added completed workout for user \(userID)")
                             
-                            if [5, 10, 15, 20, 30, 40, 50, 60, 70].contains(completedWorkouts) {
+                            if [2, 5].contains(completedWorkouts) {
                                 self.levelUpUser(userID: userID) { success in
                                     completion(success)
                                 }
+                                
+                                switch completedWorkouts {
+                                case 2:
+                                    self.giveUserMedal(userID: userID, medalName: "medalSecondLevel") { success in }
+                                case 5:
+                                    self.giveUserMedal(userID: userID, medalName: "medalThirdLevel") { success in }
+                                default:
+                                    print("No medal to give upon leveling up the user.")
+                                }
+                                
                             } else {
                                 completion(true)
                             }
@@ -625,6 +632,51 @@ class FirestoreManager: ObservableObject {
         }
     }
     
+    
+    // Medals
+    
+    func fetchDataForMedalsViewModel(userID: String, completion: @escaping (([String]) -> ())) {
+        self.db.collection("users").whereField("id", isEqualTo: userID).addSnapshotListener { (querySnapshot, error) in
+            if let error = error {
+                print("Error fetching medals data: \(error.localizedDescription)")
+            } else {
+                if let querySnapshot = querySnapshot {
+                    if !querySnapshot.documents.isEmpty {
+                        let data = querySnapshot.documents[0].data()
+                        let medals = data["medals"] as? [String] ?? [String]()
+                        
+                        completion(medals)
+                    } else {
+                        completion([String]())
+                    }
+                }
+            }
+        }
+    }
+    
+    func giveUserMedal(userID: String, medalName: String, completion: @escaping ((Bool) -> ())) {
+        self.db.collection("users").document(userID).getDocument() { [self] (document, error) in
+            if let error = error {
+                print("Error getting document for giving user medal: \(error.localizedDescription)")
+                completion(false)
+            } else {
+                if let document = document {
+                    var medals = document.get("medals") as? [String] ?? [String]()
+                    medals.append(medalName)
+                    
+                    let documentData: [String: Any] = [
+                        "medals": medals
+                    ]
+                    updateUserData(documentData: documentData) { success in
+                        completion(success)
+                    }
+                } else {
+                    completion(false)
+                }
+            }
+        }
+    }
+
     
     // Followed
     

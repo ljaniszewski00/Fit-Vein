@@ -22,6 +22,16 @@
 		0A017510278B227600CD45F9 /* downArrows.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A01750F278B227600CD45F9 /* downArrows.json */; };
 		0A017512278B247200CD45F9 /* noInternetConnection.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A017511278B247200CD45F9 /* noInternetConnection.json */; };
 		0A017514278B24A700CD45F9 /* countdown2.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A017513278B24A700CD45F9 /* countdown2.json */; };
+		0A033BB527A5401500E4F337 /* medalFirstLevel.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A033BB427A5401500E4F337 /* medalFirstLevel.png */; };
+		0A033BBD27A5402500E4F337 /* medalThirdLevel.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A033BB627A5402300E4F337 /* medalThirdLevel.png */; };
+		0A033BBE27A5402500E4F337 /* medalFirstPost.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A033BB727A5402400E4F337 /* medalFirstPost.png */; };
+		0A033BBF27A5402500E4F337 /* medalFirstOwnWorkout.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A033BB827A5402400E4F337 /* medalFirstOwnWorkout.png */; };
+		0A033BC027A5402500E4F337 /* medalFirstComment.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A033BB927A5402400E4F337 /* medalFirstComment.png */; };
+		0A033BC127A5402500E4F337 /* medalFirstWorkout.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A033BBA27A5402400E4F337 /* medalFirstWorkout.png */; };
+		0A033BC227A5402500E4F337 /* medalSecondLevel.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A033BBB27A5402500E4F337 /* medalSecondLevel.png */; };
+		0A033BC327A5402500E4F337 /* medalFirstLike.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A033BBC27A5402500E4F337 /* medalFirstLike.png */; };
+		0A033BC527A540DD00E4F337 /* MedalsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A033BC427A540DD00E4F337 /* MedalsViewModel.swift */; };
+		0A033BC727A563FD00E4F337 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A033BC627A563FD00E4F337 /* SignUpView.swift */; };
 		0A05CF302783183F005432E3 /* RCValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A05CF2F2783183F005432E3 /* RCValues.swift */; };
 		0A05CF33278334B8005432E3 /* PreLaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A05CF32278334B8005432E3 /* PreLaunchView.swift */; };
 		0A05CF3F27846B1D005432E3 /* Fit_Vein_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A05CF3E27846B1D005432E3 /* Fit_Vein_Tests.swift */; };
@@ -53,10 +63,6 @@
 		0A54A7482790A357009E7680 /* HomeTabCommentsViewPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A54A7472790A357009E7680 /* HomeTabCommentsViewPostView.swift */; };
 		0A54A74A2790A36B009E7680 /* HomeTabCommentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A54A7492790A36B009E7680 /* HomeTabCommentsView.swift */; };
 		0A57AC2C27453DC600CEC302 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A57AC2B27453DC600CEC302 /* HealthKit.framework */; };
-		0A5B3167279AF3DF000F7517 /* medal-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A5B3163279AF3DF000F7517 /* medal-2.png */; };
-		0A5B3168279AF3DF000F7517 /* medal-4.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A5B3164279AF3DF000F7517 /* medal-4.png */; };
-		0A5B3169279AF3DF000F7517 /* medal-3.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A5B3165279AF3DF000F7517 /* medal-3.png */; };
-		0A5B316A279AF3DF000F7517 /* medal.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A5B3166279AF3DF000F7517 /* medal.png */; };
 		0A5FFA1027A2D0B8007E736B /* baboonExercising.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A5FFA0F27A2D0B8007E736B /* baboonExercising.json */; };
 		0A61E19C2784AB3900A7FD34 /* FunctionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A61E19B2784AB3900A7FD34 /* FunctionsTests.swift */; };
 		0A61E19E2784AFA700A7FD34 /* HealthStatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A61E19D2784AFA700A7FD34 /* HealthStatTests.swift */; };
@@ -96,7 +102,6 @@
 		0A95D89627A0810E000C3D5F /* time2.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A95D89527A0810E000C3D5F /* time2.json */; };
 		0AB808CF2715B9D700337924 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB808CE2715B9D700337924 /* SessionStore.swift */; };
 		0AB808D42715C1AB00337924 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB808D32715C1AB00337924 /* SignInView.swift */; };
-		0AB808D62715C1B500337924 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB808D52715C1B500337924 /* SignUpView.swift */; };
 		0AB808D82715D77800337924 /* gym.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0AB808D72715D77800337924 /* gym.jpg */; };
 		0AB808DB2715DE8F00337924 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB808DA2715DE8F00337924 /* Enums.swift */; };
 		0ABE14312716EC23009CD67A /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABE14302716EC23009CD67A /* FirestoreManager.swift */; };
@@ -164,6 +169,16 @@
 		0A01750F278B227600CD45F9 /* downArrows.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = downArrows.json; sourceTree = "<group>"; };
 		0A017511278B247200CD45F9 /* noInternetConnection.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = noInternetConnection.json; sourceTree = "<group>"; };
 		0A017513278B24A700CD45F9 /* countdown2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = countdown2.json; sourceTree = "<group>"; };
+		0A033BB427A5401500E4F337 /* medalFirstLevel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = medalFirstLevel.png; sourceTree = "<group>"; };
+		0A033BB627A5402300E4F337 /* medalThirdLevel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = medalThirdLevel.png; sourceTree = "<group>"; };
+		0A033BB727A5402400E4F337 /* medalFirstPost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = medalFirstPost.png; sourceTree = "<group>"; };
+		0A033BB827A5402400E4F337 /* medalFirstOwnWorkout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = medalFirstOwnWorkout.png; sourceTree = "<group>"; };
+		0A033BB927A5402400E4F337 /* medalFirstComment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = medalFirstComment.png; sourceTree = "<group>"; };
+		0A033BBA27A5402400E4F337 /* medalFirstWorkout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = medalFirstWorkout.png; sourceTree = "<group>"; };
+		0A033BBB27A5402500E4F337 /* medalSecondLevel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = medalSecondLevel.png; sourceTree = "<group>"; };
+		0A033BBC27A5402500E4F337 /* medalFirstLike.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = medalFirstLike.png; sourceTree = "<group>"; };
+		0A033BC427A540DD00E4F337 /* MedalsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedalsViewModel.swift; sourceTree = "<group>"; };
+		0A033BC627A563FD00E4F337 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		0A05CF2F2783183F005432E3 /* RCValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RCValues.swift; sourceTree = "<group>"; };
 		0A05CF32278334B8005432E3 /* PreLaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreLaunchView.swift; sourceTree = "<group>"; };
 		0A05CF3C27846B1D005432E3 /* Fit Vein Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Fit Vein Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -197,10 +212,6 @@
 		0A54A7492790A36B009E7680 /* HomeTabCommentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabCommentsView.swift; sourceTree = "<group>"; };
 		0A57AC2A27453DC600CEC302 /* Fit Vein.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Fit Vein.entitlements"; sourceTree = "<group>"; };
 		0A57AC2B27453DC600CEC302 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
-		0A5B3163279AF3DF000F7517 /* medal-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "medal-2.png"; sourceTree = "<group>"; };
-		0A5B3164279AF3DF000F7517 /* medal-4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "medal-4.png"; sourceTree = "<group>"; };
-		0A5B3165279AF3DF000F7517 /* medal-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "medal-3.png"; sourceTree = "<group>"; };
-		0A5B3166279AF3DF000F7517 /* medal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = medal.png; sourceTree = "<group>"; };
 		0A5FFA0F27A2D0B8007E736B /* baboonExercising.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = baboonExercising.json; sourceTree = "<group>"; };
 		0A61E19B2784AB3900A7FD34 /* FunctionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionsTests.swift; sourceTree = "<group>"; };
 		0A61E19D2784AFA700A7FD34 /* HealthStatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthStatTests.swift; sourceTree = "<group>"; };
@@ -243,7 +254,6 @@
 		0A95D89527A0810E000C3D5F /* time2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = time2.json; sourceTree = "<group>"; };
 		0AB808CE2715B9D700337924 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
 		0AB808D32715C1AB00337924 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
-		0AB808D52715C1B500337924 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		0AB808D72715D77800337924 /* gym.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gym.jpg; sourceTree = "<group>"; };
 		0AB808DA2715DE8F00337924 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		0ABE14302716EC23009CD67A /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
@@ -386,7 +396,7 @@
 			isa = PBXGroup;
 			children = (
 				0AB808D32715C1AB00337924 /* SignInView.swift */,
-				0AB808D52715C1B500337924 /* SignUpView.swift */,
+				0A033BC627A563FD00E4F337 /* SignUpView.swift */,
 			);
 			path = AuthenticationViews;
 			sourceTree = "<group>";
@@ -460,10 +470,14 @@
 		0A52F12F27A459500076B2D0 /* Medals */ = {
 			isa = PBXGroup;
 			children = (
-				0A5B3163279AF3DF000F7517 /* medal-2.png */,
-				0A5B3165279AF3DF000F7517 /* medal-3.png */,
-				0A5B3164279AF3DF000F7517 /* medal-4.png */,
-				0A5B3166279AF3DF000F7517 /* medal.png */,
+				0A033BB927A5402400E4F337 /* medalFirstComment.png */,
+				0A033BBC27A5402500E4F337 /* medalFirstLike.png */,
+				0A033BB827A5402400E4F337 /* medalFirstOwnWorkout.png */,
+				0A033BB727A5402400E4F337 /* medalFirstPost.png */,
+				0A033BBA27A5402400E4F337 /* medalFirstWorkout.png */,
+				0A033BBB27A5402500E4F337 /* medalSecondLevel.png */,
+				0A033BB627A5402300E4F337 /* medalThirdLevel.png */,
+				0A033BB427A5401500E4F337 /* medalFirstLevel.png */,
 			);
 			path = Medals;
 			sourceTree = "<group>";
@@ -555,6 +569,7 @@
 				0ABE144D27203DE7009CD67A /* WorkoutViewModel.swift */,
 				0ABE144F27203DEF009CD67A /* ProfileViewModel.swift */,
 				0A7CA66D274ED88900B97EF2 /* HealthKitViewModel.swift */,
+				0A033BC427A540DD00E4F337 /* MedalsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -773,6 +788,7 @@
 			files = (
 				0A017501278B1BA500CD45F9 /* skeleton.json in Resources */,
 				0A017510278B227600CD45F9 /* downArrows.json in Resources */,
+				0A033BC027A5402500E4F337 /* medalFirstComment.png in Resources */,
 				0A4E6BBE27A1A7D900F4607F /* FinishedWorkoutView.png in Resources */,
 				0AEFCADC27A2C5F200A7A2B9 /* dumbleLoading.json in Resources */,
 				0A14B8A4278CB402009E194B /* envelope.json in Resources */,
@@ -788,32 +804,36 @@
 				0A95D89427A0809E000C3D5F /* flame.json in Resources */,
 				0AC4DD8C2715A9E5003D5FED /* Preview Assets.xcassets in Resources */,
 				0A95D89227A07D28000C3D5F /* shoesWalking.json in Resources */,
-				0A5B3169279AF3DF000F7517 /* medal-3.png in Resources */,
 				0A4E6BB727A1A7D900F4607F /* WorkoutsTabView.png in Resources */,
 				0A14B8A8278CB8B2009E194B /* wrongData.json in Resources */,
-				0A5B316A279AF3DF000F7517 /* medal.png in Resources */,
 				0A4E6BC027A1ABBB00F4607F /* hello.json in Resources */,
 				0AC4DD892715A9E5003D5FED /* Assets.xcassets in Resources */,
 				0A83A278278B9E650061973B /* success.json in Resources */,
 				0AB808D82715D77800337924 /* gym.jpg in Resources */,
 				0A4E6BBD27A1A7D900F4607F /* SettingsView.png in Resources */,
 				0A7817082796CA8B00E4C424 /* Localizable.strings in Resources */,
+				0A033BB527A5401500E4F337 /* medalFirstLevel.png in Resources */,
+				0A033BBF27A5402500E4F337 /* medalFirstOwnWorkout.png in Resources */,
 				0A83A27A278BA3280061973B /* changeArrows.json in Resources */,
+				0A033BC127A5402500E4F337 /* medalFirstWorkout.png in Resources */,
 				0A20A8A72729FF790058F3DB /* FitVeinIconDark.png in Resources */,
+				0A033BBE27A5402500E4F337 /* medalFirstPost.png in Resources */,
 				0ABE145527204ABC009CD67A /* blank-profile-hi.png in Resources */,
 				0A83A27C278BA5010061973B /* delete.json in Resources */,
 				0A4E6BB327A1A7D900F4607F /* ProfileView.png in Resources */,
 				0A7817032795DBDB00E4C424 /* levelUp.json in Resources */,
 				0A20A8A82729FF790058F3DB /* FitVeinIconLight.png in Resources */,
 				0A017506278B1BA500CD45F9 /* 70772-smiley-loader.json in Resources */,
+				0A033BC327A5402500E4F337 /* medalFirstLike.png in Resources */,
 				0A4E6BBA27A1A7D900F4607F /* WorkoutTimerView.png in Resources */,
 				0A4E6BB927A1A7D900F4607F /* WorkoutsTabViewList.png in Resources */,
+				0A033BBD27A5402500E4F337 /* medalThirdLevel.png in Resources */,
 				0A4E6BBC27A1A7D900F4607F /* HomeTabView.png in Resources */,
 				0A83A274278B99270061973B /* help.json in Resources */,
 				0A83A27E278BAA0F0061973B /* chat.json in Resources */,
 				0A017512278B247200CD45F9 /* noInternetConnection.json in Resources */,
 				0A4E6BA627A1A5E800F4607F /* WorkoutsView.png in Resources */,
-				0A5B3167279AF3DF000F7517 /* medal-2.png in Resources */,
+				0A033BC227A5402500E4F337 /* medalSecondLevel.png in Resources */,
 				0ADC2DF02715AE43003ED144 /* GoogleService-Info.plist in Resources */,
 				0A95D88A27A07161000C3D5F /* heartRate.json in Resources */,
 				0A017514278B24A700CD45F9 /* countdown2.json in Resources */,
@@ -827,7 +847,6 @@
 				0A01750A278B1BA500CD45F9 /* countdown.json in Resources */,
 				0A4E6BB827A1A7D900F4607F /* HealthTabView.png in Resources */,
 				0A5FFA1027A2D0B8007E736B /* baboonExercising.json in Resources */,
-				0A5B3168279AF3DF000F7517 /* medal-4.png in Resources */,
 				0A83A26C278B65F20061973B /* runningMan.json in Resources */,
 				0A95D89627A0810E000C3D5F /* time2.json in Resources */,
 			);
@@ -989,6 +1008,7 @@
 				0ABE144C27203DD9009CD67A /* HomeViewModel.swift in Sources */,
 				0A8F574E2720B8A400183F47 /* SettingsView.swift in Sources */,
 				0ABE145327203E68009CD67A /* Profile.swift in Sources */,
+				0A033BC727A563FD00E4F337 /* SignUpView.swift in Sources */,
 				0AC41CF627274F6A00DA5491 /* HealthTabView.swift in Sources */,
 				0ABE145727204C72009CD67A /* SwiftUIImagePicker.swift in Sources */,
 				0A0174E5278A011900CD45F9 /* HomeTabSubViewPostsView.swift in Sources */,
@@ -1003,6 +1023,7 @@
 				0AC4DD872715A9E4003D5FED /* ContentView.swift in Sources */,
 				0ABEF73327788624007E20FC /* PostCommentsView.swift in Sources */,
 				0A7CA66E274ED88900B97EF2 /* HealthKitViewModel.swift in Sources */,
+				0A033BC527A540DD00E4F337 /* MedalsViewModel.swift in Sources */,
 				0A0174E9278A05E400CD45F9 /* HomeTabSubViewPostDetailsView.swift in Sources */,
 				0A67B1D6272B04EC007F8891 /* SearchFriendsView.swift in Sources */,
 				0ABE144227203B47009CD67A /* HomeView.swift in Sources */,
@@ -1028,7 +1049,6 @@
 				0ABE143E27170333009CD67A /* Errors.swift in Sources */,
 				0A54A7482790A357009E7680 /* HomeTabCommentsViewPostView.swift in Sources */,
 				0ABE1440271712AA009CD67A /* SignInViewModel.swift in Sources */,
-				0AB808D62715C1B500337924 /* SignUpView.swift in Sources */,
 				0A4174732725D45A00DF4460 /* OnboardingView.swift in Sources */,
 				0AB808DB2715DE8F00337924 /* Enums.swift in Sources */,
 				0AB808D42715C1AB00337924 /* SignInView.swift in Sources */,

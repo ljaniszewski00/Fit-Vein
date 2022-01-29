@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeTabSubViewPostsView: View {
     @EnvironmentObject private var homeViewModel: HomeViewModel
     @EnvironmentObject private var profileViewModel: ProfileViewModel
+    @EnvironmentObject private var medalsViewModel: MedalsViewModel
     
     @Environment(\.colorScheme) var colorScheme
     
@@ -26,7 +27,7 @@ struct HomeTabSubViewPostsView: View {
         VStack {
             VStack {
                 HomeTabSubViewPostDetailsView(currentUserID: self.profileViewModel.profile!.id, post: post)
-                    .environmentObject(homeViewModel).environmentObject(profileViewModel)
+                    .environmentObject(homeViewModel).environmentObject(profileViewModel).environmentObject(medalsViewModel)
             }
             
             VStack {
@@ -63,7 +64,9 @@ struct HomeTabSubViewPostsView: View {
                                 if reactionsUsersIDs.contains(post.id) {
                                     self.homeViewModel.removeReactionFromPost(postID: post.id)  { success in }
                                 } else {
-                                    self.homeViewModel.reactToPost(postID: post.id)  { success in }
+                                    self.homeViewModel.reactToPost(postID: post.id)  { success in
+                                        self.medalsViewModel.giveUserMedal(medalName: "medalFirstLike")
+                                    }
                                 }
                             }
                         }, label: {
@@ -77,7 +80,9 @@ struct HomeTabSubViewPostsView: View {
                     } else {
                         Button(action: {
                             withAnimation {
-                                self.homeViewModel.reactToPost(postID: post.id)  { success in }
+                                self.homeViewModel.reactToPost(postID: post.id)  { success in
+                                    self.medalsViewModel.giveUserMedal(medalName: "medalFirstLike")
+                                }
                             }
                         }, label: {
                             HStack {
@@ -94,7 +99,7 @@ struct HomeTabSubViewPostsView: View {
                     
                     Spacer()
 
-                    NavigationLink(destination: PostCommentsView(post: post).environmentObject(homeViewModel).environmentObject(profileViewModel).ignoresSafeArea(.keyboard)) {
+                    NavigationLink(destination: PostCommentsView(post: post).environmentObject(homeViewModel).environmentObject(profileViewModel).environmentObject(medalsViewModel).ignoresSafeArea(.keyboard)) {
                         HStack {
                             Image(systemName: "bubble.left")
                             Text(String(localized: "HomeView_comment_button"))

@@ -20,9 +20,6 @@ class ProfileViewModel: ObservableObject {
     
     @Published var workouts: [IntervalWorkout]?
     
-    let medalsFilesNames: [String] = ["medal", "medal-2", "medal-3", "medal-4"]
-    let medalsDescriptions: [String] = [String(localized: "ProfileView_medal_account_registration"), String(localized: "ProfileView_medal_level_2"), String(localized: "ProfileView_medal_level_3"), String(localized: "ProfileView_medal_level_4")]
-    
     init(forPreviews: Bool) {
         self.workouts = [IntervalWorkout(forPreviews: true, id: UUID().uuidString, usersID: "9999", type: "Interval", date: Date(), isFinished: true, calories: 200, series: 8, workTime: 45, restTime: 15, completedDuration: 8 * (45 + 15), completedSeries: 8),
                          IntervalWorkout(forPreviews: true, id: UUID().uuidString, usersID: "9999", type: "Interval", date: Date(), isFinished: true, calories: 260, series: 10, workTime: 45, restTime: 15, completedDuration: 8 * (45 + 15), completedSeries: 8),
@@ -225,12 +222,12 @@ class ProfileViewModel: ObservableObject {
     func calculateUserCompletedWorkoutsForCurrentLevel() -> Int {
         if let profile = self.profile {
             switch profile.level {
-            case 1...4:
-                return profile.completedWorkouts % 5
-            case 5...10:
-                return profile.completedWorkouts % 10
+            case 1:
+                return profile.completedWorkouts
+            case 2:
+                return profile.completedWorkouts - 2
             default:
-                return 0
+                return profile.completedWorkouts - 5
             }
         } else {
             return 0
@@ -240,15 +237,15 @@ class ProfileViewModel: ObservableObject {
     func calculateUserMaxWorkoutsForLevel() -> Int {
         if let profile = self.profile {
             switch profile.level {
-            case 1...4:
-                return 5
-            case 5...10:
-                return 10
+            case 1:
+                return 2
+            case 2:
+                return 3
             default:
-                return 10
+                return 5
             }
         } else {
-            return 10
+            return 5
         }
     }
 }

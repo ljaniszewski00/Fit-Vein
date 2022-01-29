@@ -235,10 +235,14 @@
 "ProfileView_no_workouts_message" = "Przejdź do zakładki 'Trening' żeby zrobić swój pierwszy trening!";
 "ProfileView_level_up" = "Nowy poziom!";
 
-"ProfileView_medal_account_registration" = "Zdobyty za rejestrację konta";
-"ProfileView_medal_level_2" = "Zdobyty za uzyskanie poziomu 2";
-"ProfileView_medal_level_3" = "Zdobyty za uzyskanie poziomu 3";
-"ProfileView_medal_level_4" = "Zdobyty za uzyskanie poziomu 4";
+"ProfileView_medal_first_level" = "Stwórz konto";
+"ProfileView_medal_second_level" = "Osiągnij poziom 2";
+"ProfileView_medal_third_level" = "Osiągnij poziom 3";
+"ProfileView_medal_first_post" = "Opublikuj swój pierwszy post";
+"ProfileView_medal_first_comment" = "Dodaj swój pierwszy komentarz";
+"ProfileView_medal_first_like" = "Użyj opcji polubień";
+"ProfileView_medal_first_workout" = "Ukończ swój pierwszy trening";
+"ProfileView_medal_first_own_workout" = "Stwórz swój pierwszy własny trening";
 
 // SettingsView
 "SettingsView_navigation_title" = "Ustawienia";

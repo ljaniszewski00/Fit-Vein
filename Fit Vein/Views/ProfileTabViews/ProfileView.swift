@@ -9,8 +9,10 @@ import SwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject private var profileViewModel: ProfileViewModel
+    @EnvironmentObject private var medalsViewModel: MedalsViewModel
     @EnvironmentObject private var networkManager: NetworkManager
     @Environment(\.colorScheme) var colorScheme
+    
     @AppStorage("shouldShowLevelUpAnimation") var shouldShowLevelUpAnimationTrigger: Bool = false
     @State private var shouldShowLevelUpAnimation: Bool = false
     
@@ -110,18 +112,20 @@ struct ProfileView: View {
                                     Spacer()
                                     
                                     HStack(alignment: .center, spacing: screenWidth * 0.03) {
-                                        ForEach(profileViewModel.medalsFilesNames.sorted(by: <)[profileViewModel.profile!.level < 3 ? 0...(profileViewModel.profile!.level - 1) : 0...2], id: \.self) { medalFileName in
-                                            Image(uiImage: UIImage(named: medalFileName)!)
-                                                .resizable()
-                                                .shadow(color: .gray, radius: 7)
-                                                .frame(width: screenWidth * 0.14, height: screenHeight * 0.07)
-                                                .onTapGesture {
-                                                    withAnimation(.linear) {
-                                                        shouldShowMedalsPresentation = true
+                                        if medalsViewModel.allUsersMedals.count != 0 {
+                                            ForEach(medalsViewModel.allUsersMedals[medalsViewModel.allUsersMedals.count < 3 ? 0...(medalsViewModel.allUsersMedals.count - 1) : 0...2], id: \.self) { medalFileName in
+                                                Image(uiImage: UIImage(named: medalFileName)!)
+                                                    .resizable()
+                                                    .shadow(color: .gray, radius: 3)
+                                                    .frame(width: screenWidth * 0.14, height: screenHeight * 0.07)
+                                                    .onTapGesture {
+                                                        withAnimation(.linear) {
+                                                            shouldShowMedalsPresentation = true
+                                                        }
                                                     }
-                                                }
+                                            }
+                                            Spacer()
                                         }
-                                        Spacer()
                                     }
                                 }
                             }
@@ -221,17 +225,17 @@ struct ProfileView: View {
                                     }
                                 )
                         }
-                        .if(shouldShowMedalsPresentation) {
+                        .if(shouldShowMedalsPresentation && medalsViewModel.allUsersMedals.count != 0) {
                             $0
                                 .overlay(
                                     TabView {
-                                        ForEach((0...profileViewModel.profile!.level - 1), id: \.self) { index in
+                                        ForEach(medalsViewModel.allUsersMedals, id: \.self) { medalFileName in
                                             VStack(spacing: screenHeight * 0.07) {
-                                                Image(uiImage: UIImage(named: profileViewModel.medalsFilesNames.sorted(by: <)[index])!)
+                                                Image(uiImage: UIImage(named: medalFileName)!)
                                                     .resizable()
                                                     .frame(width: screenWidth * 0.56, height: screenHeight * 0.28)
 
-                                                Text(profileViewModel.medalsDescriptions.sorted(by: <)[index])
+                                                Text(medalsViewModel.allMedalsDescriptions[medalFileName]!)
                                                     .font(.system(size: screenHeight * 0.025, weight: .bold))
                                             }
                                         }

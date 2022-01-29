@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FinishedWorkoutView: View {
     @EnvironmentObject private var workoutViewModel: WorkoutViewModel
+    @EnvironmentObject private var medalsViewModel: MedalsViewModel
     @EnvironmentObject private var networkManager: NetworkManager
     @Environment(\.dismiss) var dismiss
     @State private var backToBeginning = false
@@ -24,6 +25,7 @@ struct FinishedWorkoutView: View {
                 withAnimation(.linear) {
                     WorkoutView()
                         .environmentObject(workoutViewModel)
+                        .environmentObject(medalsViewModel)
                         .environmentObject(networkManager)
                 }
             } else {
@@ -54,6 +56,7 @@ struct FinishedWorkoutView: View {
                             self.workoutViewModel.saveWorkoutToDatabase() { success in
                                 withAnimation {
                                     if success {
+                                        medalsViewModel.giveUserMedal(medalName: "medalFirstWorkout")
                                         backToBeginning = true
                                     } else {
                                         error = true

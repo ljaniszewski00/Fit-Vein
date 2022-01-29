@@ -10,6 +10,7 @@ import SwiftUI
 struct AddPostView: View {
     @EnvironmentObject private var homeViewModel: HomeViewModel
     @EnvironmentObject private var profileViewModel: ProfileViewModel
+    @EnvironmentObject private var medalsViewModel: MedalsViewModel
     
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
@@ -164,6 +165,7 @@ struct AddPostView: View {
                                 withAnimation {
                                     if success {
                                         self.success = true
+                                        medalsViewModel.giveUserMedal(medalName: "medalFirstPost")
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                             dismiss()
                                         }

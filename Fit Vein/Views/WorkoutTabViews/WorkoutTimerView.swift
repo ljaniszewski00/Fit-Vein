@@ -9,6 +9,7 @@ import SwiftUI
 
 struct WorkoutTimerView: View {
     @EnvironmentObject var workoutViewModel: WorkoutViewModel
+    @EnvironmentObject private var medalsViewModel: MedalsViewModel
     @EnvironmentObject private var networkManager: NetworkManager
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
@@ -58,6 +59,7 @@ struct WorkoutTimerView: View {
                 withAnimation(.linear) {
                     FinishedWorkoutView()
                         .environmentObject(workoutViewModel)
+                        .environmentObject(medalsViewModel)
                         .environmentObject(networkManager)
                         .ignoresSafeArea()
                 }

@@ -11,6 +11,7 @@ struct LoggedUserView: View {
     @StateObject private var homeViewModel = HomeViewModel()
     @StateObject private var workoutViewModel = WorkoutViewModel(forPreviews: false)
     @StateObject private var profileViewModel = ProfileViewModel()
+    @StateObject private var medalsViewModel = MedalsViewModel()
     @StateObject private var networkManager = NetworkManager()
     
     @AppStorage("isTabBarHidden") var isTabBarHidden: Bool = false
@@ -44,6 +45,7 @@ struct LoggedUserView: View {
                         HomeView()
                             .environmentObject(homeViewModel)
                             .environmentObject(profileViewModel)
+                            .environmentObject(medalsViewModel)
                             .environmentObject(networkManager)
                             .onAppear {
                                 UserDefaults.standard.set(false, forKey: "isTabBarHidden")
@@ -53,6 +55,7 @@ struct LoggedUserView: View {
                     withAnimation(.linear) {
                         WorkoutView()
                             .environmentObject(workoutViewModel)
+                            .environmentObject(medalsViewModel)
                             .environmentObject(networkManager)
                             .onAppear {
                                 UserDefaults.standard.set(false, forKey: "isTabBarHidden")
@@ -62,6 +65,7 @@ struct LoggedUserView: View {
                     withAnimation(.linear) {
                         ProfileView()
                             .environmentObject(profileViewModel)
+                            .environmentObject(medalsViewModel)
                             .environmentObject(networkManager)
                             .onAppear {
                                 UserDefaults.standard.set(false, forKey: "isTabBarHidden")

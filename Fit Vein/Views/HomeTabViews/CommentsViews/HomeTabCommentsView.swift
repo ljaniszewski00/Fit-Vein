@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeTabCommentsView: View {
     @EnvironmentObject private var homeViewModel: HomeViewModel
     @EnvironmentObject private var profileViewModel: ProfileViewModel
+    @EnvironmentObject private var medalsViewModel: MedalsViewModel
     
     @State private var showCommentOptions = false
     @State private var showEditView = false
@@ -194,7 +195,9 @@ struct HomeTabCommentsView: View {
 
                                     } else {
                                         Button(action: {
-                                            self.homeViewModel.reactToComment(userID: self.profileViewModel.profile!.id, commentID: comment.id) { success in }
+                                            self.homeViewModel.reactToComment(userID: self.profileViewModel.profile!.id, commentID: comment.id) { success in
+                                                self.medalsViewModel.giveUserMedal(medalName: "medalFirstLike")
+                                            }
                                         }, label: {
                                             HStack {
                                                 Image(systemName: "hand.thumbsup")
@@ -205,7 +208,9 @@ struct HomeTabCommentsView: View {
                                     }
                                 } else {
                                     Button(action: {
-                                        self.homeViewModel.reactToComment(userID: self.profileViewModel.profile!.id, commentID: comment.id) { success in }
+                                        self.homeViewModel.reactToComment(userID: self.profileViewModel.profile!.id, commentID: comment.id) { success in
+                                            self.medalsViewModel.giveUserMedal(medalName: "medalFirstLike")
+                                        }
                                     }, label: {
                                         HStack {
                                             Image(systemName: "hand.thumbsup")

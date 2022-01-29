@@ -10,6 +10,7 @@ import SwiftUI
 struct PostCommentsView: View {
     @EnvironmentObject private var homeViewModel: HomeViewModel
     @EnvironmentObject private var profileViewModel: ProfileViewModel
+    @EnvironmentObject private var medalsViewModel: MedalsViewModel
     
     @State private var showPostOptions = false
     @State private var showEditPostSheet = false
@@ -35,17 +36,12 @@ struct PostCommentsView: View {
         VStack {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack {
-                    HomeTabCommentsViewPostView(post: post).environmentObject(homeViewModel).environmentObject(profileViewModel)
-//                            .frame(width: screenWidth, height: post.photoURL == nil ? screenHeight * 0.3 : screenHeight * 0.9)
-//                            .padding(.bottom, screenHeight * 0.1)
-                    
+                    HomeTabCommentsViewPostView(post: post).environmentObject(homeViewModel).environmentObject(profileViewModel).environmentObject(medalsViewModel)
                     
                     if let postComments = homeViewModel.postsComments[post.id] {
                         LazyVStack(spacing: screenHeight * 0.025) {
                             ForEach(postComments) { comment in
-                                HomeTabCommentsView(post: post, comment: comment, isCommentEditTextFieldFocusedBool: $isCommentEditTextFieldFocused).environmentObject(homeViewModel).environmentObject(profileViewModel)
-    //                                    .frame(width: screenWidth, height: screenHeight * 0.225)
-    //                                    .padding(.bottom, screenHeight * calculateCommentFrameLength(comment: comment))
+                                HomeTabCommentsView(post: post, comment: comment, isCommentEditTextFieldFocusedBool: $isCommentEditTextFieldFocused).environmentObject(homeViewModel).environmentObject(profileViewModel).environmentObject(medalsViewModel)
                             }
                         }
                     }
@@ -67,6 +63,7 @@ struct PostCommentsView: View {
                     withAnimation {
                         self.homeViewModel.commentPost(postID: post.id, authorID: self.profileViewModel.profile!.id, authorFirstName: self.profileViewModel.profile!.firstName, authorLastName: self.profileViewModel.profile!.username, authorProfilePictureURL: self.profileViewModel.profile!.profilePictureURL != nil ? self.profileViewModel.profile!.profilePictureURL! : "User has no profile picture", text: commentText)  { success in
                             self.commentText = ""
+                            self.medalsViewModel.giveUserMedal(medalName: "medalFirstComment")
                         }
                     }
                 }, label: {
@@ -106,8 +103,6 @@ struct PostCommentsView: View {
                     }
                     .aspectRatio(contentMode: .fit)
                     .clipShape(RoundedRectangle(cornerRadius: 50))
-//                    .frame(width: screenWidth * 0.08, height: screenHeight * 0.08)
-//                    .padding(.leading, screenWidth * 0.05)
                     
                     VStack(spacing: 0) {
                         HStack {
@@ -129,7 +124,7 @@ struct PostCommentsView: View {
             }
             
             ToolbarItem(placement: .navigationBarTrailing) {
-                if self.homeViewModel.sessionStore.currentUser!.uid == post.authorID {
+                if homeViewModel.sessionStore.currentUser!.uid == post.authorID {
                     Button(action: {
                         withAnimation {
                             showPostOptions.toggle()
@@ -137,7 +132,6 @@ struct PostCommentsView: View {
                     }, label: {
                         Image(systemName: "ellipsis")
                             .foregroundColor(.accentColor)
-//                            .padding(.trailing, screenWidth * 0.03)
                     })
                 }
             }
@@ -148,7 +142,7 @@ struct PostCommentsView: View {
             }
 
             Button(String(localized: "HomeView_confirmation_dialog_delete"), role: .destructive) {
-                self.homeViewModel.deletePost(postID: post.id, postPictureURL: post.photoURL) { success in }
+                homeViewModel.deletePost(postID: post.id, postPictureURL: post.photoURL) { success in }
             }
 
             Button(String(localized: "HomeView_confirmation_dialog_cancel"), role: .cancel) {}
@@ -157,24 +151,6 @@ struct PostCommentsView: View {
             EditPostView(post: post).environmentObject(homeViewModel).environmentObject(profileViewModel).ignoresSafeArea(.keyboard)
         }
         .background(.ultraThinMaterial, in: Rectangle())
-    }
-    
-//    private func calculateCommentViewPostPadding(post: Post) -> Double {
-//        let postTextCount = post.text.count
-//        let pos
-//    }
-    
-    private func calculateCommentFrameLength(comment: Comment) -> Double {
-        let commentTextCount = comment.text.count
-        if commentTextCount <= 50 {
-            return -0.01
-        } else if commentTextCount > 50 && commentTextCount <= 100 {
-            return 0.05
-        } else if commentTextCount > 100 && commentTextCount <= 150 {
-            return 0.1
-        } else {
-            return 0.128
-        }
     }
 }
 

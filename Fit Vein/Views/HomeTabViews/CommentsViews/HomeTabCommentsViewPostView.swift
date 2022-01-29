@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeTabCommentsViewPostView: View {
     @EnvironmentObject private var homeViewModel: HomeViewModel
     @EnvironmentObject private var profileViewModel: ProfileViewModel
+    @EnvironmentObject private var medalsViewModel: MedalsViewModel
     @Environment(\.colorScheme) var colorScheme
     
     private var post: Post
@@ -78,7 +79,9 @@ struct HomeTabCommentsViewPostView: View {
                             if reactionsUsersIDs.contains(post.id) {
                                 self.homeViewModel.removeReactionFromPost(postID: post.id)  { success in }
                             } else {
-                                self.homeViewModel.reactToPost(postID: post.id)  { success in }
+                                self.homeViewModel.reactToPost(postID: post.id)  { success in
+                                    self.medalsViewModel.giveUserMedal(medalName: "medalFirstLike")
+                                }
                             }
                         }
                     }, label: {
@@ -92,7 +95,9 @@ struct HomeTabCommentsViewPostView: View {
                 } else {
                     Button(action: {
                         withAnimation {
-                            self.homeViewModel.reactToPost(postID: post.id)  { success in }
+                            self.homeViewModel.reactToPost(postID: post.id)  { success in
+                                self.medalsViewModel.giveUserMedal(medalName: "medalFirstLike")
+                            }
                         }
                     }, label: {
                         HStack {

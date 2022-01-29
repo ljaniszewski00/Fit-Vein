@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeTabSubViewShareView: View {
     @EnvironmentObject private var homeViewModel: HomeViewModel
     @EnvironmentObject private var profileViewModel: ProfileViewModel
+    @EnvironmentObject private var medalsViewModel: MedalsViewModel
     
     @State private var showAddPostSheet = false
     
@@ -20,21 +21,6 @@ struct HomeTabSubViewShareView: View {
         VStack {
             HStack {
                 Group {
-//                        if let profilePictureURL = profileViewModel.profilePicturePhotoURL {
-//                            AsyncImage(url: profilePictureURL) { phase in
-//                                if let image = phase.image {
-//                                    image
-//                                        .resizable()
-//                                } else {
-//                                    Image(uiImage: UIImage(named: "blank-profile-hi")!)
-//                                        .resizable()
-//                                }
-//                            }
-//                        } else {
-//                            Image(uiImage: UIImage(named: "blank-profile-hi")!)
-//                                .resizable()
-//                        }
-                    
                     if let profilePicturePhoto = profileViewModel.profilePicturePhoto {
                         Image(uiImage: profilePicturePhoto)
                             .resizable()
@@ -72,7 +58,7 @@ struct HomeTabSubViewShareView: View {
                 
         }
         .sheet(isPresented: $showAddPostSheet) {
-            AddPostView().environmentObject(homeViewModel).environmentObject(profileViewModel).ignoresSafeArea(.keyboard)
+            AddPostView().environmentObject(homeViewModel).environmentObject(profileViewModel).environmentObject(medalsViewModel).ignoresSafeArea(.keyboard)
         }
     }
 }

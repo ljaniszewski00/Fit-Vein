@@ -11,6 +11,7 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject private var homeViewModel: HomeViewModel
     @EnvironmentObject private var profileViewModel: ProfileViewModel
+    @EnvironmentObject private var medalsViewModel: MedalsViewModel
     @EnvironmentObject private var networkManager: NetworkManager
     @Environment(\.colorScheme) var colorScheme
     
@@ -35,7 +36,7 @@ struct HomeView: View {
                     if profileViewModel.profile != nil {
                         withAnimation {
                             ScrollView(.vertical, showsIndicators: false) {
-                                HomeTabSubViewShareView().environmentObject(homeViewModel).environmentObject(profileViewModel)
+                                HomeTabSubViewShareView().environmentObject(homeViewModel).environmentObject(profileViewModel).environmentObject(medalsViewModel)
 
                                 Group {
                                     if let posts = homeViewModel.posts {
@@ -43,6 +44,7 @@ struct HomeView: View {
                                             LazyVStack {
                                                 ForEach(posts) { post in
                                                     HomeTabSubViewPostsView(post: post).environmentObject(homeViewModel).environmentObject(profileViewModel)
+                                                        .environmentObject(medalsViewModel)
                                                         .background(Color(uiColor: .systemGray6), in: RoundedRectangle(cornerRadius: 10))
                                                 }
                                             }
