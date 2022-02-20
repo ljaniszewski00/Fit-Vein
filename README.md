@@ -16,7 +16,8 @@ iOS fitness app in which user can perform various interval workouts, share their
 ## Technologies
 Swift 5.5 [SwiftUI + UIKit]    
 Xcode 13  
-Firebase, Firebase Firestore, Firebase Storage        
+Firebase, Firebase Firestore, Firebase Storage
+HealthKit
 Lottie Library       
 
 
