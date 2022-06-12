@@ -7,6 +7,7 @@
 * [Requirements](#requirements)
 * [Functionalities](#functionalities)
 * [Screenshots](#screenshots)
+* [Preview Video](#preview)
 
 
 ## General info
@@ -57,3 +58,8 @@ Apple iPhone with iOS 15+ installed
 ![alt text](https://github.com/Vader20FF/Fit-Vein/blob/main/Fit%20Vein/Onboarding%20Photos/ProfileView.png?raw=true)
 ![alt text](https://github.com/Vader20FF/Fit-Vein/blob/main/Fit%20Vein/Onboarding%20Photos/HealthTabView.png?raw=true)
 ![alt text](https://github.com/Vader20FF/Fit-Vein/blob/main/Fit%20Vein/Onboarding%20Photos/WorkoutsTabView.png?raw=true)
+
+
+## Preview Video 
+### Polish UI Localization
+https://user-images.githubusercontent.com/78795431/173231961-d1ca756b-2498-467a-8709-29c1f9e4cfd6.mov
